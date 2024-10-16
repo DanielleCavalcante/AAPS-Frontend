@@ -1,18 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './style.css';
+import './navbar.css';
+
+import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
-  return (
-    <nav className="navbar">
-      <div className="navbar-container">
-        {/* <h1 className="navbar-title">Nome da Tela</h1> */}
-        <div className="navbar-right">
-          <Link to="/" className="navbar-link">Sair</Link>
+  const { isAuthenticated } = useAuth();
+    return (
+      <nav className="navbar">
+        <div className="navbar-container">
+          {isAuthenticated && (
+            <>
+              <div className="navbar-right">
+                <Link to="/" className="navbar-link">Sair</Link>
+              </div>
+            </>
+          )}
         </div>
-      </div>
-    </nav>
-  );
+      </nav>
+    );
 };
 
 export default Navbar;
