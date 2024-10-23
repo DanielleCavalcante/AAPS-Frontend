@@ -1,7 +1,7 @@
 .footer {
     background-color: #009EE0;
     padding: 6px 8px;
-    height: 30px; /* Define uma altura fixa para o footer */
+    height: 100%; /* Define uma altura fixa para o footer */
     text-align: center; 
   }
   
@@ -15,8 +15,16 @@
     display: flex;
     gap: 20px;
   }
+  .footer-button{
+    width: 50px; /*Medida figma*/
+    height: 50px; /*Medida figma*/
+  }
+
+  .footer-button:hover{
+    background-color: #007bb8;
+  }
   
-  .footer-link {
+  /* .footer-link {
     color: white;
     text-decoration: none;
     font-size: 18px;
@@ -24,5 +32,5 @@
   
   .footer-link:hover {
     text-decoration: underline;
-  }
+  } */
   

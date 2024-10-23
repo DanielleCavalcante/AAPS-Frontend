@@ -12,7 +12,11 @@ const Navbar = () => {
           {isAuthenticated && (
             <>
               <div className="navbar-right">
-                <Link to="/" className="navbar-link">Sair</Link>
+                {/* <Link to="/" className="navbar-link">Sair</Link> */}
+
+                <button className="navbar-button">
+                  <Link to="/"><i className="fas fa-sign-out-alt fa-2x"></i></Link> {/* Ícone de sair*/}
+                </button>
               </div>
             </>
           )}

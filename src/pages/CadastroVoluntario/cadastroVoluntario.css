@@ -1,0 +1,43 @@
+.cadastro-container {
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2% 2%;
+}
+
+.cadastroVoluntario-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, 0.05); /*ver se tira o retangulo ao redor */
+    width: 80%;
+    text-align: center;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+select{
+    font-family: "Poppins", sans-serif;
+}
+
+.button-group-crud{
+    display: flex;
+    justify-content: flex-end; /*Alinha os botões à esquerda*/
+    gap: 10px; /* Espaçamento entre os botões */
+}

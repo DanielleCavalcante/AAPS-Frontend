@@ -42,13 +42,13 @@
     box-sizing: border-box;
 }
 
-.button-group {
+.button-group{
     display: flex;
     flex-direction: column;
     gap: 10px;
     justify-content: space-between;
     margin-top: 20px;
-    width: 200;
+    ;
 }
 
 button {

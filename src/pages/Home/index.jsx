@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './home.css';
 
 /* const Home = () => {
@@ -10,11 +11,19 @@ import './home.css';
 }; */
 
 const Home = () => {
+
+    const navigate = useNavigate();
+
+    const cadastro= (e) => {
+      e.preventDefault();
+      navigate('/cadastroVoluntario');
+    };
+
     return (
       <div className="home-container">
         <div className="button-grid">
-          <button className="home-button">
-            <i className="fas fa-user fa-2x"></i> {/* Ícone de voluntária */}
+          <button className="home-button" onClick={cadastro}>
+            <i className="fas fa-user fa-2x"></i>{/*Ícone de voluntária */}
             <span>voluntária</span>
           </button>
           <button className="home-button">
