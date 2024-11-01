@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './footer.css';
 
 import { useAuth } from '../../context/AuthContext';
@@ -10,14 +9,14 @@ const Footer = () => {
       <footer className="footer">
         <div className="footer-container">
             {isAuthenticated && (
-              <div className="footer-right">
-                  {/* <Link to="/recover-password" className="footer-link">Recuperar Senha</Link> */}
-                  {/* <Link to="/profile" className="footer-link">Perfil</Link> */}
+              <i className="fas fa-user-circle fa-2x"></i> 
+              // <div className="footer-right">
+              //     {/* <Link to="/recover-password" className="footer-link">Recuperar Senha</Link> */}
+              //     {/* <Link to="/profile" className="footer-link">Perfil</Link> */}
 
-                  <button className="footer-button">
-                    <i className="fas fa-user-circle fa-2x"></i> {/* Ícone de perfil*/}
-                  </button>
-              </div>
+              //     <button className="footer-button">
+              //     </button>
+              // </div>
             )}
         </div>
       </footer>

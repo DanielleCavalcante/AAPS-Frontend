@@ -1,8 +1,7 @@
 .footer {
     background-color: #009EE0;
     padding: 6px 8px;
-    height: 100%; /* Define uma altura fixa para o footer */
-    text-align: center; 
+    height: 23px;
   }
   
   .footer-container {
@@ -22,6 +21,10 @@
 
   .footer-button:hover{
     background-color: #007bb8;
+  }
+
+  .fas {
+    font-size: 1.3em;
   }
   
   /* .footer-link {

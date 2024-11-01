@@ -6,23 +6,26 @@ import { useAuth } from '../../context/AuthContext';
 
 const Navbar = () => {
   const { isAuthenticated } = useAuth();
-    return (
-      <nav className="navbar">
-        <div className="navbar-container">
-          {isAuthenticated && (
-            <>
-              <div className="navbar-right">
-                {/* <Link to="/" className="navbar-link">Sair</Link> */}
-
-                <button className="navbar-button">
-                  <Link to="/"><i className="fas fa-sign-out-alt fa-2x"></i></Link> {/* Ícone de sair*/}
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-      </nav>
-    );
+  return (
+    <nav className="navbar">
+      <div className="navbar-container">
+        {isAuthenticated && (
+          <>
+            <div id="Logotipo">
+              <button className="navbar-button">
+                <Link to='/Home'><img src="/src/assets/aaps_logo1.png" alt="Logotipo AAPS" className="icon" /></Link>
+              </button>
+            </div>
+            <div id='Sair'>
+              <button className="navbar-button">
+                <Link to='/'><img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon" /></Link>
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </nav>
+  );
 };
 
 export default Navbar;

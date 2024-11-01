@@ -8,6 +8,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import ComingSoon from './pages/ComingSoon';
 import CadastroVoluntario from './pages/CadastroVoluntario';
+import Voluntario from './pages/Voluntario';
 import { AuthProvider } from './context/AuthContext'; // Importa o AuthProvider
 
 const router = createBrowserRouter([{
@@ -26,6 +27,10 @@ const router = createBrowserRouter([{
     {
       path: "/cadastroVoluntario",
       element: <CadastroVoluntario />,
+    },
+    {
+      path: "/Voluntario",
+      element: <Voluntario />,
     },
   ]
 },
