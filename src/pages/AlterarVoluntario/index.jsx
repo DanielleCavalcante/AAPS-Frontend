@@ -1,15 +1,19 @@
 import {useState} from 'react'
-import './cadastroVoluntario.css';
+import './alteraVoluntario.css';
 
-import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
+import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
+import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const CadastroVoluntario = () => {
+const AlteraVoluntario = () => {
 
-    const [showModal, setShowModal] = useState(false);
-    const closeModal = () => setShowModal(false);
-    const openModal = () => {
+    const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
+    const [showModalExcluir, setShowModalExcluir] = useState(false); //Exclusão
+
+    const closeModalAlterar = () => setShowModalAlterar(false);
+
+    const openModalAlterar = () => {
         const tipo = document.getElementById('tipo').value;
         const nome = document.getElementById('nome').value;
         const cpf = document.getElementById('cpf').value;
@@ -19,10 +23,16 @@ const CadastroVoluntario = () => {
 
         // Verifica se todos os campos estão preenchidos
         if (tipo && nome && cpf && celular && senha && situacao) {
-            setShowModal(true);
+            setShowModalAlterar(true);
         } else {
             return null;
         }
+    };
+
+    const closeModalExcluir = () => setShowModalExcluir(false);
+
+    const openModalExcluir = () => {
+            setShowModalExcluir(true);
     };
     
 
@@ -74,13 +84,14 @@ const CadastroVoluntario = () => {
                     </select>
                 </div>
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
                     <BotaoCancelar />
                     <BotaoLimpar />
+                    <BotaoExcluir showModal={showModalExcluir} openModal={openModalExcluir} closeModal={closeModalExcluir} />
                 </div>
             </form>
         </div>
     );
 }
 
-export default CadastroVoluntario;
+export default AlteraVoluntario;

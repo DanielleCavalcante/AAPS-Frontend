@@ -1,12 +1,16 @@
-import React from 'react';
-// import { Link } from 'react-router-dom';
+import Modal from '/src/components/Modal';
 import './botaoExcluir.css';
 
-const botaoExcluir = () => {    
+const botaoExcluir = ({ showModal, openModal, closeModal }) => {    
     return (
-    <button className="btn-Excluir">
-        <span>Excluir</span>
-    </button>
+      <div>
+        <button className="btn-Excluir" onClick={openModal}>Excluir</button>
+
+        <Modal show={showModal} onClose={closeModal}>
+          <img src="/src/assets/emoji-frown.png" alt="Ícone de sucesso" className="icon" />
+          <p>Cadastro excluído com sucesso!</p>
+        </Modal>
+    </div>
   );
 };
 

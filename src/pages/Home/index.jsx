@@ -12,7 +12,7 @@ const Home = () => {
         <div className="button-grid">
           <button className="home-button">
             <Link to='/Voluntario'><img src="/src/assets/icone_voluntario.png" alt="Ícone de adocao" className="icon" /></Link>
-            <span>voluntária</span>
+            <span>Voluntário</span>
           </button>
           <button className="home-button">
             <Link to='/'><img src="/src/assets/icone_pontoAdocao.png" alt="Ícone de ponto de adocao" className="icon" /></Link>
