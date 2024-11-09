@@ -1,21 +1,14 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-
 import './botaoCancelar.css';
+import {Link} from "react-router-dom";
 
 const botaoCancelar = () => {  
   
-  const navigate = useNavigate();
-
-  const cancelar= (e) => {
-    e.preventDefault();
-    navigate('/home');
-  };
-  
-    return (
-    <button className="btn-Cancelar" onClick={cancelar}>
-        <span>Cancelar</span>
-    </button>
+  return (
+    <Link to='/home' style={{ textDecoration: 'none' }}>
+      <button className="btn-Cancelar">
+          <span>Cancelar</span>
+      </button>
+    </Link>
   );
 };
 

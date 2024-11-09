@@ -23,7 +23,7 @@ const CadastroVoluntario = () => {
             return null;
         }
     };
-    
+
 
     function handleSubmit(event) {
         event.preventDefault();

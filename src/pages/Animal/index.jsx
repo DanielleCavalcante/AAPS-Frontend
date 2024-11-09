@@ -1,40 +1,45 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import './animal.css';
+import {Link} from "react-router-dom";
+import api from "../../services/api"
+
+import { useEffect, useState } from 'react';
 
 const Animal = () => {
-    const navigate = useNavigate();
-    
-    const cadastro= (e) => {
-      e.preventDefault();
-      navigate('/cadastroAnimal');
-    };
 
-    const altera= (e) => {
-        e.preventDefault();
-        navigate('/alteraAnimal');
-      };
+    const [animais, setarAnimais] = useState([]);
+
+    async function ObterAnimais(){
+       const animaisApi = await api.get('api/Animal/ObterAnimais/ObterTodos');
+
+       setarAnimais(animaisApi.data);
+    }
+
+    useEffect(() => {
+        ObterAnimais()
+    }, []);
 
     return(
         <div className="container">
             <div className="toolbar">
-                <button className="button-cadastrar" onClick={cadastro}>
+                <Link to='/cadastro-animal' style={{ textDecoration: 'none' }}>
+                <button className="button-cadastrar">
                     <div>
                         <img src="/src/assets/icone_cadastrar.png" onc alt="Ícone de sucesso" className="icon" />
                         Cadastrar
                     </div>
-                </button>
+                </button></Link>
                 <div className="search-bar">
                     <input type="text"/>
                     <button className="search-button">
-                        <img src="/src/assets/icone_lupa.png" onc alt="Ícone de lupa" className="icon" />
+                        <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
                     </button>
                 </div>
-                    <select id="filtro" name="opcoesFiltro">
-                        <option value="1">Filtros</option>
-                        <option value="2">X</option>
-                        <option value="3">Y</option>
-                    </select>
+                <select id="filtro" name="opcoesFiltro">
+                    <option value="1">Filtros</option>
+                    <option value="2">X</option>
+                    <option value="3">Y</option>
+                </select>
             </div>
             
             <table className="table">
@@ -42,20 +47,21 @@ const Animal = () => {
                     <tr>
                         <th>Código</th>
                         <th>Nome</th>
-                        <th>Tipo</th>
-                        <th>Situação</th>
-                        <th>Ver</th>
+                        <th>Espécie</th>
+                        <th>Sexo</th>
+                        <th>Idade</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {[...Array(5)].map((_, index) => (
-                        <tr key={index}>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                    {animais.map((animal) => (
+                        <tr key={animal.id}>
+                            <td>{animal.id}</td>
+                            <td>{animal.nome}</td>
+                            <td>{animal.especie}</td>
+                            <td>{animal.sexo}</td>
+                            <td>{new Date().getFullYear() - new Date(animal.dataNascimento).getFullYear()}</td>
                             <td>
-                                <button className="search-button" onClick={altera}>
+                                <button className="search-button" to={"/altera-animal"}>
                                     <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
                                 </button>
                             </td>

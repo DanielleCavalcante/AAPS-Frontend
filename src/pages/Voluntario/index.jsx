@@ -1,40 +1,30 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link} from "react-router-dom";
 import './voluntario.css';
 
 const Voluntario = () => {
-    const navigate = useNavigate();
-    
-    const cadastro= (e) => {
-      e.preventDefault();
-      navigate('/cadastroVoluntario');
-    };
-
-    const altera= (e) => {
-        e.preventDefault();
-        navigate('/alteraVoluntario');
-      };
-
     return(
         <div className="container">
             <div className="toolbar">
-                <button className="button-cadastrar" onClick={cadastro}>
+            <Link to='/cadastro-voluntario' style={{ textDecoration: 'none' }}>
+                <button className="button-cadastrar">
                     <div>
                         <img src="/src/assets/icone_cadastrar.png" onc alt="Ícone de sucesso" className="icon" />
                         Cadastrar
                     </div>
                 </button>
+            </Link>
                 <div className="search-bar">
                     <input type="text"/>
                     <button className="search-button">
                         <img src="/src/assets/icone_lupa.png" onc alt="Ícone de lupa" className="icon" />
                     </button>
                 </div>
-                    <select id="filtro" name="opcoesFiltro">
+                <select id="filtro" name="opcoesFiltro">
                         <option value="1">Filtros</option>
                         <option value="2">X</option>
                         <option value="3">Y</option>
-                    </select>
+                </select>
             </div>
             
             <table className="table">
@@ -55,9 +45,9 @@ const Voluntario = () => {
                             <td></td>
                             <td></td>
                             <td>
-                                <button className="search-button" onClick={altera}>
-                                    <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
-                                </button>
+                            <button className="search-button">
+                                <Link to='/altera-voluntario'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
+                            </button>
                             </td>
                         </tr>
                     ))}

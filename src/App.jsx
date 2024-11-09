@@ -1,18 +1,14 @@
-import { Outlet } from "react-router-dom"
-import "./index.css"
+import './index.css';
+import AppRouter from './routes/AppRouter';
+// import Layout from './Layout';
 
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
 import { AuthProvider } from './context/AuthContext';
 
-function App() {
-    return (
-        <AuthProvider>
-            <Navbar />
-            <Outlet />
-            <Footer />
-        </AuthProvider>
-    );
-}
+const App = () => (
+      <AuthProvider>
+        <AppRouter/>
+        {/* <Layout /> */}
+      </AuthProvider>
+);
 
 export default App;

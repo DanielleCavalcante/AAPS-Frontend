@@ -10,13 +10,6 @@ const Footer = () => {
         <div className="footer-container">
             {isAuthenticated && (
               <i className="fas fa-user-circle fa-2x"></i> 
-              // <div className="footer-right">
-              //     {/* <Link to="/recover-password" className="footer-link">Recuperar Senha</Link> */}
-              //     {/* <Link to="/profile" className="footer-link">Perfil</Link> */}
-
-              //     <button className="footer-button">
-              //     </button>
-              // </div>
             )}
         </div>
       </footer>

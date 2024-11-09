@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import './alteraVoluntario.css';
 
 import BotaoCancelar from "/src/components/BotaoCancelar";
@@ -10,6 +10,7 @@ const AlteraVoluntario = () => {
 
     const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
     const [showModalExcluir, setShowModalExcluir] = useState(false); //Exclusão
+    const [showConfirmModal, setShowConfirmModal] = useState(false); //Confirmar
 
     const closeModalAlterar = () => setShowModalAlterar(false);
 
@@ -31,10 +32,31 @@ const AlteraVoluntario = () => {
 
     const closeModalExcluir = () => setShowModalExcluir(false);
 
+    const closeConfirmModal = () => {
+        setShowConfirmModal(false);
+    }
+
+
     const openModalExcluir = () => {
-            setShowModalExcluir(true);
+        setShowConfirmModal(false);
+        setShowModalExcluir(true);
     };
-    
+
+    const openConfirmModal = () => {
+        const tipo = document.getElementById('tipo').value;
+        const nome = document.getElementById('nome').value;
+        const cpf = document.getElementById('cpf').value;
+        const celular = document.getElementById('celular').value;
+        const senha = document.getElementById('senha').value;
+        const situacao = document.getElementById('situacao').value;
+
+        // Verifica se todos os campos estão preenchidos
+        if (tipo && nome && cpf && celular && senha && situacao) {
+            setShowConfirmModal(true);
+        } else {
+            return null;
+        }
+    };
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -43,7 +65,7 @@ const AlteraVoluntario = () => {
         event.currentTarget.elements.cpf.value = '';
         event.currentTarget.elements.celular.value = '';
         event.currentTarget.elements.senha.value = '';
-        event.currentTarget.elements.situacao.value = 1; 
+        event.currentTarget.elements.situacao.value = 1;
     }
 
     return (
@@ -87,7 +109,9 @@ const AlteraVoluntario = () => {
                     <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
                     <BotaoCancelar />
                     <BotaoLimpar />
-                    <BotaoExcluir showModal={showModalExcluir} openModal={openModalExcluir} closeModal={closeModalExcluir} />
+                    <BotaoExcluir showModal={showModalExcluir} showConfirmModal={showConfirmModal}
+                        openModal={openConfirmModal} closeModal2={closeConfirmModal} closeModal={openModalExcluir}
+                        closeModalExcluir={closeModalExcluir} />
                 </div>
             </form>
         </div>

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react'
 import './cadastroAnimal.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
@@ -26,10 +26,10 @@ const CadastroAnimal = () => {
             return null;
         }
     };
-    
+
 
     function handleSubmit(event) {
-        event.preventDefault();
+        event.preventDefault()
         event.currentTarget.elements.statusAdocao.value = 1;
         event.currentTarget.elements.nome.value = '';
         event.currentTarget.elements.especie.value = '';
@@ -42,7 +42,7 @@ const CadastroAnimal = () => {
 
     return (
         <div className="cadastro-container">
-            <form className="cadastroVoluntario-form" onSubmit={handleSubmit} >
+            <form className="cadastroAnimal-form" onSubmit={handleSubmit} >
                 <div id="group1">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
@@ -57,9 +57,9 @@ const CadastroAnimal = () => {
                     </div>
                 </div>
                 <div className="form-group">
-                        <label htmlFor="nome">Nome</label>
-                        <input type="text" id="nome" placeholder="Digite o nome do animal" required />
-                    </div>
+                    <label htmlFor="nome">Nome</label>
+                    <input type="text" id="nome" placeholder="Digite o nome do animal" required />
+                </div>
                 <div id="group1">
                     <div className="form-group">
                         <label htmlFor="especie">Espécie</label>
