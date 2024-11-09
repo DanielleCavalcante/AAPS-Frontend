@@ -2,7 +2,6 @@ import Modal from '/src/components/Modal';
 import './botaoAlterar.css';
 
 const botaoAlterar = ({ showModal, openModal, closeModal }) => {
-  console.log('qualquer coisa');
   return (
     <div>
       <button className="btn-Alterar" onClick={openModal}>Alterar</button>

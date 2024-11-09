@@ -9,7 +9,7 @@ const botaoCancelar = () => {
 
   const cancelar= (e) => {
     e.preventDefault();
-    navigate('/Voluntario');
+    navigate('/home');
   };
   
     return (

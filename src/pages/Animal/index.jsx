@@ -1,18 +1,18 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './voluntario.css';
+import './animal.css';
 
-const Voluntario = () => {
+const Animal = () => {
     const navigate = useNavigate();
     
     const cadastro= (e) => {
       e.preventDefault();
-      navigate('/cadastroVoluntario');
+      navigate('/cadastroAnimal');
     };
 
     const altera= (e) => {
         e.preventDefault();
-        navigate('/alteraVoluntario');
+        navigate('/alteraAnimal');
       };
 
     return(
@@ -67,4 +67,4 @@ const Voluntario = () => {
     );
 }
 
-export default Voluntario;
+export default Animal;

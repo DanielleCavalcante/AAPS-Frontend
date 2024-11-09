@@ -43,3 +43,11 @@ select{
     justify-content: flex-end; /*Alinha os botões à esquerda*/
     gap: 10px; /* Espaçamento entre os botões */
 }
+
+#group1{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+    justify-items: start;
+}

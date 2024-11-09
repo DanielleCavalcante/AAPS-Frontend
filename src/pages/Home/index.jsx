@@ -11,7 +11,7 @@ const Home = () => {
       <div className="home-container">
         <div className="button-grid">
           <button className="home-button">
-            <Link to='/Voluntario'><img src="/src/assets/icone_voluntario.png" alt="Ícone de adocao" className="icon" /></Link>
+            <Link to='/voluntario'><img src="/src/assets/icone_voluntario.png" alt="Ícone de adocao" className="icon" /></Link>
             <span>Voluntário</span>
           </button>
           <button className="home-button">
@@ -30,8 +30,7 @@ const Home = () => {
             <span>evento</span>
           </button>
           <button className="home-button">
-            <Link to='/'><img src="/src/assets/icone_animal.png" alt="Ícone de animal" className="icon" /></Link>
-            {/* <i className="fas fa-paw fa-2x"></i> Ícone de animal */}
+            <Link to='/animal'><img src="/src/assets/icone_animal.png" alt="Ícone de animal" className="icon" /></Link>
             <span>animal</span>
           </button>
           <button className="home-button">

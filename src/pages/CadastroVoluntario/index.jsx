@@ -15,10 +15,9 @@ const CadastroVoluntario = () => {
         const cpf = document.getElementById('cpf').value;
         const celular = document.getElementById('celular').value;
         const senha = document.getElementById('senha').value;
-        const situacao = document.getElementById('situacao').value;
 
         // Verifica se todos os campos estão preenchidos
-        if (tipo && nome && cpf && celular && senha && situacao) {
+        if (tipo && nome && cpf && celular && senha) {
             setShowModal(true);
         } else {
             return null;
@@ -33,7 +32,6 @@ const CadastroVoluntario = () => {
         event.currentTarget.elements.cpf.value = '';
         event.currentTarget.elements.celular.value = '';
         event.currentTarget.elements.senha.value = '';
-        event.currentTarget.elements.situacao.value = 1; 
     }
 
     return (
@@ -65,13 +63,6 @@ const CadastroVoluntario = () => {
                 <div className="form-group">
                     <label htmlFor="senha">Senha</label>
                     <input type="text" id="senha" placeholder="Digite a senha provisória do voluntário" required />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="situacao">Situação</label>
-                    <select id="situacao" name="opcoesSituacao">
-                        <option value="1">Ativo</option>
-                        <option value="2">Suspenso</option>
-                    </select>
                 </div>
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />

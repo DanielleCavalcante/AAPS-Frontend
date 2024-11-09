@@ -10,6 +10,9 @@ import ComingSoon from './pages/ComingSoon';
 import CadastroVoluntario from './pages/CadastroVoluntario';
 import Voluntario from './pages/Voluntario';
 import AlterarVoluntario from './pages/AlterarVoluntario';
+import CadastroAnimal from './pages/CadastroAnimal';
+import Animal from './pages/Animal';
+import AlterarAnimal from './pages/AlterarAnimal';
 import { AuthProvider } from './context/AuthContext'; // Importa o AuthProvider
 
 const router = createBrowserRouter([{
@@ -30,12 +33,24 @@ const router = createBrowserRouter([{
       element: <CadastroVoluntario />,
     },
     {
-      path: "/Voluntario",
+      path: "/voluntario",
       element: <Voluntario />,
     },
     {
       path: "/alteraVoluntario",
       element: <AlterarVoluntario />,
+    },
+    {
+      path: "/animal",
+      element: <Animal />,
+    },
+    {
+      path: "/alteraAnimal",
+      element: <AlterarAnimal />,
+    },
+    {
+      path: "/cadastroAnimal",
+      element: <CadastroAnimal />,
     },
   ]
 },
