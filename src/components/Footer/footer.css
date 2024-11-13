@@ -5,20 +5,16 @@
   }
   
   .footer-container {
+    padding: 0 20px;
     display: flex;
     justify-content: flex-end;
-    padding: 0 20px;
   }
-  
+ 
   .footer-right {
     display: flex;
     gap: 20px;
   }
-  .footer-button{
-    width: 50px; /*Medida figma*/
-    height: 50px; /*Medida figma*/
-  }
-
+ 
   .footer-button:hover{
     background-color: #007bb8;
   }
@@ -34,4 +30,13 @@
     color: white;
     border: none;
   }
+
+  .footer-container img{
+    width: 30px;
+  }
   
+  .icon-senha{
+    width: 30px;
+    height: 30px;
+    margin-top: 30%;
+  }

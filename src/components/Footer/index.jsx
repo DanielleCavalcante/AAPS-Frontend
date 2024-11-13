@@ -7,6 +7,7 @@ const Footer = () => {
   const { isAuthenticated } = useAuth(); // Acessa o estado de autenticação
     return (
       <footer className="footer">
+
         <div className="footer-container">
             {isAuthenticated && (
               <button className="fas fa-user-circle fa-2x"></button> 

@@ -4,7 +4,10 @@ import './botaoExcluir.css';
 const botaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, closeModal2, closeModalExcluir }) => {    
     return (
       <div>
-        <button className="btn-Excluir" onClick={openModal}>Excluir</button>
+        <button className="btn-Excluir" onClick={openModal}>
+          <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon" /> 
+          <span>Excluir</span>
+        </button>
 
         <Modal show={showConfirmModal} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>
           <img src="/src/assets/icone_alerta.png" alt="Ícone de sucesso" className="icon" />
