@@ -58,6 +58,18 @@
     ;
 }
 
+button {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #009EE0;
+    ;
+}
+
 button:hover {
     background-color: #5a6268;
 }
