@@ -1,0 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+}
+
+body{
+    max-height: 100%;
+    max-width: 100%;
+    font-family: "Poppins", sans-serif;
+    box-sizing: border-box;
+}
+
+nav, footer {
+    position: fixed;
+    width: 100%;
+    left: 0;
+  }
+
+
+nav {
+top: 0;
+
+}
+
+footer {
+bottom: 0;
+}
+
+Outlet {
+flex: 1;
+overflow-y: auto;
+}
