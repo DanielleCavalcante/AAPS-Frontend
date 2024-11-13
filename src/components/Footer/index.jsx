@@ -9,7 +9,7 @@ const Footer = () => {
       <footer className="footer">
         <div className="footer-container">
             {isAuthenticated && (
-              <i className="fas fa-user-circle fa-2x"></i> 
+              <button className="fas fa-user-circle fa-2x"></button> 
             )}
         </div>
       </footer>

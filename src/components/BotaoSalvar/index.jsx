@@ -7,7 +7,7 @@ const botaoSalvar = ({showModal, openModal, closeModal}) => {
     
     <div>
       <button className="btn-Salvar" onClick={openModal}>
-        <i class="fa fa-floppy" aria-hidden="true"></i>
+        <img src="/src/assets/icone_salvar.png" alt="Ícone salvar" className="icon" />
         <span>Salvar</span>
       </button>
 

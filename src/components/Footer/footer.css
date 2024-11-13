@@ -1,7 +1,7 @@
 .footer {
     background-color: #009EE0;
     padding: 6px 8px;
-    height: 23px;
+    height: 50px;
   }
   
   .footer-container {
@@ -24,6 +24,14 @@
   }
 
   .fas {
-    font-size: 1.3em;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    background-color: #009EE0;
+    color: white;
+    border: none;
   }
   
