@@ -1,9 +1,8 @@
-import {useState} from 'react'
 import './cadastroVoluntario.css';
-
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
+import {useState} from 'react'
 
 const CadastroVoluntario = () => {
 

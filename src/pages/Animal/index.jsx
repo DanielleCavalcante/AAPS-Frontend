@@ -1,8 +1,7 @@
 import React from 'react';
 import './animal.css';
 import {Link} from "react-router-dom";
-import api from "../../services/api"
-
+import api from "../../services/api";
 import { useEffect, useState } from 'react';
 
 const Animal = () => {
@@ -62,7 +61,7 @@ const Animal = () => {
                             <td>{new Date().getFullYear() - new Date(animal.dataNascimento).getFullYear()}</td>
                             <td>
                                 <button className="search-button" to={"/altera-animal"}>
-                                    <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
+                                <Link to='/altera-animal'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
                                 </button>
                             </td>
                         </tr>

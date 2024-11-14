@@ -11,7 +11,6 @@ import CadastroAnimal from '../pages/CadastroAnimal';
 import AlterarAnimal from '../pages/AlterarAnimal';
 import ComingSoon from '../pages/ComingSoon';
 
-
 const AppRouter = () => {
     return (
         <Router>
