@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './alterarDoador.css';
+import './alteraDoador.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";

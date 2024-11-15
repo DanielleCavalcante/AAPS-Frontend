@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import './doador.css';
 
 const Doador = () => {
@@ -9,15 +9,15 @@ const Doador = () => {
                 <Link to='/cadastro-doador' style={{ textDecoration: 'none' }}>
                     <button className="button-cadastrar">
                         <div>
-                             <img src="/src/assets/icone_cadastrar.png" onc alt="Ícone de sucesso" className="icon" />
-                        Cadastrar
+                            <img src="/src/assets/icone_cadastrar.png" alt="Ícone de sucesso" className="icon" />
+                            Cadastrar
                         </div>
                     </button>
                 </Link>
                 <div className="search-bar">
                     <input type="text"/>
                     <button className="search-button">
-                        <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
+                        <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
                 <select id="filtro" name="opcoesFiltro">
@@ -43,11 +43,12 @@ const Doador = () => {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
                             <td>
-                            <button className="search-button">
-                                <Link to='/altera-doador'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
-                            </button>
+                                <Link to='/altera-doador'>
+                                    <button className="search-button">
+                                        <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
+                                    </button>
+                                </Link>
                             </td>
                         </tr>
                     ))}
