@@ -34,18 +34,20 @@ const Doador = () => {
                         <th>Código</th>
                         <th>Nome</th>
                         <th>Contato</th>
+                        <th>Ver</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {doador.map((doador) => (
-                        <tr key={doador.id}>
-                            <td>{doador.id}</td>
-                            <td>{doador.nome}</td>
-                            <td>{doador.contato}</td>
+                    {[...Array(5)].map((_, index) => (
+                        <tr key={index}>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
                             <td>
-                                <button className="search-button" to={"/altera-doador"}>
-                                    <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
-                                </button>
+                            <button className="search-button">
+                                <Link to='/altera-doador'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
+                            </button>
                             </td>
                         </tr>
                     ))}
