@@ -21,3 +21,10 @@
 .btn-Limpar img{
     width: 30px;
 }
+
+.btn-Limpar.disabled {
+    background-color: #d3d3d3; /* Cor de fundo cinza */
+    color: #a9a9a9; /* Texto cinza */
+    border: 1px solid #a9a9a9; /* Borda cinza */
+    cursor: not-allowed; /* Cursor desabilitado */
+  }

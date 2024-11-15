@@ -25,7 +25,7 @@ const CadastroDoador = () => {
         const bairro = document.getElementById('bairro').value;
 
         // Verifica se todos os campos estão preenchidos
-        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && complemento && bairro) {
+        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && bairro) {
             setShowModal(true);
         } else {
             return null;
@@ -67,8 +67,19 @@ const CadastroDoador = () => {
                     <input type="text" id="cpf" placeholder="Digite o CPF do Doador/Tutor" required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="celular">Celular</label>
-                    <input type="text" id="celular" placeholder="Digite o celular do Doador/Tutor" required />
+                    <label>Telefone</label>
+                    {telefones.map((telefone, index) => (
+                        <div key={index} className="form-group-phone">
+                            <input
+                                type="text"
+                                value={telefone}
+                                onChange={(e) => handleTelefoneChange(index, e.target.value)}
+                            />
+                        </div>
+                    ))}
+                    <button type="button" onClick={adicionarTelefone} className="btn-add-phone">
+                        + Telefone
+                    </button>
                 </div>
                 <div className="form-group">
                     <label htmlFor="cep">CEP</label>
@@ -90,6 +101,12 @@ const CadastroDoador = () => {
                     <label htmlFor="numero">Nº</label>
                     <input type="text" id="numero" placeholder="Digite o nº do Doador/Tutor" required />
                 </div>
+
+                <div className="form-group">
+                    <label htmlFor="complemento">Complemento</label>
+                    <input type="text" id="complemento" placeholder="Digite o complemento do Doador/Tutor" required />
+                </div>
+
                 <div className="form-group">
                     <label htmlFor="bairro">Bairro</label>
                     <input type="text" id="bairro" placeholder="Digite o bairro do Doador/Tutor" required />
@@ -97,9 +114,9 @@ const CadastroDoador = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
-                    <BotaoAlterar className="botao-desabilitado" disabled />
+                    <BotaoAlterar disabled={true} />
                     <BotaoLimpar />
-                    <BotaoExcluir className="botao-desabilitado" disabled />
+                    <BotaoExcluir disabled={true} />
                 </div>
             </form>
         </div>
