@@ -42,3 +42,10 @@ select{
     justify-content: flex-end; /*Alinha os botões à esquerda*/
     gap: 10px; /* Espaçamento entre os botões */
 }
+
+.botao-desabilitado {
+    background-color: #d3d3d3; /* Cor cinza */
+    color: #a9a9a9; /* Texto cinza */
+    border: 1px solid #a9a9a9; /* Borda cinza */
+    cursor: not-allowed; /* Desabilita o cursor de clique */
+}

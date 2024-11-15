@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import { useState } from 'react';
 import './cadastroDoador.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
@@ -97,9 +97,9 @@ const CadastroDoador = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
-                    <BotaoAlterar />
+                    <BotaoAlterar className="botao-desabilitado" disabled />
                     <BotaoLimpar />
-                    <BotaoExcluir />
+                    <BotaoExcluir className="botao-desabilitado" disabled />
                 </div>
             </form>
         </div>
