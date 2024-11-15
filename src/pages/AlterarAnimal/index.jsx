@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './alteraAnimal.css';
 
-import BotaoCancelar from "/src/components/BotaoSalvar";
+import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";

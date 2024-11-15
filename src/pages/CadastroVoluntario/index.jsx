@@ -3,9 +3,9 @@ import './cadastroVoluntario.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
-import BotaoSalvar from "/src/components/BotaoAlterar";
+import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
-import BotaoSalvar from "/src/components/BotaoExcluir";
+import BotaoExcluir from "/src/components/BotaoExcluir";
 
 const CadastroVoluntario = () => {
 
