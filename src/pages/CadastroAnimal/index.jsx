@@ -3,7 +3,9 @@ import './cadastroAnimal.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
+import BotaoLimpar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
+import BotaoLimpar from "/src/components/BotaoExcluir";
 
 const CadastroAnimal = () => {
 
@@ -97,7 +99,9 @@ const CadastroAnimal = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
+                    <BotaoAlterar />
                     <BotaoLimpar />
+                    <BotaoExcluir />
                 </div>
             </form>
         </div>

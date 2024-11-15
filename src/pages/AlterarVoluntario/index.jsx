@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './alteraVoluntario.css';
 
+import BotaoCancelar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
@@ -106,8 +107,9 @@ const AlteraVoluntario = () => {
                     </select>
                 </div>
                 <div className="button-group-crud">
-                    <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
+                    <BotaoSalvar />
                     <BotaoCancelar />
+                    <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
                     <BotaoLimpar />
                     <BotaoExcluir showModal={showModalExcluir} showConfirmModal={showConfirmModal}
                         openModal={openConfirmModal} closeModal2={closeConfirmModal} closeModal={openModalExcluir}
