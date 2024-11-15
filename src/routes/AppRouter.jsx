@@ -9,6 +9,9 @@ import AlterarVoluntario from '../pages/AlterarVoluntario';
 import Animal from '../pages/Animal';
 import CadastroAnimal from '../pages/CadastroAnimal';
 import AlterarAnimal from '../pages/AlterarAnimal';
+import Doador from '../pages/Doador';
+import CadastroDoador from '../pages/CadastroDoador';
+import AlterarDoador from '../pages/AlterarDoador';
 import ComingSoon from '../pages/ComingSoon';
 
 
@@ -25,6 +28,9 @@ const AppRouter = () => {
                     <Route path="/animal" element={<Animal />}/>
                     <Route path="/cadastro-animal" element={<CadastroAnimal />}/>
                     <Route path="/altera-animal" element={<AlterarAnimal />}/>
+                    <Route path="/doador" element={<Doador />}/>
+                    <Route path="/cadastro-doador" element={<CadastroDoador />}/>
+                    <Route path="/altera-doador" element={<AlterarDoador />}/>
                     <Route path="*" element={<ComingSoon />}/>
                 </Route>
             </Routes>
