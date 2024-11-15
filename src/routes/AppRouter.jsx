@@ -9,7 +9,7 @@ import AlterarVoluntario from '../pages/AlterarVoluntario';
 import Animal from '../pages/Animal';
 import CadastroAnimal from '../pages/CadastroAnimal';
 import AlterarAnimal from '../pages/AlterarAnimal';
-import Doador from '../pages/doador';
+import Doador from '../pages/Doador';
 import CadastroDoador from '../pages/CadastroDoador';
 import AlterarDoador from '../pages/AlterarDoador';
 import ComingSoon from '../pages/ComingSoon';
