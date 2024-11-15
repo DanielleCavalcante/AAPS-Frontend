@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './cadastrodoador.css';
+import './alterarDoador.css';
 
 const CadastroDoador = () => {
     const [telefones, setTelefones] = useState(['']);
