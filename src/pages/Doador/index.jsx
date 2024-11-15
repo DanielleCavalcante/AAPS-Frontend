@@ -22,8 +22,9 @@ const Doador = () => {
                 </div>
                 <select id="filtro" name="opcoesFiltro">
                     <option value="1">Filtros</option>
-                    <option value="2">X</option>
-                    <option value="3">Y</option>
+                    <option value="2">Código</option>
+                    <option value="3">Nome</option>
+                    <option value="4">Contato</option>
                 </select>
             </div>
             
@@ -32,7 +33,7 @@ const Doador = () => {
                     <tr>
                         <th>Código</th>
                         <th>Nome</th>
-                        <th>contato</th>
+                        <th>Contato</th>
                     </tr>
                 </thead>
                 <tbody>

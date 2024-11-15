@@ -28,7 +28,7 @@ const Home = () => {
             <span>animal</span>
           </button>
           <button className="home-button">
-            <Link to='doador/'><img src="/src/assets/icone_doador.png" alt="Ícone de doador" className="icon" /></Link>
+            <Link to='/doador'><img src="/src/assets/icone_doador.png" alt="Ícone de doador" className="icon" /></Link>
             <span>doador/tutor</span>
           </button>
           <button className="home-button">

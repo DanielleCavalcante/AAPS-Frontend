@@ -1,0 +1,44 @@
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2% 2%;
+    margin: 0 auto;
+}
+
+.cadastroDoador-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 80%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 35px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+select{
+    font-family: "Poppins", sans-serif;
+}
+
+.button-group-crud{
+    display: flex;
+    justify-content: flex-end; /*Alinha os botões à esquerda*/
+    gap: 10px; /* Espaçamento entre os botões */
+}

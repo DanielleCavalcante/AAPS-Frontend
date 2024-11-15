@@ -12,59 +12,87 @@ const CadastroDoador = () => {
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => setShowModal(false);
     const openModal = () => {
-        const tipo = document.getElementById('tipo').value;
         const nome = document.getElementById('nome').value;
+        const rg = document.getElementById('rg').value;
         const cpf = document.getElementById('cpf').value;
         const celular = document.getElementById('celular').value;
-        const senha = document.getElementById('senha').value;
+        const cep = document.getElementById('cep').value;
+        const cidade = document.getElementById('cidade').value;
+        const estado = document.getElementById('estado').value;
+        const endereco = document.getElementById('endereco').value;
+        const numero = document.getElementById('numero').value;
+        const complemento = document.getElementById('complemento').value;
+        const bairro = document.getElementById('bairro').value;
 
         // Verifica se todos os campos estão preenchidos
-        if (tipo && nome && cpf && celular && senha) {
+        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && complemento && bairro) {
             setShowModal(true);
         } else {
             return null;
         }
     };
 
-
     function handleSubmit(event) {
         event.preventDefault();
-        event.currentTarget.elements.tipo.value = 1;
         event.currentTarget.elements.nome.value = '';
+        event.currentTarget.elements.rg.value = '';
         event.currentTarget.elements.cpf.value = '';
         event.currentTarget.elements.celular.value = '';
-        event.currentTarget.elements.senha.value = '';
+        event.currentTarget.elements.cep.value = '';
+        event.currentTarget.elements.cidade.value = '';
+        event.currentTarget.elements.estado.value = '';
+        event.currentTarget.elements.endereco.value = '';
+        event.currentTarget.elements.numero.value = '';
+        event.currentTarget.elements.complemento.value = '';
+        event.currentTarget.elements.bairro.value = '';
     }
 
     return (
         <div className="cadastro-container">
-            <form className="cadastroVoluntario-form" onSubmit={handleSubmit} >
+            <form className="cadastroDoador-form" onSubmit={handleSubmit} >
                 <div className="form-group">
                     <label htmlFor="codigo">Código</label>
                     <input type="text" id="codigo" disabled />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="tipo">Tipo</label>
-                    <select id="tipo" name="opcoesUsuario">
-                        <option value="1">Voluntário</option>
-                        <option value="2">Administrador</option>
-                    </select>
+                    <label htmlFor="nome">Nome</label>
+                    <input type="text" id="nome" placeholder="Digite o nome do Doador/Tutor" required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="nome">Nome</label>
-                    <input type="text" id="nome" placeholder="Digite o nome do voluntário" required />
+                    <label htmlFor="rg">RG</label>
+                    <input type="text" id="rg" placeholder="Digite o rg do Doador/Tutor" required />
                 </div>
                 <div className="form-group">
                     <label htmlFor="cpf">CPF</label>
-                    <input type="text" id="cpf" placeholder="Digite o CPF do voluntário" required />
+                    <input type="text" id="cpf" placeholder="Digite o CPF do Doador/Tutor" required />
                 </div>
                 <div className="form-group">
                     <label htmlFor="celular">Celular</label>
-                    <input type="text" id="celular" placeholder="Digite o celular do voluntário" required />
+                    <input type="text" id="celular" placeholder="Digite o celular do Doador/Tutor" required />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="senha">Senha</label>
-                    <input type="text" id="senha" placeholder="Digite a senha provisória do voluntário" required />
+                    <label htmlFor="cep">CEP</label>
+                    <input type="text" id="cep" placeholder="Digite o CEP do Doador/Tutor" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="cidade">Cidade</label>
+                    <input type="text" id="cidade" placeholder="Digite a cidade do Doador/Tutor" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="estado">Estado</label>
+                    <input type="text" id="estado" placeholder="Digite o estado do Doador/Tutor" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="endereco">Endereço</label>
+                    <input type="text" id="endereco" placeholder="Digite o endereço do Doador/Tutor" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="numero">Nº</label>
+                    <input type="text" id="numero" placeholder="Digite o nº do Doador/Tutor" required />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="bairro">Bairro</label>
+                    <input type="text" id="bairro" placeholder="Digite o bairro do Doador/Tutor" required />
                 </div>
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
@@ -78,4 +106,4 @@ const CadastroDoador = () => {
     );
 }
 
-export default CadastroVoluntario;
+export default CadastroDoador;
