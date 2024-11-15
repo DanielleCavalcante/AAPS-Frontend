@@ -1,0 +1,143 @@
+/* Estilo geral */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+/* Cabeçalho */
+header {
+    background-color: #009fe3;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+header .logo {
+    display: flex;
+    align-items: center;
+}
+
+header .logo img {
+    width: 50px; /* Ajuste o tamanho conforme necessário */
+    margin-right: 10px;
+}
+
+header h1 {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+header .icons img {
+    width: 25px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* Barra de busca */
+.search-container {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background-color: #ffffff;
+}
+
+.search-container input[type="text"] {
+    width: 60%;
+    padding: 8px;
+    border: 2px solid #009fe3;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.search-container button {
+    background-color: #009fe3;
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-container button:hover {
+    background-color: #007bb3;
+}
+
+.search-container .filter-button {
+    background-color: #ffffff;
+    border: 2px solid #009fe3;
+    color: #009fe3;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-container .filter-button:hover {
+    background-color: #009fe3;
+    color: #ffffff;
+}
+
+/* Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th, table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #dddddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+    color: #333333;
+    font-weight: bold;
+}
+
+table td {
+    background-color: #f9f9f9;
+    color: #666666;
+}
+
+/* Ícone "Ver" */
+.view-icon {
+    background-color: #009fe3;
+    padding: 8px;
+    border-radius: 5px;
+    display: inline-block;
+    color: #ffffff;
+    text-align: center;
+    cursor: pointer;
+}
+
+.view-icon:hover {
+    background-color: #007bb3;
+}
+
+/* Ícones do rodapé */
+footer {
+    background-color: #009fe3;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer .footer-icon {
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    color: #ffffff;
+}
