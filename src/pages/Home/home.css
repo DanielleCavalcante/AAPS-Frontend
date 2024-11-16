@@ -7,7 +7,7 @@
     margin: 30px auto;
   }
   
-  .button-grid {
+  .button-grid-home {
     display: grid;
     grid-template-columns: repeat(4, 1fr); /* Mudança para 4 colunas */
     /* gap: 60px; espaço entre os botoes (horizontal) */

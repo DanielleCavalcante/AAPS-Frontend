@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import './cadastroDoador.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
@@ -8,190 +8,184 @@ import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
 const CadastroDoador = () => {
-
+    const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
+    const [foto, setFoto] = useState(null);
     const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({
-        nome: '',
-        rg: '',
-        cpf: '',
-        celular: '',
-        cep: '',
-        cidade: '',
-        estado: '',
-        endereco: '',
-        numero: '',
-        complemento: '',
-        bairro: ''
-    });
 
+    // Handlers do modal
     const closeModal = () => setShowModal(false);
-
     const openModal = () => {
-        const { nome, rg, cpf, celular, cep, cidade, estado, endereco, numero, bairro } = formData;
+        // Pegando os valores dos campos
+        const nome = document.getElementById("nome").value;
+        const rg = document.getElementById("rg").value;
+        const cpf = document.getElementById("cpf").value;
+        const celular = document.getElementById("celular").value;
+        const cep = document.getElementById("cep").value;
+        const cidade = document.getElementById("cidade").value;
+        const estado = document.getElementById("estado").value;
+        const endereco = document.getElementById("endereco").value;
+        const numero = document.getElementById("numero").value;
+        const bairro = document.getElementById("bairro").value;
 
-        // Verifica se todos os campos estão preenchidos
+        // Validação dos campos
         if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && bairro) {
+            setShowModal(true); // Mostra o modal de sucesso
             setShowModal(true);
         } else {
-            alert("Por favor, preencha todos os campos obrigatórios.");
+            return null;
         }
     };
 
-    const handleChange = (e) => {
-        const { id, value } = e.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [id]: value
-        }));
+    // Handlers para telefones e responsáveis
+    const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
+    const handleRemoveTelefone = (index) => {
+        setTelefones(telefones.filter((_, i) => i !== index));
+    };
+    const handleTelefoneChange = (index, value) => {
+        const novosTelefones = [...telefones];
+        novosTelefones[index].telefone = value;
+        setTelefones(novosTelefones);
+    };
+    const handleResponsavelChange = (index, value) => {
+        const novosTelefones = [...telefones];
+        novosTelefones[index].responsavel = value;
+        setTelefones(novosTelefones);
     };
 
+    // Handler para upload de foto
+    const handleFotoUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) setFoto(URL.createObjectURL(file));
+    };
+
+    {/*Handler para capturar foto com a câmera
+        const handleFotoCmera = () => {
+            // Lógica para acessar a câmera e capturar a foto
+            // Isso pode envolver o uso de uma API de câmera, como navigator.mediaDevices.getUserMedia
+        };*/}
+
+    // Limpeza dos campos do formulário
     const handleSubmit = (event) => {
         event.preventDefault();
-        setFormData({
-            nome: '',
-            rg: '',
-            cpf: '',
-            celular: '',
-            cep: '',
-            cidade: '',
-            estado: '',
-            endereco: '',
-            numero: '',
-            complemento: '',
-            bairro: ''
-        });
+        // Lógica de envio de formulário ou limpeza
+        event.target.reset();
+        setTelefones([{ telefone: '', responsavel: '' }]);
+        setFoto(null);
     };
 
     return (
         <div className="cadastro-container">
             <form className="cadastroDoador-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="codigo">Código</label>
-                    <input type="text" id="codigo" disabled />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="nome">Nome</label>
-                    <input 
-                        type="text" 
-                        id="nome" 
-                        placeholder="Digite o nome do Doador/Tutor" 
-                        value={formData.nome}
-                        onChange={handleChange}
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="rg">RG</label>
-                    <input 
-                        type="text" 
-                        id="rg" 
-                        placeholder="Digite o rg do Doador/Tutor" 
-                        value={formData.rg}
-                        onChange={handleChange}
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="cpf">CPF</label>
-                    <input 
-                        type="text" 
-                        id="cpf" 
-                        placeholder="Digite o CPF do Doador/Tutor" 
-                        value={formData.cpf}
-                        onChange={handleChange}
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="celular">Telefone</label>
-                    <input
-                        type="text"
-                        id="celular"
-                        placeholder="Digite o telefone"
-                        value={formData.celular}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="cep">CEP</label>
-                    <input 
-                        type="text" 
-                        id="cep" 
-                        placeholder="Digite o CEP do Doador/Tutor" 
-                        value={formData.cep}
-                        onChange={handleChange}
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="cidade">Cidade</label>
-                    <input 
-                        type="text" 
-                        id="cidade" 
-                        placeholder="Digite a cidade do Doador/Tutor" 
-                        value={formData.cidade}
-                        onChange={handleChange}
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="estado">Estado</label>
-                    <input 
-                        type="text" 
-                        id="estado" 
-                        placeholder="Digite o estado do Doador/Tutor" 
-                        value={formData.estado}
-                        onChange={handleChange}
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="endereco">Endereço</label>
-                    <input 
-                        type="text" 
-                        id="endereco" 
-                        placeholder="Digite o endereço do Doador/Tutor" 
-                        value={formData.endereco}
-                        onChange={handleChange}
-                        required 
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="numero">Nº</label>
-                    <input 
-                        type="text" 
-                        id="numero" 
-                        placeholder="Digite o nº do Doador/Tutor" 
-                        value={formData.numero}
-                        onChange={handleChange}
-                        required 
-                    />
+
+                <div className='cadastroDoador-linha1'>
+                    <div className="form-group">
+                        <label>Código</label>
+                        <input type="text" />
+                    </div>
+
+                    <div className="foto-upload">
+                        <label>Foto</label>
+                       
+                            <button className="camera"> {/*onClick={handleFotoCmera}*/}
+                                <img src="/src/assets/icone_camera.png" alt="Ícone camera" className="icon" />
+                            </button>
+                               
+                            <button className="upload" type="file" accept="image/*" onChange={handleFotoUpload}>
+                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
+                            </button>
+                     
+                        {foto && <img src={foto} alt="Foto do doador" className="foto" />}
+                    </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="complemento">Complemento</label>
-                    <input 
-                        type="text" 
-                        id="complemento" 
-                        placeholder="Digite o complemento do Doador/Tutor" 
-                        value={formData.complemento}
-                        onChange={handleChange}
-                        required 
-                    />
+                    <label>Nome</label>
+                    <input id="nome" name="nome" type="text" placeholder="Digite o nome" />
+                </div>
+
+                <div className='cadastroDoador-linha1'>
+                    <div className="form-group">
+                        <label>RG</label>
+                        <input id="rg" name="rg" type="text" placeholder="Digite o RG" />
+                    </div>
+                    <div className="form-group">
+                        <label>CPF</label>
+                        <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" />
+                    </div>
+                    <div className="form-group">
+                        <label>Celular</label>
+                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                    </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="bairro">Bairro</label>
-                    <input 
-                        type="text" 
-                        id="bairro" 
-                        placeholder="Digite o bairro do Doador/Tutor" 
-                        value={formData.bairro}
-                        onChange={handleChange}
-                        required 
-                    />
+                    <label>Telefone</label>
+                    {telefones.map((item, index) => (
+                        <div key={index} className="telefone-group">
+                            <input id='input-telefone'
+                                type="text"
+                                placeholder="Telefone"
+                                value={item.telefone}
+                                onChange={(e) => handleTelefoneChange(index, e.target.value)}
+                            />
+                            <input id='input-responsavel'
+                                type="text"
+                                placeholder="Responsável"
+                                value={item.responsavel}
+                                onChange={(e) => handleResponsavelChange(index, e.target.value)}
+                            />
+                            {telefones.length > 1 && (
+                                <button
+                                    type="button"
+                                    className="remove-btn-cad-doador"
+                                    onClick={() => handleRemoveTelefone(index)}
+                                >
+                                    <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon-remove-cad-doador" />
+                                </button>
+                            )}
+                        </div>
+                    ))}
+                    <button type="button" className="add-btn" onClick={handleAddTelefone}>
+                        + Telefones
+                    </button>
                 </div>
+
+                <div className="cadastroDoador-linha1">
+                    <div className="form-group">
+                        <label htmlFor="cep">CEP</label>
+                        <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="cidade">Cidade</label>
+                        <input id="imput-cidade" name="cidade" type="text" placeholder="Digite a cidade" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="estado">Estado</label>
+                        <input id="imput-estado" name="estado" type="text" placeholder="Digite o estado" />
+                    </div>
+                </div>
+
+
+                <div className="form-group">
+                    <label>Endereço</label>
+                    <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
+                </div>
+
+                <div className='cadastroDoador-linha1'>
+                    <div className="form-group">
+                        <label>Número</label>
+                        <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
+                    </div>
+                    <div className="form-group">
+                        <label>Complemento</label>
+                        <input id="complemento" name="complemento" type="text" placeholder="Digite o complemento" />
+                    </div>
+                    <div className="form-group">
+                        <label>Bairro</label>
+                        <input id="bairro" name="bairro" type="text" placeholder="Digite o bairro" />
+                    </div>
+                </div>
+
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
@@ -202,6 +196,6 @@ const CadastroDoador = () => {
             </form>
         </div>
     );
-}
+};
 
 export default CadastroDoador;

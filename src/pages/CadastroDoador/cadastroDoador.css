@@ -1,45 +1,180 @@
 .cadastro-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f4f4f4;
-    padding: 2% 2%;
-    margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  padding: 2% 2%;
+  margin: 0 auto;
 }
 
 .cadastroDoador-form {
-    background-color: white;
-    padding: 40px;
-    border-radius: 8px;
-    width: 80%;
-    text-align: center;
-    margin-top: 50px;
-    margin-bottom: 35px;
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  width: 80%;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 35px;
 }
 
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* input[type="text"],
+  input[type="file"] {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  } */
+
+.telefone-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#input-telefone {
+  width: 30%;
+}
+
+#input-responsavel {
+  width: 63%;
+}
+
+.add-btn {
+  background-color: #007acc;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 20%;
+  height: 40px;
+  margin-left: 80%;
+  margin-top: 10px;
+}
+
+.remove-btn-cad-doador {
+  background-color: #e63946;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  display: inline-grid;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  margin: 5px;
+  border: none;
+  align-content: center;
+}
+
+.icon-remove-cad-doador {
+  width: 30px;
+  height: 30px;
+}
+
+
+.button-group {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.button-group-crud {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cadastroDoador-linha1 {
+  display: flex;
+  justify-content: space-between;
+}
+
+#imput-cep {
+  width: 100%; /* Largura de 30% */
+}
+
+#imput-cidade {
+  width: 200%; /* Largura de 60% */
+}
+
+#imput-estado {
+  width: 100%; /* Largura de 10% */
+}
+
+#numero {
+  width: 40%; /* Largura de 30% */
+}
+
+#complemento{
+  width: 200%; /* Largura de 60% */
+}
+
+#bairro {
+  width: 100%; /* Largura de 10% */
+}
+
+#rg, #cpf, #celular {
+  width: 100%; /* Largura de 10% */
 }
 
 .form-group input {
-    width: 100%;
-    padding: 8px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  margin: 2px;
+  flex: 0 0 auto;
 }
 
-select{
-    font-family: "Poppins", sans-serif;
+.foto-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.button-group-crud{
-    display: flex;
-    justify-content: flex-end; /*Alinha os botões à esquerda*/
-    gap: 10px; /* Espaçamento entre os botões */
+.buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.foto-upload img {
+  width: 150px;
+  height: auto;
+}
+
+.upload{
+  background-color: #009EE0;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  display: inline-grid;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  border: none;
+  align-content: center
+}
+
+.upload img{
+  width: 20px;
+  height: 20px;
+  padding: 2%;
 }
 

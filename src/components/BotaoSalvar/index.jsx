@@ -15,10 +15,12 @@ const BotaoSalvar = ({ showModal, openModal, closeModal, disabled }) => {
         <span>Salvar</span>
       </button>
 
-      <Modal show={showModal} onClose={closeModal}>
-        <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
-        <p>Cadastro realizado com sucesso!</p>
-      </Modal>
+      {showModal && (
+        <Modal show={showModal} onClose={closeModal}>
+          <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
+          <p>Cadastro realizado com sucesso!</p>
+        </Modal>
+      )}
     </div>
   );
 };

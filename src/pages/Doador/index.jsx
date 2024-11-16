@@ -4,19 +4,19 @@ import './doador.css';
 
 const Doador = () => {
     return(
-        <div className="container">
-            <div className="toolbar">
+        <div className="container-doador">
+            <div className="toolbar-doador">
                 <Link to='/cadastro-doador' style={{ textDecoration: 'none' }}>
-                    <button className="button-cadastrar">
+                    <button className="button-cadastrar-doador">
                         <div>
                             <img src="/src/assets/icone_cadastrar.png" alt="Ícone de sucesso" className="icon" />
                             Cadastrar
                         </div>
                     </button>
                 </Link>
-                <div className="search-bar">
+                <div className="search-bar-doador">
                     <input type="text"/>
-                    <button className="search-button">
+                    <button className="search-button-doador">
                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
@@ -45,7 +45,7 @@ const Doador = () => {
                             <td></td>
                             <td>
                                 <Link to='/altera-doador'>
-                                    <button className="search-button">
+                                    <button className="search-button-doador">
                                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>

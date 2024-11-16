@@ -6,7 +6,7 @@ const Home = () => {
 
     return (
       <div className="home-container">
-        <div className="button-grid">
+        <div className="button-grid-home">
           <button className="home-button">
             <Link to='/voluntario'><img src="/src/assets/icone_voluntario.png" alt="Ícone de voluntario" className="icon" /></Link>
             <span>Voluntário</span>

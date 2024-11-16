@@ -8,19 +8,27 @@ import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
 const AlteraDoador = () => {
-    const [telefones, setTelefones] = useState(['']);
+    const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
     const [showModalAlterar, setShowModalAlterar] = useState(false);
     const [showModalExcluir, setShowModalExcluir] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
+    const [foto, setFoto] = useState(null);  // Para controlar a foto carregada
 
-    const adicionarTelefone = () => {
-        setTelefones([...telefones, '']);
+
+    // Handlers para telefones e responsáveis
+    const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
+    const handleRemoveTelefone = (index) => {
+        setTelefones(telefones.filter((_, i) => i !== index));
     };
-
     const handleTelefoneChange = (index, value) => {
         const novosTelefones = [...telefones];
-        novosTelefones[index] = value;
+        novosTelefones[index].telefone = value;
+        setTelefones(novosTelefones);
+    };
+    const handleResponsavelChange = (index, value) => {
+        const novosTelefones = [...telefones];
+        novosTelefones[index].responsavel = value;
         setTelefones(novosTelefones);
     };
 
@@ -57,115 +65,150 @@ const AlteraDoador = () => {
         setShowConfirmModal(true);
     };
 
+    // Handler para upload de foto
+    const handleFotoUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) setFoto(URL.createObjectURL(file));
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
         event.target.reset();
         setTelefones(['']); // Limpa os telefones
     };
 
+
+
     return (
-        <div className="doador-container">
+        <div className="cadastro-container">
             <form className="cadastroDoador-form" onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Código</label>
-                    <input type="text" id="codigo" disabled={!isEditable} />
+
+                <div className='cadastroDoador-linha1'>
+                    <div className="form-group">
+                        <label>Código</label>
+                        <input type="text" />
+                    </div>
+
+                    <div className="foto-upload">
+                        <label>Foto</label>
+
+                        <button className="camera"> {/*onClick={handleFotoCmera}*/}
+                            <img src="/src/assets/icone_camera.png" alt="Ícone camera" className="icon" />
+                        </button>
+
+                        <button className="upload" type="file" accept="image/*" onChange={handleFotoUpload}>
+                            <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
+                        </button>
+
+                        {foto && <img src={foto} alt="Foto do doador" className="foto" />}
+                    </div>
                 </div>
 
                 <div className="form-group">
                     <label>Nome</label>
-                    <input type="text" id="nome" disabled={!isEditable} />
+                    <input id="nome" name="nome" type="text" placeholder="Digite o nome" />
                 </div>
 
-                <div className="form-group">
-                    <label>RG</label>
-                    <input type="text" id="rg" disabled={!isEditable} />
-                </div>
-
-                <div className="form-group">
-                    <label>CPF</label>
-                    <input type="text" id="cpf" disabled={!isEditable} />
+                <div className='cadastroDoador-linha1'>
+                    <div className="form-group">
+                        <label>RG</label>
+                        <input id="rg" name="rg" type="text" placeholder="Digite o RG" />
+                    </div>
+                    <div className="form-group">
+                        <label>CPF</label>
+                        <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" />
+                    </div>
+                    <div className="form-group">
+                        <label>Celular</label>
+                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                    </div>
                 </div>
 
                 <div className="form-group">
                     <label>Telefone</label>
-                    {telefones.map((telefone, index) => (
-                        <div key={index} className="form-group-phone">
-                            <input
+                    {telefones.map((item, index) => (
+                        <div key={index} className="telefone-group">
+                            <input id='input-telefone'
                                 type="text"
-                                value={telefone}
+                                placeholder="Telefone"
+                                value={item.telefone}
                                 onChange={(e) => handleTelefoneChange(index, e.target.value)}
-                                disabled={!isEditable}  // Desabilita todos os campos de telefone
                             />
+                            <input id='input-responsavel'
+                                type="text"
+                                placeholder="Responsável"
+                                value={item.responsavel}
+                                onChange={(e) => handleResponsavelChange(index, e.target.value)}
+                            />
+                            {telefones.length > 1 && (
+                                <button
+                                    type="button"
+                                    className="remove-btn-cad-doador"
+                                    onClick={() => handleRemoveTelefone(index)}
+                                >
+                                    <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon-remove-cad-doador" />
+                                </button>
+                            )}
                         </div>
                     ))}
-                    <button
-                        type="button"
-                        onClick={adicionarTelefone}
-                        className="btn-add-phone"
-                        disabled={!isEditable}  // Desabilita o botão "Adicionar Telefone"
-                    >
-                        + Telefone
+                    <button type="button" className="add-btn" onClick={handleAddTelefone}>
+                        + Telefones
                     </button>
                 </div>
 
-                <div className="form-group">
-                    <label>CEP</label>
-                    <input type="text" id="cep" disabled={!isEditable} />
+                <div className="cadastroDoador-linha1">
+                    <div className="form-group">
+                        <label htmlFor="cep">CEP</label>
+                        <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="cidade">Cidade</label>
+                        <input id="imput-cidade" name="cidade" type="text" placeholder="Digite a cidade" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="estado">Estado</label>
+                        <input id="imput-estado" name="estado" type="text" placeholder="Digite o estado" />
+                    </div>
                 </div>
 
-                <div className="form-group">
-                    <label>Cidade</label>
-                    <input type="text" id="cidade" disabled={!isEditable} />
-                </div>
-
-                <div className="form-group">
-                    <label>Estado</label>
-                    <input type="text" id="estado" disabled={!isEditable} />
-                </div>
 
                 <div className="form-group">
                     <label>Endereço</label>
-                    <input type="text" id="endereco" disabled={!isEditable} />
+                    <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
                 </div>
 
-                <div className="form-group">
-                    <label>Nº</label>
-                    <input type="text" id="numero" disabled={!isEditable} />
-                </div>
-
-                <div className="form-group">
-                    <label>Complemento</label>
-                    <input type="text" id="complemento" disabled={!isEditable} />
-                </div>
-
-                <div className="form-group">
-                    <label>Bairro</label>
-                    <input type="text" id="bairro" disabled={!isEditable} />
+                <div className='cadastroDoador-linha1'>
+                    <div className="form-group">
+                        <label>Número</label>
+                        <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
+                    </div>
+                    <div className="form-group">
+                        <label>Complemento</label>
+                        <input id="complemento" name="complemento" type="text" placeholder="Digite o complemento" />
+                    </div>
+                    <div className="form-group">
+                        <label>Bairro</label>
+                        <input id="bairro" name="bairro" type="text" placeholder="Digite o bairro" />
+                    </div>
                 </div>
 
                 <div className="button-group-crud">
                     <BotaoSalvar disabled={!isEditable} />  {/* Desabilita o botão "Salvar" se os campos estiverem desabilitados */}
                     <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
-                    <BotaoAlterar 
-                        showModal={showModalAlterar} 
-                        openModal={openModalAlterar} 
+                    <BotaoAlterar
+                        showModal={showModalAlterar}
+                        openModal={openModalAlterar}
                         closeModal={closeModalAlterar}
                     />
                     <BotaoLimpar disabled={!isEditable} />  {/* Desabilita o botão "Limpar" se os campos estiverem desabilitados */}
-                    <BotaoExcluir 
-                        showModal={showModalExcluir} 
-                        showConfirmModal={showConfirmModal} 
-                        openModal={openModalExcluir} 
+                    <BotaoExcluir
+                        showModal={showModalExcluir}
+                        showConfirmModal={showConfirmModal}
+                        openModal={openModalExcluir}
                         closeModal={closeModalExcluir}
                     />
                 </div>
             </form>
-
-            <div className="habilitar-edicao">
-                <button onClick={openModalAlterar} className="btn-habilitar">
-                    Alterar
-                </button>
-            </div>
         </div>
     );
 };
