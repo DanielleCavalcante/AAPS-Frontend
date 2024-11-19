@@ -58,6 +58,7 @@ const CadastroDoador = () => {
         if (file) setFoto(URL.createObjectURL(file));
     };
 
+
     {/*Handler para capturar foto com a câmera
         const handleFotoCmera = () => {
             // Lógica para acessar a câmera e capturar a foto
@@ -73,6 +74,40 @@ const CadastroDoador = () => {
         setFoto(null);
     };
 
+    const handleFotoCamera = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const videoElement = document.createElement('video');
+            videoElement.srcObject = stream;
+            videoElement.play();
+    
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+    
+            const capturePhoto = () => {
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+    
+                // Parar o stream
+                stream.getTracks().forEach((track) => track.stop());
+    
+                // Atualizar o estado da foto
+                setFoto(canvas.toDataURL('image/png'));
+            };
+    
+            // Exibe um modal ou uma janela para tirar a foto
+            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
+            if (confirmPhoto) {
+                capturePhoto();
+            }
+        } catch (error) {
+            console.error("Erro ao acessar a câmera:", error);
+            alert("Não foi possível acessar a câmera. Verifique as permissões.");
+        }
+    };
+    
+
     return (
         <div className="cadastro-container">
             <form className="cadastroDoador-form" onSubmit={handleSubmit}>
@@ -84,18 +119,29 @@ const CadastroDoador = () => {
                     </div>
 
                     <div className="foto-upload">
-                        <label>Foto</label>
-                       
-                            <button className="camera"> {/*onClick={handleFotoCmera}*/}
-                                <img src="/src/assets/icone_camera.png" alt="Ícone camera" className="icon" />
+                        <div className="foto-buttons">
+                            {/* Botão de capturar foto */}
+                            <button type="button" className="camera" onClick={handleFotoCamera}>
+                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
                             </button>
-                               
-                            <button className="upload" type="file" accept="image/*" onChange={handleFotoUpload}>
+
+                            {/* Botão de upload */}
+                            <label className="upload">
                                 <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                            </button>
-                     
-                        {foto && <img src={foto} alt="Foto do doador" className="foto" />}
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFotoUpload}
+                                    style={{ display: 'none' }}
+                                />
+                            </label>
+                        </div>
+                        <div class="foto-preview-container">
+                            <span class="foto-label">Foto</span>
+                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
+                        </div>
                     </div>
+
                 </div>
 
                 <div className="form-group">
