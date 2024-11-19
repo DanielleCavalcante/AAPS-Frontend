@@ -12,6 +12,9 @@ import AlterarAnimal from '../pages/AlterarAnimal';
 import Doador from '../pages/Doador';
 import CadastroDoador from '../pages/CadastroDoador';
 import AlterarDoador from '../pages/AlterarDoador';
+import Evento from "../pages/Evento";
+import CadastroEvento from '../pages/CadastroEvento';
+import AlterarEvento from '../pages/AlterarEvento';
 import ComingSoon from '../pages/ComingSoon';
 
 
@@ -32,6 +35,9 @@ const AppRouter = () => {
                     <Route path="/doador" element={<Doador />}/>
                     <Route path="/cadastro-doador" element={<CadastroDoador />}/>
                     <Route path="/altera-doador" element={<AlterarDoador />}/>
+                    <Route path="/evento" element={<Evento />}/>
+                    <Route path="/cadastro-evento" element={<CadastroEvento />}/>
+                    <Route path="/altera-evento" element={<AlterarEvento />}/>
                     <Route path="*" element={<ComingSoon />}/>
                 </Route>
             </Routes>

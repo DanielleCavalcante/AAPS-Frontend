@@ -20,7 +20,7 @@ const Home = () => {
             <span>relatório</span>
           </button>
           <button className="home-button">
-            <Link to='/'><img src="/src/assets/icone_evento.png" alt="Ícone de evento" className="icon" /></Link>
+            <Link to='/evento'><img src="/src/assets/icone_evento.png" alt="Ícone de evento" className="icon" /></Link>
             <span>evento</span>
           </button>
           <button className="home-button">
