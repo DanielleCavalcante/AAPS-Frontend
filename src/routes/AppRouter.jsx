@@ -15,6 +15,8 @@ import AlterarDoador from '../pages/AlterarDoador';
 import Evento from "../pages/Evento";
 import CadastroEvento from '../pages/CadastroEvento';
 import AlterarEvento from '../pages/AlterarEvento';
+import PontoAdocao from "../pages/PontoAdocao";
+
 import ComingSoon from '../pages/ComingSoon';
 
 
@@ -38,6 +40,7 @@ const AppRouter = () => {
                     <Route path="/evento" element={<Evento />}/>
                     <Route path="/cadastro-evento" element={<CadastroEvento />}/>
                     <Route path="/altera-evento" element={<AlterarEvento />}/>
+                    <Route path="/ponto-adocao" element={<PontoAdocao />}/>
                     <Route path="*" element={<ComingSoon />}/>
                 </Route>
             </Routes>

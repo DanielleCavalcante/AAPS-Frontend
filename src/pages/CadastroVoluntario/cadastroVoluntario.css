@@ -1,11 +1,9 @@
 .cadastro-container {
     display: flex;
-    /* gap:10px; */
     justify-content: center;
     align-items: center;
     background-color: #f4f4f4;
-    padding: 2% 2%;
-    margin: 0 auto;
+    padding: 2%;
 }
 
 .cadastroVoluntario-form {
@@ -14,13 +12,12 @@
     border-radius: 8px;
     width: 80%;
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 35px;
+    margin: 50px auto 35px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     font-size: 14px;
 }
 
@@ -30,16 +27,63 @@
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    box-sizing: border-box;
     font-family: "Poppins", sans-serif;
 }
 
-select{
+#senha {
+    width: 40%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
     font-family: "Poppins", sans-serif;
 }
 
-.button-group-crud{
+.button-group-crud {
     display: flex;
-    justify-content: flex-end; /*Alinha os botões à esquerda*/
-    gap: 10px; /* Espaçamento entre os botões */
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cadastroVoluntario-linha {
+    display: flex;
+    justify-content: space-between;
+}
+
+.botao-resetar-senha {
+    background-color: #009EE0;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    margin-right: auto;
+}
+
+.senha-botao-grupo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.situacao {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.situacao select {
+    width: 150px;
+}
+
+
+.botao-resetar-senha:disabled {
+    background-color: #d3d3d3;
+    border: 1px solid #b0b0b0;
+    color: #7d7d7d;
+    cursor: not-allowed;
 }

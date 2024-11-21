@@ -37,8 +37,9 @@ const Animal = () => {
                 </div>
                 <select id="filtro" name="opcoesFiltro">
                     <option value="1">Filtros</option>
-                    <option value="2">X</option>
-                    <option value="3">Y</option>
+                    <option value="2">Código</option>
+                    <option value="3">Espécie</option>
+                    <option value="">Sexo</option>
                 </select>
             </div>
             
@@ -50,9 +51,10 @@ const Animal = () => {
                         <th>Espécie</th>
                         <th>Sexo</th>
                         <th>Idade</th>
+                        <th>Ver</th>
                     </tr>
                 </thead>
-                <tbody>
+                {/*<tbody>
                     {animais.map((animal) => (
                         <tr key={animal.id}>
                             <td>{animal.id}</td>
@@ -67,7 +69,25 @@ const Animal = () => {
                             </td>
                         </tr>
                     ))}
+                </tbody>*/}
+
+<tbody>
+                    {[...Array(2)].map((_, index) => (
+                        <tr key={index}>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            <button className="search-button">
+                                <Link to='/altera-animal'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
+                            </button>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
+
             </table>
         </div>
     );

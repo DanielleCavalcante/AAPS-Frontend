@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import './evento.css';
+import './pontoAdocao.css';
 
-const Evento = () => {
+const PontoAdocao = () => {
     return(
         <div className="container-evento">
             <div className="toolbar-evento">
@@ -55,4 +55,4 @@ const Evento = () => {
     );
 }
 
-export default Evento;
+export default PontoAdocao;

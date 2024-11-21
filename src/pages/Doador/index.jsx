@@ -38,7 +38,7 @@ const Doador = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {[...Array(5)].map((_, index) => (
+                    {[...Array(2)].map((_, index) => (
                         <tr key={index}>
                             <td></td>
                             <td></td>
