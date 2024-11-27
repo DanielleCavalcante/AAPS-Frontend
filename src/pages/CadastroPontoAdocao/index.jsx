@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './cadastroDoador.css';
+import './cadastroPontoAdocao.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
@@ -7,9 +7,8 @@ import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const CadastroDoador = () => {
+const CadastroPontoAdocao = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [foto, setFoto] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     // Handlers do modal
@@ -17,8 +16,8 @@ const CadastroDoador = () => {
     const openModal = () => {
         // Pegando os valores dos campos
         const nome = document.getElementById("nome").value;
-        const rg = document.getElementById("rg").value;
-        const cpf = document.getElementById("cpf").value;
+        const cnpj = document.getElementById("cnpj").value;
+        const responsavel = document.getElementById("responsavel").value;
         const celular = document.getElementById("celular").value;
         const cep = document.getElementById("cep").value;
         const cidade = document.getElementById("cidade").value;
@@ -28,9 +27,8 @@ const CadastroDoador = () => {
         const bairro = document.getElementById("bairro").value;
 
         // Validação dos campos
-        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && bairro) {
+        if (nome && cnpj && responsavel && celular && cep && cidade && estado && endereco && numero && bairro) {
             setShowModal(true); // Mostra o modal de sucesso
-            setShowModal(true);
         } else {
             return null;
         }
@@ -52,12 +50,6 @@ const CadastroDoador = () => {
         setTelefones(novosTelefones);
     };
 
-    // Handler para upload de foto
-    const handleFotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) setFoto(URL.createObjectURL(file));
-    };
-
     // Limpeza dos campos do formulário
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -67,93 +59,34 @@ const CadastroDoador = () => {
         setFoto(null);
     };
 
-    const handleFotoCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
-    
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-    
-            const capturePhoto = () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-    
-                // Parar o stream
-                stream.getTracks().forEach((track) => track.stop());
-    
-                // Atualizar o estado da foto
-                setFoto(canvas.toDataURL('image/png'));
-            };
-    
-            // Exibe um modal ou uma janela para tirar a foto
-            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
-            if (confirmPhoto) {
-                capturePhoto();
-            }
-        } catch (error) {
-            console.error("Erro ao acessar a câmera:", error);
-            alert("Não foi possível acessar a câmera. Verifique as permissões.");
-        }
-    };
-    
-
     return (
         <div className="cadastro-container">
-            <form className="cadastroDoador-form" onSubmit={handleSubmit}>
+            <form className="cadastroPonto-form" onSubmit={handleSubmit}>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Código</label>
                         <input type="text" />
                     </div>
-
-                    <div className="foto-upload">
-                        <div className="foto-buttons">
-                            {/* Botão de capturar foto */}
-                            <button type="button" className="camera" onClick={handleFotoCamera}>
-                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
-                            </button>
-
-                            {/* Botão de upload */}
-                            <label className="upload">
-                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFotoUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
-                        </div>
-                        <div class="foto-preview-container">
-                            <span class="foto-label">Foto</span>
-                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
-                        </div>
-                    </div>
-
                 </div>
 
                 <div className="form-group">
                     <label>Nome</label>
-                    <input id="nome" name="nome" type="text" placeholder="Digite o nome" />
+                    <input id="nome" name="nome" type="text"/>
                 </div>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroPonto-linha1'>
                     <div className="form-group">
-                        <label>RG</label>
-                        <input id="rg" name="rg" type="text" placeholder="Digite o RG" />
+                        <label>CNPJ</label>
+                        <input id="cnpj" name="cnpj" type="text"/>
                     </div>
                     <div className="form-group">
-                        <label>CPF</label>
-                        <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" />
+                        <label>Responsável</label>
+                        <input id="responsavel" name="responsavel" type="text"/>
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input id="celular" name="celular" type="text" />
                     </div>
                 </div>
 
@@ -189,7 +122,7 @@ const CadastroDoador = () => {
                     </button>
                 </div>
 
-                <div className="cadastroDoador-linha1">
+                <div className="cadastroPonto-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
                         <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
@@ -210,7 +143,7 @@ const CadastroDoador = () => {
                     <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
                 </div>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Número</label>
                         <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
@@ -237,4 +170,4 @@ const CadastroDoador = () => {
     );
 };
 
-export default CadastroDoador;
+export default CadastroPontoAdocao;

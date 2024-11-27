@@ -8,14 +8,23 @@ import CadastroVoluntario from '../pages/CadastroVoluntario';
 import AlterarVoluntario from '../pages/AlterarVoluntario';
 import Animal from '../pages/Animal';
 import CadastroAnimal from '../pages/CadastroAnimal';
-import AlterarAnimal from '../pages/AlterarAnimal';
+import VisualizarAnimal from '../pages/VisualizarAnimal';
 import Doador from '../pages/Doador';
 import CadastroDoador from '../pages/CadastroDoador';
-import AlterarDoador from '../pages/AlterarDoador';
+import VisualizarDoador from '../pages/VisualizarDoador';
 import Evento from "../pages/Evento";
 import CadastroEvento from '../pages/CadastroEvento';
 import AlterarEvento from '../pages/AlterarEvento';
 import PontoAdocao from "../pages/PontoAdocao";
+import CadastroPontoAdocao from '../pages/CadastroPontoAdocao';
+import AlterarPontoAdocao from '../pages/AlterarPontoAdocao';
+import Adotante from "../pages/Adotante";
+import CadastroAdotante from '../pages/CadastroAdotante';
+import AlterarAdotante from '../pages/AlterarAdotante';
+import Adocao from "../pages/Adocao";
+import CadastroAdocao from '../pages/CadastroAdocao';
+import AlterarAdocao from '../pages/AlterarAdocao';
+import Perfil from "../pages/Perfil";
 
 import ComingSoon from '../pages/ComingSoon';
 
@@ -33,14 +42,23 @@ const AppRouter = () => {
                     <Route path="/altera-voluntario" element={<AlterarVoluntario />}/>
                     <Route path="/animal" element={<Animal />}/>
                     <Route path="/cadastro-animal" element={<CadastroAnimal />}/>
-                    <Route path="/altera-animal" element={<AlterarAnimal />}/>
+                    <Route path="/visualiza-animal" element={<VisualizarAnimal />}/>
                     <Route path="/doador" element={<Doador />}/>
                     <Route path="/cadastro-doador" element={<CadastroDoador />}/>
-                    <Route path="/altera-doador" element={<AlterarDoador />}/>
+                    <Route path="/visualiza-doador" element={<VisualizarDoador />}/>
                     <Route path="/evento" element={<Evento />}/>
                     <Route path="/cadastro-evento" element={<CadastroEvento />}/>
                     <Route path="/altera-evento" element={<AlterarEvento />}/>
                     <Route path="/ponto-adocao" element={<PontoAdocao />}/>
+                    <Route path="/altera-ponto-adocao" element={<AlterarPontoAdocao />}/>
+                    <Route path="/cadastro-ponto-adocao" element={<CadastroPontoAdocao />}/>
+                    <Route path="/adotante" element={<Adotante />}/>
+                    <Route path="/altera-adotante" element={<AlterarAdotante />}/>
+                    <Route path="/cadastro-adotante" element={<CadastroAdotante />}/>
+                    <Route path="/adocao" element={<Adocao />}/>
+                    <Route path="/altera-adocao" element={<AlterarAdocao />}/>
+                    <Route path="/cadastro-adocao" element={<CadastroAdocao />}/>
+                    <Route path="/perfil" element={<Perfil />}/>
                     <Route path="*" element={<ComingSoon />}/>
                 </Route>
             </Routes>

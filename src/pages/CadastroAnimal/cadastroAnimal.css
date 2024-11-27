@@ -73,18 +73,6 @@ select{
     align-items: center;
 }
 
-.acompanhamento {
-    background-color: #009EE0;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 150PX;
-    height: 50px;
-    margin-top: 20px;
-}
-
   .acompanhamento img {
     width: 20px;
     height: 20px;

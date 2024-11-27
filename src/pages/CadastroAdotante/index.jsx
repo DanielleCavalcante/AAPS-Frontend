@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './cadastroDoador.css';
+import './cadastroAdotante.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
@@ -7,10 +7,28 @@ import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const CadastroDoador = () => {
+const CadastroAdotante = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
     const [foto, setFoto] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [formData, setFormData] = useState({
+        tipoMoradiaResidencial: "", // Casa ou Apto
+        tipoMoradiaPropriedade: "", // Própria ou Alugada
+        nome: "",
+        rg: "",
+        cpf: "",
+        celular: "",
+        localtrabalho: "",
+        cep: "",
+        cidade: "",
+        estado: "",
+        endereco: "",
+        numero: "",
+        bairro: "",
+        complemento: "",
+        facebook: "",
+        instagram: "",
+    });
 
     // Handlers do modal
     const closeModal = () => setShowModal(false);
@@ -20,17 +38,26 @@ const CadastroDoador = () => {
         const rg = document.getElementById("rg").value;
         const cpf = document.getElementById("cpf").value;
         const celular = document.getElementById("celular").value;
+        const localtrabalho = document.getElementById("localtrabalho").value;
         const cep = document.getElementById("cep").value;
         const cidade = document.getElementById("cidade").value;
         const estado = document.getElementById("estado").value;
         const endereco = document.getElementById("endereco").value;
         const numero = document.getElementById("numero").value;
         const bairro = document.getElementById("bairro").value;
+        const facebook = document.getElementById("facebook").value;
+        const instagram = document.getElementById("instagram").value;
+        const moradiaSelecionada = formData.tipoMoradia === "Casa" || formData.tipoMoradia === "Apto";
+        const propriedadeSelecionada = formData.tipoMoradia === "Própria" || formData.tipoMoradia === "Alugada";
+
+        if (!moradiaSelecionada || !propriedadeSelecionada) {
+            alert("Por favor, selecione uma opção de tipo de moradia (Casa ou Apto) e uma de propriedade (Própria ou Alugada).");
+            return;
+        }
 
         // Validação dos campos
-        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && bairro) {
+        if (nome && rg && cpf && celular && localtrabalho && cep && cidade && estado && endereco && numero && bairro && facebook && instagram) {
             setShowModal(true); // Mostra o modal de sucesso
-            setShowModal(true);
         } else {
             return null;
         }
@@ -65,6 +92,23 @@ const CadastroDoador = () => {
         event.target.reset();
         setTelefones([{ telefone: '', responsavel: '' }]);
         setFoto(null);
+        setFormData({
+            tipoMoradia: "",
+            nome: "",
+            rg: "",
+            cpf: "",
+            celular: "",
+            localtrabalho: "",
+            cep: "",
+            cidade: "",
+            estado: "",
+            endereco: "",
+            numero: "",
+            bairro: "",
+            complemento: "",
+            facebook: "",
+            instagram: "",
+        });
     };
 
     const handleFotoCamera = async () => {
@@ -73,22 +117,22 @@ const CadastroDoador = () => {
             const videoElement = document.createElement('video');
             videoElement.srcObject = stream;
             videoElement.play();
-    
+
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
-    
+
             const capturePhoto = () => {
                 canvas.width = videoElement.videoWidth;
                 canvas.height = videoElement.videoHeight;
                 context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-    
+
                 // Parar o stream
                 stream.getTracks().forEach((track) => track.stop());
-    
+
                 // Atualizar o estado da foto
                 setFoto(canvas.toDataURL('image/png'));
             };
-    
+
             // Exibe um modal ou uma janela para tirar a foto
             const confirmPhoto = window.confirm("Pronto para capturar a foto?");
             if (confirmPhoto) {
@@ -99,13 +143,20 @@ const CadastroDoador = () => {
             alert("Não foi possível acessar a câmera. Verifique as permissões.");
         }
     };
-    
+
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
+    };
 
     return (
         <div className="cadastro-container">
-            <form className="cadastroDoador-form" onSubmit={handleSubmit}>
+            <form className="cadastroAdotante-form" onSubmit={handleSubmit}>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Código</label>
                         <input type="text" />
@@ -142,7 +193,7 @@ const CadastroDoador = () => {
                     <input id="nome" name="nome" type="text" placeholder="Digite o nome" />
                 </div>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>RG</label>
                         <input id="rg" name="rg" type="text" placeholder="Digite o RG" />
@@ -155,6 +206,11 @@ const CadastroDoador = () => {
                         <label>Celular</label>
                         <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
                     </div>
+                </div>
+
+                <div className="form-group">
+                    <label>Local de Trabalho</label>
+                    <input id="localtrabalho" name="localtrabalho" type="text" />
                 </div>
 
                 <div className="form-group">
@@ -189,7 +245,58 @@ const CadastroDoador = () => {
                     </button>
                 </div>
 
-                <div className="cadastroDoador-linha1">
+
+                <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaResidencial"
+                            value="Casa"
+                            checked={formData.tipoMoradiaResidencial === "Casa"}
+                            onChange={handleInputChange}
+                        />
+                        Casa
+                    </label>
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaResidencial"
+                            value="Apto"
+                            checked={formData.tipoMoradiaResidencial === "Apto"}
+                            onChange={handleInputChange}
+                        />
+                        Apto
+                    </label>
+                </div>
+
+                <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaPropriedade"
+                            value="Própria"
+                            checked={formData.tipoMoradiaPropriedade === "Própria"}
+                            onChange={handleInputChange}
+                        />
+                        Própria
+                    </label>
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaPropriedade"
+                            value="Alugada"
+                            checked={formData.tipoMoradiaPropriedade === "Alugada"}
+                            onChange={handleInputChange}
+                        />
+                        Alugada
+                    </label>
+                </div>
+
+
+
+
+
+                <div className="cadastroAdotante-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
                         <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
@@ -210,7 +317,7 @@ const CadastroDoador = () => {
                     <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
                 </div>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Número</label>
                         <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
@@ -225,6 +332,35 @@ const CadastroDoador = () => {
                     </div>
                 </div>
 
+                <div id="group4">
+                    <div className="form-group">
+                        <label htmlFor="facebook">Facebook</label>
+                        <input id="imput-facebook" name="facebook" type="text" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="instagram">Instagram</label>
+                        <input id="imput-instagram" name="instagram" type="text" />
+                    </div>
+                </div>
+
+                <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            type="checkbox"
+                            name="bloqueado"
+                            checked={formData.bloqueado}
+                            onChange={handleInputChange}
+                        />
+                        Bloqueado
+                    </label>
+                </div>
+                <textarea
+                    name="observacao"
+                    placeholder="Observação"
+                    value={formData.observacao}
+                    onChange={handleInputChange}
+                />
+
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
@@ -232,9 +368,9 @@ const CadastroDoador = () => {
                     <BotaoLimpar />
                     <BotaoExcluir disabled={true} />
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 };
 
-export default CadastroDoador;
+export default CadastroAdotante;

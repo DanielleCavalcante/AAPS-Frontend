@@ -21,7 +21,7 @@
     font-size: 14px;
   }
   
-  .form-group input {
+  .form-group input, ::selection {
     width: 100%;
     padding: 8px;
     font-size: 14px;
@@ -61,7 +61,7 @@
     border-radius: 4px;
     cursor: pointer;
     height: 40px;
-    margin-right: auto;
+    margin-top: 25px;
   }
   
   .senha-botao-grupo {
@@ -80,4 +80,21 @@
     width: 150px;
   }
   
-  
+  #group-animal1{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    align-items: center;
+  }
+
+  #senha {
+    width: 300px;
+  }
+
+  #situacao {
+    width: 200px;
+  }
+
+#group-animal1 .form-group:nth-child(3) {
+  justify-self: end;
+}

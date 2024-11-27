@@ -95,15 +95,17 @@ const AlteraVoluntario = () => {
           </div>
         </div>
 
-        <div className="form-group">
-          <label htmlFor="senha">Senha</label>
-          <div className="senha-botao-grupo">
-            <input
-              type="text"
-              id="senha"
-              placeholder="Digite a senha provisória do voluntário"
-              required
-            />
+        <div id="group-animal1">
+          <div className="form-group">
+            <label htmlFor="senha">Senha</label>
+              <input
+                type="text"
+                id="senha"
+                placeholder="Digite a senha provisória do voluntário"
+                required
+              />
+          </div>
+          <div className="form-group">
             <button
               type="button"
               className="botao-resetar-senha"
@@ -112,31 +114,32 @@ const AlteraVoluntario = () => {
               Redefinir Senha
             </button>
           </div>
-          <div className="form-group situacao">
+          <div className="form-group">
             <label htmlFor="situacao">Situação</label>
             <select id="situacao" name="opcoesSituacao">
               <option value="1">Ativo</option>
               <option value="2">Suspenso</option>
             </select>
           </div>
+
         </div>
 
         <div className="button-group-crud">
-                    <BotaoSalvar disabled={!isEditable} />  {/* Desabilita o botão "Salvar" se os campos estiverem desabilitados */}
-                    <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
-                    <BotaoAlterar
-                        showModal={showModalAlterar}
-                        openModal={openModalAlterar}
-                        closeModal={closeModalAlterar}
-                    />
-                    <BotaoLimpar disabled={!isEditable} />  {/* Desabilita o botão "Limpar" se os campos estiverem desabilitados */}
-                    <BotaoExcluir
-                        showModal={showModalExcluir}
-                        showConfirmModal={showConfirmModal}
-                        openModal={openModalExcluir}
-                        closeModal={closeModalExcluir}
-                    />
-                </div>
+          <BotaoSalvar disabled={!isEditable} />  {/* Desabilita o botão "Salvar" se os campos estiverem desabilitados */}
+          <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
+          <BotaoAlterar
+            showModal={showModalAlterar}
+            openModal={openModalAlterar}
+            closeModal={closeModalAlterar}
+          />
+          <BotaoLimpar disabled={!isEditable} />  {/* Desabilita o botão "Limpar" se os campos estiverem desabilitados */}
+          <BotaoExcluir
+            showModal={showModalExcluir}
+            showConfirmModal={showConfirmModal}
+            openModal={openModalExcluir}
+            closeModal={closeModalExcluir}
+          />
+        </div>
       </form>
     </div>
   );

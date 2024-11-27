@@ -1,18 +1,14 @@
 import { useState } from 'react'
-import './alteraAnimal.css';
+import './visualizarAnimal.css';
 
-import BotaoSalvar from "/src/components/BotaoSalvar";
-import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
-import BotaoLimpar from "/src/components/BotaoLimpar";
+import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const AlteraAnimal = () => {
-
+const VisualizaAnimal = () => {
     const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
     const [showModalExcluir, setShowModalExcluir] = useState(false); //Exclusão
     const [showConfirmModal, setShowConfirmModal] = useState(false); //Confirmar
-    const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
     const [foto, setFoto] = useState(null);
 
     const closeModalAlterar = () => setShowModalAlterar(false);
@@ -26,7 +22,6 @@ const AlteraAnimal = () => {
         const pelagem = document.getElementById('pelagem').value;
         const sexo = document.getElementById('sexo').value;
         const doador = document.getElementById('doador').value;
-        const coddoador = document.getElementById('coddoador').value;
 
         // Verifica se todos os campos estão preenchidos
         if (statusAdocao && nome && especie && raca && dataNascimento && pelagem && sexo && doador) {
@@ -52,44 +47,6 @@ const AlteraAnimal = () => {
         setShowConfirmModal(true);
     };
 
-    // Handler para upload de foto
-    const handleFotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) setFoto(URL.createObjectURL(file));
-    };
-
-    const handleFotoCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
-
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            const capturePhoto = () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                // Parar o stream
-                stream.getTracks().forEach((track) => track.stop());
-
-                // Atualizar o estado da foto
-                setFoto(canvas.toDataURL('image/png'));
-            };
-
-            // Exibe um modal ou uma janela para tirar a foto
-            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
-            if (confirmPhoto) {
-                capturePhoto();
-            }
-        } catch (error) {
-            console.error("Erro ao acessar a câmera:", error);
-            alert("Não foi possível acessar a câmera. Verifique as permissões.");
-        }
-    };
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -104,9 +61,9 @@ const AlteraAnimal = () => {
     }
 
     return (
-        <div className="cadastro-container">
+        <div className="visualizar-container">
             <form className="cadastroAnimal-form" onSubmit={handleSubmit} >
-                <div id="group1">
+                <div id="group2">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
                         <input type="text" id="codigo" disabled />
@@ -119,34 +76,10 @@ const AlteraAnimal = () => {
                         </select>
                     </div>
 
-                    <div className="form-group">
-                        <button type="button" className="acompanhamento">
-                            <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
-                            Acompanhamento
-                        </button>
-                    </div>
-
                     <div className="foto-upload">
-                        <div className="foto-buttons">
-                            {/* Botão de capturar foto */}
-                            <button type="button" className="camera" onClick={handleFotoCamera}>
-                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
-                            </button>
-
-                            {/* Botão de upload */}
-                            <label className="upload">
-                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFotoUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
-                        </div>
                         <div class="foto-preview-container">
                             <span class="foto-label">Foto</span>
-                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
+                            {foto && <img src={foto} alt="Foto do animal" className="foto" />}
                         </div>
                     </div>
 
@@ -177,8 +110,8 @@ const AlteraAnimal = () => {
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
                         <select id="sexo" name="sexo">
-                            <option value="1">Macho</option>
-                            <option value="2">Fêmea</option>
+                            <option value="1">M</option>
+                            <option value="2">F</option>
                         </select>
                     </div>
                 </div>
@@ -198,25 +131,25 @@ const AlteraAnimal = () => {
                         </select>
                     </div>
                 </div>
-                <div className="button-group-crud">
-                    <BotaoSalvar disabled={!isEditable} />  {/* Desabilita o botão "Salvar" se os campos estiverem desabilitados */}
-                    <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
-                    <BotaoAlterar
-                        showModal={showModalAlterar}
-                        openModal={openModalAlterar}
-                        closeModal={closeModalAlterar}
-                    />
-                    <BotaoLimpar disabled={!isEditable} />  {/* Desabilita o botão "Limpar" se os campos estiverem desabilitados */}
-                    <BotaoExcluir
-                        showModal={showModalExcluir}
-                        showConfirmModal={showConfirmModal}
-                        openModal={openModalExcluir}
-                        closeModal={closeModalExcluir}
-                    />
+
+                <div id="group3">
+                    <div className="form-group">
+                        <button type="button" className="acompanhamento">
+                            <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
+                            Acompanhamento
+                        </button>
+                    </div>
+                    <div className="button-group-crud">
+                        <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
+                        <BotaoCancelar />
+                        <BotaoExcluir showModal={showModalExcluir} showConfirmModal={showConfirmModal}
+                            openModal={openConfirmModal} closeModal2={closeConfirmModal} closeModal={openModalExcluir}
+                            closeModalExcluir={closeModalExcluir} />
+                    </div>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }
 
-export default AlteraAnimal;
+export default VisualizaAnimal;

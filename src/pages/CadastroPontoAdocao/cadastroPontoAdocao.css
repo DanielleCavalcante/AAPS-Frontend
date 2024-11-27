@@ -6,7 +6,7 @@
     padding: 2% 2%;
   }
   
-  .cadastroDoador-form {
+  .cadastroPonto-form {
     background-color: white;
     padding: 40px;
     border-radius: 8px;
@@ -56,7 +56,7 @@
     margin-top: 10px;
   }
   
-  .remove-btn-cad-doador {
+  .remove-btn-cad-ponto {
     background-color: #e63946;
     color: white;
     cursor: pointer;
@@ -70,7 +70,7 @@
     align-content: center;
   }
   
-  .icon-remove-cad-doador {
+  .icon-remove-cad-ponto {
     width: 30px;
     height: 30px;
   }
@@ -88,7 +88,7 @@
     gap: 10px;
   }
   
-  .cadastroDoador-linha1 {
+  .cadastroPonto-linha1 {
     display: flex;
     justify-content: space-between;
   }
@@ -117,7 +117,7 @@
     width: 100%; 
   }
   
-  #rg, #cpf, #celular {
+  #cnpj, #reponsavel, #celular {
     width: 100%; 
   }
   
@@ -133,54 +133,4 @@
     flex: 0 0 auto;
   }
   
-  .foto-upload {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end; 
-    align-items: center;
-    gap: 20px; 
-    width: 100%;
-  }
-  
-  .foto-buttons {
-    display: flex;
-    flex-direction: column; 
-    gap: 10px; 
-    align-items: center;
-  }
-  
-  .camera, .upload {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #009EE0;
-    color: white;
-    cursor: pointer;
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-  }
-  
-  .camera img, .upload img {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .foto-preview-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px; 
-    height: 150px;
-    border: 1px solid #ccc; 
-    border-radius: 8px;
-    overflow: hidden;
-    background-color: #f4f4f4; 
-  }
-  
-  .foto-preview-container img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover; 
-  }
   

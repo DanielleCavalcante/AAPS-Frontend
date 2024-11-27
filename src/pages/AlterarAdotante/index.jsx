@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './cadastroDoador.css';
+import './alteraAdotante.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
@@ -7,34 +7,31 @@ import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const CadastroDoador = () => {
+const AlteraAdotante = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [foto, setFoto] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-
-    // Handlers do modal
-    const closeModal = () => setShowModal(false);
-    const openModal = () => {
-        // Pegando os valores dos campos
-        const nome = document.getElementById("nome").value;
-        const rg = document.getElementById("rg").value;
-        const cpf = document.getElementById("cpf").value;
-        const celular = document.getElementById("celular").value;
-        const cep = document.getElementById("cep").value;
-        const cidade = document.getElementById("cidade").value;
-        const estado = document.getElementById("estado").value;
-        const endereco = document.getElementById("endereco").value;
-        const numero = document.getElementById("numero").value;
-        const bairro = document.getElementById("bairro").value;
-
-        // Validação dos campos
-        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && bairro) {
-            setShowModal(true); // Mostra o modal de sucesso
-            setShowModal(true);
-        } else {
-            return null;
-        }
-    };
+    const [showModalAlterar, setShowModalAlterar] = useState(false);
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
+    const [foto, setFoto] = useState(null);  // Para controlar a foto carregada
+    const [formData, setFormData] = useState({
+        tipoMoradiaResidencial: "", // Casa ou Apto
+        tipoMoradiaPropriedade: "", // Própria ou Alugada
+        nome: "",
+        rg: "",
+        cpf: "",
+        celular: "",
+        localtrabalho: "",
+        cep: "",
+        cidade: "",
+        estado: "",
+        endereco: "",
+        numero: "",
+        bairro: "",
+        complemento: "",
+        facebook: "",
+        instagram: "",
+    });
 
     // Handlers para telefones e responsáveis
     const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
@@ -52,19 +49,56 @@ const CadastroDoador = () => {
         setTelefones(novosTelefones);
     };
 
+    const closeModalAlterar = () => setShowModalAlterar(false);
+    const openModalAlterar = () => {
+        const nome = document.getElementById('nome').value;
+        const rg = document.getElementById('rg').value;
+        const cpf = document.getElementById('cpf').value;
+        const celular = document.getElementById('celular').value;
+        const localtrabalho = document.getElementById('localtrabalho').value;
+        const cep = document.getElementById('cep').value;
+        const cidade = document.getElementById('cidade').value;
+        const estado = document.getElementById('estado').value;
+        const endereco = document.getElementById('endereco').value;
+        const numero = document.getElementById('numero').value;
+        const bairro = document.getElementById('bairro').value;
+        const moradiaSelecionada = formData.tipoMoradia === "Casa" || formData.tipoMoradia === "Apto";
+        const propriedadeSelecionada = formData.tipoMoradia === "Própria" || formData.tipoMoradia === "Alugada";
+
+        if (!moradiaSelecionada || !propriedadeSelecionada) {
+            alert("Por favor, selecione uma opção de tipo de moradia (Casa ou Apto) e uma de propriedade (Própria ou Alugada).");
+            return;
+        }
+
+        if (nome && rg && cpf && celular && localtrabalho && cep && cidade && estado && endereco && numero && bairro && facebook && instagram) {
+            setShowModalAlterar(true);
+            setIsEditable(true);  // Habilita todos os campos e botões após clicar em "Alterar"
+        }
+    };
+
+    const closeModalExcluir = () => setShowModalExcluir(false);
+    const openModalExcluir = () => {
+        setShowConfirmModal(false);
+        setShowModalExcluir(true);
+    };
+
+    const closeConfirmModal = () => {
+        setShowConfirmModal(false);
+    };
+    const openConfirmModal = () => {
+        setShowConfirmModal(true);
+    };
+
     // Handler para upload de foto
     const handleFotoUpload = (e) => {
         const file = e.target.files[0];
         if (file) setFoto(URL.createObjectURL(file));
     };
 
-    // Limpeza dos campos do formulário
     const handleSubmit = (event) => {
         event.preventDefault();
-        // Lógica de envio de formulário ou limpeza
         event.target.reset();
-        setTelefones([{ telefone: '', responsavel: '' }]);
-        setFoto(null);
+        setTelefones(['']); // Limpa os telefones
     };
 
     const handleFotoCamera = async () => {
@@ -100,12 +134,20 @@ const CadastroDoador = () => {
         }
     };
     
+    const handleInputChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData({
+            ...formData,
+            [name]: type === "checkbox" ? checked : value,
+        });
+    };
+
 
     return (
         <div className="cadastro-container">
-            <form className="cadastroDoador-form" onSubmit={handleSubmit}>
+            <form className="cadastroAdotante-form" onSubmit={handleSubmit}>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Código</label>
                         <input type="text" />
@@ -134,7 +176,6 @@ const CadastroDoador = () => {
                             {foto && <img src={foto} alt="Foto do doador" className="foto" />}
                         </div>
                     </div>
-
                 </div>
 
                 <div className="form-group">
@@ -142,7 +183,7 @@ const CadastroDoador = () => {
                     <input id="nome" name="nome" type="text" placeholder="Digite o nome" />
                 </div>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>RG</label>
                         <input id="rg" name="rg" type="text" placeholder="Digite o RG" />
@@ -155,6 +196,11 @@ const CadastroDoador = () => {
                         <label>Celular</label>
                         <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
                     </div>
+                </div>
+
+                <div className="form-group">
+                    <label>Local de Trabalho</label>
+                    <input id="localtrabalho" name="localtrabalho" type="text" placeholder="Digite o nome" />
                 </div>
 
                 <div className="form-group">
@@ -189,7 +235,53 @@ const CadastroDoador = () => {
                     </button>
                 </div>
 
-                <div className="cadastroDoador-linha1">
+                <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaResidencial"
+                            value="Casa"
+                            checked={formData.tipoMoradiaResidencial === "Casa"}
+                            onChange={handleInputChange}
+                        />
+                        Casa
+                    </label>
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaResidencial"
+                            value="Apto"
+                            checked={formData.tipoMoradiaResidencial === "Apto"}
+                            onChange={handleInputChange}
+                        />
+                        Apto
+                    </label>
+                </div>
+
+                <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaPropriedade"
+                            value="Própria"
+                            checked={formData.tipoMoradiaPropriedade === "Própria"}
+                            onChange={handleInputChange}
+                        />
+                        Própria
+                    </label>
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            name="tipoMoradiaPropriedade"
+                            value="Alugada"
+                            checked={formData.tipoMoradiaPropriedade === "Alugada"}
+                            onChange={handleInputChange}
+                        />
+                        Alugada
+                    </label>
+                </div>
+
+                <div className="cadastroAdotante-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
                         <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
@@ -210,7 +302,7 @@ const CadastroDoador = () => {
                     <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
                 </div>
 
-                <div className='cadastroDoador-linha1'>
+                <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Número</label>
                         <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
@@ -225,16 +317,54 @@ const CadastroDoador = () => {
                     </div>
                 </div>
 
+                <div id="group4">
+                    <div className="form-group">
+                        <label htmlFor="facebook">Facebook</label>
+                        <input id="imput-facebook" name="facebook" type="text" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="instagram">Instagram</label>
+                        <input id="imput-instagram" name="instagram" type="text" />
+                    </div>
+                </div>
+
+                <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            type="checkbox"
+                            name="bloqueado"
+                            checked={formData.bloqueado}
+                            onChange={handleInputChange}
+                        />
+                        Bloqueado
+                    </label>
+                </div>
+                <textarea
+                    name="observacao"
+                    placeholder="Observação"
+                    value={formData.observacao}
+                    onChange={handleInputChange}
+                />
+
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
-                    <BotaoCancelar />
-                    <BotaoAlterar disabled={true} />
-                    <BotaoLimpar />
-                    <BotaoExcluir disabled={true} />
+                    <BotaoSalvar disabled={!isEditable} />  {/* Desabilita o botão "Salvar" se os campos estiverem desabilitados */}
+                    <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
+                    <BotaoAlterar
+                        showModal={showModalAlterar}
+                        openModal={openModalAlterar}
+                        closeModal={closeModalAlterar}
+                    />
+                    <BotaoLimpar disabled={!isEditable} />  {/* Desabilita o botão "Limpar" se os campos estiverem desabilitados */}
+                    <BotaoExcluir
+                        showModal={showModalExcluir}
+                        showConfirmModal={showConfirmModal}
+                        openModal={openModalExcluir}
+                        closeModal={closeModalExcluir}
+                    />
                 </div>
             </form>
         </div>
     );
 };
 
-export default CadastroDoador;
+export default AlteraAdotante;

@@ -1,22 +1,22 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import './pontoAdocao.css';
+import './adotante.css';
 
-const PontoAdocao = () => {
+const Adotante = () => {
     return(
-        <div className="container-evento">
-            <div className="toolbar-evento">
-                <Link to='/cadastro-ponto-adocao' style={{ textDecoration: 'none' }}>
-                    <button className="button-cadastrar-evento">
+        <div className="container-adotante">
+            <div className="toolbar-adotante">
+                <Link to='/cadastro-adotante' style={{ textDecoration: 'none' }}>
+                    <button className="button-cadastrar-adotante">
                         <div>
                             <img src="/src/assets/icone_cadastrar.png" alt="Ícone de sucesso" className="icon" />
                             Cadastrar
                         </div>
                     </button>
                 </Link>
-                <div className="search-bar-evento">
+                <div className="search-bar-adotante">
                     <input type="text"/>
-                    <button className="search-button-evento">
+                    <button className="search-button-adotante">
                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
@@ -24,6 +24,7 @@ const PontoAdocao = () => {
                     <option value="1">Filtros</option>
                     <option value="2">Código</option>
                     <option value="3">Nome</option>
+                    <option value="4">CPF</option>
                 </select>
             </div>
             
@@ -32,6 +33,7 @@ const PontoAdocao = () => {
                     <tr>
                         <th>Código</th>
                         <th>Nome</th>
+                        <th>CPF</th>
                         <th>Ver</th>
                     </tr>
                 </thead>
@@ -40,9 +42,10 @@ const PontoAdocao = () => {
                         <tr key={index}>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td>
-                                <Link to='/altera-ponto-adocao'>
-                                    <button className="search-button-evento">
+                                <Link to='/altera-adotante'>
+                                    <button className="search-button-adotante">
                                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>
@@ -55,4 +58,4 @@ const PontoAdocao = () => {
     );
 }
 
-export default PontoAdocao;
+export default Adotante;

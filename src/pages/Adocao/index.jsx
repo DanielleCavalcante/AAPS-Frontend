@@ -1,29 +1,30 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import './pontoAdocao.css';
+import './adocao.css';
 
-const PontoAdocao = () => {
+const Adocao = () => {
     return(
-        <div className="container-evento">
-            <div className="toolbar-evento">
-                <Link to='/cadastro-ponto-adocao' style={{ textDecoration: 'none' }}>
-                    <button className="button-cadastrar-evento">
+        <div className="container-adocao">
+            <div className="toolbar-adocao">
+                <Link to='/cadastro-adocao' style={{ textDecoration: 'none' }}>
+                    <button className="button-cadastrar-adocao">
                         <div>
                             <img src="/src/assets/icone_cadastrar.png" alt="Ícone de sucesso" className="icon" />
                             Cadastrar
                         </div>
                     </button>
                 </Link>
-                <div className="search-bar-evento">
+                <div className="search-bar-adocao">
                     <input type="text"/>
-                    <button className="search-button-evento">
+                    <button className="search-button-adocao">
                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
                 <select id="filtro" name="opcoesFiltro">
                     <option value="1">Filtros</option>
                     <option value="2">Código</option>
-                    <option value="3">Nome</option>
+                    <option value="3">Nome adotante</option>
+                    <option value="3">Nome animal</option>
                 </select>
             </div>
             
@@ -31,7 +32,8 @@ const PontoAdocao = () => {
                 <thead>
                     <tr>
                         <th>Código</th>
-                        <th>Nome</th>
+                        <th>Nome adotante</th>
+                        <th>Nome animal</th>
                         <th>Ver</th>
                     </tr>
                 </thead>
@@ -40,9 +42,10 @@ const PontoAdocao = () => {
                         <tr key={index}>
                             <td></td>
                             <td></td>
+                            <td></td>
                             <td>
-                                <Link to='/altera-ponto-adocao'>
-                                    <button className="search-button-evento">
+                                <Link to='/altera-adocao'>
+                                    <button className="search-button-adocao">
                                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>
@@ -55,4 +58,4 @@ const PontoAdocao = () => {
     );
 }
 
-export default PontoAdocao;
+export default Adocao;

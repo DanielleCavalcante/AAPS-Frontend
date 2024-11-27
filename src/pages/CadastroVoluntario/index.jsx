@@ -82,32 +82,35 @@ const CadastroVoluntario = () => {
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="senha">Senha</label>
-                    <div className="senha-botao-grupo">
+                <div id="group-animal1">
+                    <div className="form-group">
+                        <label htmlFor="senha">Senha</label>
                         <input
                             type="text"
                             id="senha"
                             placeholder="Digite a senha provisória do voluntário"
                             required
                         />
+                    </div>
+                    <div className="form-group">
                         <button
                             type="button"
-                            className={`botao-resetar-senha ${!botaoAtivo ? 'disabled' : ''}`} // Aplica a classe 'disabled' se o botão não estiver ativo
+                            className="botao-resetar-senha"
                             onClick={resetarSenha}
-                            disabled={!botaoAtivo} // O botão fica desativado até a ativação
                         >
-                            Redefinir Senha
+                            redefinir senha
                         </button>
                     </div>
-                    <div className="form-group situacao">
+                    <div className="form-group">
                         <label htmlFor="situacao">Situação</label>
                         <select id="situacao" name="opcoesSituacao">
                             <option value="1">Ativo</option>
                             <option value="2">Suspenso</option>
                         </select>
                     </div>
+
                 </div>
+
 
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />

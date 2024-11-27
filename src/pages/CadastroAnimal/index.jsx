@@ -3,9 +3,8 @@ import './cadastroAnimal.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
-import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
-import BotaoExcluir from "/src/components/BotaoExcluir";
+
 
 const CadastroAnimal = () => {
 
@@ -88,7 +87,7 @@ const CadastroAnimal = () => {
     return (
         <div className="cadastro-container">
             <form className="cadastroAnimal-form" onSubmit={handleSubmit} >
-                <div id="group1">
+                <div id="group2">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
                         <input type="text" id="codigo" disabled />
@@ -99,13 +98,6 @@ const CadastroAnimal = () => {
                             <option value="1">Adotado</option>
                             <option value="2">Disponível</option>
                         </select>
-                    </div>
-
-                    <div className="form-group">
-                    <button type="button" className="acompanhamento">
-                        <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
-                        Acompanhamento
-                    </button>
                     </div>
 
                     <div className="foto-upload">
@@ -159,8 +151,8 @@ const CadastroAnimal = () => {
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
                         <select id="sexo" name="sexo">
-                            <option value="1">Macho</option>
-                            <option value="2">Fêmea</option>
+                            <option value="1">M</option>
+                            <option value="2">F</option>
                         </select>
                     </div>
                 </div>
@@ -183,9 +175,7 @@ const CadastroAnimal = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
-                    <BotaoAlterar disabled={true} />
                     <BotaoLimpar />
-                    <BotaoExcluir disabled={true} />
                 </div>
             </form>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './alteraDoador.css';
+import './visualizarDoador.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
@@ -113,7 +113,7 @@ const AlteraDoador = () => {
 
 
     return (
-        <div className="cadastro-container">
+        <div className="container-doador">
             <form className="cadastroDoador-form" onSubmit={handleSubmit}>
 
                 <div className='cadastroDoador-linha1'>
