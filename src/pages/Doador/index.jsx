@@ -44,7 +44,7 @@ const Doador = () => {
                             <td></td>
                             <td></td>
                             <td>
-                                <Link to='/altera-doador'>
+                                <Link to='/visualiza-doador'>
                                     <button className="search-button-doador">
                                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                                     </button>
