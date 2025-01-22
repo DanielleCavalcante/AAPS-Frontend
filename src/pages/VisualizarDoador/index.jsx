@@ -1,19 +1,58 @@
 import React, { useState } from 'react';
 import './visualizarDoador.css';
 
-
-import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
+import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const VisualizaDoador = () => {
+const VisualizarDoador = () => {
+    const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
+    const [showModalExcluir, setShowModalExcluir] = useState(false); //Exclusão
+    const [showConfirmModal, setShowConfirmModal] = useState(false); //Confirmar
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [showModalAlterar, setShowModalAlterar] = useState(false);
-    const [showModalExcluir, setShowModalExcluir] = useState(false);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
-    const [foto, setFoto] = useState(null);  // Para controlar a foto carregada
+    const [foto, setFoto] = useState(null);
+    const [showModal, setShowModal] = useState(false);
 
+    // Handlers do modal
+    const closeModalAlterar = () => setShowModalAlterar(false);
+
+    const openModalAlterar = () => {
+        // Pegando os valores dos campos
+        const nome = document.getElementById("nome").value;
+        const rg = document.getElementById("rg").value;
+        const cpf = document.getElementById("cpf").value;
+        const celular = document.getElementById("celular").value;
+        const cep = document.getElementById("cep").value;
+        const cidade = document.getElementById("cidade").value;
+        const estado = document.getElementById("estado").value;
+        const endereco = document.getElementById("endereco").value;
+        const numero = document.getElementById("numero").value;
+        const bairro = document.getElementById("bairro").value;
+
+        // Validação dos campos
+        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && bairro) {
+            setShowModalAlterar(true); // Mostra o modal de sucesso
+            setShowModalAlterar(true);
+        } else {
+            return null;
+        }
+    };
+
+    const closeModalExcluir = () => setShowModalExcluir(false);
+
+    const closeConfirmModal = () => {
+        setShowConfirmModal(false);
+
+    }
+
+    const openModalExcluir = () => {
+        setShowConfirmModal(false);
+        setShowModalExcluir(true);
+    };
+
+    const openConfirmModal = () => {
+        setShowConfirmModal(true);
+    };
 
     // Handlers para telefones e responsáveis
     const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
@@ -31,88 +70,20 @@ const VisualizaDoador = () => {
         setTelefones(novosTelefones);
     };
 
-    const closeModalAlterar = () => setShowModalAlterar(false);
-    const openModalAlterar = () => {
-        const nome = document.getElementById('nome').value;
-        const rg = document.getElementById('rg').value;
-        const cpf = document.getElementById('cpf').value;
-        const celular = document.getElementById('celular').value;
-        const cep = document.getElementById('cep').value;
-        const cidade = document.getElementById('cidade').value;
-        const estado = document.getElementById('estado').value;
-        const endereco = document.getElementById('endereco').value;
-        const numero = document.getElementById('numero').value;
-        const complemento = document.getElementById('complemento').value;
-        const bairro = document.getElementById('bairro').value;
 
-        if (nome && rg && cpf && celular && cep && cidade && estado && endereco && numero && bairro) {
-            setShowModalAlterar(true);
-            setIsEditable(true);  // Habilita todos os campos e botões após clicar em "Alterar"
-        }
-    };
-
-    const closeModalExcluir = () => setShowModalExcluir(false);
-    const openModalExcluir = () => {
-        setShowConfirmModal(false);
-        setShowModalExcluir(true);
-    };
-
-    const closeConfirmModal = () => {
-        setShowConfirmModal(false);
-    };
-    const openConfirmModal = () => {
-        setShowConfirmModal(true);
-    };
-
-    // Handler para upload de foto
-    const handleFotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) setFoto(URL.createObjectURL(file));
-    };
-
+    // Limpeza dos campos do formulário
     const handleSubmit = (event) => {
         event.preventDefault();
+        // Lógica de envio de formulário ou limpeza
         event.target.reset();
-        setTelefones(['']); // Limpa os telefones
+        setTelefones([{ telefone: '', responsavel: '' }]);
+        setFoto(null);
     };
 
-    const handleFotoCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
-    
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-    
-            const capturePhoto = () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-    
-                // Parar o stream
-                stream.getTracks().forEach((track) => track.stop());
-    
-                // Atualizar o estado da foto
-                setFoto(canvas.toDataURL('image/png'));
-            };
-    
-            // Exibe um modal ou uma janela para tirar a foto
-            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
-            if (confirmPhoto) {
-                capturePhoto();
-            }
-        } catch (error) {
-            console.error("Erro ao acessar a câmera:", error);
-            alert("Não foi possível acessar a câmera. Verifique as permissões.");
-        }
-    };
-    
-
+  
 
     return (
-        <div className="container-doador">
+        <div className="cadastro-container">
             <form className="cadastroDoador-form" onSubmit={handleSubmit}>
 
                 <div className='cadastroDoador-linha1'>
@@ -122,28 +93,12 @@ const VisualizaDoador = () => {
                     </div>
 
                     <div className="foto-upload">
-                        <div className="foto-buttons">
-                            {/* Botão de capturar foto */}
-                            <button type="button" className="camera" onClick={handleFotoCamera}>
-                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
-                            </button>
-
-                            {/* Botão de upload */}
-                            <label className="upload">
-                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFotoUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
-                        </div>
                         <div class="foto-preview-container">
                             <span class="foto-label">Foto</span>
                             {foto && <img src={foto} alt="Foto do doador" className="foto" />}
                         </div>
                     </div>
+
                 </div>
 
                 <div className="form-group">
@@ -193,9 +148,7 @@ const VisualizaDoador = () => {
                             )}
                         </div>
                     ))}
-                    <button type="button" className="add-btn" onClick={handleAddTelefone}>
-                        + Telefones
-                    </button>
+
                 </div>
 
                 <div className="cadastroDoador-linha1">
@@ -235,22 +188,15 @@ const VisualizaDoador = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoCancelar /> 
-                    <BotaoAlterar
-                        showModal={showModalAlterar}
-                        openModal={openModalAlterar}
-                        closeModal={closeModalAlterar}
-                    />
-                    <BotaoExcluir
-                        showModal={showModalExcluir}
-                        showConfirmModal={showConfirmModal}
-                        openModal={openModalExcluir}
-                        closeModal={closeModalExcluir}
-                    />
+                    <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
+                    <BotaoCancelar />
+                    <BotaoExcluir showModal={showModalExcluir} showConfirmModal={showConfirmModal}
+                            openModal={openConfirmModal} closeModal2={closeConfirmModal} closeModal={openModalExcluir}
+                            closeModalExcluir={closeModalExcluir} />
                 </div>
             </form>
         </div>
     );
 };
 
-export default VisualizaDoador;
+export default VisualizarDoador;

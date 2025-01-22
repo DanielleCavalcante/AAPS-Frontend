@@ -41,7 +41,7 @@ const Evento = () => {
                             <td></td>
                             <td></td>
                             <td>
-                                <Link to='/altera-evento'>
+                                <Link to='/visualiza-evento'>
                                     <button className="search-button-evento">
                                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                                     </button>

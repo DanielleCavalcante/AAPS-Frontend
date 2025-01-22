@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import './alteraAdotante.css';
+import './visualizaAdotante.css';
 
-import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
-import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const AlteraAdotante = () => {
+const VisualizarAdotante = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
     const [showModalAlterar, setShowModalAlterar] = useState(false);
     const [showModalExcluir, setShowModalExcluir] = useState(false);
@@ -89,11 +87,6 @@ const AlteraAdotante = () => {
         setShowConfirmModal(true);
     };
 
-    // Handler para upload de foto
-    const handleFotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) setFoto(URL.createObjectURL(file));
-    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -154,23 +147,7 @@ const AlteraAdotante = () => {
                     </div>
 
                     <div className="foto-upload">
-                        <div className="foto-buttons">
-                            {/* Botão de capturar foto */}
-                            <button type="button" className="camera" onClick={handleFotoCamera}>
-                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
-                            </button>
 
-                            {/* Botão de upload */}
-                            <label className="upload">
-                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFotoUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
-                        </div>
                         <div class="foto-preview-container">
                             <span class="foto-label">Foto</span>
                             {foto && <img src={foto} alt="Foto do doador" className="foto" />}
@@ -219,20 +196,9 @@ const AlteraAdotante = () => {
                                 value={item.responsavel}
                                 onChange={(e) => handleResponsavelChange(index, e.target.value)}
                             />
-                            {telefones.length > 1 && (
-                                <button
-                                    type="button"
-                                    className="remove-btn-cad-doador"
-                                    onClick={() => handleRemoveTelefone(index)}
-                                >
-                                    <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon-remove-cad-doador" />
-                                </button>
-                            )}
+    
                         </div>
                     ))}
-                    <button type="button" className="add-btn" onClick={handleAddTelefone}>
-                        + Telefones
-                    </button>
                 </div>
 
                 <div className="radio-group">
@@ -347,14 +313,12 @@ const AlteraAdotante = () => {
                 />
 
                 <div className="button-group-crud">
-                    <BotaoSalvar disabled={!isEditable} />  {/* Desabilita o botão "Salvar" se os campos estiverem desabilitados */}
                     <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
                     <BotaoAlterar
                         showModal={showModalAlterar}
                         openModal={openModalAlterar}
                         closeModal={closeModalAlterar}
                     />
-                    <BotaoLimpar disabled={!isEditable} />  {/* Desabilita o botão "Limpar" se os campos estiverem desabilitados */}
                     <BotaoExcluir
                         showModal={showModalExcluir}
                         showConfirmModal={showConfirmModal}
@@ -367,4 +331,4 @@ const AlteraAdotante = () => {
     );
 };
 
-export default AlteraAdotante;
+export default VisualizarAdotante;

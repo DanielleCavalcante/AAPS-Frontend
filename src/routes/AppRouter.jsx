@@ -5,7 +5,7 @@ import Login from '../pages/Login';
 import Home from '../pages/Home';
 import Voluntario from '../pages/Voluntario';
 import CadastroVoluntario from '../pages/CadastroVoluntario';
-import AlterarVoluntario from '../pages/AlterarVoluntario';
+import VisualizarVoluntario from '../pages/VisualizarVoluntario';
 import Animal from '../pages/Animal';
 import CadastroAnimal from '../pages/CadastroAnimal';
 import VisualizarAnimal from '../pages/VisualizarAnimal';
@@ -14,17 +14,22 @@ import CadastroDoador from '../pages/CadastroDoador';
 import VisualizarDoador from '../pages/VisualizarDoador';
 import Evento from "../pages/Evento";
 import CadastroEvento from '../pages/CadastroEvento';
-import AlterarEvento from '../pages/AlterarEvento';
+import VisualizarEvento from '../pages/VisualizarEvento';
 import PontoAdocao from "../pages/PontoAdocao";
 import CadastroPontoAdocao from '../pages/CadastroPontoAdocao';
-import AlterarPontoAdocao from '../pages/AlterarPontoAdocao';
+import VisualizarPontoAdocao from '../pages/VisualizarPontoAdocao';
 import Adotante from "../pages/Adotante";
 import CadastroAdotante from '../pages/CadastroAdotante';
-import AlterarAdotante from '../pages/AlterarAdotante';
+import VisualizarAdotante from '../pages/VisualizarAdotante';
 import Adocao from "../pages/Adocao";
 import CadastroAdocao from '../pages/CadastroAdocao';
-import AlterarAdocao from '../pages/AlterarAdocao';
+import VisualizarAdocao from '../pages/VisualizarAdocao';
 import Perfil from "../pages/Perfil";
+import AlterarSenha from "../pages/AlterarSenha";
+import EsqueciSenha from "../pages/EsqueciSenha";
+import EsqueciSenhaWhats from "../pages/EsqueciSenhaWhats";
+import RedefinirSenhaWhats from "../pages/RedefinirSenhaWhats";
+
 
 import ComingSoon from '../pages/ComingSoon';
 
@@ -39,7 +44,7 @@ const AppRouter = () => {
                     <Route path="/home" element={<Home />}/>
                     <Route path="/voluntario" element={<Voluntario />}/>
                     <Route path="/cadastro-voluntario" element={<CadastroVoluntario />}/>
-                    <Route path="/altera-voluntario" element={<AlterarVoluntario />}/>
+                    <Route path="/visualiza-voluntario" element={<VisualizarVoluntario />}/>
                     <Route path="/animal" element={<Animal />}/>
                     <Route path="/cadastro-animal" element={<CadastroAnimal />}/>
                     <Route path="/visualiza-animal" element={<VisualizarAnimal />}/>
@@ -48,18 +53,23 @@ const AppRouter = () => {
                     <Route path="/visualiza-doador" element={<VisualizarDoador />}/>
                     <Route path="/evento" element={<Evento />}/>
                     <Route path="/cadastro-evento" element={<CadastroEvento />}/>
-                    <Route path="/altera-evento" element={<AlterarEvento />}/>
+                    <Route path="/visualiza-evento" element={<VisualizarEvento />}/>
                     <Route path="/ponto-adocao" element={<PontoAdocao />}/>
-                    <Route path="/altera-ponto-adocao" element={<AlterarPontoAdocao />}/>
+                    <Route path="/visualiza-ponto-adocao" element={<VisualizarPontoAdocao />}/>
                     <Route path="/cadastro-ponto-adocao" element={<CadastroPontoAdocao />}/>
                     <Route path="/adotante" element={<Adotante />}/>
-                    <Route path="/altera-adotante" element={<AlterarAdotante />}/>
+                    <Route path="/visualiza-adotante" element={<VisualizarAdotante />}/>
                     <Route path="/cadastro-adotante" element={<CadastroAdotante />}/>
                     <Route path="/adocao" element={<Adocao />}/>
-                    <Route path="/altera-adocao" element={<AlterarAdocao />}/>
+                    <Route path="/visualiza-adocao" element={<VisualizarAdocao />}/>
                     <Route path="/cadastro-adocao" element={<CadastroAdocao />}/>
                     <Route path="/perfil" element={<Perfil />}/>
+                    <Route path="/alterar-senha" element={<AlterarSenha />}/>
+                    <Route path="/esqueci-senha" element={<EsqueciSenha />}/>
+                    <Route path="/esqueci-senha-whats" element={<EsqueciSenhaWhats />}/>
+                    <Route path="/redefinir-senha-whats" element={<RedefinirSenhaWhats />}/>
                     <Route path="*" element={<ComingSoon />}/>
+                    
                 </Route>
             </Routes>
         </Router>

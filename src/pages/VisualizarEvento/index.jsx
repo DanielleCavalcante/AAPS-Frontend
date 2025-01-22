@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import './alteraEvento.css';
+import './visualizaEvento.css';
 
-import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
-import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const AlteraEvento = () => {
+const VisualizaEvento = () => {
     const [codigo, setCodigo] = useState('');
     const [evento, setEvento] = useState('');
     const [isEditable, setIsEditable] = useState(false);
@@ -61,14 +59,12 @@ const AlteraEvento = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoSalvar disabled={!isEditable} />
                     <BotaoCancelar disabled={!isEditable} />
                     <BotaoAlterar
                         showModal={showModal}
                         openModal={openModal}
                         closeModal={closeModal}
                     />
-                    <BotaoLimpar disabled={!isEditable} />
                     <BotaoExcluir
                         showModal={showModalExcluir}
                         showConfirmModal={showConfirmModal}
@@ -81,4 +77,4 @@ const AlteraEvento = () => {
     );
 };
 
-export default AlteraEvento;
+export default VisualizaEvento;

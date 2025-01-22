@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import './alteraPontoAdocao.css';
+import './visualizarPontoAdocao.css';
 
-import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
-import BotaoLimpar from "/src/components/BotaoLimpar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
-const AlteraPontoAdocao = () => {
+const VisualizarPontoAdocao = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
     const [showModalAlterar, setShowModalAlterar] = useState(false);
     const [showModalExcluir, setShowModalExcluir] = useState(false);
@@ -127,9 +125,7 @@ const AlteraPontoAdocao = () => {
                             )}
                         </div>
                     ))}
-                    <button type="button" className="add-btn" onClick={handleAddTelefone}>
-                        + Telefones
-                    </button>
+
                 </div>
 
                 <div className="cadastroPonto-linha1">
@@ -169,14 +165,12 @@ const AlteraPontoAdocao = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoSalvar disabled={!isEditable} />  {/* Desabilita o botão "Salvar" se os campos estiverem desabilitados */}
                     <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
                     <BotaoAlterar
                         showModal={showModalAlterar}
                         openModal={openModalAlterar}
                         closeModal={closeModalAlterar}
                     />
-                    <BotaoLimpar disabled={!isEditable} />  {/* Desabilita o botão "Limpar" se os campos estiverem desabilitados */}
                     <BotaoExcluir
                         showModal={showModalExcluir}
                         showConfirmModal={showConfirmModal}
@@ -189,4 +183,4 @@ const AlteraPontoAdocao = () => {
     );
 };
 
-export default AlteraPontoAdocao;
+export default VisualizarPontoAdocao;

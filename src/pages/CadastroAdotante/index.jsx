@@ -3,9 +3,7 @@ import './cadastroAdotante.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
-import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
-import BotaoExcluir from "/src/components/BotaoExcluir";
 
 const CadastroAdotante = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
@@ -364,9 +362,7 @@ const CadastroAdotante = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
-                    <BotaoAlterar disabled={true} />
                     <BotaoLimpar />
-                    <BotaoExcluir disabled={true} />
                 </div>
             </form >
         </div >

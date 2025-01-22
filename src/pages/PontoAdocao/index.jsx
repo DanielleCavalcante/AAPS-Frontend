@@ -41,7 +41,7 @@ const PontoAdocao = () => {
                             <td></td>
                             <td></td>
                             <td>
-                                <Link to='/altera-ponto-adocao'>
+                                <Link to='/visualiza-ponto-adocao'>
                                     <button className="search-button-evento">
                                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                                     </button>

@@ -44,7 +44,7 @@ const Adocao = () => {
                             <td></td>
                             <td></td>
                             <td>
-                                <Link to='/altera-adocao'>
+                                <Link to='/visualiza-adocao'>
                                     <button className="search-button-adocao">
                                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                                     </button>
