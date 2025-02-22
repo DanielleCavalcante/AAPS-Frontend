@@ -1,4 +1,30 @@
 .btn-Salvar{
-    background-color: #40c057;
+    background-color: #4CAF50;
+    padding: 30px;
+    width: 100px;
+    border: none;
     color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 }
+
+.btn-Salvar img{
+    width: 30px;
+}
+
+.btn-Salvar.disabled {
+    background-color: #d3d3d3; /* Cor de fundo cinza */
+    color: #a9a9a9; /* Texto cinza */
+    border: 1px solid #a9a9a9; /* Borda cinza */
+    cursor: not-allowed; /* Cursor desabilitado */
+  }

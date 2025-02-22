@@ -1,10 +1,18 @@
 import Modal from '/src/components/Modal';
 import './botaoExcluir.css';
 
-const botaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, closeModal2, closeModalExcluir }) => {    
+const BotaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, closeModal2, closeModalExcluir, disabled }) => {    
     return (
       <div>
-        <button className="btn-Excluir" onClick={openModal}>Excluir</button>
+        <button 
+          className={`btn-Excluir ${disabled ? 'disabled' : ''}`} 
+          onClick={openModal} 
+          disabled={disabled} 
+          style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+        >
+          <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon" /> 
+          <span>Excluir</span>
+        </button>
 
         <Modal show={showConfirmModal} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>
           <img src="/src/assets/icone_alerta.png" alt="Ícone de sucesso" className="icon" />
@@ -15,8 +23,8 @@ const botaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, clos
           <img src="/src/assets/emoji-frown.png" alt="Ícone de sucesso" className="icon" />
           <p>Cadastro excluído com sucesso!</p>
         </Modal>
-    </div>
-  );
+      </div>
+    );
 };
 
-export default botaoExcluir;
+export default BotaoExcluir;

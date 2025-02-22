@@ -46,7 +46,7 @@
     ;
 }
 
-button {
+.btn-login, .btn-forgot {
     margin-top: 10px;
     padding: 10px;
     font-size: 16px;

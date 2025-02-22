@@ -2,13 +2,13 @@
 .container {
     max-width: 80%;
     max-height: 50%;
-    margin: 50px auto;
+    margin: 5%;
 }
 
 /* Barra de ferramentas com o botão de cadastro, busca e filtros */
-.toolbar {
+.toolbar{
     display: flex;
-    align-items: center; /*Alinha os itens verticalmente*/
+    align-items: flex-start; /*Alinha os itens verticalmente*/
     justify-content: space-between; /*Espaço entre os itens*/
     gap: 10px;
     margin-bottom: 20px;
@@ -29,6 +29,7 @@
     align-items: center;
     justify-content: center;
     display: flex;
+    border: none;
 }
 
 /* Barra de pesquisa */
@@ -41,7 +42,6 @@
     border-radius: 8px;
     color: white;
     width: 10%;
-    height: 65px;
 }
 
 .search-bar input {
@@ -61,13 +61,14 @@
     color: white;
     cursor: pointer;
     padding: 10px;
-    display: flex;
-    align-items: center;
+    display: inline-grid;
     justify-content: center;
     width: 30px;
     height: 30px;
-    margin-bottom: 10px;
-    margin-right: 5px;
+    margin: 5px;
+    border: none;
+    align-content: center
+    
 }
 
 .search-button img, .button-cadastrar img{
@@ -121,3 +122,4 @@
     border-radius: 5px;
     cursor: pointer;
 }
+

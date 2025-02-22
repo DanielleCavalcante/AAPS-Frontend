@@ -1,11 +1,16 @@
 import React from 'react';
-import './login.css';
 import { useNavigate } from 'react-router-dom';
+import './login.css';
+
 import { useAuth } from '../../context/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth(); // Acessa a função de login do contexto
+
+  const handleForgotPassword = () => {
+    navigate('/esqueci-senha');
+};
 
   const handleLogin = (e) => {
       e.preventDefault();
@@ -28,7 +33,13 @@ const Login = () => {
             </div>
             <div className="button-group">
                 <button type="submit" className="btn-login">Entrar</button>
-                <button type="button" className="btn-forgot">Esqueceu a senha?</button>
+                <button 
+                type="button" 
+                className="btn-forgot" 
+                onClick={handleForgotPassword}
+            >
+                Esqueceu a senha?
+            </button>
             </div>
         </form>
     </div>

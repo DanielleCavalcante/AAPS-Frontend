@@ -38,7 +38,7 @@ const Voluntario = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {[...Array(5)].map((_, index) => (
+                    {[...Array(2)].map((_, index) => (
                         <tr key={index}>
                             <td></td>
                             <td></td>
@@ -46,7 +46,7 @@ const Voluntario = () => {
                             <td></td>
                             <td>
                             <button className="search-button">
-                                <Link to='/altera-voluntario'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
+                                <Link to='/visualiza-voluntario'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
                             </button>
                             </td>
                         </tr>

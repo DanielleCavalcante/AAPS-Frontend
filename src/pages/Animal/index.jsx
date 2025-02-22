@@ -1,7 +1,8 @@
 import React from 'react';
 import './animal.css';
 import {Link} from "react-router-dom";
-import api from "../../services/api";
+import api from "../../services/api"
+
 import { useEffect, useState } from 'react';
 
 const Animal = () => {
@@ -36,8 +37,8 @@ const Animal = () => {
                 </div>
                 <select id="filtro" name="opcoesFiltro">
                     <option value="1">Filtros</option>
-                    <option value="2">X</option>
-                    <option value="3">Y</option>
+                    <option value="2">Espécie</option>
+                    <option value="3">Sexo</option>
                 </select>
             </div>
             
@@ -49,6 +50,7 @@ const Animal = () => {
                         <th>Espécie</th>
                         <th>Sexo</th>
                         <th>Idade</th>
+                        <th>Ver</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,8 +62,8 @@ const Animal = () => {
                             <td>{animal.sexo}</td>
                             <td>{new Date().getFullYear() - new Date(animal.dataNascimento).getFullYear()}</td>
                             <td>
-                                <button className="search-button" to={"/altera-animal"}>
-                                <Link to='/altera-animal'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
+                                <button className="search-button" to={"/visualiza-animal"}>
+                                    <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
                                 </button>
                             </td>
                         </tr>

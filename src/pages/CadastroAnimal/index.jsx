@@ -1,64 +1,76 @@
+import { useState } from 'react'
 import './cadastroAnimal.css';
-import api from "../../services/api"
-import { ObterAnimais } from "../Animal"
+
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
-import { useState, useRef } from 'react'
+
 
 const CadastroAnimal = () => {
-    // parte de acesso na api
-    const  inputNome = useRef();
-    const  inputEspecie = useRef();
-    const  inputRaca = useRef();
-    const  inputPelagem = useRef();
-    const  inputSexo = useRef();
-    const  inputDtNasc = useRef();
-    const  inputStatus = useRef();
-    const  inputDoador = useRef();
 
-    async function CriarAnimal(){
-        try {
-        await api.post('api/Animal/CriarAnimal/Criar',{
-            nome: inputNome.current.value,
-            especie: inputEspecie.current.value,
-            raca: inputRaca.current.value,
-            pelagem: inputPelagem.current.value,
-            sexo: inputSexo.current.value,
-            dataNascimento: new Date(inputDtNasc.current.value),
-            status: inputStatus.current.value === 'true',
-            doadorId: parseInt(inputDoador.current.value)
-        });
-        }catch (error) {
-            console.error("Erro ao criar animal:", error);
-        }
-    }
-
-    // parte do modal
+    const [foto, setFoto] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => setShowModal(false);
     const openModal = () => {
-    const statusAdocao = document.getElementById('statusAdocao').value;
-    const nome = document.getElementById('nome').value;
-    const especie = document.getElementById('especie').value;
-    const raca = document.getElementById('raca').value;
-    const dataNascimento = document.getElementById('dataNascimento').value;
-    const pelagem = document.getElementById('pelagem').value;
-    const sexo = document.getElementById('sexo').value;
-    const doador = document.getElementById('doador').value;
+        const statusAdocao = document.getElementById('statusAdocao').value;
+        const nome = document.getElementById('nome').value;
+        const especie = document.getElementById('especie').value;
+        const raca = document.getElementById('raca').value;
+        const dataNascimento = document.getElementById('dataNascimento').value;
+        const pelagem = document.getElementById('pelagem').value;
+        const sexo = document.getElementById('sexo').value;
+        const doador = document.getElementById('doador').value;
+        const coddoador = document.getElementById('coddoador').value;
 
-    // Verifica se todos os campos estão preenchidos
-    if (statusAdocao && nome && especie && raca && dataNascimento && pelagem && sexo && doador) {
-        setShowModal(true);
-    } else {
-        return null;
-    }
+        // Verifica se todos os campos estão preenchidos
+        if (statusAdocao && nome && especie && raca && dataNascimento && pelagem && sexo && doador) {
+            setShowModal(true);
+        } else {
+            return null;
+        }
     };
 
-    function handleSubmit(event) {
-        CriarAnimal();
-        ObterAnimais() //recarregar animais sem precisar recarregar a tela
+    // Handler para upload de foto
+    const handleFotoUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) setFoto(URL.createObjectURL(file));
+    };
 
+    const handleFotoCamera = async () => {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const videoElement = document.createElement('video');
+            videoElement.srcObject = stream;
+            videoElement.play();
+
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+
+            const capturePhoto = () => {
+                canvas.width = videoElement.videoWidth;
+                canvas.height = videoElement.videoHeight;
+                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+
+                // Parar o stream
+                stream.getTracks().forEach((track) => track.stop());
+
+                // Atualizar o estado da foto
+                setFoto(canvas.toDataURL('image/png'));
+            };
+
+            // Exibe um modal ou uma janela para tirar a foto
+            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
+            if (confirmPhoto) {
+                capturePhoto();
+            }
+        } catch (error) {
+            console.error("Erro ao acessar a câmera:", error);
+            alert("Não foi possível acessar a câmera. Verifique as permissões.");
+        }
+    };
+
+
+    function handleSubmit(event) {
         event.preventDefault()
         event.currentTarget.elements.statusAdocao.value = 1;
         event.currentTarget.elements.nome.value = '';
@@ -68,64 +80,100 @@ const CadastroAnimal = () => {
         event.currentTarget.elements.pelagem.value = '';
         event.currentTarget.elements.sexo.value = 1;
         event.currentTarget.elements.doador.value = 1;
+        event.currentTarget.elements.coddoadordoador.value = 1;
+
     }
 
     return (
         <div className="cadastro-container">
             <form className="cadastroAnimal-form" onSubmit={handleSubmit} >
-                <div id="group1">
+                <div id="group2">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
                         <input type="text" id="codigo" disabled />
                     </div>
                     <div className="form-group">
                         <label htmlFor="statusAdocao">Status</label>
-                        <select id="statusAdocao" name="statusAdocao" ref={inputStatus}>
-                            <option value="false">Adotado</option>
-                            <option value="true">Disponível</option>
+                        <select id="statusAdocao" name="statusAdocao">
+                            <option value="1">Adotado</option>
+                            <option value="2">Disponível</option>
                         </select>
                     </div>
+
+                    <div className="foto-upload">
+                        <div className="foto-buttons">
+                            {/* Botão de capturar foto */}
+                            <button type="button" className="camera" onClick={handleFotoCamera}>
+                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
+                            </button>
+
+                            {/* Botão de upload */}
+                            <label className="upload">
+                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
+                                <input
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={handleFotoUpload}
+                                    style={{ display: 'none' }}
+                                />
+                            </label>
+                        </div>
+                        <div class="foto-preview-container">
+                            <span class="foto-label">Foto</span>
+                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
+                        </div>
+                    </div>
+
                 </div>
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
-                    <input type="text" id="nome" placeholder="Digite o nome do animal" ref={inputNome} required />
+                    <input type="text" id="nome" placeholder="Digite o nome do animal" required />
                 </div>
-                <div id="group1">
+                <div id="group2">
                     <div className="form-group">
                         <label htmlFor="especie">Espécie</label>
-                        <input type="text" id="especie" placeholder="Digite a espécie do animal" ref={inputEspecie} required />
+                        <input type="text" id="especie" placeholder="Digite a espécie do animal" required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
-                        <input type="text" id="raca" placeholder="Digite a raça do animal" ref={inputRaca} required />
+                        <input type="text" id="raca" placeholder="Digite a raça do animal" required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
-                        <input type="date" id="dataNascimento" placeholder="Digite a data de nascimento do animal" ref={inputDtNasc} required />
+                        <input type="text" id="dataNascimento" placeholder="Digite a data de nascimento do animal" required />
                     </div>
                 </div>
-                <div id='group1'>
+                <div id='group3'>
                     <div className="form-group">
                         <label htmlFor="pelagem">Pelagem</label>
-                        <input type="text" id="pelagem" placeholder="Digite a pelagem do animal" ref={inputPelagem} required />
+                        <input type="text" id="pelagem" placeholder="cor e tipo" required />
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
-                        <select id="sexo" name="sexo" ref={inputSexo}>
-                            <option value="M">Macho</option>
-                            <option value="F">Fêmea</option>
+                        <select id="sexo" name="sexo">
+                            <option value="1">M</option>
+                            <option value="2">F</option>
+                        </select>
+                    </div>
+                </div>
+                <div id='group3'>
+                <div className="form-group">
+                        <label htmlFor="doador">Doador</label>
+                        <select id="doador" name="doador">
+                            <option value="1">Doador1</option>
+                            <option value="2">Doador2</option>
                         </select>
                     </div>
                     <div className="form-group">
-                        <label htmlFor="doador">Doador</label>
-                        <select id="doador" name="doador" ref={inputDoador}>
-                            <option type="number" value="1">Doador1</option>
-                            <option type="number" value="2">Doador2</option>
+                        <label htmlFor="coddoador">Código Doador</label>
+                        <select id="coddoador" name="coddoador">
+                            <option value="1">doador01</option>
+                            <option value="2">doador02</option>
                         </select>
                     </div>
                 </div>
                 <div className="button-group-crud">
-                    <BotaoSalvar onClick={CriarAnimal} showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>

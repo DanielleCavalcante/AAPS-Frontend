@@ -1,12 +1,17 @@
 import React from 'react';
 import './botaoLimpar.css';
 
-const botaoLimpar = () => {    
+const BotaoLimpar = ({ disabled }) => {    
     return (
-    <button className="btn-Limpar">
+      <button 
+        className={`btn-Limpar ${disabled ? 'disabled' : ''}`} 
+        disabled={disabled} 
+        style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+      >
+        <img src="/src/assets/icone_limpar.png" alt="Ícone limpar" className="icon" /> 
         <span>Limpar</span>
-    </button>
-  );
+      </button>
+    );
 };
 
-export default botaoLimpar;
+export default BotaoLimpar;

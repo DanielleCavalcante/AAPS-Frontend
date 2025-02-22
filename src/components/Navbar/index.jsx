@@ -13,12 +13,12 @@ const Navbar = () => {
           <>
             <div id="Logotipo">
               <button className="navbar-button">
-                <Link to='/Home'><img src="/src/assets/aaps_logo1.png" alt="Logotipo AAPS" className="icon" /></Link>
+                <Link to='/Home'><img src="/src/assets/aaps_logo1.png" alt="Logotipo AAPS" className="icon-logo" /></Link>
               </button>
             </div>
             <div id='Sair'>
               <button className="navbar-button">
-                <Link to='/'><img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon" /></Link>
+                <Link to='/'><img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" /></Link>
               </button>
             </div>
           </>
