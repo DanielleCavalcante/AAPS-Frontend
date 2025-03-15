@@ -62,7 +62,7 @@ const Animal = () => {
                             <td>{new Date().getFullYear() - new Date(animal.dataNascimento).getFullYear()}</td>
                             <td>
                                 <button className="search-button" to={"/altera-animal"}>
-                                    <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
+                                    <Link to='/altera-animal'><img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" /></Link>
                                 </button>
                             </td>
                         </tr>
