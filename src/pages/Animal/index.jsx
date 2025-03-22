@@ -1,7 +1,7 @@
 import React from 'react';
 import './animal.css';
 import {Link} from "react-router-dom";
-import api from "../../services/api"
+import api from "../../api/api"
 
 import { useEffect, useState } from 'react';
 
