@@ -140,7 +140,7 @@ const CadastroAnimal = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
-                        <input type="text" id="dataNascimento" placeholder="Digite a data de nascimento do animal" required />
+                        <input type="date" id="dataNascimento" placeholder="Digite a data de nascimento do animal" required />
                     </div>
                 </div>
                 <div id='group3'>
