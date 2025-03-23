@@ -14,6 +14,7 @@ const VisualizarAdocao = () => {
 
 
     const closeModalAlterar = () => setShowModalAlterar(false);
+    
     const openModalAlterar = () => {
         const nome = document.getElementById('nome').value;
         const rg = document.getElementById('rg').value;

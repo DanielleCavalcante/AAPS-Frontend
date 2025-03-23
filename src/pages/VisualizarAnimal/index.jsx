@@ -14,7 +14,7 @@ const VisualizaAnimal = () => {
     const closeModalAlterar = () => setShowModalAlterar(false);
 
     const openModalAlterar = () => {
-        const statusAdocao = document.getElementById('statusAdocao').value;
+        const status = document.getElementById('statusAdocao').value;
         const nome = document.getElementById('nome').value;
         const especie = document.getElementById('especie').value;
         const raca = document.getElementById('raca').value;
@@ -22,9 +22,10 @@ const VisualizaAnimal = () => {
         const pelagem = document.getElementById('pelagem').value;
         const sexo = document.getElementById('sexo').value;
         const doador = document.getElementById('doador').value;
+        const codigoDoador = document.getElementById('coddoador').value;
 
         // Verifica se todos os campos estão preenchidos
-        if (statusAdocao && nome && especie && raca && dataNascimento && pelagem && sexo && doador) {
+        if (status && nome && especie && raca && dataNascimento && pelagem && sexo && doador && codigoDoador) {
             setShowModalAlterar(true);
         } else {
             return null;
@@ -44,7 +45,19 @@ const VisualizaAnimal = () => {
     };
 
     const openConfirmModal = () => {
-        setShowConfirmModal(true);
+        const status = document.getElementById('statusAdocao').value;
+        const nome = document.getElementById('nome').value;
+        const especie = document.getElementById('especie').value;
+        const raca = document.getElementById('raca').value;
+        const dataNascimento = document.getElementById('dataNascimento').value;
+        const pelagem = document.getElementById('pelagem').value;
+        const sexo = document.getElementById('sexo').value;
+        const doador = document.getElementById('doador').value;
+        const codigoDoador = document.getElementById('coddoador').value;
+    
+        if (status && nome && especie && raca && dataNascimento && pelagem && sexo && doador && codigoDoador) {
+          setShowConfirmModal(true);
+        }
     };
 
 

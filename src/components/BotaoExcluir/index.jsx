@@ -1,7 +1,7 @@
 import Modal from '/src/components/Modal';
 import './botaoExcluir.css';
 
-const BotaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, closeModal2, closeModalExcluir, disabled }) => {    
+const BotaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, closeModal2, closeModalExcluir, disabled}) => {    
     return (
       <div>
         <button 

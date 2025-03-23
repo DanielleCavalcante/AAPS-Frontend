@@ -129,12 +129,14 @@ const VisualizarVoluntario = () => {
             openModal={openModalAlterar}
             closeModal={closeModalAlterar}
           />
-          <BotaoExcluir
-            showModal={showModalExcluir}
-            showConfirmModal={showConfirmModal}
-            openModal={openModalExcluir}
-            closeModal={closeModalExcluir}
-          />
+          <BotaoExcluir 
+            showModal={showModalExcluir} 
+            showConfirmModal={showConfirmModal} 
+            openModal={openConfirmModal} 
+            closeModal2={closeConfirmModal} 
+            closeModal={openModalExcluir}
+            closeModalExcluir={closeModalExcluir}
+            />
         </div>
       </form>
     </div>
