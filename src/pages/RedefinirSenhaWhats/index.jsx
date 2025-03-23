@@ -1,10 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './redefinirSenhaWhats.css';
+import Modal from '/src/components/Modal';
 
 const RedefinirSenhaWhats = () => {
     const handleSubmit = (event) => {
         event.preventDefault(); 
     };
+
+    const navigate = useNavigate();
+
+      //implementação de modal senha alterada com sucesso:
+      const [showModal, setShowModal] = useState(false);
+      const openModal = () => setShowModal(true);
+      const closeModal = () => {
+        setShowModal(false);
+        console.log("Senha alterada!");
+        navigate('/'); //redireciona para a página de login.
+      }
+    
 
     return (
         <div className="redefinir-senha-container">
@@ -31,9 +45,16 @@ const RedefinirSenhaWhats = () => {
                 </div>
 
                 <div className="button-group">
-                    <button type="submit" className="btn-redefinir-senha">Redefinir</button>
+                    <button type="submit" className="btn-redefinir-senha" onClick={openModal}>Redefinir</button>
                 </div>
             </form>
+
+                  {showModal && (
+                    <Modal show={showModal} onClose={closeModal}>
+                      <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
+                      <p>Sua senha foi redefinida com sucesso! Realize o login.</p>
+                    </Modal>
+                  )}
         </div>
     );
 };
