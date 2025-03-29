@@ -1,34 +1,36 @@
 import React from 'react';
+import { useAnimal } from '../../hooks/useAnimal';
+import { Link } from "react-router-dom";
 import './animal.css';
-import {Link} from "react-router-dom";
-import api from "../../api/api"
 
 import { useEffect, useState } from 'react';
 
 const Animal = () => {
-
-    const [animais, setarAnimais] = useState([]);
-
-    async function ObterAnimais(){
-       const animaisApi = await api.get('api/Animal/ObterAnimais/ObterTodos');
-
-       setarAnimais(animaisApi.data);
-    }
+    const { listarAnimais, carregando, erro } = useAnimal();
+    const [animais, setAnimais] = useState([]);
 
     useEffect(() => {
-        ObterAnimais()
-    }, []);
+        const carregarDados = async () => {
+          const dados = await listarAnimais();
+          if (dados) setAnimais(dados);
+        };
+        carregarDados();
+      }, []);
+    
+      if (carregando) return <div>Carregando...</div>;
+      if (erro) return <div className="erro">{erro}</div>;
 
     return(
         <div className="container">
             <div className="toolbar">
                 <Link to='/cadastro-animal' style={{ textDecoration: 'none' }}>
-                <button className="button-cadastrar">
-                    <div>
-                        <img src="/src/assets/icone_cadastrar.png" onc alt="Ícone de sucesso" className="icon" />
-                        Cadastrar
-                    </div>
-                </button></Link>
+                    <button className="button-cadastrar">
+                        <div>
+                            <img src="/src/assets/icone_cadastrar.png" onc alt="Ícone de sucesso" className="icon" />
+                            Cadastrar
+                        </div>
+                    </button>
+                </Link>
                 <div className="search-bar">
                     <input type="text"/>
                     <button className="search-button">

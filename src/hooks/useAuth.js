@@ -1,4 +1,9 @@
-import { useAuth } from '../contexts/AuthContext';
+import { useContext } from "react";
+import AuthContext from "../context/AuthContext";
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
 
 export const useAuthActions = () => {
   const { login, logout } = useAuth();
@@ -6,9 +11,8 @@ export const useAuthActions = () => {
   const handleLogin = async (credentials) => {
     try {
       await login(credentials);
-      // Redirecionamento ou tratamento adicional
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error("Login failed:", error);
       throw error;
     }
   };

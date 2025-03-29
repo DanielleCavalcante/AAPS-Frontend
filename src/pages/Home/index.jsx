@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from "../../hooks/useAuth"; 
 
 import './home.css';
 
@@ -21,32 +21,31 @@ const Home = () => {
   return (
     <div className="home-container">
       <div className="button-grid-home">
-        {user?.role === 'Admin' && (
+
+        {user?.role === "Admin" && (
+          <>
             <button className="home-button">
               <Link to='/voluntario'>
                 <img src={iconeVoluntario} alt="Ícone de voluntário" className="icon" />
               </Link>
               <span>Voluntário</span>
             </button>
-        )}
 
-        {user?.role === 'Admin' && (
-          <button className="home-button">
-            <Link to='/ponto-adocao'>
-              <img src={iconePontoAdocao} alt="Ícone de ponto de adoção" className="icon" />
-            </Link>
-            <span>Ponto de Adoção</span>
-          </button>
-        )}
+            <button className="home-button">
+              <Link to='/ponto-adocao'>
+                <img src={iconePontoAdocao} alt="Ícone de ponto de adoção" className="icon" />
+              </Link>
+              <span>Ponto de Adoção</span>
+            </button>
 
-      {user?.role === 'Admin' && (
-        <button className="home-button">
-          <Link to='/relatorio'>
-            <img src="/src/assets/icone_relatorio.png" alt="Ícone de relatorio" className="icon" />
-          </Link>
-          <span>relatório</span>
-        </button>
-      )}
+            <button className="home-button">
+              <Link to='/relatorio'>
+                <img src="/src/assets/icone_relatorio.png" alt="Ícone de relatorio" className="icon" />
+              </Link>
+              <span>relatório</span>
+            </button>
+          </>
+        )}
 
         <button className="home-button">
           <Link to='/evento'>

@@ -1,29 +1,72 @@
 import { useState } from 'react'
 import './cadastroAnimal.css';
-
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
-
+import { useAnimal } from '../../hooks/useAnimal';
 
 const CadastroAnimal = () => {
-
+    const { criarAnimal, erro, carregando } = useAnimal();
     const [foto, setFoto] = useState(null);
+
+    const [dadosAnimal, setDadosAnimal] = useState({
+        nome: '',
+        especie: '',
+        raca: '',
+        dataNascimento: '',
+        pelagem: '',
+        sexo: 'M',
+        status: true,
+        doadorId: 1 
+    });
+
+    const handleChange = (e) => {
+        setDadosAnimal({
+            ...dadosAnimal,
+            [e.target.id]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        console.log("Dados sendo enviados:", dadosAnimal); // Adicione este log
+        try {
+            await criarAnimal({ dadosAnimal });
+            alert("Animal cadastrado com sucesso!");
+
+            setDadosAnimal({
+                nome: '',
+                especie: '',
+                raca: '',
+                dataNascimento: '',
+                pelagem: '',
+                sexo: '1',
+                doadorId: 1,
+                coddoador: 1,
+                status: 0
+            });
+            setFoto(null);
+        } catch (error) {
+            alert("Erro ao cadastrar animal!");
+        }
+    };
+
+    // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => setShowModal(false);
     const openModal = () => {
-        const statusAdocao = document.getElementById('statusAdocao').value;
+        const status = document.getElementById('status').value;
         const nome = document.getElementById('nome').value;
         const especie = document.getElementById('especie').value;
         const raca = document.getElementById('raca').value;
         const dataNascimento = document.getElementById('dataNascimento').value;
         const pelagem = document.getElementById('pelagem').value;
         const sexo = document.getElementById('sexo').value;
-        const doador = document.getElementById('doador').value;
+        const doadorId = document.getElementById('doadorId').value;
         const coddoador = document.getElementById('coddoador').value;
 
         // Verifica se todos os campos estão preenchidos
-        if (statusAdocao && nome && especie && raca && dataNascimento && pelagem && sexo && doador) {
+        if (status && nome && especie && raca && dataNascimento && pelagem && sexo && doadorId) {
             setShowModal(true);
         } else {
             return null;
@@ -69,8 +112,7 @@ const CadastroAnimal = () => {
         }
     };
 
-
-    function handleSubmit(event) {
+    /* function handleSubmit(event) {
         event.preventDefault()
         event.currentTarget.elements.statusAdocao.value = 1;
         event.currentTarget.elements.nome.value = '';
@@ -81,8 +123,7 @@ const CadastroAnimal = () => {
         event.currentTarget.elements.sexo.value = 1;
         event.currentTarget.elements.doador.value = 1;
         event.currentTarget.elements.coddoadordoador.value = 1;
-
-    }
+    } */
 
     return (
         <div className="cadastro-container">
@@ -93,10 +134,14 @@ const CadastroAnimal = () => {
                         <input type="text" id="codigo" disabled />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="statusAdocao">Status</label>
-                        <select id="statusAdocao" name="statusAdocao">
-                            <option value="1">Adotado</option>
-                            <option value="2">Disponível</option>
+                        <label htmlFor="status">Status</label>
+                        <select
+                            id="status"
+                            value={dadosAnimal.status}
+                            onChange={handleChange}
+                        >
+                            <option value={true}>Adotado</option>
+                            <option value={false}>Disponível</option>
                         </select>
                     </div>
 
@@ -127,48 +172,96 @@ const CadastroAnimal = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
-                    <input type="text" id="nome" placeholder="Digite o nome do animal" required />
+                    <input 
+                        type="text"
+                        id="nome"
+                        value={dadosAnimal.nome}
+                        onChange={handleChange}
+                        placeholder="Digite o nome do animal"
+                        required
+                    />
                 </div>
                 <div id="group2">
                     <div className="form-group">
                         <label htmlFor="especie">Espécie</label>
-                        <input type="text" id="especie" placeholder="Digite a espécie do animal" required />
+                        <input 
+                            type="text"
+                            id="especie"
+                            value={dadosAnimal.especie}
+                            onChange={handleChange}
+                            placeholder="Digite a espécie do animal"
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
-                        <input type="text" id="raca" placeholder="Digite a raça do animal" required />
+                        <input 
+                            type="text"
+                            id="raca"
+                            value={dadosAnimal.raca}
+                            onChange={handleChange}
+                            placeholder="Digite a raça do animal"
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
-                        <input type="text" id="dataNascimento" placeholder="Digite a data de nascimento do animal" required />
+                        <input 
+                            type="date"
+                            id="dataNascimento"
+                            value={dadosAnimal.dataNascimento}
+                            onChange={handleChange}
+                            placeholder="Digite a data de nascimento do animal"
+                            required
+                        />
                     </div>
                 </div>
                 <div id='group3'>
                     <div className="form-group">
                         <label htmlFor="pelagem">Pelagem</label>
-                        <input type="text" id="pelagem" placeholder="cor e tipo" required />
+                        <input 
+                            type="text"
+                            id="pelagem"
+                            value={dadosAnimal.pelagem}
+                            onChange={handleChange}
+                            placeholder="cor e tipo"
+                            required
+                        />
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
-                        <select id="sexo" name="sexo">
-                            <option value="1">M</option>
-                            <option value="2">F</option>
+                        <select 
+                            id="sexo"
+                            value={dadosAnimal.sexo}
+                            onChange={handleChange}
+                        >
+                            <option value="M">Macho</option>
+                            <option value="F">Fêmea</option>
                         </select>
                     </div>
                 </div>
                 <div id='group3'>
-                <div className="form-group">
-                        <label htmlFor="doador">Doador</label>
-                        <select id="doador" name="doador">
-                            <option value="1">Doador1</option>
-                            <option value="2">Doador2</option>
+                    <div className="form-group">
+                        <label htmlFor="doadorId">Doador</label>
+                        <select 
+                            id="doadorId"
+                            value={dadosAnimal.doadorId}
+                            onChange={handleChange}
+                        >
+                            <option value={1}>Doador1</option>
+                            <option value={2}>Doador2</option>
                         </select>
                     </div>
                     <div className="form-group">
                         <label htmlFor="coddoador">Código Doador</label>
-                        <select id="coddoador" name="coddoador">
-                            <option value="1">doador01</option>
-                            <option value="2">doador02</option>
+                        <select 
+                            id="coddoador" 
+                            name="coddoador" 
+                            value={dadosAnimal.coddoador} 
+                            onChange={handleChange}
+                        >
+                            <option value={1}>doador01</option>
+                            <option value={2}>doador02</option>
                         </select>
                     </div>
                 </div>

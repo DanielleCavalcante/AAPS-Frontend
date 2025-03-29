@@ -1,6 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import { PrivateRoute } from './PrivateRoute';
+import { PrivateRoute } from "./PrivateRoute";
+import { AuthProvider } from "../context/AuthContext";
 
 import Layout from '../layouts';
 import Login from '../pages/Login';
@@ -38,48 +39,50 @@ import ComingSoon from '../pages/ComingSoon';
 
 const AppRouter = () => {
     return (
-        <Routes>
-            <Route path="/" element={<Login />}/>
-            <Route path="/esqueci-senha" element={<EsqueciSenha/>} />
-            <Route path="/esqueci-senha-whats" element={<EsqueciSenhaWhats/>} />
-            <Route path="/redefinir-senha-whats" element={<RedefinirSenhaWhats/>} />
+        <AuthProvider>
+            <Routes>
+                <Route path="/" element={<Login />}/>
+                <Route path="/esqueci-senha" element={<EsqueciSenha/>} />
+                <Route path="/esqueci-senha-whats" element={<EsqueciSenhaWhats/>} />
+                <Route path="/redefinir-senha-whats" element={<RedefinirSenhaWhats/>} />
 
-            <Route element={<Layout/>}>
-                <Route element={<PrivateRoute/>}>
-                    <Route path="/home" element = {<Home/>} />
-                    <Route path="/animal" element={<Animal/>} />
-                    <Route path="/cadastro-animal" element={<CadastroAnimal/>} />
-                    <Route path="/visualiza-animal" element={<VisualizarAnimal/>} />
-                    <Route path="/doador" element={<Doador/>} />
-                    <Route path="/cadastro-doador" element={<CadastroDoador/>} />
-                    <Route path="/visualiza-doador" element={<VisualizarDoador/>} />
-                    <Route path="/evento" element={<Evento/>} />
-                    <Route path="/cadastro-evento" element={<CadastroEvento/>} />
-                    <Route path="/visualiza-evento" element={<VisualizarEvento/>} />
-                    <Route path="/adotante" element={<Adotante/>} />
-                    <Route path="/cadastro-adotante" element={<CadastroAdotante/>} />
-                    <Route path="/visualiza-adotante" element={<VisualizarAdotante/>} />
-                    <Route path="/adocao" element={<Adocao/>} />
-                    <Route path="/cadastro-adocao" element={<CadastroAdocao/>} />
-                    <Route path="/visualiza-adocao" element={<VisualizarAdocao/>} />
-                    <Route path="/perfil" element={<Perfil/>} />
-                    <Route path="/alterar-senha" element={<AlterarSenha/>} />
-                         
-                    {/* Rotas de admin */}
-                    <Route element={<PrivateRoute requiredRole="Admin" />} >
-                        <Route path="/voluntario" element={<Voluntario/>} />
-                        <Route path="/cadastro-voluntario" element={<CadastroVoluntario/>}/>
-                        <Route path="/visualiza-voluntario" element={<VisualizarVoluntario/>} />
-                        <Route path="/ponto-adocao" element={<PontoAdocao/>} />
-                        <Route path="/cadastro-ponto-adocao" element={<CadastroPontoAdocao/>} />
-                        <Route path="/visualiza-ponto-adocao" element={<VisualizarPontoAdocao/>} />
+                <Route element={<Layout/>}>
+                    <Route element={<PrivateRoute/>}>
+                        <Route path="/home" element = {<Home/>} />
+                        <Route path="/animal" element={<Animal/>} />
+                        <Route path="/cadastro-animal" element={<CadastroAnimal/>} />
+                        <Route path="/visualiza-animal" element={<VisualizarAnimal/>} />
+                        <Route path="/doador" element={<Doador/>} />
+                        <Route path="/cadastro-doador" element={<CadastroDoador/>} />
+                        <Route path="/visualiza-doador" element={<VisualizarDoador/>} />
+                        <Route path="/evento" element={<Evento/>} />
+                        <Route path="/cadastro-evento" element={<CadastroEvento/>} />
+                        <Route path="/visualiza-evento" element={<VisualizarEvento/>} />
+                        <Route path="/adotante" element={<Adotante/>} />
+                        <Route path="/cadastro-adotante" element={<CadastroAdotante/>} />
+                        <Route path="/visualiza-adotante" element={<VisualizarAdotante/>} />
+                        <Route path="/adocao" element={<Adocao/>} />
+                        <Route path="/cadastro-adocao" element={<CadastroAdocao/>} />
+                        <Route path="/visualiza-adocao" element={<VisualizarAdocao/>} />
+                        <Route path="/perfil" element={<Perfil/>} />
+                        <Route path="/alterar-senha" element={<AlterarSenha/>} />
+                            
+                        {/* Rotas de admin */}
+                        <Route element={<PrivateRoute requiredRole="Admin" />} >
+                            <Route path="/voluntario" element={<Voluntario/>} />
+                            <Route path="/cadastro-voluntario" element={<CadastroVoluntario/>}/>
+                            <Route path="/visualiza-voluntario" element={<VisualizarVoluntario/>} />
+                            <Route path="/ponto-adocao" element={<PontoAdocao/>} />
+                            <Route path="/cadastro-ponto-adocao" element={<CadastroPontoAdocao/>} />
+                            <Route path="/visualiza-ponto-adocao" element={<VisualizarPontoAdocao/>} />
+                        </Route>
+
+                        <Route path="*" element={<ComingSoon />}/>
                     </Route>
-
-                    <Route path="*" element={<ComingSoon />}/>
                 </Route>
-            </Route>
-        </Routes>
-    )
-}
+            </Routes>
+        </AuthProvider>
+    );
+};
 
 export default AppRouter;
