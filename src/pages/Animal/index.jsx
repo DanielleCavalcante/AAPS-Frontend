@@ -1,24 +1,44 @@
 import React from 'react';
-import { useAnimal } from '../../hooks/useAnimal';
+import { useAnimais } from '../../hooks/useAnimais';
 import { Link } from "react-router-dom";
 import './animal.css';
 
 import { useEffect, useState } from 'react';
 
 const Animal = () => {
-    const { listarAnimais, carregando, erro } = useAnimal();
+    const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
     const [animais, setAnimais] = useState([]);
+    const [filtro, setFiltro] = useState({
+        busca: '',
+        especie: '',
+        sexo: '',
+        status: '',
+        disponibilidade: ''
+    });
 
     useEffect(() => {
         const carregarDados = async () => {
-          const dados = await listarAnimais();
+          const dados = await listarAnimais(filtro);
           if (dados) setAnimais(dados);
         };
         carregarDados();
-      }, []);
+      }, [filtro]);
+
+    const handleChange = (e) => {
+        setFiltro({
+            ...filtro,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleExcluir = async (id) => {
+        await excluirAnimal(id);
+        const dadosAtualizados = await listarAnimais(filtro);
+        setAnimais(dadosAtualizados);
+    };
     
-      if (carregando) return <div>Carregando...</div>;
-      if (erro) return <div className="erro">{erro}</div>;
+    if (carregando) return <div>Carregando...</div>;
+    if (erro) return <div className="erro">{erro}</div>;
 
     return(
         <div className="container">
@@ -32,16 +52,48 @@ const Animal = () => {
                     </button>
                 </Link>
                 <div className="search-bar">
-                    <input type="text"/>
+                    <input 
+                        type="text"
+                        name="busca"
+                        value={filtro.busca}
+                        onChange={handleChange}
+                        placeholder="Busque um animal por Nome"
+                    />
                     <button className="search-button">
                         <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
                     </button>
                 </div>
-                <select id="filtro" name="opcoesFiltro">
+                {/* <select id="filtro" name="opcoesFiltro">
                     <option value="1">Filtros</option>
                     <option value="2">Espécie</option>
                     <option value="3">Sexo</option>
-                </select>
+                </select> */}
+                <div className="dropdowns">
+                    <select name="especie" onChange={handleChange} value={filtro.especie}>
+                        <option value="">Espécie</option>
+                        <option value="Cachorro">Cachorro</option>
+                        <option value="Gato">Gato</option>
+                        {/* Adicione outras opções de espécies */}
+                    </select>
+
+                    <select name="sexo" onChange={handleChange} value={filtro.sexo}>
+                        <option value="">Sexo</option>
+                        <option value="M">Macho</option>
+                        <option value="F">Fêmea</option>
+                    </select>
+
+                    <select name="status" onChange={handleChange} value={filtro.status}>
+                        <option value="">Disponibilidade</option>
+                        <option value={0}>Adotado</option>
+                        <option value={1}>Disponível</option>
+                    </select>
+
+                    <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
+                        <option value="">Status</option>
+                        <option value={1}>Ativo</option>
+                        <option value={0}>Inativo</option>
+                    </select>
+                </div>
             </div>
             
             <table className="table">
@@ -52,6 +104,8 @@ const Animal = () => {
                         <th>Espécie</th>
                         <th>Sexo</th>
                         <th>Idade</th>
+                        <th>Disponibilidade</th>
+                        <th>Status</th>
                         <th>Ver</th>
                     </tr>
                 </thead>
@@ -63,9 +117,16 @@ const Animal = () => {
                             <td>{animal.especie}</td>
                             <td>{animal.sexo}</td>
                             <td>{new Date().getFullYear() - new Date(animal.dataNascimento).getFullYear()}</td>
+                            <td>{animal.disponibilidade === 1 ? 'Disponível' : 'Adotado'}</td>
+                            <td>{animal.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
-                                <button className="search-button" to={"/visualiza-animal"}>
-                                    <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
+                                <Link to={`/visualiza-animal/${animal.id}`}>
+                                    <button className="search-button">
+                                        <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
+                                    </button>
+                                </Link>
+                                <button className="search-button" onClick={() => {handleExcluir(animal.id)}}>
+                                    <img src="/src/assets/icone_excluir.png" alt="Ícone de excluir" className="icon" />
                                 </button>
                             </td>
                         </tr>

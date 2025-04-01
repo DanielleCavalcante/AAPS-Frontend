@@ -18,9 +18,6 @@
     margin-bottom: 35px;
 }
 
-<<<<<<< HEAD
-=======
-
 .form-group {
     display: flex;
     flex-direction: column;
@@ -28,7 +25,6 @@
     text-align: left;
 }
 
->>>>>>> layout
 .form-group label {
     display: block;
     margin-bottom: 5px;
@@ -57,12 +53,10 @@ select{
 
 #group1{
     display: grid;
-<<<<<<< HEAD
     grid-template-columns: 1fr 1fr 1fr;
     gap: 50px;
     align-items: center;
     justify-items: start;
-=======
     grid-template-columns: repeat(4, 1fr);
     gap: 50px;
     align-items: center;
@@ -148,6 +142,7 @@ select{
   }
 
   #doador {
+    grid-column: 2;
     width: 150%; 
   }
 
@@ -167,5 +162,4 @@ select{
 
 #group3 .form-group:nth-child(2) {
     justify-self: end; /* Ajusta o alinhamento apenas para o terceiro grupo */
->>>>>>> layout
 }
