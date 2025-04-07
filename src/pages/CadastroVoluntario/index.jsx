@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import './cadastroVoluntario.css';
 
 import BotaoSalvar from "/src/components/BotaoSalvar";

@@ -1,7 +1,7 @@
 import Modal from '/src/components/Modal';
 import './botaoExcluir.css';
 
-const BotaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, closeModal2, closeModalExcluir, disabled}) => {    
+const BotaoExcluir = ({showModal, showConfirmModalExcluir, openModal, closeModal, closeModal2, closeModalExcluir, disabled}) => {    
     return (
       <div>
         <button 
@@ -14,7 +14,7 @@ const BotaoExcluir = ({ showModal, showConfirmModal, openModal, closeModal, clos
           <span>Excluir</span>
         </button>
 
-        <Modal show={showConfirmModal} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>
+        <Modal show={showConfirmModalExcluir} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>
           <img src="/src/assets/icone_alerta.png" alt="Ícone de sucesso" className="icon" />
           <p>Deseja realmente excluir o cadastro?</p>
         </Modal>

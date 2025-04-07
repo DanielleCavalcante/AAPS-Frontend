@@ -1,7 +1,7 @@
 import Modal from '/src/components/Modal';
 import './botaoAlterar.css';
 
-const BotaoAlterar = ({ showModal, openModal, closeModal, disabled }) => {
+const BotaoAlterar = ({showModal, showConfirmModalAlterar, openModal, closeModal, closeModal2, closeModalAlterar, disabled}) => {
   return (
     <div>
       <button 
@@ -14,7 +14,12 @@ const BotaoAlterar = ({ showModal, openModal, closeModal, disabled }) => {
         <span>Alterar</span>
       </button>
 
-      <Modal show={showModal} onClose={closeModal}>
+      <Modal show={showConfirmModalAlterar} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>
+        <img src="/src/assets/icone_alerta.png" alt="Ícone de sucesso" className="icon" />
+        <p>Deseja realmente alterar o cadastro?</p>
+      </Modal>
+      
+      <Modal show={showModal} onClose={closeModalAlterar}>
         <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
         <p>Alteração realizada com sucesso!</p>
       </Modal>

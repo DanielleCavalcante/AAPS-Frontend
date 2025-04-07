@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import './visualizarAnimal.css';
 
 import BotaoAlterar from "/src/components/BotaoAlterar";
@@ -6,59 +7,62 @@ import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
 
 const VisualizaAnimal = () => {
-    const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
-    const [showModalExcluir, setShowModalExcluir] = useState(false); //Exclusão
-    const [showConfirmModal, setShowConfirmModal] = useState(false); //Confirmar
+    const navigate = useNavigate();
+    const [showModalAlterar, setShowModalAlterar] = useState(false);
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+    const [showConfirmModalAlterar, setShowConfirmModalAlterar] = useState(false);
     const [foto, setFoto] = useState(null);
 
-    const closeModalAlterar = () => setShowModalAlterar(false);
-
+    //Modais para botão Alterar:
     const openModalAlterar = () => {
-        const status = document.getElementById('statusAdocao').value;
+        setShowConfirmModalAlterar(false);
+        setShowModalAlterar(true);
+    }
+
+    const closeModalAlterar = () => {
+        setShowModalAlterar(false);
+        navigate('/animal');
+    }
+
+    const openConfirmModalAlterar = () => {
         const nome = document.getElementById('nome').value;
         const especie = document.getElementById('especie').value;
         const raca = document.getElementById('raca').value;
         const dataNascimento = document.getElementById('dataNascimento').value;
         const pelagem = document.getElementById('pelagem').value;
-        const sexo = document.getElementById('sexo').value;
-        const doador = document.getElementById('doador').value;
-        const codigoDoador = document.getElementById('coddoador').value;
-
-        // Verifica se todos os campos estão preenchidos
-        if (status && nome && especie && raca && dataNascimento && pelagem && sexo && doador && codigoDoador) {
-            setShowModalAlterar(true);
-        } else {
-            return null;
+    
+        if (nome && especie && raca && dataNascimento && pelagem) {
+            setShowConfirmModalAlterar(true);
         }
     };
+    
+    const closeConfirmModalAlterar = () => setShowConfirmModalAlterar(false);
 
-    const closeModalExcluir = () => setShowModalExcluir(false);
-
-    const closeConfirmModal = () => {
-        setShowConfirmModal(false);
-
-    }
-
+    //Modais para botão Excluir:
     const openModalExcluir = () => {
-        setShowConfirmModal(false);
+        setShowConfirmModalExcluir(false);
         setShowModalExcluir(true);
     };
 
-    const openConfirmModal = () => {
-        const status = document.getElementById('statusAdocao').value;
+    const closeModalExcluir = () => {
+        setShowModalExcluir(false);
+        navigate('/animal');
+    }
+
+    const openConfirmModalExcluir = () => {
         const nome = document.getElementById('nome').value;
         const especie = document.getElementById('especie').value;
         const raca = document.getElementById('raca').value;
         const dataNascimento = document.getElementById('dataNascimento').value;
         const pelagem = document.getElementById('pelagem').value;
-        const sexo = document.getElementById('sexo').value;
-        const doador = document.getElementById('doador').value;
-        const codigoDoador = document.getElementById('coddoador').value;
     
-        if (status && nome && especie && raca && dataNascimento && pelagem && sexo && doador && codigoDoador) {
-          setShowConfirmModal(true);
+        if (nome && especie && raca && dataNascimento && pelagem) {
+          setShowConfirmModalExcluir(true);
         }
     };
+
+    const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
 
 
     function handleSubmit(event) {
@@ -153,11 +157,21 @@ const VisualizaAnimal = () => {
                         </button>
                     </div>
                     <div className="button-group-crud">
-                        <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
+                        <BotaoAlterar 
+                            showModal={showModalAlterar}
+                            showConfirmModalAlterar={showConfirmModalAlterar} 
+                            openModal={openConfirmModalAlterar}
+                            closeModal2={closeConfirmModalAlterar} 
+                            closeModal={openModalAlterar}
+                            closeModalAlterar={closeModalAlterar} />
                         <BotaoCancelar />
-                        <BotaoExcluir showModal={showModalExcluir} showConfirmModal={showConfirmModal}
-                            openModal={openConfirmModal} closeModal2={closeConfirmModal} closeModal={openModalExcluir}
-                            closeModalExcluir={closeModalExcluir} />
+                        <BotaoExcluir 
+                            showModal={showModalExcluir}
+                            showConfirmModalExcluir={showConfirmModalExcluir}
+                            openModal={openConfirmModalExcluir}
+                            closeModal2={closeConfirmModalExcluir}
+                            closeModal={openModalExcluir}
+                            closeModalExcluir={closeModalExcluir}/>
                     </div>
                 </div>
             </form >

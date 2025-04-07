@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './visualizaVoluntario.css';
 
 import BotaoCancelar from '/src/components/BotaoCancelar';
@@ -6,13 +7,24 @@ import BotaoAlterar from '/src/components/BotaoAlterar';
 import BotaoExcluir from '/src/components/BotaoExcluir';
 
 const VisualizarVoluntario = () => {
+  const navigate = useNavigate();
   const [showModalAlterar, setShowModalAlterar] = useState(false);
   const [showModalExcluir, setShowModalExcluir] = useState(false);
-  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+  const [showConfirmModalAlterar, setShowConfirmModalAlterar] = useState(false);
   const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
 
-  const closeModalAlterar = () => setShowModalAlterar(false);
+  //Modais para botão Alterar:
   const openModalAlterar = () => {
+    setShowConfirmModalAlterar(false);
+    setShowModalAlterar(true);
+  }
+  const closeModalAlterar = () => {
+    setShowModalAlterar(false);
+    navigate('/voluntario');
+  }
+
+  const openConfirmModalAlterar = () => {
     const tipo = document.getElementById('tipo').value;
     const nome = document.getElementById('nome').value;
     const cpf = document.getElementById('cpf').value;
@@ -21,19 +33,24 @@ const VisualizarVoluntario = () => {
     const situacao = document.getElementById('situacao').value;
 
     if (tipo && nome && cpf && celular && senha && situacao) {
-      setShowModalAlterar(true);
+      setShowConfirmModalAlterar(true);
     }
   };
 
-  const closeModalExcluir = () => setShowModalExcluir(false);
-  const closeConfirmModal = () => setShowConfirmModal(false);
+  const closeConfirmModalAlterar = () => setShowConfirmModalAlterar(false);
 
+  //Modais para botão Excluir:
   const openModalExcluir = () => {
-    setShowConfirmModal(false);
+    setShowConfirmModalExcluir(false);
     setShowModalExcluir(true);
   };
 
-  const openConfirmModal = () => {
+  const closeModalExcluir = () => {
+    setShowModalExcluir(false);
+    navigate('/voluntario');
+  }
+
+  const openConfirmModalExcluir = () => {
     const tipo = document.getElementById('tipo').value;
     const nome = document.getElementById('nome').value;
     const cpf = document.getElementById('cpf').value;
@@ -42,9 +59,12 @@ const VisualizarVoluntario = () => {
     const situacao = document.getElementById('situacao').value;
 
     if (tipo && nome && cpf && celular && senha && situacao) {
-      setShowConfirmModal(true);
+      setShowConfirmModalExcluir(true);
     }
   };
+
+  const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -81,7 +101,6 @@ const VisualizarVoluntario = () => {
           <label htmlFor="nome">Nome</label>
           <input type="text" id="nome" placeholder="Digite o nome do voluntário" required />
         </div>
-
         <div className="cadastroVoluntario-linha">
           <div className="form-group">
             <label htmlFor="cpf">CPF</label>
@@ -92,7 +111,6 @@ const VisualizarVoluntario = () => {
             <input type="text" id="celular" placeholder="Digite o celular do voluntário" required />
           </div>
         </div>
-
         <div id="group-animal1">
           <div className="form-group">
             <label htmlFor="senha">Senha</label>
@@ -126,14 +144,17 @@ const VisualizarVoluntario = () => {
           <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
           <BotaoAlterar
             showModal={showModalAlterar}
-            openModal={openModalAlterar}
-            closeModal={closeModalAlterar}
+            showConfirmModalAlterar={showConfirmModalAlterar} 
+            openModal={openConfirmModalAlterar}
+            closeModal2={closeConfirmModalAlterar} 
+            closeModal={openModalAlterar}
+            closeModalAlterar={closeModalAlterar}
           />
           <BotaoExcluir 
             showModal={showModalExcluir} 
-            showConfirmModal={showConfirmModal} 
-            openModal={openConfirmModal} 
-            closeModal2={closeConfirmModal} 
+            showConfirmModalExcluir={showConfirmModalExcluir} 
+            openModal={openConfirmModalExcluir} 
+            closeModal2={closeConfirmModalExcluir} 
             closeModal={openModalExcluir}
             closeModalExcluir={closeModalExcluir}
             />
