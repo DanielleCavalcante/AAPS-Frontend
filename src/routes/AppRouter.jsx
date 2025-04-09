@@ -57,7 +57,7 @@ const AppRouter = () => {
                         <Route path="/visualiza-doador" element={<VisualizarDoador/>} />
                         <Route path="/evento" element={<Evento/>} />
                         <Route path="/cadastro-evento" element={<CadastroEvento/>} />
-                        <Route path="/visualiza-evento" element={<VisualizarEvento/>} />
+                        <Route path="/visualiza-evento/:id" element={<VisualizarEvento/>} />
                         <Route path="/adotante" element={<Adotante/>} />
                         <Route path="/cadastro-adotante" element={<CadastroAdotante/>} />
                         <Route path="/visualiza-adotante" element={<VisualizarAdotante/>} />

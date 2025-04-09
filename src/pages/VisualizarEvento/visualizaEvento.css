@@ -37,11 +37,11 @@
     gap: 10px;
   }
   
-  #imput-codigo {
+  #codigo {
     width: 20%; /* Largura de 60% */
   }
 
-  #imput-evento {
+  #descricao {
     width: 60%; /* Largura de 30% */
   }
 

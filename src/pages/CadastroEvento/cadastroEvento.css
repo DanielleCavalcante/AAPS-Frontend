@@ -41,7 +41,7 @@
     width: 20%; /* Largura de 60% */
   }
 
-  #imput-evento {
+  #descricao, #status {
     width: 60%; /* Largura de 30% */
   }
 

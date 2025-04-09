@@ -77,5 +77,5 @@ export const useDoadores = () => {
     }
   };
 
-  return { criarDoador, listarDoadores, listarDoadoresAtivos, atualizarDoador, excluirDoador, buscarDoadorPorId, carregando, erro };
+  return { criarDoador, listarDoadores, listarDoadoresAtivos, buscarDoadorPorId, atualizarDoador, excluirDoador, carregando, erro };
 };

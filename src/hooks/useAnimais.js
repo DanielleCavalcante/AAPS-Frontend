@@ -86,5 +86,5 @@ export const useAnimais = () => {
     }
   };
 
-  return { listarAnimais, criarAnimal, atualizarAnimal, excluirAnimal, buscarAnimalPorId, carregando, erro };
+  return { criarAnimal, listarAnimais, buscarAnimalPorId, atualizarAnimal, excluirAnimal, carregando, erro };
 };

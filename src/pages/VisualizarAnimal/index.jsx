@@ -61,13 +61,12 @@ const VisualizaAnimal = () => {
 
     const salvarAlteracoes = async () => {
         try {
-            console.log("Payload Enviado:", formDados); 
             await atualizarAnimal(id, formDados);
             setEditando(false);
         } catch (error) {
             console.error("Erro ao salvar:", error);
         }
-      };
+    };
     
     // configurações de modals
     // const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
@@ -123,7 +122,7 @@ const VisualizaAnimal = () => {
                         <select 
                             id="status"
                             name="status"
-                            value={formDados?.status || ''}
+                            value={formDados?.status}
                             onChange={handleInputChange}
                             disabled={!editando}
                         >              
@@ -135,7 +134,7 @@ const VisualizaAnimal = () => {
                             <select 
                                 id="disponibilidade" 
                                 name="disponibilidade"
-                                value={formDados?.disponibilidade || ''}
+                                value={formDados?.disponibilidade}
                                 onChange={handleInputChange}
                                 disabled={!editando}
                             >
@@ -277,8 +276,8 @@ const VisualizaAnimal = () => {
                         <button 
                             type="button" 
                             className="botao-alterar" 
-                            onClick={() => salvarAlteracoes()} // Chama o método salvarAlteracoes
-                            >
+                            onClick={() => salvarAlteracoes()}
+                        >
                             Salvar
                         </button>
                         //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />

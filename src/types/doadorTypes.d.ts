@@ -1,4 +1,4 @@
-export interface Doador{
+export interface Doador {
     id: number;
     nome: string;
     rg: string;

@@ -1,9 +1,8 @@
 import React from 'react';
 import { useAnimais } from '../../hooks/useAnimais';
 import { Link } from "react-router-dom";
-import './animal.css';
-
 import { useEffect, useState } from 'react';
+import './animal.css';
 
 const Animal = () => {
     const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
@@ -73,7 +72,6 @@ const Animal = () => {
                         <option value="">Espécie</option>
                         <option value="Cachorro">Cachorro</option>
                         <option value="Gato">Gato</option>
-                        {/* Adicione outras opções de espécies */}
                     </select>
 
                     <select name="sexo" onChange={handleChange} value={filtro.sexo}>
@@ -82,13 +80,13 @@ const Animal = () => {
                         <option value="F">Fêmea</option>
                     </select>
 
-                    <select name="status" onChange={handleChange} value={filtro.status}>
+                    <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
                         <option value="">Disponibilidade</option>
                         <option value={0}>Adotado</option>
                         <option value={1}>Disponível</option>
                     </select>
 
-                    <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
+                    <select name="status" onChange={handleChange} value={filtro.status}>
                         <option value="">Status</option>
                         <option value={1}>Ativo</option>
                         <option value={0}>Inativo</option>
