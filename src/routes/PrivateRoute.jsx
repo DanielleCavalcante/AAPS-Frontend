@@ -6,11 +6,11 @@ export const PrivateRoute = ({ requiredRole }) => {
   const { user } = useContext(AuthContext);
 
   if (!user) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (!user.token) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   if (new Date(user.expiration) <= new Date()) {
