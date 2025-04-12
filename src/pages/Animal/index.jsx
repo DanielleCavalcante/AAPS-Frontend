@@ -1,11 +1,15 @@
-import React from 'react';
-import { useAnimais } from '../../hooks/useAnimais';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { useEffect, useState } from 'react';
+
+import { useAnimais } from '../../hooks/useAnimais';
+import { useLoading } from '../../hooks/useLoading';
+
+import Carregando from '../../components/Spinner/Carregando';
 import './animal.css';
 
 const Animal = () => {
-    const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
+    const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
+
     const [animais, setAnimais] = useState([]);
     const [filtro, setFiltro] = useState({
         busca: '',
@@ -29,7 +33,7 @@ const Animal = () => {
             [e.target.name]: e.target.value
         });
     };
-
+      
     const handleExcluir = async (id) => {
         await excluirAnimal(id);
         const dadosAtualizados = await listarAnimais(filtro);

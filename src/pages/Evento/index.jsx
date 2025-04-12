@@ -1,41 +1,57 @@
-import React from 'react';
-import { useEventos } from '../../hooks/useEventos';
+import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import { useEffect, useState } from 'react';
+
+import { useEventos } from '../../hooks/useEventos';
+import { useLoading } from '../../hooks/useLoading';
+
+import Carregando from '../../components/Spinner/Carregando';
 import './evento.css';
 
 const Evento = () => {
-    const { listarEventos, excluirEvento, carregando, erro } = useEventos();
-        const [eventos, setEventos] = useState([]);
-        const [filtro, setFiltro] = useState({
-            busca: '',
-            status: '',
-        });
-    
-        useEffect(() => {
-            const carregarDados = async () => {
-              const dados = await listarEventos(filtro);
-              if (dados) setEventos(dados);
-            };
-            carregarDados();
-          }, [filtro]);
-    
-        const handleChange = (e) => {
-            setFiltro({
-                ...filtro,
-                [e.target.name]: e.target.value
-            });
+    const { listarEventos, excluirEvento, erro, limparErro } = useEventos();
+
+    const [eventos, setEventos] = useState([]);
+    const [filtro, setFiltro] = useState({ busca: '', status: '' });
+
+    const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
+    const [dadosCarregados, setDadosCarregados] = useState(false);
+
+    useEffect(() => {
+        const carregarDados = async () => {
+            iniciarCarregamento();
+
+            limparErro();
+            const dados = await listarEventos(filtro);
+            setEventos(dados || []);
+
+            finalizarCarregamento();
+            setDadosCarregados(true);
         };
     
-        const handleExcluir = async (id) => {
+        carregarDados();
+    }, [filtro]);
+
+    const handleChange = (e) => {
+        setFiltro({
+            ...filtro,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleExcluir = async (id) => {
+        iniciarCarregamento();
+        try {
             await excluirEvento(id);
+            limparErro();
             const dadosAtualizados = await listarEventos(filtro);
             setEventos(dadosAtualizados);
-        };
-        
-        if (carregando) return <div>Carregando...</div>;
-        if (erro) return <div className="erro">{erro}</div>;
-
+        } catch (error) {
+            console.error('Erro ao excluir evento');
+        } finally {
+            finalizarCarregamento();
+        }
+    };
+    
     return(
         <div className="container-evento">
             <div className="toolbar-evento">
@@ -59,18 +75,14 @@ const Evento = () => {
                         <img src="/src/assets/icone_lupa.png" alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
-                {/* <select id="filtro" name="opcoesFiltro">
-                    <option value="1">Filtros</option>
-                    <option value="2">Código</option>
-                    <option value="3">Nome</option>
-                </select> */}
+
                 <select id="filtro" name="status" onChange={handleChange} value={filtro.status}>
                     <option value="">Status</option>
                     <option value={1}>Ativo</option>
                     <option value={0}>Inativo</option>
                 </select>
             </div>
-            
+
             <table className="table">
                 <thead>
                     <tr>
@@ -81,7 +93,19 @@ const Evento = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {eventos.map((evento) => (
+                    {erro ? (
+                        <tr>
+                            <td colSpan="4" className="erro" style={{ textAlign: 'center', height: '20vh' }}>
+                                {erro}
+                            </td>
+                        </tr>
+                    ) : carregando ? (
+                        <tr>
+                            <td colSpan="4">
+                                <Carregando />
+                            </td>
+                        </tr>
+                    ) :  ( eventos.map((evento) => (
                         <tr key={evento.id}>
                             <td>{evento.id}</td>
                             <td>{evento.descricao}</td>
@@ -97,11 +121,12 @@ const Evento = () => {
                                 </button>
                             </td>
                         </tr>
-                    ))}
+                        ))
+                    )}
                 </tbody>
             </table>
         </div>
     );
-}
+};
 
 export default Evento;

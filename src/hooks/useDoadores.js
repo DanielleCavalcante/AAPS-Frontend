@@ -1,81 +1,68 @@
-import { useState } from 'react';
+import { useError } from './useError';
 import { DoadorService } from '../services/doadorService';
 
 export const useDoadores = () => {
-  const [erro, setErro] = useState('');
-  const [carregando, setCarregando] = useState(false);
+  const { erro, tratarErro, limparErro } = useError();
 
   const criarDoador = async (doador) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await DoadorService.criarDoador(doador);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao criar doador');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
-    }
+    } 
   };
 
   const listarDoadores = async (filtro = {}) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await DoadorService.listarDoadores(filtro);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao carregar doadores');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
 
   const listarDoadoresAtivos = async () => {
     try {
-      setCarregando(true);
+      limparErro();
       return await DoadorService.listarDoadoresAtivos();
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao carregar doadores ativos');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
-    }
+    } 
   }
 
   const buscarDoadorPorId = async (id) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await DoadorService.buscarDoadorPorId(id);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao buscar doador');
+      tratarErro(error,);
       throw error;
-    } finally {
-      setCarregando(false);
-    }
+    } 
   };
 
   const atualizarDoador = async (id, doador) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await DoadorService.atualizarDoador(id, doador);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao atualizar doador');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
 
   const excluirDoador = async (id) => {
     try {
-      setCarregando(true);
+      limparErro();
       await DoadorService.excluirDoador(id);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao excluir doador');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
 
-  return { criarDoador, listarDoadores, listarDoadoresAtivos, buscarDoadorPorId, atualizarDoador, excluirDoador, carregando, erro };
+  return { criarDoador, listarDoadores, listarDoadoresAtivos, buscarDoadorPorId, atualizarDoador, excluirDoador, erro, limparErro };
 };

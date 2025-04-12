@@ -2,30 +2,18 @@ import api from '../apis/api';
 
 export const DoadorService = {
   async criarDoador(doador) {
-    try {
-      const response = await api.post('/Doador/CriarDoador', doador);
-      return response.data.dados;
-    } catch (error) {
-      throw new Error('Erro ao criar doador: ' + error.message);
-    }
+    const response = await api.post('/Doador/CriarDoador', doador);
+    return response.data.dados;
   },
 
   async listarDoadores(filtro = {}) {
-    try {
-      const response = await api.get('/Doador/ObterDoadores', { params: filtro });
-      return response.data.dados;
-    } catch (error) {
-      throw new Error('Erro ao listar doadores: ' + error.message);
-    }
+    const response = await api.get('/Doador/ObterDoadores', { params: filtro });
+    return response.data.dados;
   },
 
   async listarDoadoresAtivos() {
-    try {
-      const response = await api.get('/Doador/ObterDoadoresAtivos');
-      return response.data.dados;
-    } catch (error) {
-      throw new Error('Erro ao listar doadores: ' + error.message);
-    }
+    const response = await api.get('/Doador/ObterDoadoresAtivos');
+    return response.data.dados;
   },
 
   async buscarDoadorPorId (id){

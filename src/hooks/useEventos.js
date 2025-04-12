@@ -1,69 +1,58 @@
-import { useState } from 'react';
+import { useError } from './useError';
 import { EventoService } from '../services/eventoService';
 
 export const useEventos = () => {
-  const [erro, setErro] = useState('');
-  const [carregando, setCarregando] = useState(false);
+  const { erro, tratarErro, limparErro } = useError();
 
   const criarEvento = async (evento) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await EventoService.criarEvento(evento);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao criar evento');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
-
+  
   const listarEventos = async (filtro = {}) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await EventoService.listarEventos(filtro);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao carregar eventos');
+      tratarErro(error,);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
 
   const buscarEventoPorId = async (id) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await EventoService.buscarEventoPorId(id);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao buscar evento');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
 
   const atualizarEvento = async (id, evento) => {
     try {
-      setCarregando(true);
+      limparErro();
       return await EventoService.atualizarEvento(id, evento);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao atualizar evento');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
 
   const excluirEvento = async (id) => {
     try {
-      setCarregando(true);
+      limparErro();
       await EventoService.excluirEvento(id);
     } catch (error) {
-      setErro(error.response?.data?.mensagem || 'Erro ao excluir evento');
+      tratarErro(error);
       throw error;
-    } finally {
-      setCarregando(false);
     }
   };
 
-  return { criarEvento, listarEventos, buscarEventoPorId, atualizarEvento, excluirEvento, carregando, erro };
+  return { criarEvento, listarEventos, buscarEventoPorId, atualizarEvento, excluirEvento, erro, limparErro };
 };

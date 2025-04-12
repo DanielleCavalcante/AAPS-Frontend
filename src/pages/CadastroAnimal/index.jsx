@@ -7,10 +7,7 @@ import { useAnimais } from '../../hooks/useAnimais';
 import { useDoadores } from '../../hooks/useDoadores';
 
 const CadastroAnimal = () => {
-    const { criarAnimal, erro, carregando } = useAnimais();
-    const { listarDoadoresAtivos } = useDoadores();  
-    const [foto, setFoto] = useState(null);
-    const [doadores, setDoadores] = useState([]);
+    const { criarAnimal } = useAnimais();
     const [dadosAnimal, setDadosAnimal] = useState({
         nome: '',
         especie: '',
@@ -24,21 +21,21 @@ const CadastroAnimal = () => {
         nomeDoador: ''
     });
 
+    const { listarDoadoresAtivos } = useDoadores();  
+    const [doadores, setDoadores] = useState([]);
+    
+    const [foto, setFoto] = useState(null);
+
     useEffect(() => {
         const fetchDoadores = async () => {
-            try {
-                const doadoresData = await listarDoadoresAtivos();
-                setDoadores(doadoresData);
-            } catch (error) {
-                console.error('Erro ao carregar doadores', error);
-            }
+            const doadoresData = await listarDoadoresAtivos();
+            setDoadores(doadoresData);
         };
         fetchDoadores();
     }, []);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        
         setDadosAnimal({
             ...dadosAnimal,
             [id]: ['status', 'disponibilidade', 'doadorId'].includes(id) ? Number(value) : value
@@ -56,7 +53,6 @@ const CadastroAnimal = () => {
     const handleDoadorChange = (e) => {
         const doadorId = e.target.value;
         const doadorSelecionado = doadores.find(d => d.id === Number(doadorId));
-
         setDadosAnimal({
             ...dadosAnimal,
             doadorId,

@@ -1,18 +1,24 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { useEventos } from '../../hooks/useEventos';
-import './visualizaEvento.css';
+import { useError } from '../../hooks/useError';
 
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
+import './visualizaEvento.css';
 
 const VisualizaEvento = () => {
-    const { buscarEventoPorId, atualizarEvento, carregando, erro } = useEventos();
+    const { buscarEventoPorId, atualizarEvento } = useEventos();
+
     const { id } = useParams();
     const [evento, setEvento] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
+
+    const { erro, tratarErro, limparErro } = useError();
+    const [tentouEnviar, setTentouEnviar] = useState(false);
 
     useEffect(() => {
         buscarEventoPorId(id)
@@ -27,7 +33,6 @@ const VisualizaEvento = () => {
             .catch(console.error);
     }, [id]);
 
-    if (carregando) return <div>Carregando...</div>;
     if (erro) return <div className="erro">{erro}</div>;
     if (!evento) return <div>Evento não encontrado</div>; // apagar depois
 
@@ -38,12 +43,20 @@ const VisualizaEvento = () => {
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
-    const salvarAlteracoes = async () => {
+    const handleSubmit = async () => {
+        setTentouEnviar(true); 
+        limparErro();
+
+        if (!formDados.descricao?.trim()) {
+            return; 
+        }
+
         try {
             await atualizarEvento(id, formDados);
             setEditando(false);
+            setTentouEnviar(false);
         } catch (error) {
-            console.error("Erro ao salvar:", error);
+            tratarErro(error);
         }
     };
 
@@ -72,7 +85,7 @@ const VisualizaEvento = () => {
 
     return (
         <div className="cadastro-evento">
-            <form className="cadastroEvento-form" onSubmit={salvarAlteracoes} /* handleSubmit depois*/> 
+            <form className="cadastroEvento-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="codigo">Código</label>
                     <input type="text" id="id" value={evento?.id || '' } disabled
@@ -80,7 +93,7 @@ const VisualizaEvento = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="descricao">Evento</label>
+                    <label htmlFor="descricao">Descrição</label>
                     <input
                         type="text"
                         id="descricao"
@@ -88,10 +101,13 @@ const VisualizaEvento = () => {
                         value={formDados?.descricao || ''}
                         onChange={handleInputChange}
                         placeholder="Digite a descrição do evento"
-                        required
                         disabled={!editando}
                     />
                     
+                    {(tentouEnviar && !formDados.descricao) && (
+                        <span className="erro-required"> O campo 'Descrição' é obrigatório </span>
+                    )}
+
                     <label htmlFor="status">Status</label>
                     <select 
                         id="status"
@@ -106,19 +122,19 @@ const VisualizaEvento = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <button 
-                        type="button" 
-                        className="botao-alterar" 
-                        onClick={() => salvarAlteracoes()}
-                        disabled={!editando}
-                    >
-                        Salvar
-                    </button>
-                    <BotaoAlterar onClick={() => setEditando(true)} 
-                        /* showModal={showModal}
-                        openModal={openModal}
-                        closeModal={closeModal} */
-                    />
+                    {!editando ? (
+                        <BotaoAlterar onClick={() => setEditando(true)} //disabled={editando}
+                        /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  *//>
+                    ) : (
+                        <button 
+                            type="button" 
+                            className="botao-alterar" 
+                            onClick={() => handleSubmit()}
+                        >
+                            Salvar
+                        </button>
+                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                    )}
                     <BotaoCancelar /*  disabled={!isEditable} */ />
                     <BotaoExcluir
                         /* showModal={showModalExcluir}

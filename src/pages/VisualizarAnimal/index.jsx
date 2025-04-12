@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+
 import { useAnimais } from '../../hooks/useAnimais';
 import { useDoadores } from '../../hooks/useDoadores';
-import './visualizarAnimal.css';
 
-import foto from '../../assets/aaps_logo1.png';
-
-import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoExcluir from "/src/components/BotaoExcluir";
+
+import foto from '../../assets/aaps_logo1.png';
+import './visualizarAnimal.css';
 
 const VisualizaAnimal = () => {
     const { buscarAnimalPorId, atualizarAnimal, carregando, erro } = useAnimais();
@@ -59,7 +59,7 @@ const VisualizaAnimal = () => {
         });
     };
 
-    const salvarAlteracoes = async () => {
+    const handleSubmit = async () => {
         try {
             await atualizarAnimal(id, formDados);
             setEditando(false);
@@ -111,7 +111,7 @@ const VisualizaAnimal = () => {
 
     return (
         <div className="visualizar-container">
-            <form className="cadastroAnimal-form" onSubmit={salvarAlteracoes} >
+            <form className="cadastroAnimal-form" onSubmit={handleSubmit} >
                 <div id="group2">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
@@ -276,7 +276,7 @@ const VisualizaAnimal = () => {
                         <button 
                             type="button" 
                             className="botao-alterar" 
-                            onClick={() => salvarAlteracoes()}
+                            onClick={() => handleSubmit()}
                         >
                             Salvar
                         </button>
