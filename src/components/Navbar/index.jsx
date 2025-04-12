@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { useAuth } from '../../hooks/useAuth';
+
 import './navbar.css';
 
 const Navbar = () => {
+  const { logout } = useAuth();
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -13,7 +18,7 @@ const Navbar = () => {
         </div>
         <div id='Sair'>
           <button className="navbar-button">
-            <Link to='/'><img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" /></Link>
+            <Link to='/'><img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" onClick={logout}/></Link>
           </button>
         </div>
       </div>
