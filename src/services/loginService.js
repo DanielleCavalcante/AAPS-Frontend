@@ -1,4 +1,4 @@
-import api from '../apis/api';
+import api from '../apis/aapsApi';
 
 const API_URL = import.meta.env.VITE_API_URL;
 

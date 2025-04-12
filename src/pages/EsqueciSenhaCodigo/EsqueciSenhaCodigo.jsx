@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './esqueciSenhaWhats.css';
+import './EsqueciSenhaCodigo.css';
 
-const EsqueciSenhaWhats = () => {
+const EsqueciSenhaCodigo = () => {
     const navigate = useNavigate(); // Hook para navegação
 
     const handleSubmit = (event) => {
@@ -48,4 +48,4 @@ const EsqueciSenhaWhats = () => {
     );
 };
 
-export default EsqueciSenhaWhats;
+export default EsqueciSenhaCodigo;

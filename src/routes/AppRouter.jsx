@@ -3,13 +3,13 @@ import { Routes, Route } from "react-router-dom";
 import { PrivateRoute } from "./PrivateRoute";
 import { AuthProvider } from "../context/AuthContext";
 
-import Layout from '../layouts';
-import Login from '../pages/Login';
-import EsqueciSenha from "../pages/EsqueciSenha";
-import EsqueciSenhaWhats from "../pages/EsqueciSenhaWhats";
-import RedefinirSenhaWhats from "../pages/RedefinirSenhaWhats";
+import Layout from "../layouts/Layout";
+import Login from '../pages/Login/Login';
+import EsqueciSenha from "../pages/EsqueciSenha/EsqueciSenha";
+import EsqueciSenhaCodigo from "../pages/EsqueciSenhaCodigo/EsqueciSenhaCodigo";
+import RedefinirSenhaCodigo from "../pages/RedefinirSenhaCodigo/RedefinirSenhaCodigo";
 
-import Home from '../pages/Home';
+import Home from '../pages/Home/Home';
 import Animal from '../pages/Animal';
 import CadastroAnimal from '../pages/CadastroAnimal';
 import VisualizarAnimal from '../pages/VisualizarAnimal';
@@ -25,8 +25,8 @@ import VisualizarAdotante from '../pages/VisualizarAdotante';
 import Adocao from "../pages/Adocao";
 import CadastroAdocao from '../pages/CadastroAdocao';
 import VisualizarAdocao from '../pages/VisualizarAdocao';
-import Perfil from "../pages/Perfil";
-import AlterarSenha from "../pages/AlterarSenha";
+import Perfil from "../pages/Perfil/Perfil";
+import AlterarSenha from "../pages/AlterarSenha/AlterarSenha";
 
 import Voluntario from '../pages/Voluntario';
 import CadastroVoluntario from '../pages/CadastroVoluntario';
@@ -35,7 +35,7 @@ import PontoAdocao from "../pages/PontoAdocao";
 import CadastroPontoAdocao from '../pages/CadastroPontoAdocao';
 import VisualizarPontoAdocao from '../pages/VisualizarPontoAdocao';
 
-import ComingSoon from '../pages/ComingSoon';
+import ComingSoon from '../pages/ComingSoon/ComingSoon';
 
 const AppRouter = () => {
     return (
@@ -43,8 +43,8 @@ const AppRouter = () => {
             <Routes>
                 <Route path="/" element={<Login />}/>
                 <Route path="/esqueci-senha" element={<EsqueciSenha/>} />
-                <Route path="/esqueci-senha-whats" element={<EsqueciSenhaWhats/>} />
-                <Route path="/redefinir-senha-whats" element={<RedefinirSenhaWhats/>} />
+                <Route path="/esqueci-senha-whats" element={<EsqueciSenhaCodigo/>} />
+                <Route path="/redefinir-senha-whats" element={<RedefinirSenhaCodigo/>} />
 
                 <Route element={<Layout/>}>
                     <Route element={<PrivateRoute/>}>

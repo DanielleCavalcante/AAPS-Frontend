@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './esqueciSenha.css';
+import './EsqueciSenha.css';
 
 const EsqueciSenha = () => {
     const [formData, setFormData] = useState({

@@ -2,7 +2,7 @@ import React,  { useState }  from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../hooks/useAuth"; 
 import logo from '../../assets/aaps_logo1.png';
-import './login.css';
+import './Login.css';
 
 const Login = () => {
   const navigate = useNavigate();

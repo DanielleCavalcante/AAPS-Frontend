@@ -1,7 +1,7 @@
 import React from 'react';
-import './redefinirSenhaWhats.css';
+import './RedefinirSenhaCodigo.css';
 
-const RedefinirSenhaWhats = () => {
+const RedefinirSenhaCodigo = () => {
     const handleSubmit = (event) => {
         event.preventDefault(); 
     };
@@ -38,4 +38,4 @@ const RedefinirSenhaWhats = () => {
     );
 };
 
-export default RedefinirSenhaWhats;
+export default RedefinirSenhaCodigo;

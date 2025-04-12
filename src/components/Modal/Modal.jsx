@@ -1,5 +1,5 @@
 import React from 'react';
-import './modal.css';
+import './Modal.css';
 
 const Modal = ({ show, onClose, onClose2, children, qtdeBotao, nomeBotao1, nomeBotao2 }) => {
 

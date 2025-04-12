@@ -1,4 +1,4 @@
-import api from '../apis/api';
+import api from '../apis/aapsApi';
 
 export const DoadorService = {
   async criarDoador(doador) {
