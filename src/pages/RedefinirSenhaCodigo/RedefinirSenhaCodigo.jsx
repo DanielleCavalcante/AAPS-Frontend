@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import './RedefinirSenhaCodigo.css';
+import Modal from '/src/components/Modal/Modal';
 
 const RedefinirSenhaCodigo = () => {
     const handleSubmit = (event) => {

@@ -7,8 +7,9 @@ import BotaoLimpar from "/src/components/BotaoLimpar";
 import { useAnimais } from '../../hooks/useAnimais';
 import { useDoadores } from '../../hooks/useDoadores';
 
-
 const CadastroAnimal = () => {
+    const navigate = useNavigate();
+    //    const { criarAnimal, erro, carregando } = useAnimais();
     const { criarAnimal } = useAnimais();
     const [dadosAnimal, setDadosAnimal] = useState({
         nome: '',

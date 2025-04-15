@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import { useAnimais } from '../../hooks/useAnimais';
 import { useLoading } from '../../hooks/useLoading';
 
-import Carregando from '../../components/Spinner/Carregando';
-import './animal.css';
+import carregando from '../../components/Spinner/Carregando';
 import BotaoExcluir from "/src/components/BotaoExcluir";
+import './animal.css';
 
 const Animal = () => {
-    const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
+    // const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+    const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
 
     const [animais, setAnimais] = useState([]);
     const [filtro, setFiltro] = useState({

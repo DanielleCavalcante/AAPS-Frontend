@@ -238,13 +238,14 @@ const VisualizaAnimal = () => {
                     {!editando ? (
                         <BotaoAlterar onClick={() => setEditando(true)}/> //disabled={editando}
                     ) : (
-                        <button 
-                            type="button" 
-                            className="botao-alterar" 
-                            onClick={() => handleSubmit()}
-                        >
-                            Salvar
-                        </button>
+                        <BotaoSalvar showModal={showModal} openModal={salvarAlteracoes} closeModal={closeModal}/>
+                        // <button 
+                        //     type="button" 
+                        //     className="botao-alterar" 
+                        //     onClick={() => handleSubmit()}
+                        // >
+                        //     Salvar
+                        // </button>
                         //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
                     )}
                         <BotaoCancelar />
