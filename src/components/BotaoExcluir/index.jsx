@@ -11,7 +11,7 @@ const BotaoExcluir = ({showModal, showConfirmModalExcluir, openModal, closeModal
           style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
         >
           <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon" /> 
-          <span>Excluir</span>
+          {/* <span>Excluir</span> */}
         </button>
 
         <Modal show={showConfirmModalExcluir} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>

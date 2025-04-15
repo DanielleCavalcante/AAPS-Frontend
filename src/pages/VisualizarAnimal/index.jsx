@@ -9,7 +9,6 @@ import foto from '../../assets/aaps_logo1.png';
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
-import BotaoExcluir from "/src/components/BotaoExcluir";
 
 const VisualizaAnimal = () => {
     const { buscarAnimalPorId, atualizarAnimal, carregando, erro } = useAnimais();
@@ -19,6 +18,14 @@ const VisualizaAnimal = () => {
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
     const [doadores, setDoadores] = useState([]); 
+    const [showModal, setShowModal] = useState(false);
+    const openModal = () => setShowModal(true);
+    const closeModal = () => {
+        setShowModal(false);
+        setEditando(false);
+    }
+    const [foto, setFoto] = useState(null);
+
 
     useEffect(() => {
         buscarAnimalPorId(id)
@@ -62,53 +69,12 @@ const VisualizaAnimal = () => {
     const salvarAlteracoes = async () => {
         try {
             await atualizarAnimal(id, formDados);
-            setEditando(false);
+            openModal();
         } catch (error) {
             console.error("Erro ao salvar:", error);
         }
     };
     
-    // configurações de modals
-    // const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
-    // const [showModalExcluir, setShowModalExcluir] = useState(false); //Exclusão
-    // const [showConfirmModal, setShowConfirmModal] = useState(false); //Confirmar
-    // const [foto, setFoto] = useState(null);
-
-    // const closeModalAlterar = () => setShowModalAlterar(false);
-
-    // const openModalAlterar = () => {
-    //     const statusAdocao = document.getElementById('statusAdocao').value;
-    //     const nome = document.getElementById('nome').value;
-    //     const especie = document.getElementById('especie').value;
-    //     const raca = document.getElementById('raca').value;
-    //     const dataNascimento = document.getElementById('dataNascimento').value;
-    //     const pelagem = document.getElementById('pelagem').value;
-    //     const sexo = document.getElementById('sexo').value;
-    //     const doador = document.getElementById('doador').value;
-
-    //     // Verifica se todos os campos estão preenchidos
-    //     if (statusAdocao && nome && especie && raca && dataNascimento && pelagem && sexo && doador) {
-    //         setShowModalAlterar(true);
-    //     } else {
-    //         return null;
-    //     }
-    // };
-
-    // const closeModalExcluir = () => setShowModalExcluir(false);
-
-    // const closeConfirmModal = () => {
-    //     setShowConfirmModal(false);
-    // }
-
-    // const openModalExcluir = () => {
-    //     setShowConfirmModal(false);
-    //     setShowModalExcluir(true);
-    // };
-
-    // const openConfirmModal = () => {
-    //     setShowConfirmModal(true);
-    // };
-
     return (
         <div className="visualizar-container">
             <form className="cadastroAnimal-form" onSubmit={salvarAlteracoes} >
@@ -270,22 +236,11 @@ const VisualizaAnimal = () => {
                     <div className="button-group-crud">
 
                     {!editando ? (
-                        <BotaoAlterar onClick={() => setEditando(true)} //disabled={editando}
-                        /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  *//>
+                        <BotaoAlterar onClick={() => setEditando(true)}/> //disabled={editando}
                     ) : (
-                        <button 
-                            type="button" 
-                            className="botao-alterar" 
-                            onClick={() => salvarAlteracoes()}
-                        >
-                            Salvar
-                        </button>
-                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                        <BotaoSalvar showModal={showModal} openModal={salvarAlteracoes} closeModal={closeModal}/>
                     )}
                         <BotaoCancelar />
-                        <BotaoExcluir /* showModal={showModalExcluir} showConfirmModal={showConfirmModal}
-                            openModal={openConfirmModal} closeModal2={closeConfirmModal} closeModal={openModalExcluir}
-                            closeModalExcluir={closeModalExcluir}  *//>
                     </div>
                 </div>
             </form >

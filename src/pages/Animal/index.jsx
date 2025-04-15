@@ -3,8 +3,11 @@ import { useAnimais } from '../../hooks/useAnimais';
 import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import './animal.css';
+import BotaoExcluir from "/src/components/BotaoExcluir";
 
 const Animal = () => {
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
     const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
     const [animais, setAnimais] = useState([]);
     const [filtro, setFiltro] = useState({
@@ -14,6 +17,20 @@ const Animal = () => {
         status: '',
         disponibilidade: ''
     });
+
+    //Modais para botão Excluir:
+  const openModalExcluir = () => {
+    setShowConfirmModalExcluir(false);
+    setShowModalExcluir(true);
+  };
+
+  const closeModalExcluir = () => {
+    setShowModalExcluir(false);
+  }
+
+  const openConfirmModalExcluir = () => setShowConfirmModalExcluir(true);
+
+  const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -34,6 +51,8 @@ const Animal = () => {
         await excluirAnimal(id);
         const dadosAtualizados = await listarAnimais(filtro);
         setAnimais(dadosAtualizados);
+        openModalExcluir();
+        console.log("Está excluindo os animais");
     };
     
     if (carregando) return <div>Carregando...</div>;
@@ -50,6 +69,8 @@ const Animal = () => {
                         </div>
                     </button>
                 </Link>
+
+                {/* Barra de Pesquisa: */}
                 <div className="search-bar">
                     <input 
                         type="text"
@@ -62,35 +83,42 @@ const Animal = () => {
                         <img src="/src/assets/icone_lupa.png" onc alt="Ícone de sucesso" className="icon" />
                     </button>
                 </div>
+
+                {/* Filtros: */}
                 {/* <select id="filtro" name="opcoesFiltro">
                     <option value="1">Filtros</option>
                     <option value="2">Espécie</option>
                     <option value="3">Sexo</option>
                 </select> */}
                 <div className="dropdowns">
-                    <select name="especie" onChange={handleChange} value={filtro.especie}>
-                        <option value="">Espécie</option>
-                        <option value="Cachorro">Cachorro</option>
-                        <option value="Gato">Gato</option>
-                    </select>
-
-                    <select name="sexo" onChange={handleChange} value={filtro.sexo}>
-                        <option value="">Sexo</option>
-                        <option value="M">Macho</option>
-                        <option value="F">Fêmea</option>
-                    </select>
-
-                    <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
-                        <option value="">Disponibilidade</option>
-                        <option value={0}>Adotado</option>
-                        <option value={1}>Disponível</option>
-                    </select>
-
-                    <select name="status" onChange={handleChange} value={filtro.status}>
-                        <option value="">Status</option>
-                        <option value={1}>Ativo</option>
-                        <option value={0}>Inativo</option>
-                    </select>
+                    <div className="filtro-group">
+                        <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
+                            <option value="">Disponibilidade</option>
+                            <option value={0}>Adotado</option>
+                            <option value={1}>Disponível</option>
+                        </select>
+                    </div>
+                    <div className="filtro-group">
+                        <select name="especie" onChange={handleChange} value={filtro.especie}>
+                            <option value="">Espécie</option>
+                            <option value="Cachorro">Cachorro</option>
+                            <option value="Gato">Gato</option>
+                        </select>
+                    </div>
+                    <div className="filtro-group">
+                        <select name="sexo" onChange={handleChange} value={filtro.sexo}>
+                            <option value="">Sexo</option>
+                            <option value="M">Macho</option>
+                            <option value="F">Fêmea</option>
+                        </select>
+                    </div>
+                    <div className="filtro-group">
+                        <select name="status" onChange={handleChange} value={filtro.status}>
+                            <option value="">Status</option>
+                            <option value={1}>Ativo</option>
+                            <option value={0}>Inativo</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             
@@ -118,14 +146,21 @@ const Animal = () => {
                             <td>{animal.disponibilidade === 1 ? 'Disponível' : 'Adotado'}</td>
                             <td>{animal.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
-                                <Link to={`/visualiza-animal/${animal.id}`}>
-                                    <button className="search-button">
-                                        <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
-                                    </button>
-                                </Link>
-                                <button className="search-button" onClick={() => {handleExcluir(animal.id)}}>
-                                    <img src="/src/assets/icone_excluir.png" alt="Ícone de excluir" className="icon" />
-                                </button>
+                                <div className='botoes'>
+                                    <Link to={`/visualiza-animal/${animal.id}`}>
+                                        <button className="search-button">
+                                            <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
+                                        </button>
+                                    </Link>
+                                    <BotaoExcluir 
+                                        showModal={showModalExcluir} 
+                                        showConfirmModalExcluir={showConfirmModalExcluir} 
+                                        openModal={openConfirmModalExcluir} 
+                                        closeModal2={closeConfirmModalExcluir} 
+                                        closeModal={() => {handleExcluir(animal.id)}}
+                                        closeModalExcluir={closeModalExcluir}
+                                    />
+                                </div>
                             </td>
                         </tr>
                     ))}
