@@ -1,4 +1,4 @@
-import Modal from '/src/components/Modal';
+import Modal from '../Modal/Modal.jsx';
 import './botaoAlterar.css';
 
 // const BotaoAlterar = ({ showModal, openModal, closeModal, disabled }) => {

@@ -1,22 +1,14 @@
-import api from '../apis/api';
+import api from '../apis/aapsApi';
 
 export const AnimalService = {
   async criarAnimal(animal) {
-    try {
-      const response = await api.post('/Animal/CriarAnimal', animal);
-      return response.data.dados;
-    } catch (error) {
-      throw new Error('Erro ao criar animal: ' + error.message);
-    }
+    const response = await api.post('/Animal/CriarAnimal', animal);
+    return response.data.dados;
   },
 
   async listarAnimais(filtro = {}) {
-    try {
-      const response = await api.get('/Animal/ObterAnimais', { params: filtro });
-      return response.data.dados;
-    } catch (error) {
-      throw new Error('Erro ao listar animais: ' + error.message);
-    }
+    const response = await api.get('/Animal/ObterAnimais', { params: filtro });
+    return response.data.dados;
   },
 
   async buscarAnimalPorId (id){

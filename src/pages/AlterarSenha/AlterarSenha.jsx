@@ -1,5 +1,5 @@
 import React from 'react';
-import './alterarsenha.css';
+import './AlterarSenha.css';
 
 const AlterarSenha = () => {
   return (

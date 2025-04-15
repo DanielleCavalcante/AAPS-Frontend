@@ -45,4 +45,20 @@
     width: 60%; /* Largura de 30% */
   }
 
- 
+.campo-invalido {
+  border-color: #dc3545 !important;
+}
+
+.erro-required {
+  color: #dc3545;
+  font-size: 0.8em;
+  margin-top: 4px;
+  margin-left: 5px;
+  display: block;
+  animation: aparecer 0.3s ease-in;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

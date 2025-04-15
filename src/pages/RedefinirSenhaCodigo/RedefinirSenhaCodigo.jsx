@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
-import './redefinirSenhaWhats.css';
-import Modal from '/src/components/Modal';
+import React from 'react';
+import './RedefinirSenhaCodigo.css';
 
-const RedefinirSenhaWhats = () => {
+const RedefinirSenhaCodigo = () => {
     const handleSubmit = (event) => {
         event.preventDefault(); 
     };
@@ -59,4 +57,4 @@ const RedefinirSenhaWhats = () => {
     );
 };
 
-export default RedefinirSenhaWhats;
+export default RedefinirSenhaCodigo;

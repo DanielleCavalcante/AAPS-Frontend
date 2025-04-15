@@ -1,5 +1,5 @@
 import './botaoSalvar.css';
-import Modal from '/src/components/Modal';
+import Modal from '/src/components/Modal/Modal.jsx';
 
 const BotaoSalvar = ({ showModal, openModal, closeModal, disabled }) => { 
 

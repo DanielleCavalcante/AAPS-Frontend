@@ -1,20 +1,23 @@
 import { useState } from 'react'
-import './cadastroEvento.css';
+
+import { useEventos } from '../../hooks/useEventos';
+import { useError } from '../../hooks/useError';
+
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
-import { useEventos } from '../../hooks/useEventos';
+import './cadastroEvento.css';
 
 const CadastroEvento = () => {
-    const { criarEvento, erro, carregando } = useEventos();
-    const [dadosEvento, setdadosEvento] = useState({
-        descricao: '',
-        status: '',
-    });
+    const { criarEvento } = useEventos();    
+    const [dadosEvento, setdadosEvento] = useState({ descricao: '', status: 1 });
+
+    const { erro, tratarErro, limparErro } = useError();
+    const [tentouEnviar, setTentouEnviar] = useState(false);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        
+        limparErro();
         setdadosEvento({
             ...dadosEvento,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -23,14 +26,14 @@ const CadastroEvento = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setTentouEnviar(true); 
+        limparErro();
         try {
             await criarEvento(dadosEvento);
-            setdadosEvento({
-                descricao: '',
-                status: '',
-            });
+            setdadosEvento({ descricao: '', status: 1 });
+            setTentouEnviar(false);
         } catch (error) {
-            alert("Erro ao cadastrar evento!");
+            tratarErro(error);
         }
     };
 
@@ -59,7 +62,7 @@ const CadastroEvento = () => {
                     <input type="text" id="codigo" disabled />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="descricao">Evento</label>
+                    <label htmlFor="descricao">Descrição</label>
                     <input 
                         type="text" 
                         id="descricao" 
@@ -67,8 +70,11 @@ const CadastroEvento = () => {
                         value={dadosEvento.descricao}
                         onChange={handleChange}
                         placeholder="Digite a descrição do evento" 
-                        required 
                     />
+
+                    {(tentouEnviar && !dadosEvento.descricao) && (
+                        <span className="erro-required"> O campo 'Descrição' é obrigatório </span>
+                    )}
 
                     <label htmlFor="status">Status</label>
                     <select
@@ -82,6 +88,10 @@ const CadastroEvento = () => {
                         <option value={1}>Ativo</option>
                         <option value={0}>Inativo</option>
                     </select>
+
+                    {(tentouEnviar && !dadosEvento.status) && (
+                        <span className="erro-required"> O campo 'Status' é obrigatório </span>
+                    )}
                 </div>
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
