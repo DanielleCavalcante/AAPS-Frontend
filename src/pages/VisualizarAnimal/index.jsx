@@ -6,11 +6,14 @@ import { useDoadores } from '../../hooks/useDoadores';
 
 import BotaoAlterar from "/src/components/BotaoAlterar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
+import BotaoSalvar from "/src/components/BotaoSalvar";
 
 import foto from '../../assets/aaps_logo1.png';
 import './visualizarAnimal.css';
 
 const VisualizaAnimal = () => {
+    console.log("início da página");
+
     const { buscarAnimalPorId, atualizarAnimal, carregando, erro } = useAnimais();
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
@@ -19,12 +22,17 @@ const VisualizaAnimal = () => {
     const [formDados, setFormDados] = useState({});
     const [doadores, setDoadores] = useState([]); 
     const [showModal, setShowModal] = useState(false);
-    const openModal = () => setShowModal(true);
-    const closeModal = () => {
-        setShowModal(false);
-        setEditando(false);
+
+    const openModal = () => {
+        setShowModal(true);
     }
-    const [foto, setFoto] = useState(null);
+    
+    const closeModal = () => {
+        setEditando(false);
+        setShowModal(false);
+    }
+
+    // const [foto, setFoto] = useState(null);
 
 
     useEffect(() => {
@@ -41,7 +49,7 @@ const VisualizaAnimal = () => {
             setFormDados(dadosFormatados);
             })
             .catch(console.error);
-        
+
         listarDoadoresAtivos()
             .then(setDoadores)
             .catch(console.error);
@@ -66,7 +74,8 @@ const VisualizaAnimal = () => {
         });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault(); //evita o reload da página e mantém o modal aberto
         try {
             await atualizarAnimal(id, formDados);
             openModal();
@@ -77,7 +86,7 @@ const VisualizaAnimal = () => {
     
     return (
         <div className="visualizar-container">
-            <form className="cadastroAnimal-form" onSubmit={handleSubmit} >
+            <form className="cadastroAnimal-form" onSubmit={handleSubmit}>
                 <div id="group2">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
@@ -238,21 +247,13 @@ const VisualizaAnimal = () => {
                     {!editando ? (
                         <BotaoAlterar onClick={() => setEditando(true)}/> //disabled={editando}
                     ) : (
-                        <BotaoSalvar showModal={showModal} openModal={salvarAlteracoes} closeModal={closeModal}/>
-                        // <button 
-                        //     type="button" 
-                        //     className="botao-alterar" 
-                        //     onClick={() => handleSubmit()}
-                        // >
-                        //     Salvar
-                        // </button>
-                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                        <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     )}
                         <BotaoCancelar />
                     </div>
                 </div>
             </form >
-        </div >
+        </div > 
     );
 }
 

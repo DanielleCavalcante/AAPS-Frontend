@@ -9,6 +9,7 @@ body{
     max-width: 100%;
     font-family: "Poppins", Arial, Helvetica, sans-serif;
     box-sizing: border-box;
+    padding-bottom: 20px;
 }
 
 nav, footer {
