@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react'
-import './cadastroAnimal.css';
+
+import { useAnimais } from '../../hooks/useAnimais';
+import { useDoadores } from '../../hooks/useDoadores';
+
 import BotaoSalvar from "/src/components/BotaoSalvar";
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoLimpar from "/src/components/BotaoLimpar";
-import { useAnimais } from '../../hooks/useAnimais';
-import { useDoadores } from '../../hooks/useDoadores';
+import './cadastroAnimal.css';
 
 const CadastroAnimal = () => {
     const { criarAnimal } = useAnimais();

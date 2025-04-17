@@ -30,7 +30,7 @@ const CadastroEvento = () => {
         limparErro();
         try {
             await criarEvento(dadosEvento);
-            setdadosEvento({ descricao: '', status: 1 });
+            setdadosEvento({ descricao: '', status: '' });
             setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
@@ -56,7 +56,7 @@ const CadastroEvento = () => {
         <div className="cadastro-evento">
             <form className="cadastroEvento-form" onSubmit={handleSubmit} >
                 <div className="form-group">
-                    <label htmlFor="codigo">Código</label>
+                    <label htmlFor="id">Código</label>
                     <input type="text" id="imput-codigo" disabled />
                 </div>
 

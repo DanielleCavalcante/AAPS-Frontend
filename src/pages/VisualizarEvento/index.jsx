@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { useEventos } from '../../hooks/useEventos';
-import { useError } from '../../hooks/useError';
 
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
@@ -10,14 +9,13 @@ import BotaoExcluir from "/src/components/BotaoExcluir";
 import './visualizaEvento.css';
 
 const VisualizaEvento = () => {
-    const { buscarEventoPorId, atualizarEvento } = useEventos();
+    const { buscarEventoPorId, atualizarEvento, erro, tratarErro, limparErro } = useEventos();
 
     const { id } = useParams();
     const [evento, setEvento] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
 
-    const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
 
     useEffect(() => {
@@ -44,6 +42,7 @@ const VisualizaEvento = () => {
     };
 
     const handleSubmit = async () => {
+        e.preventDefault(); 
         setTentouEnviar(true); 
         limparErro();
 

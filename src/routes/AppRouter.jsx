@@ -28,9 +28,9 @@ import VisualizarAdocao from '../pages/VisualizarAdocao';
 import Perfil from "../pages/Perfil/Perfil";
 import AlterarSenha from "../pages/AlterarSenha/AlterarSenha";
 
-import Voluntario from '../pages/Voluntario';
-import CadastroVoluntario from '../pages/CadastroVoluntario';
-import VisualizarVoluntario from '../pages/VisualizarVoluntario';
+import Voluntario from '../pages/Voluntario/Voluntario';
+import CadastroVoluntario from '../pages/CadastroVoluntario/CadastroVoluntario';
+import VisualizarVoluntario from '../pages/VisualizarVoluntario/VisualizarVoluntario';
 import PontoAdocao from "../pages/PontoAdocao";
 import CadastroPontoAdocao from '../pages/CadastroPontoAdocao';
 import VisualizarPontoAdocao from '../pages/VisualizarPontoAdocao';
@@ -71,7 +71,7 @@ const AppRouter = () => {
                         <Route element={<PrivateRoute requiredRole="Admin" />} >
                             <Route path="/voluntario" element={<Voluntario/>} />
                             <Route path="/cadastro-voluntario" element={<CadastroVoluntario/>}/>
-                            <Route path="/visualiza-voluntario" element={<VisualizarVoluntario/>} />
+                            <Route path="/visualiza-voluntario/:id" element={<VisualizarVoluntario/>} />
                             <Route path="/ponto-adocao" element={<PontoAdocao/>} />
                             <Route path="/cadastro-ponto-adocao" element={<CadastroPontoAdocao/>} />
                             <Route path="/visualiza-ponto-adocao" element={<VisualizarPontoAdocao/>} />
