@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from "../../hooks/useAuth"; 
 
 import './Home.css';
+import Modal from '/src/components/Modal/Modal.jsx';
 
 import iconeVoluntario from '../../assets/icone_voluntario.png';
 import iconePontoAdocao from '../../assets/icone_pontoAdocao.png';

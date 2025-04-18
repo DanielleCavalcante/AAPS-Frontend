@@ -39,7 +39,9 @@ const CadastroEvento = () => {
 
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
+
     const closeModal = () => setShowModal(false);
+
     const openModal = () => {
         const descricao = document.getElementById('descricao').value;
         const status = document.getElementById('status').value;
@@ -57,9 +59,8 @@ const CadastroEvento = () => {
             <form className="cadastroEvento-form" onSubmit={handleSubmit} >
                 <div className="form-group">
                     <label htmlFor="id">Código</label>
-                    <input type="text" id="imput-codigo" disabled />
+                    <input type="text" id="codigo" disabled />
                 </div>
-
                 <div className="form-group">
                     <label htmlFor="descricao">Descrição</label>
                     <input 
@@ -92,7 +93,6 @@ const CadastroEvento = () => {
                         <span className="erro-required"> O campo 'Status' é obrigatório </span>
                     )}
                 </div>
-
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />

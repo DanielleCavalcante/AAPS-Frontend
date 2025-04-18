@@ -273,7 +273,9 @@ const VisualizarVoluntario = () => {
 
         <div className="button-group-crud">
           {!editando ? (
-            <BotaoAlterar onClick={() => setEditando(true)} //disabled={editando}
+            <BotaoAlterar 
+              onClick={() => setEditando(true)} 
+              //disabled={editando}
             /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  *//>
           ) : (
             <button 

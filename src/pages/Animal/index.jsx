@@ -40,7 +40,7 @@ const Animal = () => {
         setAnimais(dadosAtualizados);
     };
     
-    if (carregando) return <div>Carregando...</div>;
+    if (erro) return <div>Carregando...</div>;
     if (erro) return <div className="erro">{erro}</div>;
 
     return(

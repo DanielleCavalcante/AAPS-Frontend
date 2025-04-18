@@ -42,7 +42,6 @@ const VisualizaEvento = () => {
     };
 
     const handleSubmit = async () => {
-        e.preventDefault(); 
         setTentouEnviar(true); 
         limparErro();
 

@@ -1,12 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/useAuth';
-
 import './Navbar.css';
 
 const Navbar = () => {
   const { logout } = useAuth();
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
+
+  const handleSair = () => {
+    setShowModal(false);
+    logout();
+  };
 
   return (
     <nav className="navbar">
@@ -22,6 +31,13 @@ const Navbar = () => {
           </button>
         </div>
       </div>
+
+      {showModal && (
+        <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>
+          <img src="/src/assets/icone_alerta.png" alt="Ícone de alerta" className="icon" />
+          <p>Deseja realmente sair?</p>
+        </Modal>
+      )}
     </nav>
   );
 };
