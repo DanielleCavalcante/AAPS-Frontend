@@ -1,5 +1,6 @@
 import React from 'react';
 import carregando from '../../assets/carregando-1.svg';
+
 import './Carregando.css';
 
 const Carregando = () => {

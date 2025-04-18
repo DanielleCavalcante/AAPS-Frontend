@@ -10,32 +10,38 @@ import EsqueciSenhaCodigo from "../pages/EsqueciSenhaCodigo/EsqueciSenhaCodigo";
 import RedefinirSenhaCodigo from "../pages/RedefinirSenhaCodigo/RedefinirSenhaCodigo";
 
 import Home from '../pages/Home/Home';
-import Animal from '../pages/Animal';
-import CadastroAnimal from '../pages/CadastroAnimal';
-import VisualizarAnimal from '../pages/VisualizarAnimal';
-import Doador from '../pages/Doador';
-import CadastroDoador from '../pages/CadastroDoador';
-import VisualizarDoador from '../pages/VisualizarDoador';
-import Evento from "../pages/Evento";
-import CadastroEvento from '../pages/CadastroEvento';
-import VisualizarEvento from '../pages/VisualizarEvento';
-import Adotante from "../pages/Adotante";
-import CadastroAdotante from '../pages/CadastroAdotante';
-import VisualizarAdotante from '../pages/VisualizarAdotante';
-import Adocao from "../pages/Adocao";
-import CadastroAdocao from '../pages/CadastroAdocao';
-import VisualizarAdocao from '../pages/VisualizarAdocao';
+
+import Adocao from "../pages/Adocoes/ListarAdocoes/ListarAdocoes";
+import CadastroAdocao from '../pages/Adocoes/CadastrarAdocao/CadastrarAdocao';
+import VisualizarAdocao from '../pages/Adocoes/VisualizarAdocao/VisualizarAdocao';
+
+import Adotante from "../pages/Adotantes/ListarAdotantes/ListarAdotantes";
+import CadastroAdotante from '../pages/Adotantes/CadastroAdotante/CadastroAdotante';
+import VisualizarAdotante from '../pages/Adotantes/VisualizarAdotante/VisualizarAdotante';
+
+import Animal from '../pages/Animais/ListarAnimais/ListarAnimais';
+import CadastroAnimal from '../pages/Animais/CadastrarAnimal/CadastrarAnimal';
+import VisualizarAnimal from '../pages/Animais/VisualizarAnimal/VisualizarAnimal';
+
+import Doador from '../pages/Doadores/ListarDoadores/ListarDoadores';
+import CadastroDoador from '../pages/Doadores/CadastrarDoador/CadastrarDoador';
+import VisualizarDoador from '../pages/Doadores/VisualizarDoador/VisualizarDoador';
+
+import Evento from "../pages/Eventos/ListarEventos/ListarEventos";
+import CadastroEvento from '../pages/Eventos/CadastrarEvento/CadastrarEvento';
+import VisualizarEvento from '../pages/Eventos/VisualizarEvento/VisualizarEvento';
+
 import Perfil from "../pages/Perfil/Perfil";
 import AlterarSenha from "../pages/AlterarSenha/AlterarSenha";
 
-import Voluntario from '../pages/Voluntario/Voluntario';
-import CadastroVoluntario from '../pages/CadastroVoluntario/CadastroVoluntario';
-import VisualizarVoluntario from '../pages/VisualizarVoluntario/VisualizarVoluntario';
-import PontoAdocao from "../pages/PontoAdocao";
-import CadastroPontoAdocao from '../pages/CadastroPontoAdocao';
-import VisualizarPontoAdocao from '../pages/VisualizarPontoAdocao';
+import Voluntario from '../pages/Voluntarios/ListarVoluntarios/ListarVoluntarios';
+import CadastroVoluntario from '../pages/Voluntarios/CadastrarVoluntario/CadastrarVoluntario';
+import VisualizarVoluntario from '../pages/Voluntarios/VisualizarVoluntario/VisualizarVoluntario';
+import PontoAdocao from "../pages/PontosAdocao/ListarPontosAdocao/ListarPontosAdocao";
+import CadastroPontoAdocao from '../pages/PontosAdocao/CadastroPontoAdocao/CadastroPontoAdocao';
+import VisualizarPontoAdocao from '../pages/PontosAdocao/VisualizarPontoAdocao/VisualizarPontoAdocao';
 
-import ComingSoon from '../pages/ComingSoon/ComingSoon';
+import ComingSoon from '../pages/EmBreve/ComingSoon/ComingSoon';
 
 const AppRouter = () => {
     return (
@@ -49,32 +55,32 @@ const AppRouter = () => {
                 <Route element={<Layout/>}>
                     <Route element={<PrivateRoute/>}>
                         <Route path="/home" element = {<Home/>} />
-                        <Route path="/animal" element={<Animal/>} />
-                        <Route path="/cadastro-animal" element={<CadastroAnimal/>} />
-                        <Route path="/visualiza-animal/:id" element={<VisualizarAnimal />} />
-                        <Route path="/doador" element={<Doador/>} />
-                        <Route path="/cadastro-doador" element={<CadastroDoador/>} />
-                        <Route path="/visualiza-doador" element={<VisualizarDoador/>} />
-                        <Route path="/evento" element={<Evento/>} />
-                        <Route path="/cadastro-evento" element={<CadastroEvento/>} />
-                        <Route path="/visualiza-evento/:id" element={<VisualizarEvento/>} />
-                        <Route path="/adotante" element={<Adotante/>} />
-                        <Route path="/cadastro-adotante" element={<CadastroAdotante/>} />
-                        <Route path="/visualiza-adotante" element={<VisualizarAdotante/>} />
-                        <Route path="/adocao" element={<Adocao/>} />
-                        <Route path="/cadastro-adocao" element={<CadastroAdocao/>} />
-                        <Route path="/visualiza-adocao" element={<VisualizarAdocao/>} />
+                        <Route path="/listar-animais" element={<Animal/>} />
+                        <Route path="/cadastrar-animal" element={<CadastroAnimal/>} />
+                        <Route path="/visualizar-animal/:id" element={<VisualizarAnimal />} />
+                        <Route path="/listar-doadores" element={<Doador/>} />
+                        <Route path="/cadastrar-doador" element={<CadastroDoador/>} />
+                        <Route path="/visualizar-doador" element={<VisualizarDoador/>} />
+                        <Route path="/listar-eventos" element={<Evento/>} />
+                        <Route path="/cadastrar-evento" element={<CadastroEvento/>} />
+                        <Route path="/visualizar-evento/:id" element={<VisualizarEvento/>} />
+                        <Route path="/listar-adotantes" element={<Adotante/>} />
+                        <Route path="/cadastrar-adotante" element={<CadastroAdotante/>} />
+                        <Route path="/visualizar-adotante" element={<VisualizarAdotante/>} />
+                        <Route path="/listar-adocoes" element={<Adocao/>} />
+                        <Route path="/cadastrar-adocao" element={<CadastroAdocao/>} />
+                        <Route path="/visualizar-adocao" element={<VisualizarAdocao/>} />
                         <Route path="/perfil" element={<Perfil/>} />
                         <Route path="/alterar-senha" element={<AlterarSenha/>} />
                             
                         {/* Rotas de admin */}
                         <Route element={<PrivateRoute requiredRole="Admin" />} >
-                            <Route path="/voluntario" element={<Voluntario/>} />
-                            <Route path="/cadastro-voluntario" element={<CadastroVoluntario/>}/>
-                            <Route path="/visualiza-voluntario/:id" element={<VisualizarVoluntario/>} />
-                            <Route path="/ponto-adocao" element={<PontoAdocao/>} />
-                            <Route path="/cadastro-ponto-adocao" element={<CadastroPontoAdocao/>} />
-                            <Route path="/visualiza-ponto-adocao" element={<VisualizarPontoAdocao/>} />
+                            <Route path="/listar-voluntarios" element={<Voluntario/>} />
+                            <Route path="/cadastrar-voluntario" element={<CadastroVoluntario/>}/>
+                            <Route path="/visualizar-voluntario/:id" element={<VisualizarVoluntario/>} />
+                            <Route path="/listar-pontos-adocao" element={<PontoAdocao/>} />
+                            <Route path="/cadastrar-ponto-adocao" element={<CadastroPontoAdocao/>} />
+                            <Route path="/visualizar-ponto-adocao" element={<VisualizarPontoAdocao/>} />
                         </Route>
 
                         <Route path="*" element={<ComingSoon />}/>

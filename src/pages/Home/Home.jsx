@@ -26,14 +26,14 @@ const Home = () => {
         {user?.role === "Admin" && (
           <>
             <button className="home-button">
-              <Link to='/voluntario'>
+              <Link to='/listar-voluntarios'>
                 <img src={iconeVoluntario} alt="Ícone de voluntário" className="icon" />
               </Link>
               <span>Voluntário</span>
             </button>
 
             <button className="home-button">
-              <Link to='/ponto-adocao'>
+              <Link to='/listar-pontos-adocao'>
                 <img src={iconePontoAdocao} alt="Ícone de ponto de adoção" className="icon" />
               </Link>
               <span>Ponto de Adoção</span>
@@ -41,7 +41,7 @@ const Home = () => {
 
             <button className="home-button">
               <Link to='/relatorio'>
-                <img src="/src/assets/icone_relatorio.png" alt="Ícone de relatorio" className="icon" />
+                <img src={iconeRelatorio} alt="Ícone de relatorio" className="icon" />
               </Link>
               <span>relatório</span>
             </button>
@@ -49,43 +49,43 @@ const Home = () => {
         )}
 
         <button className="home-button">
-          <Link to='/evento'>
-            <img src="/src/assets/icone_evento.png" alt="Ícone de evento" className="icon" />
+          <Link to='/listar-eventos'>
+            <img src={iconeEvento} alt="Ícone de evento" className="icon" />
           </Link>
           <span>evento</span>
         </button>
 
         <button className="home-button">
-          <Link to='/animal'>
-            <img src="/src/assets/icone_animal.png" alt="Ícone de animal" className="icon" />
+          <Link to='/listar-animais'>
+            <img src={iconeAnimal} alt="Ícone de animal" className="icon" />
           </Link>
           <span>animal</span>
         </button>
 
         <button className="home-button">
-          <Link to='/doador'>
-            <img src="/src/assets/icone_doador.png" alt="Ícone de doador" className="icon" />
+          <Link to='/listar-doadores'>
+            <img src={iconeDoador} alt="Ícone de doador" className="icon" />
           </Link>
           <span>doador/tutor</span>
         </button>
 
         <button className="home-button">
-          <Link to='/adotante'>
-            <img src="/src/assets/icone_adotante.png" alt="Ícone de adotante" className="icon" />
+          <Link to='/listar-adotantes'>
+            <img src={iconeAdotante} alt="Ícone de adotante" className="icon" />
           </Link>
           <span>adotante</span>
         </button>
 
         <button className="home-button">
-          <Link to='/adocao'>
-            <img src="/src/assets/icone_adocao.png" alt="Ícone de adocao" className="icon" />
+          <Link to='/listar-adocoes'>
+            <img src={iconeAdocao} alt="Ícone de adocao" className="icon" />
           </Link>
           <span>adoção</span>
         </button>
 
         <button className="home-button">
           <Link to='/perfil'>
-            <img src="/src/assets/icone_perfil.png" alt="Ícone de perfil do usuario" className="icon" />
+            <img src={iconePerfil} alt="Ícone de perfil do usuario" className="icon" />
           </Link>
           <span>perfil</span>
         </button>
