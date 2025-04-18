@@ -28,11 +28,9 @@ const EsqueciSenha = () => {
         }
 
         if (formData.peloCelular) {
-            // Redireciona para a página EsqueciSenhaWhats
-            navigate("/esqueci-senha-whats");
+            navigate("/esqueci-senha-celular");
         } else if (formData.peloAdministrador) {
-            // Aqui você pode implementar a lógica para recuperação pelo administrador
-            console.log("Recuperação pelo administrador");
+            navigate("/esqueci-senha-admin");
         }
     };
 

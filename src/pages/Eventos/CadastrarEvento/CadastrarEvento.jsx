@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import { useEventos } from '../../../hooks/useEventos';
 import { useError } from '../../../hooks/useError';
 
