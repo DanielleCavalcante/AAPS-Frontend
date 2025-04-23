@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
 
-import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar";
+import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
-import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
+import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 
 import foto from '../../../assets/aaps_logo1.png';
 import './VisualizarAnimal.css';

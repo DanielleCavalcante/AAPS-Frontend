@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
+import { useNavigate } from 'react-router-dom';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -90,7 +91,7 @@ const CadastroAnimal = () => {
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => {
         setShowModal(false);
-        navigate('/animal');
+        navigate('/listar-animais');
     }
     const openModal = () => {
         const nome = document.getElementById('nome').value;

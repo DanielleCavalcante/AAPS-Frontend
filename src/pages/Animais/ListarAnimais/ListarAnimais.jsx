@@ -6,8 +6,8 @@ import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import iconeExcluir from '/src/assets/icone_excluir.png';
-import Carregando from '../../../components/Spinner/Carregando';
+import carregando from '../../../components/Spinner/Carregando';
+import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
 import './ListarAnimais.css';
 
 const Animal = () => {
@@ -165,7 +165,7 @@ const Animal = () => {
                             <td>{animal.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
                                 <div className='botoes'>
-                                    <Link to={`/visualiza-animal/${animal.id}`}>
+                                    <Link to={`/visualizar-animal/${animal.id}`}>
                                         <button className="search-button">
                                             <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
                                         </button>

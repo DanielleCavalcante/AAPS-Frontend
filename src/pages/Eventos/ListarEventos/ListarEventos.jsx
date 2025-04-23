@@ -6,7 +6,7 @@ import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import iconeExcluir from '/src/assets/icone_excluir.png';
+import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir";
 import Carregando from '../../../components/Spinner/Carregando';
 import './ListarEventos.css';
 
@@ -145,7 +145,7 @@ const Evento = () => {
                             <td>{evento.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
                                 <div className='botoes'>
-                                    <Link to={`/visualiza-evento/${evento.id}`}>
+                                    <Link to={`/visualizar-evento/${evento.id}`}>
                                         <button className="search-button">
                                             <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
                                         </button>

@@ -48,6 +48,7 @@ const CadastroVoluntario = () => {
                 acesso: 'Padrao'
              });
             setTentouEnviar(false);
+            openModal();
         } catch (error) {
             tratarErro(error);
         }
@@ -59,18 +60,18 @@ const CadastroVoluntario = () => {
 
     const closeModal = () => setShowModal(false);
     const openModal = () => {
-        const tipo = document.getElementById('tipo').value;
-        const nome = document.getElementById('nome').value;
-        const cpf = document.getElementById('cpf').value;
-        const celular = document.getElementById('celular').value;
-        const senha = document.getElementById('senha').value;
+        // const tipo = document.getElementById('tipo').value;
+        // const nome = document.getElementById('nome').value;
+        // const cpf = document.getElementById('cpf').value;
+        // const celular = document.getElementById('celular').value;
+        // const senha = document.getElementById('senha').value;
 
-        // Verifica se todos os campos estão preenchidos
-        if (tipo && nome && cpf && celular && senha) {
+        // // Verifica se todos os campos estão preenchidos
+        // if (tipo && nome && cpf && celular && senha) {
             setShowModal(true);
-        } else {
-            return null;
-        }
+        // } else {
+        //     return null;
+        // }
     };
 
     return (
@@ -199,7 +200,7 @@ const CadastroVoluntario = () => {
 
 
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>

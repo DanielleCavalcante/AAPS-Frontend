@@ -19,6 +19,8 @@ const Navbar = () => {
   const handleSair = () => {
     setShowModal(false);
     logout();
+    closeModal();
+    navigate('/');
   };
 
   return (
