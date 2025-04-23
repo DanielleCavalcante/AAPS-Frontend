@@ -22,7 +22,7 @@ export const EventoService = {
   },
 
   async excluirEvento(id) {
-    const response = await api.put(`/Evento/ExcluirEvento/${id}`);
+    const response = await api.delete(`/Evento/ExcluirEvento/${id}`);
     return response.data.dados;
   }
 };

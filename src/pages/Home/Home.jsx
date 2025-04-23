@@ -45,15 +45,15 @@ const Home = () => {
               </Link>
               <span>relatório</span>
             </button>
+
+            <button className="home-button">
+              <Link to='/listar-eventos'>
+                <img src={iconeEvento} alt="Ícone de evento" className="icon" />
+              </Link>
+              <span>evento</span>
+            </button>
           </>
         )}
-
-        <button className="home-button">
-          <Link to='/listar-eventos'>
-            <img src={iconeEvento} alt="Ícone de evento" className="icon" />
-          </Link>
-          <span>evento</span>
-        </button>
 
         <button className="home-button">
           <Link to='/listar-animais'>

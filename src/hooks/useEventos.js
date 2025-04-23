@@ -9,8 +9,8 @@ export const useEventos = () => {
       limparErro();
       return await EventoService.criarEvento(evento);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
   
@@ -19,8 +19,8 @@ export const useEventos = () => {
       limparErro();
       return await EventoService.listarEventos(filtro);
     } catch (error) {
-      tratarErro(error,);
-      throw error;
+        tratarErro(error,);
+        throw error;
     }
   };
 
@@ -29,8 +29,8 @@ export const useEventos = () => {
       limparErro();
       return await EventoService.buscarEventoPorId(id);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
 
@@ -39,8 +39,8 @@ export const useEventos = () => {
       limparErro();
       return await EventoService.atualizarEvento(id, evento);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
 
@@ -49,8 +49,8 @@ export const useEventos = () => {
       limparErro();
       await EventoService.excluirEvento(id);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
 

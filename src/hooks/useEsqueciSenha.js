@@ -9,8 +9,8 @@ export const useEsqueciSenha = () => {
       limparErro();
       return await EsqueciSenhaService.solicitarResetSenha(resetSenha);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
 

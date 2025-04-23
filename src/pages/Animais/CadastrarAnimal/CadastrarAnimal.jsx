@@ -280,7 +280,6 @@ const CadastroAnimal = () => {
                     </div>
                 </div>
                 <div id='group3'>
-                    
                     <div className="form-group">
                         <label htmlFor="doadorId">Código Doador</label>
                         <input 
@@ -291,7 +290,6 @@ const CadastroAnimal = () => {
                             onChange={handleChange}
                         />
                     </div>
-
                     <div className="form-group">
                         <label htmlFor="nomeDoador">Nome do Doador</label>
                         <select
@@ -307,7 +305,6 @@ const CadastroAnimal = () => {
                             ))}
                         </select>
                     </div>
-
                 </div>
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />

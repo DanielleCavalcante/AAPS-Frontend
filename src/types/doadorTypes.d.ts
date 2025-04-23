@@ -3,6 +3,10 @@ export interface Doador {
     nome: string;
     rg: string;
     cpf: string;
+    status: 1 | 0 ;
+
+    telefones: string[];
+
     logradouro: string;
     numero: number;
     complemento?: string;
@@ -10,7 +14,6 @@ export interface Doador {
     cidade: string;
     estado: string;
     cep: string;    
-    status: 1 | 0 ;
 }
 
 export interface FiltroDoador{

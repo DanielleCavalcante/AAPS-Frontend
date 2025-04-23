@@ -12,8 +12,8 @@ export const useAuthActions = () => {
     try {
       await login(credentials);
     } catch (error) {
-      console.error("Login failed:", error);
-      throw error;
+        console.error("Login failed:", error);
+        throw error;
     }
   };
 

@@ -9,7 +9,7 @@ export interface Evento {
     acesso: string;
 }
   
-export interface FiltroEvento {
+export interface FiltroVoluntario {
     busca?: string;
     status?: 1 | 0;
 }
