@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
+import { useNavigate } from 'react-router-dom';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -9,6 +10,8 @@ import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
 import './CadastrarAnimal.css';
 
 const CadastroAnimal = () => {
+    const navigate = useNavigate();
+    //    const { criarAnimal, erro, carregando } = useAnimais();
     const { criarAnimal } = useAnimais();
     const [dadosAnimal, setDadosAnimal] = useState({
         nome: '',
@@ -86,7 +89,10 @@ const CadastroAnimal = () => {
 
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
-    const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate('/listar-animais');
+    }
     const openModal = () => {
         const nome = document.getElementById('nome').value;
         const especie = document.getElementById('especie').value;

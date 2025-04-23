@@ -6,12 +6,16 @@ import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import iconeExcluir from '/src/assets/icone_excluir.png';
-import Carregando from '../../../components/Spinner/Carregando';
+import carregando from '../../../components/Spinner/Carregando';
+import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
 import './ListarAnimais.css';
 
 const Animal = () => {
-    const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
+    // const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+    const [idParaExcluir, setIdParaExcluir] = useState(null);
+    const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
 
     const [animais, setAnimais] = useState([]);
     const [filtro, setFiltro] = useState({
@@ -21,6 +25,31 @@ const Animal = () => {
         status: '',
         disponibilidade: ''
     });
+
+    //Modais para botão Excluir:
+    const openModalExcluir = () => {
+        setShowConfirmModalExcluir(false);
+        setShowModalExcluir(true);
+    };
+
+    const closeModalExcluir = () => {
+        setShowModalExcluir(false);
+    };
+
+    const openConfirmModalExcluir = (id) => {
+        setIdParaExcluir(id); // salva o ID
+        setShowConfirmModalExcluir(true); // abre o modal de confirmação
+    };
+
+    const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
+
+    const confirmarExclusao = async () => {
+        if (idParaExcluir) {
+            await handleExcluir(idParaExcluir);
+            setIdParaExcluir(null); // limpa o estado
+            setShowConfirmModalExcluir(false);
+        }
+    };
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -40,6 +69,7 @@ const Animal = () => {
     const handleExcluir = async (id) => {
         await excluirAnimal(id);
         const dadosAtualizados = await listarAnimais(filtro);
+        openModalExcluir();
         setAnimais(dadosAtualizados);
     };
     
@@ -57,6 +87,8 @@ const Animal = () => {
                         </div>
                     </button>
                 </Link>
+
+                {/* Barra de Pesquisa: */}
                 <div className="search-bar">
                     <input 
                         type="text"
@@ -69,35 +101,42 @@ const Animal = () => {
                         <img src={iconeBusca} onc alt="Ícone de sucesso" className="icon" />
                     </button>
                 </div>
+
+                {/* Filtros: */}
                 {/* <select id="filtro" name="opcoesFiltro">
                     <option value="1">Filtros</option>
                     <option value="2">Espécie</option>
                     <option value="3">Sexo</option>
                 </select> */}
                 <div className="dropdowns">
-                    <select name="especie" onChange={handleChange} value={filtro.especie}>
-                        <option value="">Espécie</option>
-                        <option value="Cachorro">Cachorro</option>
-                        <option value="Gato">Gato</option>
-                    </select>
-
-                    <select name="sexo" onChange={handleChange} value={filtro.sexo}>
-                        <option value="">Sexo</option>
-                        <option value="M">Macho</option>
-                        <option value="F">Fêmea</option>
-                    </select>
-
-                    <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
-                        <option value="">Disponibilidade</option>
-                        <option value={0}>Adotado</option>
-                        <option value={1}>Disponível</option>
-                    </select>
-
-                    <select name="status" onChange={handleChange} value={filtro.status}>
-                        <option value="">Status</option>
-                        <option value={1}>Ativo</option>
-                        <option value={0}>Inativo</option>
-                    </select>
+                    <div className="filtro-group">
+                        <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
+                            <option value="">Disponibilidade</option>
+                            <option value={0}>Adotado</option>
+                            <option value={1}>Disponível</option>
+                        </select>
+                    </div>
+                    <div className="filtro-group">
+                        <select name="especie" onChange={handleChange} value={filtro.especie}>
+                            <option value="">Espécie</option>
+                            <option value="Cachorro">Cachorro</option>
+                            <option value="Gato">Gato</option>
+                        </select>
+                    </div>
+                    <div className="filtro-group">
+                        <select name="sexo" onChange={handleChange} value={filtro.sexo}>
+                            <option value="">Sexo</option>
+                            <option value="M">Macho</option>
+                            <option value="F">Fêmea</option>
+                        </select>
+                    </div>
+                    <div className="filtro-group">
+                        <select name="status" onChange={handleChange} value={filtro.status}>
+                            <option value="">Status</option>
+                            <option value={1}>Ativo</option>
+                            <option value={0}>Inativo</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             
@@ -125,14 +164,21 @@ const Animal = () => {
                             <td>{animal.disponibilidade === 1 ? 'Disponível' : 'Adotado'}</td>
                             <td>{animal.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
-                                <Link to={`/visualizar-animal/${animal.id}`}>
-                                    <button className="search-button">
-                                        <img src={iconeBusca} alt="Ícone de visualizar" className="icon" />
-                                    </button>
-                                </Link>
-                                <button className="search-button" onClick={() => {handleExcluir(animal.id)}}>
-                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
-                                </button>
+                                <div className='botoes'>
+                                    <Link to={`/visualizar-animal/${animal.id}`}>
+                                        <button className="search-button">
+                                            <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
+                                        </button>
+                                    </Link>
+                                    <BotaoExcluir 
+                                        showModal={showModalExcluir} 
+                                        showConfirmModalExcluir={showConfirmModalExcluir} 
+                                        openModal={() => openConfirmModalExcluir(animal.id)} 
+                                        closeModal2={closeConfirmModalExcluir} 
+                                        closeModal={confirmarExclusao}
+                                        closeModalExcluir={closeModalExcluir}
+                                    />
+                                </div>
                             </td>
                         </tr>
                     ))}

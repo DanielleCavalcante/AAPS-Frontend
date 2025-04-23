@@ -19,7 +19,7 @@ const BotaoSalvar = ({ showModal, openModal, closeModal, disabled }) => {
       {showModal && (
         <Modal show={showModal} onClose={closeModal}>
           <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
-          <p>Cadastro realizado com sucesso!</p>
+          <p>Salvo com sucesso!</p>
         </Modal>
       )}
     </div>
