@@ -9,6 +9,8 @@ import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
 import './CadastrarAnimal.css';
 
 const CadastroAnimal = () => {
+    const navigate = useNavigate();
+    //    const { criarAnimal, erro, carregando } = useAnimais();
     const { criarAnimal } = useAnimais();
     const [dadosAnimal, setDadosAnimal] = useState({
         nome: '',
@@ -86,7 +88,10 @@ const CadastroAnimal = () => {
 
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
-    const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate('/animal');
+    }
     const openModal = () => {
         const nome = document.getElementById('nome').value;
         const especie = document.getElementById('especie').value;

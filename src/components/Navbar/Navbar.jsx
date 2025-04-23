@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-
 import './Navbar.css';
+// import Modal from '/src/components/Modal';
+import Modal from "../Modal/Modal";
+
 
 const Navbar = () => {
   const { logout } = useAuth();
 
-  const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
+  //implementação de modal de confirmação de saída:
+  const [showModal, setShowModal] = useState(false);
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
 
@@ -26,8 +30,9 @@ const Navbar = () => {
           </button>
         </div>
         <div id='Sair'>
-          <button className="navbar-button">
-            <Link to='/'><img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" onClick={logout}/></Link>
+          <button className="navbar-button" onClick={openModal}>
+            <img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" />
+            {/* <img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" onClick={logout}/> */}
           </button>
         </div>
       </div>

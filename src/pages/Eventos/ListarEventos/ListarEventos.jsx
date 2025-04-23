@@ -18,6 +18,34 @@ const Evento = () => {
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+    const [idParaExcluir, setIdParaExcluir] = useState(null);
+
+    //Modais para botão Excluir:
+    const openModalExcluir = () => {
+            setShowConfirmModalExcluir(false);
+            setShowModalExcluir(true);
+    };
+    
+    const closeModalExcluir = () => {
+            setShowModalExcluir(false);
+    };
+    
+    const openConfirmModalExcluir = (id) => {
+        setIdParaExcluir(id); // salva o ID
+        setShowConfirmModalExcluir(true); // abre o modal de confirmação
+    };
+    
+    const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
+
+    const confirmarExclusao = async () => {
+        if (idParaExcluir) {
+            await handleExcluir(idParaExcluir);
+            setIdParaExcluir(null); // limpa o estado
+            setShowConfirmModalExcluir(false);
+        }
+    };
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -48,12 +76,15 @@ const Evento = () => {
             limparErro();
             const dadosAtualizados = await listarEventos(filtro);
             setEventos(dadosAtualizados);
+            openModalExcluir();
         } catch (error) {
             console.error('Erro ao excluir evento');
         } finally {
             finalizarCarregamento();
         }
     };
+
+
     
     return(
         <div className="container-evento">
@@ -113,14 +144,21 @@ const Evento = () => {
                             <td>{evento.descricao}</td>
                             <td>{evento.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
-                                <Link to={`/visualizar-evento/${evento.id}`}>
-                                    <button className="search-button">
-                                        <img src={iconeBusca} alt="Ícone de visualizar" className="icon" />
-                                    </button>
-                                </Link>
-                                <button className="search-button" onClick={() => {handleExcluir(evento.id)}}>
-                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
-                                </button>
+                                <div className='botoes'>
+                                    <Link to={`/visualiza-evento/${evento.id}`}>
+                                        <button className="search-button">
+                                            <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
+                                        </button>
+                                    </Link>
+                                    <BotaoExcluir 
+                                        showModal={showModalExcluir} 
+                                        showConfirmModalExcluir={showConfirmModalExcluir} 
+                                        openModal={() => openConfirmModalExcluir(evento.id)} 
+                                        closeModal2={closeConfirmModalExcluir} 
+                                        closeModal={confirmarExclusao}
+                                        closeModalExcluir={closeModalExcluir}
+                                    />
+                                </div>
                             </td>
                         </tr>
                         ))
