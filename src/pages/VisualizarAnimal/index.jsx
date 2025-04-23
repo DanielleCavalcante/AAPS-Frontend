@@ -12,8 +12,6 @@ import foto from '../../assets/aaps_logo1.png';
 import './visualizarAnimal.css';
 
 const VisualizaAnimal = () => {
-    console.log("início da página");
-
     const { buscarAnimalPorId, atualizarAnimal, carregando, erro } = useAnimais();
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
@@ -23,9 +21,7 @@ const VisualizaAnimal = () => {
     const [doadores, setDoadores] = useState([]); 
     const [showModal, setShowModal] = useState(false);
 
-    const openModal = () => {
-        setShowModal(true);
-    }
+    const openModal = () => setShowModal(true);
     
     const closeModal = () => {
         setEditando(false);

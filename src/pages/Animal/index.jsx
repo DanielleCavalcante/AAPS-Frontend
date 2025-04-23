@@ -12,6 +12,7 @@ const Animal = () => {
     // const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
     const [showModalExcluir, setShowModalExcluir] = useState(false);
     const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+    const [idParaExcluir, setIdParaExcluir] = useState(null);
     const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
 
     const [animais, setAnimais] = useState([]);
@@ -24,18 +25,29 @@ const Animal = () => {
     });
 
     //Modais para botão Excluir:
-  const openModalExcluir = () => {
-    setShowConfirmModalExcluir(false);
-    setShowModalExcluir(true);
-  };
+    const openModalExcluir = () => {
+        setShowConfirmModalExcluir(false);
+        setShowModalExcluir(true);
+    };
 
-  const closeModalExcluir = () => {
-    setShowModalExcluir(false);
-  }
+    const closeModalExcluir = () => {
+        setShowModalExcluir(false);
+    };
 
-  const openConfirmModalExcluir = () => setShowConfirmModalExcluir(true);
+    const openConfirmModalExcluir = (id) => {
+        setIdParaExcluir(id); // salva o ID
+        setShowConfirmModalExcluir(true); // abre o modal de confirmação
+    };
 
-  const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
+    const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
+
+    const confirmarExclusao = async () => {
+        if (idParaExcluir) {
+            await handleExcluir(idParaExcluir);
+            setIdParaExcluir(null); // limpa o estado
+            setShowConfirmModalExcluir(false);
+        }
+    };
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -55,9 +67,8 @@ const Animal = () => {
     const handleExcluir = async (id) => {
         await excluirAnimal(id);
         const dadosAtualizados = await listarAnimais(filtro);
-        setAnimais(dadosAtualizados);
         openModalExcluir();
-        console.log("Está excluindo os animais");
+        setAnimais(dadosAtualizados);
     };
     
     if (carregando) return <div>Carregando...</div>;
@@ -160,9 +171,9 @@ const Animal = () => {
                                     <BotaoExcluir 
                                         showModal={showModalExcluir} 
                                         showConfirmModalExcluir={showConfirmModalExcluir} 
-                                        openModal={openConfirmModalExcluir} 
+                                        openModal={() => openConfirmModalExcluir(animal.id)} 
                                         closeModal2={closeConfirmModalExcluir} 
-                                        closeModal={() => {handleExcluir(animal.id)}}
+                                        closeModal={confirmarExclusao}
                                         closeModalExcluir={closeModalExcluir}
                                     />
                                 </div>

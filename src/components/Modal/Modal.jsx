@@ -4,7 +4,6 @@ import './Modal.css';
 const Modal = ({ show, onClose, onClose2, children, qtdeBotao, nomeBotao1, nomeBotao2 }) => {
 
   // O modal só aparece se o estado 'show' for verdadeiro
-  console.log(show);
   if (!show) {
     return null;
   }

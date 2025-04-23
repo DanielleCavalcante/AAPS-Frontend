@@ -6,7 +6,7 @@ import { useError } from '../../hooks/useError';
 
 import BotaoCancelar from "/src/components/BotaoCancelar";
 import BotaoAlterar from "/src/components/BotaoAlterar";
-import BotaoExcluir from "/src/components/BotaoExcluir";
+import BotaoSalvar from "/src/components/BotaoSalvar";
 import './visualizaEvento.css';
 
 const VisualizaEvento = () => {
@@ -19,6 +19,16 @@ const VisualizaEvento = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => setShowModal(true);
+    
+    const closeModal = () => {
+        setShowModal(false);
+        setEditando(false);
+        setTentouEnviar(false);
+    }
 
     useEffect(() => {
         buscarEventoPorId(id)
@@ -43,7 +53,8 @@ const VisualizaEvento = () => {
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+        e.preventDefault(); //evita o reload da página e mantém o modal aberto
         setTentouEnviar(true); 
         limparErro();
 
@@ -53,35 +64,13 @@ const VisualizaEvento = () => {
 
         try {
             await atualizarEvento(id, formDados);
-            setEditando(false);
-            setTentouEnviar(false);
+            openModal();
+            // setEditando(false);
+            // setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
         }
     };
-
-    // const [showModal, setShowModal] = useState(false);
-    // const [showModalExcluir, setShowModalExcluir] = useState(false);
-    // const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-    // const closeModal = () => setShowModal(false);
-    // const openModal = () => {
-    //     if (codigo && evento) {
-    //         setShowModal(true);
-    //     }
-    // };
-
-    // const closeModalExcluir = () => setShowModalExcluir(false);
-    // const openModalExcluir = () => {
-    //     setShowConfirmModal(false);
-    //     setShowModalExcluir(true);
-    // };
-
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     setCodigo(''); // Limpa o campo código
-    //     setEvento(''); // Limpa o campo evento
-    // };
 
     return (
         <div className="cadastro-evento">
@@ -126,22 +115,9 @@ const VisualizaEvento = () => {
                         <BotaoAlterar onClick={() => setEditando(true)} //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  *//>
                     ) : (
-                        <button 
-                            type="button" 
-                            className="botao-alterar" 
-                            onClick={() => handleSubmit()}
-                        >
-                            Salvar
-                        </button>
-                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                        <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     )}
                     <BotaoCancelar /*  disabled={!isEditable} */ />
-                    <BotaoExcluir
-                        /* showModal={showModalExcluir}
-                        showConfirmModal={showConfirmModal}
-                        openModal={openModalExcluir}
-                        closeModal={closeModalExcluir} */
-                    />
                 </div>
             </form>
         </div>
