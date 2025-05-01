@@ -9,8 +9,8 @@ export const useDoadores = () => {
       limparErro();
       return await DoadorService.criarDoador(doador);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     } 
   };
 
@@ -19,8 +19,8 @@ export const useDoadores = () => {
       limparErro();
       return await DoadorService.listarDoadores(filtro);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
 
@@ -29,18 +29,18 @@ export const useDoadores = () => {
       limparErro();
       return await DoadorService.listarDoadoresAtivos();
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     } 
-  }
+  };
 
   const buscarDoadorPorId = async (id) => {
     try {
       limparErro();
       return await DoadorService.buscarDoadorPorId(id);
     } catch (error) {
-      tratarErro(error,);
-      throw error;
+        tratarErro(error,);
+        throw error;
     } 
   };
 
@@ -49,8 +49,8 @@ export const useDoadores = () => {
       limparErro();
       return await DoadorService.atualizarDoador(id, doador);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
 
@@ -59,10 +59,19 @@ export const useDoadores = () => {
       limparErro();
       await DoadorService.excluirDoador(id);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     }
   };
 
-  return { criarDoador, listarDoadores, listarDoadoresAtivos, buscarDoadorPorId, atualizarDoador, excluirDoador, erro, limparErro };
+  return { 
+    criarDoador, 
+    listarDoadores, 
+    listarDoadoresAtivos, 
+    buscarDoadorPorId, 
+    atualizarDoador, 
+    excluirDoador, 
+    erro, 
+    limparErro 
+  };
 };

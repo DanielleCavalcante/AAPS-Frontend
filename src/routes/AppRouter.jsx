@@ -66,7 +66,7 @@ const AppRouter = () => {
                         <Route path="/visualizar-adotante" element={<VisualizarAdotante/>} />
                         <Route path="/listar-adocoes" element={<Adocao/>} />
                         <Route path="/cadastrar-adocao" element={<CadastroAdocao/>} />
-                        <Route path="/visualizar-adocao" element={<VisualizarAdocao/>} />
+                        <Route path="/visualizar-adocao/:id" element={<VisualizarAdocao/>} />
                         <Route path="/perfil" element={<Perfil/>} />
                         <Route path="/alterar-senha" element={<AlterarSenha/>} />
                             

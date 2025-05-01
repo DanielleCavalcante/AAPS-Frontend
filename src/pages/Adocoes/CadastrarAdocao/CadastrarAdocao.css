@@ -79,7 +79,7 @@
   justify-items: stretch;
 }
 
-#codadotante, #codanimal, #coddoador, #codlocal {
+#adotanteId, #animalId, #doadorId, #pontoAdocaoId {
   width: 150px; 
 }
 

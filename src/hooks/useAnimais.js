@@ -9,8 +9,8 @@ export const useAnimais = () => {
       limparErro();
       return await AnimalService.criarAnimal(animal);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     } 
   };
 
@@ -19,18 +19,28 @@ export const useAnimais = () => {
       limparErro();
       return await AnimalService.listarAnimais(filtro);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     } 
   };
+
+  const listarAnimaisAtivos = async () => {
+    try {
+      limparErro();
+      return await AnimalService.listarAnimaisAtivos();
+    } catch (error) {
+        tratarErro(error);
+        throw error;
+    } 
+  }
 
   const buscarAnimalPorId = async (id) => {
     try {
       limparErro();
       return await AnimalService.buscarAnimalPorId(id);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     } 
   };
 
@@ -39,8 +49,8 @@ export const useAnimais = () => {
       limparErro();
       return await AnimalService.atualizarAnimal(id, animal);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     } 
   };
 
@@ -49,10 +59,19 @@ export const useAnimais = () => {
       limparErro();
       await AnimalService.excluirAnimal(id);
     } catch (error) {
-      tratarErro(error);
-      throw error;
+        tratarErro(error);
+        throw error;
     } 
   };
 
-  return { criarAnimal, listarAnimais, buscarAnimalPorId, atualizarAnimal, excluirAnimal, erro, limparErro };
+  return { 
+    criarAnimal, 
+    listarAnimais, 
+    listarAnimaisAtivos,
+    buscarAnimalPorId, 
+    atualizarAnimal, 
+    excluirAnimal, 
+    erro, 
+    limparErro 
+  };
 };
