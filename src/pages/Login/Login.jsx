@@ -1,29 +1,36 @@
 import React,  { useState }  from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import { useAuth } from "../../hooks/useAuth"; 
+import { useError } from '../../hooks/useError';
+
 import logo from '../../assets/aaps_logo1.png';
 import './Login.css';
 
 const Login = () => {
-  const navigate = useNavigate();
   const { login } = useAuth();
+
   const [credentials, setCredentials] = useState({ userName: "", senha: "" });
-  const [erro, setErro] = useState("");
+
+  const { erro, tratarErro, limparErro } = useError();
+  const [tentouEnviar, setTentouEnviar] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
+    limparErro();
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (!credentials.userName || !credentials.senha) {
-      setErro("Por favor, preencha todos os campos");
-      return;
-    }
+    setTentouEnviar(true); 
     try {
       await login(credentials);
+      setCredentials({ userName: "", senha: "" });
+      setTentouEnviar(false);
     } catch (error) {
-      setErro("Usuário ou senha incorretos");
+      tratarErro(error);
     }
   };
 
@@ -44,7 +51,6 @@ const Login = () => {
             placeholder="Digite seu usuário" 
             value={credentials.userName}
             onChange={handleChange}
-            required 
           />
         </div>
         
@@ -57,11 +63,16 @@ const Login = () => {
             placeholder="Digite sua senha"
             value={credentials.senha}
             onChange={handleChange}
-            required
           />
         </div>
 
-        {erro && <div className="error-message">{erro}</div>}
+        {/* {erro && <span className="erro-required">{erro}</span>}*/}
+
+        {tentouEnviar && (!credentials.userName || !credentials.senha) ? (
+            <span className="erro-required">Preencha todos os campos!</span>
+        ) : (
+            erro && <span className="erro-reset-senha">{erro}</span>
+        )}
 
         <div className="button-group">
           <button type="submit" className="btn-login">Entrar</button>

@@ -83,8 +83,6 @@ const Evento = () => {
             finalizarCarregamento();
         }
     };
-
-
     
     return(
         <div className="container-evento">

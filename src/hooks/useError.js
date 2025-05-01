@@ -4,10 +4,16 @@ export const useError = () => {
   const [erro, setErro] = useState('');
 
   const tratarErro = (error, mensagemPadrao = 'Erro inesperado') => {
-    const mensagem =
-      error?.response?.data?.erros || 
-      error?.response?.data?.mensagem ||
-      mensagemPadrao;
+    let mensagem;
+
+    if (error?.response?.data?.erros) {
+      mensagem = error?.response?.data?.erros;
+    } else if (error?.response?.data?.mensagem) {
+      mensagem = error?.response?.data?.mensagem;
+    } else {
+      mensagem = mensagemPadrao;
+    }
+
     setErro(mensagem);
     console.error('Erro da API:', error);
   };

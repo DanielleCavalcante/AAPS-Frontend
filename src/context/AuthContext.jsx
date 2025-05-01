@@ -53,6 +53,11 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error("Erro no login", error);
+
+      if (error.response && error.response.data) {
+        throw error; // nao tirar pq ta exibindo o erro na tela de login
+      }
+
       throw new Error("Usuário ou senha incorretos");
     }
   };
