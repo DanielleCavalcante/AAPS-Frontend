@@ -247,7 +247,8 @@ const VisualizarVoluntario = () => {
             <button
               type="button"
               id="voluntarioId"
-              className="botao-resetar-senha"
+              /* className="botao-resetar-senha" */
+              className={`botao-resetar-senha ${editando ? 'ativo' : 'desabilitado'}`}
               name="voluntarioId"
               disabled={!editando}
               onClick={() => { handleResetarSenha(voluntario.id) }}
