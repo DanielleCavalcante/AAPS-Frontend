@@ -1,0 +1,76 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 80vh;
+  margin: 30px auto;
+}
+
+.button-grid-home {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Mudança para 4 colunas */
+  /* gap: 60px; espaço entre os botoes (horizontal) */
+  row-gap: 50px;
+  column-gap: 60px;
+  justify-items: center;
+  padding: 100px 0 30px;
+  flex-grow: 1;
+  /* margin: auto; */
+}
+
+.home-button {
+  background-color: #009EE0;
+  font-size: 8px;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 80px; 
+  text-transform: capitalize;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s;
+  gap: 2px; /* Espaço entre o ícone e o texto */
+}
+
+.home-button-perfil {
+  background-color: #009EE0;
+  font-size: 8px;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 80px; 
+  text-transform: capitalize;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s;
+  gap: 2px; /* Espaço entre o ícone e o texto */
+}
+
+.home button img{
+  width: 30px;
+}
+
+.home-button:hover {
+  background-color: #007bb8;
+}
+
+.home-button span{
+  font-size: 16px;
+}
+
+.home-button i {
+  margin-bottom: 5px;
+}

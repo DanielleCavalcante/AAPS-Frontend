@@ -1,0 +1,146 @@
+.ponto-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  padding: 2% 2%;
+  margin: 0 auto;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .form-group-phone {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .telefone-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #input-telefone {
+    width: 30%;
+  }
+  
+  #input-responsavel {
+    width: 63%;
+  }
+  
+  .btn-add-phone,
+  .add-btn {
+    background-color: #009EE0;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .add-btn {
+    background-color: #009EE0;
+    width: 20%;
+    height: 40px;
+    margin-left: 80%;
+    margin-top: 10px;
+  }
+  
+  .remove-btn-cad-ponto {
+    background-color: #e63946;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-grid;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+    border: none;
+  }
+  
+  .icon-remove-cad-ponto {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .button-group,
+  .button-group-crud {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .button-group-crud {
+    justify-content: flex-end;
+  }
+  
+  .cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2%;
+    margin: 0 auto;
+  }
+  
+  .cadastroPonto-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 80%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+  
+  .cadastroPonto-linha1 {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #imput-cep,
+  #imput-estado,
+  #bairro {
+    width: 100%;
+  }
+  
+  #imput-cidade-ponto, #complemento-ponto {
+    width: 150%;
+  }
+  
+  #numero {
+    width: 40%;
+  }
+  
+
+  #rg,
+  #cpf,
+  #celular-ponto {
+    width: 100%;
+  }
+  
+
+  

@@ -1,0 +1,154 @@
+/* Container principal */
+.container-animal {
+    max-width: 90%;
+    max-height: 50%;
+    margin: 5%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Barra de ferramentas com o botão de cadastro, busca e filtros */
+.toolbar{
+    display: flex;
+    align-items: flex-start; /*Alinha os itens verticalmente */
+    justify-content: space-between; /*Espaço entre os itens*/
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /* Permite que os elementos quebrem linha em telas menores */
+}
+
+/* Botão de cadastrar */
+.button-cadastrar {
+    background-color: #009EE0;
+    color: white;
+    padding: 30px 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    height: 65px;
+    font-size: 15px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border: none;
+    flex-shrink: 0;
+}
+
+/* Barra de pesquisa */
+.search-bar {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    background-color:#009EE0;
+    border-radius: 5px;
+    color: white;
+    padding: 5px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 20px;
+    border: none;
+    border-radius: 5px;
+    background-color:#009EE0; 
+    color:white;
+}
+
+.search-button {
+    background-color: #009EE0;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.search-button img, .button-cadastrar img{
+    width: 20px;
+    height: 20px;
+    padding: 2%;
+}
+
+/* Botão de filtros */
+.dropdowns{
+    display: flex
+;   gap: 10px;
+    flex-direction: row-reverse; 
+    /*flex-wrap: wrap; /* quebra linha se faltar espaço */
+    /*color: black;
+    font-size: 12px;
+    max-width: 100%;
+    margin: 0 auto; /* Garante centralização */
+}
+
+/*.filtro-group{
+    display: flex;
+    align-items: center;  centraliza o texto e o checkbox 
+    border: 2px solid #009EE0;
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 10px;
+    gap: 2px; 
+    flex-wrap: wrap;  Permite quebra de linha em telas pequenas 
+}*/
+
+#filtro-animais{
+    background-color: #009EE0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 160px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* Tabela */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    text-align: center;
+    justify-items: center;
+    border-bottom: 1px solid #000000;
+    height: 10px;
+}
+
+.table th {
+    background-color: #009EE0;
+    color: white;
+}
+
+.table tr:nth-child(even) {
+    background-color: #d9d9d9;
+}
+
+.botoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px; /* espaço entre os botões */
+  }
+
+/* .view-button {
+    background-color: #009EE0;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+} */
+
+input::placeholder {
+    color: white;
+    font-size: 15px;
+  }

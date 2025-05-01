@@ -1,0 +1,105 @@
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2%;
+}
+
+.cadastroVoluntario-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 80%;
+    text-align: center;
+    margin: 50px auto 35px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.form-group input, select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: "Poppins", sans-serif;
+}
+
+#senha {
+    width: 40%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+select {
+    font-family: "Poppins", sans-serif;
+}
+
+.button-group-crud {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cadastroVoluntario-linha {
+    display: flex;
+    justify-content: space-between;
+}
+
+.botao-resetar-senha {
+    background-color: #009EE0;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+    margin-right: auto;
+}
+
+.senha-botao-grupo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.situacao {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.situacao select {
+    width: 150px;
+}
+
+#group-animal1{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    align-items: center;
+  }
+
+  #senha {
+    width: 300px;
+  }
+
+  #situacao {
+    width: 200px;
+  }
+
+#group-animal1 .form-group:nth-child(3) {
+  justify-self: end;
+}
+
+#codigo {
+    width: 100%;
+}
+

@@ -1,0 +1,46 @@
+.cadastro-evento {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2% 2%;
+    margin: 0 auto;
+  }
+  
+  .cadastroEvento-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 80%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+  
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+ 
+  .button-group-crud {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  #imput-codigo {
+    width: 20%; /* Largura de 60% */
+  }
+
+  #descricao, #status {
+    width: 60%; /* Largura de 30% */
+  }
