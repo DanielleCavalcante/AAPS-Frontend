@@ -11,14 +11,6 @@ export const AnimalService = {
     return response.data.dados;
   },
 
-<<<<<<< HEAD
-=======
-  async listarAnimaisAtivos() {
-    const response = await api.get('/Animal/ObterAnimaisAtivos');
-    return response.data.dados;
-  },
-
->>>>>>> 4c8121d70a0682d3480368506f449e6b4a81ae70
   async buscarAnimalPorId (id){
     const response = await api.get(`/Animal/ObterAnimalPorId/${id}`);
     return response.data.dados;
