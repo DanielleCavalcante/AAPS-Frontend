@@ -26,6 +26,7 @@ const Home = () => {
   const closeModal = () => setShowModal(false);
       
   const handleSair = () => {
+    logout();
     console.log("Usuário saiu!");
     closeModal();
     navigate('/'); //redireciona para a página de login.
