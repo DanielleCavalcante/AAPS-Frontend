@@ -30,6 +30,7 @@ import VisualizarEvento from '../pages/Eventos/VisualizarEvento/VisualizarEvento
 import Perfil from "../pages/Perfil/Perfil";
 import AlterarSenha from "../pages/AlterarSenha/AlterarSenha";
 import DigiteNovaSenhaCelular from "../pages/DigiteNovaSenhaCelular/DigiteNovaSenhaCelular";
+import Relatorio from "../pages/Relatorio/Relatorio";
 
 import Voluntario from '../pages/Voluntarios/ListarVoluntarios/ListarVoluntarios';
 import CadastroVoluntario from '../pages/Voluntarios/CadastrarVoluntario/CadastrarVoluntario';
@@ -80,6 +81,8 @@ const AppRouter = () => {
                             <Route path="/listar-pontos-adocao" element={<PontoAdocao/>} />
                             <Route path="/cadastrar-ponto-adocao" element={<CadastroPontoAdocao/>} />
                             <Route path="/visualizar-ponto-adocao" element={<VisualizarPontoAdocao/>} />
+                            <Route path="/relatorio" element={<Relatorio/>} />
+                  
                         </Route>
 
                         <Route path="*" element={<ComingSoon />}/>
