@@ -18,7 +18,7 @@ const EsqueciSenhaCodigo = () => {
         console.log("Número de celular:", celular);
 
         // Navegar para a página RedefinirSenhaWhats
-        navigate('/redefinir-senha-celulars'); // Altere o caminho conforme necessário
+        navigate('/redefinir-senha-celular'); // Altere o caminho conforme necessário
     };
 
     return (

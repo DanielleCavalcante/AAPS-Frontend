@@ -29,6 +29,7 @@ import CadastroEvento from '../pages/Eventos/CadastrarEvento/CadastrarEvento';
 import VisualizarEvento from '../pages/Eventos/VisualizarEvento/VisualizarEvento';
 import Perfil from "../pages/Perfil/Perfil";
 import AlterarSenha from "../pages/AlterarSenha/AlterarSenha";
+import DigiteNovaSenhaCelular from "../pages/DigiteNovaSenhaCelular/DigiteNovaSenhaCelular";
 
 import Voluntario from '../pages/Voluntarios/ListarVoluntarios/ListarVoluntarios';
 import CadastroVoluntario from '../pages/Voluntarios/CadastrarVoluntario/CadastrarVoluntario';
@@ -48,6 +49,7 @@ const AppRouter = () => {
                 <Route path="/esqueci-senha-celular" element={<EsqueciSenhaCodigo/>} />
                 <Route path="/redefinir-senha-celular" element={<RedefinirSenhaCodigo/>} />
                 <Route path="/esqueci-senha-admin" element={<EsqueciSenhaAdmin/>} />
+                <Route path="/digitar-senha-celular" element={<DigiteNovaSenhaCelular/>} />
 
                 <Route element={<Layout/>}>
                     <Route element={<PrivateRoute/>}>
