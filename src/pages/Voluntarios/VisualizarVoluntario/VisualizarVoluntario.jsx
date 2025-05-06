@@ -245,20 +245,6 @@ const VisualizarVoluntario = () => {
               />
           </div> */}
           <div className="form-group">
-            <button
-              type="button"
-              id="voluntarioId"
-              /* className="botao-resetar-senha" */
-              className={`botao-resetar-senha ${editando ? 'ativo' : 'desabilitado'}`}
-              name="voluntarioId"
-              disabled={!editando}
-              onClick={() => { handleResetarSenha(voluntario.id) }}
-            >
-              Resetar Senha
-            </button>
-          </div>
-
-          <div className="form-group">
             <label htmlFor="status">Status</label>
             <select 
               id="status" 
@@ -276,7 +262,7 @@ const VisualizarVoluntario = () => {
             <button
               type="button"
               id="voluntarioId"
-              className="botao-resetar-senha"
+              className={`botao-resetar-senha ${editando ? 'ativo' : 'desabilitado'}`}
               name="voluntarioId"
               disabled={!editando}
               onClick={() => { handleResetarSenha(voluntario.id) }}
