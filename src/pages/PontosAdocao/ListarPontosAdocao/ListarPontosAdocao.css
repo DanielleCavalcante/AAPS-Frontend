@@ -1,8 +1,12 @@
 /* Container principal */
 .container-evento {
-    max-width: 80%;
+    max-width: 90%;
     max-height: 50%;
     margin: 5%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
 }
 
 /* Barra de ferramentas com o botão de cadastro, busca e filtros */
@@ -72,11 +76,44 @@
     
 }
 
-.search-button-evento img, .button-cadastrar-evento img{
+.delete-button {
+    background-color: red;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-grid;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border: none;
+    align-content: center    
+}
+
+.search-button img, .button-cadastrar img, .delete-button img{
     width: 20px;
     height: 20px;
     padding: 2%;
 }
+
+.dropdowns{
+    display: flex
+;   gap: 10px;
+    flex-direction: row-reverse; 
+}
+
+#filtro-ponto {
+    background-color: #009EE0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 160px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 15px;
+}
+
 
 /* Botão de filtros */
 #filtro{
@@ -123,4 +160,9 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+input::placeholder {
+    color: white;
+    font-size: 15px;
+  }
 

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './VisualizarAdocao.css';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
-import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
+import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
+import './VisualizarAdocao.css';
 
 const VisualizarAdocao = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
@@ -67,7 +67,7 @@ const VisualizarAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" disabled={!isEditable}/>
+                        <input id="celular-afotante" name="celular" type="text" placeholder="Digite o celular com DDD" disabled={!isEditable}/>
                     </div>
                 </div>
 
@@ -152,8 +152,9 @@ const VisualizarAdocao = () => {
 
                 <div className="button-group-crud">
                     <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
-                    <BotaoAlterar />
-                    <BotaoExcluir/>
+                    <BotaoSalvar/>
+
+                    <BotaoAlterar />                    
                 </div>
             </form>
         </div>

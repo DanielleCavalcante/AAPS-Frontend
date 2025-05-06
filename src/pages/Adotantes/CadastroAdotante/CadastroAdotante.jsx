@@ -202,7 +202,7 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input id="celular-adotante" name="celular" type="text" placeholder="Digite o celular com DDD" />
                     </div>
                 </div>
 

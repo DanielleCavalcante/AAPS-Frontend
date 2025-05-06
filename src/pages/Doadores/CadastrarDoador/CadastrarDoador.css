@@ -98,7 +98,7 @@ label {
 }
 
 #imput-cidade {
-  width: 200%; 
+  width: 150%; 
 }
 
 #imput-estado {
@@ -110,14 +110,14 @@ label {
 }
 
 #complemento{
-  width: 200%; 
+  width: 150%; 
 }
 
 #bairro {
   width: 100%; 
 }
 
-#rg, #cpf, #celular {
+#rg, #cpf, #celular-doador {
   width: 100%; 
 }
 

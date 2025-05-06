@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
-import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
-
+import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarPontoAdocao.css';
 
 const VisualizarPontoAdocao = () => {
@@ -95,7 +94,7 @@ const VisualizarPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input id="celular-ponto" name="celular" type="text" placeholder="Digite o celular com DDD" />
                     </div>
                 </div>
 
@@ -136,7 +135,7 @@ const VisualizarPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input id="imput-cidade" name="cidade" type="text" placeholder="Digite a cidade" />
+                        <input id="imput-cidade-ponto" name="cidade" type="text" placeholder="Digite a cidade" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
@@ -157,7 +156,7 @@ const VisualizarPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-                        <input id="complemento" name="complemento" type="text" placeholder="Digite o complemento" />
+                        <input id="complemento-ponto" name="complemento" type="text" placeholder="Digite o complemento" />
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
@@ -166,18 +165,15 @@ const VisualizarPontoAdocao = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
                     <BotaoAlterar
                         showModal={showModalAlterar}
                         openModal={openModalAlterar}
                         closeModal={closeModalAlterar}
+                        
                     />
-                    <BotaoExcluir
-                        showModal={showModalExcluir}
-                        showConfirmModal={showConfirmModal}
-                        openModal={openModalExcluir}
-                        closeModal={closeModalExcluir}
-                    />
+                    <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
+
+
                 </div>
             </form>
         </div>

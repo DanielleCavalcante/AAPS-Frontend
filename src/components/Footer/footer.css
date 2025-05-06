@@ -7,7 +7,7 @@
   .footer-container {
     padding: 0 20px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
   }
  
   .footer-right {
@@ -24,6 +24,7 @@
     height: 30px;
     margin: 10px;
     border: none;
+    color: white;
   }
 
   .footer-container img{
@@ -35,3 +36,5 @@
     height: 30px;
     margin-top: 30%;
   }
+
+

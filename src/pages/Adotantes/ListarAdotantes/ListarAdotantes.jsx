@@ -24,13 +24,18 @@ const Adotante = () => {
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
-                <select id="filtro" name="opcoesFiltro">
+            </div>
+
+            <div className="dropdowns">
+            <div className="filtro-group">
+            <select id="filtro-adotantes" name="opcoesFiltro">
                     <option value="1">Filtros</option>
                     <option value="2">Código</option>
                     <option value="3">Nome</option>
                     <option value="4">CPF</option>
                 </select>
-            </div>
+                </div>
+                </div>
             
             <table className="table">
                 <thead>
@@ -53,6 +58,10 @@ const Adotante = () => {
                                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>
+                                <button className="delete-button" onClick={() => {handleExcluir(voluntario.id)}}>
+                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
+                                </button>
+
                             </td>
                         </tr>
                     ))}

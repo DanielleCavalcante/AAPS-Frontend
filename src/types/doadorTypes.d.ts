@@ -3,10 +3,13 @@ export interface Doador {
     nome: string;
     rg: string;
     cpf: string;
+<<<<<<< HEAD
+=======
     status: 1 | 0 ;
 
     telefones: string[];
 
+>>>>>>> 4c8121d70a0682d3480368506f449e6b4a81ae70
     logradouro: string;
     numero: number;
     complemento?: string;
@@ -14,6 +17,10 @@ export interface Doador {
     cidade: string;
     estado: string;
     cep: string;    
+<<<<<<< HEAD
+    status: 1 | 0 ;
+=======
+>>>>>>> 4c8121d70a0682d3480368506f449e6b4a81ae70
 }
 
 export interface FiltroDoador{

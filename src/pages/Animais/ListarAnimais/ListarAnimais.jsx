@@ -77,7 +77,7 @@ const Animal = () => {
     if (erro) return <div className="erro">{erro}</div>;
 
     return(
-        <div className="container">
+        <div className="container-animal">
             <div className="toolbar">
                 <Link to='/cadastrar-animal' style={{ textDecoration: 'none' }}>
                     <button className="button-cadastrar">
@@ -108,37 +108,39 @@ const Animal = () => {
                     <option value="2">Espécie</option>
                     <option value="3">Sexo</option>
                 </select> */}
-                <div className="dropdowns">
+                
+            </div>
+
+            <div className="dropdowns">
                     <div className="filtro-group">
-                        <select name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
+                        <select id="filtro-animais" name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
                             <option value="">Disponibilidade</option>
                             <option value={0}>Adotado</option>
                             <option value={1}>Disponível</option>
                         </select>
                     </div>
                     <div className="filtro-group">
-                        <select name="especie" onChange={handleChange} value={filtro.especie}>
+                        <select id="filtro-animais" name="especie" onChange={handleChange} value={filtro.especie}>
                             <option value="">Espécie</option>
                             <option value="Cachorro">Cachorro</option>
                             <option value="Gato">Gato</option>
                         </select>
                     </div>
                     <div className="filtro-group">
-                        <select name="sexo" onChange={handleChange} value={filtro.sexo}>
+                        <select id="filtro-animais" name="sexo" onChange={handleChange} value={filtro.sexo}>
                             <option value="">Sexo</option>
                             <option value="M">Macho</option>
                             <option value="F">Fêmea</option>
                         </select>
                     </div>
                     <div className="filtro-group">
-                        <select name="status" onChange={handleChange} value={filtro.status}>
+                        <select id="filtro-animais" name="status" onChange={handleChange} value={filtro.status}>
                             <option value="">Status</option>
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
                         </select>
                     </div>
                 </div>
-            </div>
             
             <table className="table">
                 <thead>

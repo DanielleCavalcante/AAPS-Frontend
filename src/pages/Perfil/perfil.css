@@ -51,7 +51,7 @@ label {
     width: 50%;
 }
 
-#celular {
+#celular-perfil {
     width: 100%;
 }
 
@@ -63,6 +63,7 @@ label {
 
 .btn-resetar-senha,
 .btn-sair {
+    padding: 30px;
     width: 100px;
     border: none;
     color: white;
@@ -70,13 +71,14 @@ label {
     cursor: pointer;
     font-weight: bold;
     text-align: center;
+    padding: 5px 5px;
     font-size: 14px;
+    cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 5px;
-    padding: 5px;
 }
 
 .btn-resetar-senha {
@@ -88,9 +90,9 @@ label {
 }
 
 .btn-sair img {
-    width: 37px;
+    width: 35px;
 }
 
 .btn-resetar-senha img {
-    width: 30px;
+    width: 25px;
 }

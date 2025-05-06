@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
-import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
+import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarDoador.css';
 
 const VisualizarDoador = () => {
@@ -117,7 +117,7 @@ const VisualizarDoador = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input id="celular-doador" name="celular" type="text" placeholder="Digite o celular com DDD" />
                     </div>
                 </div>
 
@@ -189,10 +189,9 @@ const VisualizarDoador = () => {
 
                 <div className="button-group-crud">
                     <BotaoAlterar showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar} />
+                     <BotaoSalvar />
                     <BotaoCancelar />
-                    <BotaoExcluir showModal={showModalExcluir} showConfirmModal={showConfirmModal}
-                            openModal={openConfirmModal} closeModal2={closeConfirmModal} closeModal={openModalExcluir}
-                            closeModalExcluir={closeModalExcluir} />
+
                 </div>
             </form>
         </div>

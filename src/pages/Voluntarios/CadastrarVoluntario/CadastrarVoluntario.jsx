@@ -115,6 +115,19 @@ const CadastroVoluntario = () => {
 
                 <div className='cadastroVoluntario-linha'>
                     <div className="form-group">
+                        <label htmlFor="userName">Nome de Usuário</label>
+                        <input 
+                            type="text"
+                            id="userName" 
+                            name='userName'
+                            value={dadosVoluntario.userName}
+                            onChange={handleChange}
+                            placeholder="Digite o nome de usuário do voluntário" 
+                            required // ver se vai tirar
+                       />
+                    </div>
+
+                    <div className="form-group">
                         <label htmlFor="cpf">CPF</label>
                         <input 
                             type="text" 
@@ -139,19 +152,6 @@ const CadastroVoluntario = () => {
                             required // ver se vai tirar
                         />
                     </div>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="userName">Nome de Usuário</label>
-                    <input 
-                        type="text"
-                        id="userName" 
-                        name='userName'
-                        value={dadosVoluntario.userName}
-                        onChange={handleChange}
-                        placeholder="Digite o nome de usuário do voluntário" 
-                        required // ver se vai tirar
-                    />
                 </div>
 
                 <div className="form-group">

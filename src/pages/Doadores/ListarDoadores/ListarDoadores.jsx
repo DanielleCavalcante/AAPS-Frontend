@@ -7,8 +7,8 @@ import iconeExcluir from '/src/assets/icone_excluir.png';
 import './ListarDoadores.css';
 
 const Doador = () => {
-    return(
-        <div className="container-doador">
+    return (
+        <div className="container">
             <div className="toolbar-doador">
                 <Link to='/cadastrar-doador' style={{ textDecoration: 'none' }}>
                     <button className="button-cadastrar-doador">
@@ -19,19 +19,25 @@ const Doador = () => {
                     </button>
                 </Link>
                 <div className="search-bar-doador">
-                    <input type="text"/>
+                    <input type="text" />
                     <button className="search-button-doador">
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
-                <select id="filtro" name="opcoesFiltro">
-                    <option value="1">Filtros</option>
-                    <option value="2">Código</option>
-                    <option value="3">Nome</option>
-                    <option value="4">Contato</option>
-                </select>
             </div>
-            
+
+            <div className="dropdowns">
+                <div className="filtro-group">
+
+                    <select id="filtro-doadores" name="opcoesFiltro">
+                        <option value="1">Filtros</option>
+                        <option value="2">Código</option>
+                        <option value="3">Nome</option>
+                        <option value="4">Contato</option>
+                    </select>
+                </div>
+            </div>
+
             <table className="table">
                 <thead>
                     <tr>
@@ -53,6 +59,10 @@ const Doador = () => {
                                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>
+                                <button className="delete-button" onClick={() => { handleExcluir(voluntario.id) }}>
+                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
+                                </button>
+
                             </td>
                         </tr>
                     ))}

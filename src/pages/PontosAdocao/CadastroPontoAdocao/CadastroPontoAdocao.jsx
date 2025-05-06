@@ -84,7 +84,7 @@ const CadastroPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular" name="celular" type="text" />
+                        <input id="celular-ponto" name="celular" type="text" />
                     </div>
                 </div>
 
@@ -127,7 +127,7 @@ const CadastroPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input id="imput-cidade" name="cidade" type="text" placeholder="Digite a cidade" />
+                        <input id="imput-cidade-ponto" name="cidade" type="text" placeholder="Digite a cidade" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
@@ -148,7 +148,7 @@ const CadastroPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-                        <input id="complemento" name="complemento" type="text" placeholder="Digite o complemento" />
+                        <input id="complemento-ponto" name="complemento" type="text" placeholder="Digite o complemento" />
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>

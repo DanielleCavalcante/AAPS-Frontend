@@ -6,7 +6,7 @@ import { useError } from '../../../hooks/useError';
 
 import BotaoCancelar from '/src/components/BotaoCancelar/BotaoCancelar.jsx';
 import BotaoAlterar from '/src/components/BotaoAlterar/BotaoAlterar.jsx';
-import BotaoExcluir from '/src/components/BotaoExcluir/BotaoExcluir.jsx';
+import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarVoluntario.css';
 
 const VisualizarVoluntario = () => {
@@ -168,6 +168,23 @@ const VisualizarVoluntario = () => {
         </div>
 
         <div className="cadastroVoluntario-linha">
+
+        <div className="form-group">
+          <label htmlFor="userName">Nome de Usuário</label>
+          <input 
+            type="text" 
+            id="userName" 
+            name="userName"
+            value={formDados?.userName || ''}
+            onChange={handleInputChange}
+            placeholder="Digite o nome de usuário do voluntário" 
+            disabled={!editando}
+          />
+          {(tentouEnviar && !formDados.userName) && (
+            <span className="erro-required"> O campo 'Nome de Usuário' é obrigatório </span>
+          )}
+        </div>
+
           <div className="form-group">
             <label htmlFor="cpf">CPF</label>
             <input 
@@ -188,7 +205,7 @@ const VisualizarVoluntario = () => {
             <label htmlFor="celular">Celular</label>
             <input 
               type="text" 
-              id="celular" 
+              id="celular-voluntario" 
               name="phoneNumber"
               value={formDados?.phoneNumber || ''}
               onChange={handleInputChange}
@@ -199,22 +216,6 @@ const VisualizarVoluntario = () => {
               <span className="erro-required"> O campo 'Celular' é obrigatório </span>
             )}
           </div>
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="userName">Nome de Usuário</label>
-          <input 
-            type="text" 
-            id="userName" 
-            name="userName"
-            value={formDados?.userName || ''}
-            onChange={handleInputChange}
-            placeholder="Digite o nome de usuário do voluntário" 
-            disabled={!editando}
-          />
-          {(tentouEnviar && !formDados.userName) && (
-            <span className="erro-required"> O campo 'Nome de Usuário' é obrigatório </span>
-          )}
         </div>
 
         <div className="form-group">
@@ -270,6 +271,20 @@ const VisualizarVoluntario = () => {
               <option value={0}>Inativo</option>
             </select>
           </div>
+
+          <div className="form-group">
+            <button
+              type="button"
+              id="voluntarioId"
+              className="botao-resetar-senha"
+              name="voluntarioId"
+              disabled={!editando}
+              onClick={() => { handleResetarSenha(voluntario.id) }}
+            >
+              Resetar Senha
+            </button>
+          </div>
+
         </div>
 
         <div className="button-group-crud">
@@ -284,17 +299,12 @@ const VisualizarVoluntario = () => {
                 className="botao-alterar" 
                 onClick={() => handleSubmit()}
             >
-                Salvar
+                 <BotaoSalvar />
             </button>
             //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
           )}
           <BotaoCancelar /*  disabled={!isEditable} */ />
-          <BotaoExcluir
-            /* showModal={showModalExcluir}
-            showConfirmModal={showConfirmModal}
-            openModal={openModalExcluir}
-            closeModal={closeModalExcluir} */
-          />
+
         </div>
       </form>
     </div>

@@ -107,11 +107,16 @@ const Evento = () => {
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
-                <select id="filtro" name="status" onChange={handleChange} value={filtro.status}>
-                    <option value="">Status</option>
-                    <option value={1}>Ativo</option>
-                    <option value={0}>Inativo</option>
-                </select>
+            </div>
+
+            <div className="dropdowns">
+                <div className="filtro-group">
+                    <select id="filtro-eventos" name="status" onChange={handleChange} value={filtro.status}>
+                        <option value="">Status</option>
+                        <option value={1}>Ativo</option>
+                        <option value={0}>Inativo</option>
+                    </select>
+                </div>
             </div>
 
             <table className="table">

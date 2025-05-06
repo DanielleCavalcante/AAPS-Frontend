@@ -111,6 +111,10 @@
     width: 200px;
   }
 
+  #celular-doador, #userName, #cpf {
+    width: 100%;
+  }
+
 #group-animal1 .form-group:nth-child(3) {
   justify-self: end;
 }

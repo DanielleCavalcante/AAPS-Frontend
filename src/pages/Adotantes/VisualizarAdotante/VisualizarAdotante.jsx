@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './VisualizarAdotante.css';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
-import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
+import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
+import './VisualizarAdotante.css';
 
 const VisualizarAdotante = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
@@ -171,7 +171,7 @@ const VisualizarAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input id="celular-adotante" name="celular" type="text" placeholder="Digite o celular com DDD" />
                     </div>
                 </div>
 
@@ -314,17 +314,14 @@ const VisualizarAdotante = () => {
 
                 <div className="button-group-crud">
                     <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
+                     <BotaoSalvar /> 
+                  
                     <BotaoAlterar
                         showModal={showModalAlterar}
                         openModal={openModalAlterar}
                         closeModal={closeModalAlterar}
                     />
-                    <BotaoExcluir
-                        showModal={showModalExcluir}
-                        showConfirmModal={showConfirmModal}
-                        openModal={openModalExcluir}
-                        closeModal={closeModalExcluir}
-                    />
+                   
                 </div>
             </form>
         </div>

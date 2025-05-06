@@ -1,8 +1,10 @@
 .ponto-container {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  padding: 2% 2%;
+  margin: 0 auto;
   }
   
   .form-group {
@@ -125,21 +127,18 @@
     width: 100%;
   }
   
-  #imput-cidade {
-    width: 200%;
+  #imput-cidade-ponto, #complemento-ponto {
+    width: 150%;
   }
   
   #numero {
     width: 40%;
   }
   
-  #complemento {
-    width: 200%;
-  }
-  
+
   #rg,
   #cpf,
-  #celular {
+  #celular-ponto {
     width: 100%;
   }
   

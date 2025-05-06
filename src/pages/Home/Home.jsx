@@ -14,7 +14,6 @@ import iconeDoador from '../../assets/icone_doador.png';
 import iconeAdotante from '../../assets/icone_adotante.png';
 import iconeAdocao from '../../assets/icone_adocao.png';
 import iconePerfil from '../../assets/icone_perfil.png';
-import iconeSair from '../../assets/icone_sair.png';
 
 const Home = () => {
   const { user, logout } = useAuth();
@@ -26,7 +25,6 @@ const Home = () => {
   const closeModal = () => setShowModal(false);
       
   const handleSair = () => {
-    logout();
     console.log("Usuário saiu!");
     closeModal();
     navigate('/'); //redireciona para a página de login.
@@ -58,15 +56,15 @@ const Home = () => {
               </Link>
               <span>relatório</span>
             </button>
-
-            <button className="home-button">
-              <Link to='/listar-eventos'>
-                <img src={iconeEvento} alt="Ícone de evento" className="icon" />
-              </Link>
-              <span>evento</span>
-            </button>
           </>
         )}
+
+        <button className="home-button">
+          <Link to='/listar-eventos'>
+            <img src={iconeEvento} alt="Ícone de evento" className="icon" />
+          </Link>
+          <span>evento</span>
+        </button>
 
         <button className="home-button">
           <Link to='/listar-animais'>
@@ -95,20 +93,14 @@ const Home = () => {
           </Link>
           <span>adoção</span>
         </button>
+      </div>
 
-        <button className="home-button">
+      <button className="home-button-perfil">
           <Link to='/perfil'>
             <img src={iconePerfil} alt="Ícone de perfil do usuario" className="icon" />
           </Link>
           <span>perfil</span>
         </button>
-
-        <button className="home-button" onClick={openModal}>
-          <img src={iconeSair} alt="Ícone para sair da aplicação" className="icon" />
-          <span>Sair</span>
-        </button>
-
-      </div>
     
       {showModal && (
         <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>

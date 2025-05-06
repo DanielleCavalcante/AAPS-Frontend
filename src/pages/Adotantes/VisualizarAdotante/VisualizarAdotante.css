@@ -127,7 +127,7 @@
   }
   
   #imput-cidade {
-    width: 200%;
+    width: 150%;
   }
   
   #numero {
@@ -135,12 +135,12 @@
   }
   
   #complemento {
-    width: 200%;
+    width: 150%;
   }
   
   #rg,
   #cpf,
-  #celular {
+  #celular-adotante {
     width: 100%;
   }
   
