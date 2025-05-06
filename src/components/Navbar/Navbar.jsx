@@ -94,6 +94,10 @@ const getTituloEIcone = () => {
     case '/esqueci-senha-admin':
       return { titulo: 'Recuperar Senha (Admin)', icone: 'fas fa-user-shield' };
 
+    case '/relatorio':
+      return { titulo: 'Relatório', icone: 'fas fa-file-alt' };
+
+  
     default:
       return { titulo: 'Sistema AAPS', icone: 'fas fa-paw' };
   }
