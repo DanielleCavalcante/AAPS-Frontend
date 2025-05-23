@@ -112,35 +112,35 @@ const Animal = () => {
             </div>
 
             <div className="dropdowns">
-                    <div className="filtro-group">
-                        <select id="filtro-animais" name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
-                            <option value="">Disponibilidade</option>
-                            <option value={0}>Adotado</option>
-                            <option value={1}>Disponível</option>
-                        </select>
-                    </div>
-                    <div className="filtro-group">
-                        <select id="filtro-animais" name="especie" onChange={handleChange} value={filtro.especie}>
-                            <option value="">Espécie</option>
-                            <option value="Cachorro">Cachorro</option>
-                            <option value="Gato">Gato</option>
-                        </select>
-                    </div>
-                    <div className="filtro-group">
-                        <select id="filtro-animais" name="sexo" onChange={handleChange} value={filtro.sexo}>
-                            <option value="">Sexo</option>
-                            <option value="M">Macho</option>
-                            <option value="F">Fêmea</option>
-                        </select>
-                    </div>
-                    <div className="filtro-group">
-                        <select id="filtro-animais" name="status" onChange={handleChange} value={filtro.status}>
-                            <option value="">Status</option>
-                            <option value={1}>Ativo</option>
-                            <option value={0}>Inativo</option>
-                        </select>
-                    </div>
+                <div className="filtro-group">
+                    <select id="filtro-animais" name="disponibilidade" onChange={handleChange} value={filtro.disponibilidade}>
+                        <option value="">Disponibilidade</option>
+                        <option value={0}>Adotado</option>
+                        <option value={1}>Disponível</option>
+                    </select>
                 </div>
+                <div className="filtro-group">
+                    <select id="filtro-animais" name="especie" onChange={handleChange} value={filtro.especie}>
+                        <option value="">Espécie</option>
+                        <option value="Cachorro">Cachorro</option>
+                        <option value="Gato">Gato</option>
+                    </select>
+                </div>
+                <div className="filtro-group">
+                    <select id="filtro-animais" name="sexo" onChange={handleChange} value={filtro.sexo}>
+                        <option value="">Sexo</option>
+                        <option value="M">Macho</option>
+                        <option value="F">Fêmea</option>
+                    </select>
+                </div>
+                <div className="filtro-group">
+                    <select id="filtro-animais" name="status" onChange={handleChange} value={filtro.status}>
+                        <option value="">Status</option>
+                        <option value={1}>Ativo</option>
+                        <option value={0}>Inativo</option>
+                    </select>
+                </div>
+            </div>
             
             <table className="table">
                 <thead>

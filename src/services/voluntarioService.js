@@ -34,5 +34,15 @@ export const VoluntarioService = {
     async resetarSenha(resetarSenha) {
       const response = await api.post('/Voluntario/ResetarSenha', resetarSenha);
       return response.data.dados;
+    },
+
+    async buscarPerfilPorId(id) {
+      const response = await api.get(`/Perfil/ObterPerfilPorId/${id}`);
+      return response.data.dados;
+    },
+
+    async alterarSenha(id, alterarSenha) {
+      const response = await api.put(`/Perfil/AlterarSenha/${id}`, alterarSenha);
+      return response.data.dados;
     }
 };

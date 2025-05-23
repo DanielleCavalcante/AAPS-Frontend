@@ -1,16 +1,96 @@
 import React, { useState } from 'react';
-import './CadastroPontoAdocao.css';
+import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
+import { useError } from '../../../hooks/useError';
+import { useBuscarCep } from '../../../hooks/useBuscarCep';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
+import './CadastroPontoAdocao.css';
 
 const CadastroPontoAdocao = () => {
-    const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
+    const { criarPontoAdocao } = usePontosAdocao();
+    const [dadosPontoAdocao, setDadosPontoAdocao] = useState({
+        nomeFantasia: '',
+        cnpj: '',
+        responsavel: '',
+        celular: '',
+        telefone: '',
+        responsavelContato: '',
+        cep: '',
+        cidade: '',
+        uf: '', 
+        logradouro: '', 
+        numero: '', 
+        complemento: '', 
+        bairro: '' ,
+        status: 1
+    });
+
+    const { erro, tratarErro, limparErro } = useError();
+    const [tentouEnviar, setTentouEnviar] = useState(false);
+    const { buscarCep } = useBuscarCep();
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        limparErro();
+        setDadosPontoAdocao({
+            ...dadosPontoAdocao,
+            [id]: id === 'status' && value !== '' ? Number(value) : value
+        });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setTentouEnviar(true); 
+        limparErro();
+        try {
+            await criarPontoAdocao(dadosPontoAdocao);
+            setDadosPontoAdocao({ 
+                nomeFantasia: '',
+                cnpj: '',
+                responsavel: '',
+                celular: '',
+                contato: '',
+                responsavelContato: '',
+                cep: '',
+                cidade: '',
+                uf: '', 
+                logradouro: '', 
+                numero: '', 
+                complemento: '', 
+                bairro: '' ,
+                status: 1
+            });
+            setTentouEnviar(false);
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    const handleBuscarCep = async () => {
+        try {
+            const cepLimpo = dadosPontoAdocao.cep.match(/\d{8}/)?.[0];
+
+            const endereco = await buscarCep(cepLimpo);
+
+            setDadosPontoAdocao((prev) => ({
+            ...prev,
+            logradouro: endereco.logradouro || '',
+            bairro: endereco.bairro || '',
+            cidade: endereco.localidade || '',
+            uf: endereco.uf || ''
+            }));
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    /* const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]); */
     const [showModal, setShowModal] = useState(false);
 
     // Handlers do modal
-    const closeModal = () => setShowModal(false);
+    /* const closeModal = () => setShowModal(false);
     const openModal = () => {
         // Pegando os valores dos campos
         const nome = document.getElementById("nome").value;
@@ -30,9 +110,9 @@ const CadastroPontoAdocao = () => {
         } else {
             return null;
         }
-    };
+    }; */
 
-    // Handlers para telefones e responsáveis
+    /* // Handlers para telefones e responsáveis
     const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
     const handleRemoveTelefone = (index) => {
         setTelefones(telefones.filter((_, i) => i !== index));
@@ -46,51 +126,125 @@ const CadastroPontoAdocao = () => {
         const novosTelefones = [...telefones];
         novosTelefones[index].responsavel = value;
         setTelefones(novosTelefones);
-    };
-
-    // Limpeza dos campos do formulário
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Lógica de envio de formulário ou limpeza
-        event.target.reset();
-        setTelefones([{ telefone: '', responsavel: '' }]);
-        setFoto(null);
-    };
+    }; */
 
     return (
         <div className="cadastro-container">
             <form className="cadastroPonto-form" onSubmit={handleSubmit}>
-
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-                        <input type="text" />
+                        <input type="text" disabled/>
+                    </div>
+
+                    <div> {/* sem classe pq peguei de outro lugar */}
+                        <label htmlFor="status">Status</label>
+                        <select 
+                            id="status" 
+                            name="status"
+                            value={dadosPontoAdocao.status}
+                            onChange={handleChange}
+                        >
+                            <option value="">Selecione</option>
+                            <option value={1}>Ativo</option>
+                            <option value={0}>Inativo</option>
+                        </select>
+
+                        {(tentouEnviar && !dadosPontoAdocao.status) && (
+                            <span className="erro-required"> O campo 'Status' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label>Nome</label>
-                    <input id="nome" name="nome" type="text"/>
+                    <label>Nome Fantasia</label>
+                    <input 
+                        id="nomeFantasia" 
+                        name="nomeFantasia" 
+                        type="text"
+                        value={dadosPontoAdocao.nomeFantasia}
+                        onChange={handleChange}
+                        placeholder="Digite o nome" 
+                    />
+
+                    {(tentouEnviar && !dadosPontoAdocao.nomeFantasia) && (
+                        <span className="erro-required"> O campo 'Nome Fantasia' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>CNPJ</label>
-                        <input id="cnpj" name="cnpj" type="text"/>
+                        <input 
+                            id="cnpj" 
+                            name="cnpj" 
+                            type="text"
+                            value={dadosPontoAdocao.cnpj}
+                            onChange={handleChange}
+                            placeholder="Digite o CNPJ" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.cnpj) && (
+                            <span className="erro-required"> O campo 'Cnpj' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Responsável</label>
-                        <input id="responsavel" name="responsavel" type="text"/>
+                        <input 
+                            id="responsavel" 
+                            name="responsavel" 
+                            type="text"
+                            value={dadosPontoAdocao.responsavel}
+                            onChange={handleChange}
+                            placeholder="Digite o Responsável" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.responsavel) && (
+                            <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular-ponto" name="celular" type="text" />
+                        <input 
+                            id="celular" 
+                            name="celular" 
+                            type="text" 
+                            value={dadosPontoAdocao.celular}
+                            onChange={handleChange}
+                            placeholder="Digite o celular" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.celular) && (
+                            <span className="erro-required"> O campo 'Celular' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label>Telefone</label>
-                    {telefones.map((item, index) => (
+                    <label>Contato</label>
+                    <input 
+                        id="contato" 
+                        name="contato" 
+                        type="text" 
+                        value={dadosPontoAdocao.contato}
+                        onChange={handleChange}
+                        placeholder="Digite o contato" 
+                    />
+
+                    {(tentouEnviar && !dadosPontoAdocao.contato) && (
+                        <span className="erro-required"> O campo 'Contato' é obrigatório </span>
+                    )}
+
+                    <label>Responsável Contato</label>
+                    <input 
+                        id='responsavelContato'
+                        name="responsavelContato" 
+                        type="text"
+                        placeholder="Contato para recados"
+                        value={dadosPontoAdocao.responsavelContato}
+                        onChange={handleChange}
+                    />
+                    {/* {telefones.map((item, index) => (
                         <div key={index} className="telefone-group">
                             <input id='input-telefone'
                                 type="text"
@@ -117,47 +271,120 @@ const CadastroPontoAdocao = () => {
                     ))}
                     <button type="button" className="add-btn" onClick={handleAddTelefone}>
                         + Telefones
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className="cadastroPonto-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
+                        <input 
+                            id="cep" 
+                            name="cep" 
+                            type="text" 
+                            value={dadosPontoAdocao.cep}
+                            onChange={handleChange}
+                            onBlur={handleBuscarCep}
+                            placeholder="Digite o CEP" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.cep) && (
+                            <span className="erro-required"> O campo 'Cep' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input id="imput-cidade-ponto" name="cidade" type="text" placeholder="Digite a cidade" />
+                        <input 
+                            id="cidade" 
+                            name="cidade" 
+                            type="text" 
+                            value={dadosPontoAdocao.cidade}
+                            onChange={handleChange}
+                            placeholder="Digite a cidade" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <input id="imput-estado" name="estado" type="text" placeholder="Digite o estado" />
+                        <input 
+                            id="uf" 
+                            name="uf" 
+                            type="text" 
+                            value={dadosPontoAdocao.uf}
+                            onChange={handleChange}
+                            placeholder="Digite o estado" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.uf) && (
+                            <span className="erro-required"> O campo 'Estado' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
-
                 <div className="form-group">
                     <label>Endereço</label>
-                    <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
+                    <input 
+                        id="logradouro" 
+                        name="logradouro" 
+                        type="text" 
+                        value={dadosPontoAdocao.logradouro}
+                        onChange={handleChange}
+                        placeholder="Digite o Endereço" 
+                    />
+
+                    {(tentouEnviar && !dadosPontoAdocao.logradouro) && (
+                        <span className="erro-required"> O campo 'Logradouro' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Número</label>
-                        <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
+                        <input 
+                            id="numero" 
+                            name="numero" 
+                            type="text" 
+                            value={dadosPontoAdocao.numero}
+                            onChange={handleChange}
+                            placeholder="Digite o nº da residência" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.numero) && (
+                            <span className="erro-required"> O campo 'Número' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-                        <input id="complemento-ponto" name="complemento" type="text" placeholder="Digite o complemento" />
+                        <input 
+                            id="complemento-ponto" 
+                            name="complemento" 
+                            type="text" 
+                            value={dadosPontoAdocao.complemento}
+                            onChange={handleChange}
+                            placeholder="Digite o complemento" 
+                        />
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
-                        <input id="bairro" name="bairro" type="text" placeholder="Digite o bairro" />
+                        <input 
+                            id="bairro" 
+                            name="bairro" 
+                            type="text" 
+                            value={dadosPontoAdocao.bairro}
+                            onChange={handleChange}
+                            placeholder="Digite o bairro" 
+                        />
+
+                        {(tentouEnviar && !dadosPontoAdocao.bairro) && (
+                            <span className="erro-required"> O campo 'Bairro' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoSalvar /* showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>

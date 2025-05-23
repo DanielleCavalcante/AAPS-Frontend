@@ -9,6 +9,7 @@ export interface Animal {
   status: 1 | 0 ;
   doadorId: number;
   disponibilidade: 1 | 0;
+  resgatado: boolean;
 }
   
 export interface FiltroAnimal {

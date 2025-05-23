@@ -55,20 +55,25 @@ const AppRouter = () => {
                         <Route path="/listar-animais" element={<Animal/>} />
                         <Route path="/cadastrar-animal" element={<CadastroAnimal/>} />
                         <Route path="/visualizar-animal/:id" element={<VisualizarAnimal />} />
+
                         <Route path="/listar-doadores" element={<Doador/>} />
                         <Route path="/cadastrar-doador" element={<CadastroDoador/>} />
-                        <Route path="/visualizar-doador" element={<VisualizarDoador/>} />
+                        <Route path="/visualizar-doador/:id" element={<VisualizarDoador/>} />
+
                         <Route path="/listar-eventos" element={<Evento/>} />
                         <Route path="/cadastrar-evento" element={<CadastroEvento/>} />
                         <Route path="/visualizar-evento/:id" element={<VisualizarEvento/>} />
+
                         <Route path="/listar-adotantes" element={<Adotante/>} />
                         <Route path="/cadastrar-adotante" element={<CadastroAdotante/>} />
-                        <Route path="/visualizar-adotante" element={<VisualizarAdotante/>} />
+                        <Route path="/visualizar-adotante/:id" element={<VisualizarAdotante/>} />
+
                         <Route path="/listar-adocoes" element={<Adocao/>} />
                         <Route path="/cadastrar-adocao" element={<CadastroAdocao/>} />
                         <Route path="/visualizar-adocao/:id" element={<VisualizarAdocao/>} />
-                        <Route path="/perfil" element={<Perfil/>} />
-                        <Route path="/alterar-senha" element={<AlterarSenha/>} />
+                        
+                        <Route path="/perfil/:id" element={<Perfil/>} />
+                        <Route path="/alterar-senha/:id" element={<AlterarSenha/>} />
                             
                         {/* Rotas de admin */}
                         <Route element={<PrivateRoute requiredRole="Admin" />} >
@@ -77,7 +82,7 @@ const AppRouter = () => {
                             <Route path="/visualizar-voluntario/:id" element={<VisualizarVoluntario/>} />
                             <Route path="/listar-pontos-adocao" element={<PontoAdocao/>} />
                             <Route path="/cadastrar-ponto-adocao" element={<CadastroPontoAdocao/>} />
-                            <Route path="/visualizar-ponto-adocao" element={<VisualizarPontoAdocao/>} />
+                            <Route path="/visualizar-ponto-adocao/:id" element={<VisualizarPontoAdocao/>} />
                         </Route>
 
                         <Route path="*" element={<ComingSoon />}/>

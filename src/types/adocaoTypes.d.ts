@@ -5,6 +5,7 @@ export interface Animal {
     animalId: number;
     voluntarioId: number;
     pontoAdocaoId: number;
+    cancelada: boolean;
 }
 
 export interface FiltroAdocao{

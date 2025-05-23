@@ -28,9 +28,6 @@ const VisualizaAnimal = () => {
         setShowModal(false);
     }
 
-    // const [foto, setFoto] = useState(null);
-
-
     useEffect(() => {
         buscarAnimalPorId(id)
             .then((dados) => {
@@ -39,7 +36,8 @@ const VisualizaAnimal = () => {
                 status: Number(dados.status),
                 doadorId: Number(dados.doadorId),
                 disponibilidade: Number(dados.disponibilidade),
-                dataNascimento: dados.dataNascimento || ''
+                dataNascimento: dados.dataNascimento || '',
+                resgatado: dados.resgatado || false,
             };
             setAnimal(dadosFormatados);
             setFormDados(dadosFormatados);
@@ -112,12 +110,6 @@ const VisualizaAnimal = () => {
                                 <option value={1}>Disponível</option>
                                 <option value={0}>Adotado</option>
                             </select>
-                        </div>
-                    </div>
-                    <div className="foto-upload">
-                        <div className="foto-preview-container">
-                            <span className="foto-label">Foto</span>
-                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
                         </div>
                     </div>
                 </div>
@@ -201,6 +193,22 @@ const VisualizaAnimal = () => {
                         </select>
                     </div>
                 </div>
+
+                <label className="radio-label">
+                    <input
+                        type="checkbox"
+                        name="resgatado"
+                        id="resgatado"
+                        value={formDados.resgatado}
+                        checked={formDados.resgatado === true}
+                        onChange={e =>
+                            setFormDados({ ...formDados, resgatado: e.target.checked })
+                        }
+                        disabled={!editando}
+                    />
+                    Resgatado
+                </label>
+
                 <div id='group3'>
                     <div className="form-group">
                         <label htmlFor="doadorId">Código Doador</label>

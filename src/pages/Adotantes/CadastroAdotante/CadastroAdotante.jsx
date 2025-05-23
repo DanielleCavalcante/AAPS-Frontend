@@ -1,250 +1,274 @@
 import React, { useState } from 'react';
-import './CadastroAdotante.css';
+
+import { useAdotantes } from '../../../hooks/useAdotantes';
+import { useError } from '../../../hooks/useError';
+import { useBuscarCep } from '../../../hooks/useBuscarCep';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
+import './CadastroAdotante.css';
 
 const CadastroAdotante = () => {
-    const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [foto, setFoto] = useState(null);
-    const [showModal, setShowModal] = useState(false);
-    const [formData, setFormData] = useState({
-        tipoMoradiaResidencial: "", // Casa ou Apto
-        tipoMoradiaPropriedade: "", // Própria ou Alugada
-        nome: "",
-        rg: "",
-        cpf: "",
-        celular: "",
-        localtrabalho: "",
-        cep: "",
-        cidade: "",
-        estado: "",
-        endereco: "",
-        numero: "",
-        bairro: "",
-        complemento: "",
-        facebook: "",
-        instagram: "",
+    const { criarAdotante } = useAdotantes();
+    const [dadosAdotante, setDadosAdotante] = useState({
+        nome: '',
+        rg: '',
+        cpf: '',
+        celular: '',
+        status: 1,
+        localTrabalho: '',
+        contato: '',
+        responsavelContato: '',
+        cep: '',
+        cidade: '',
+        uf: '',
+        logradouro: '',
+        numero: '',
+        bairro: '',
+        complemento: '',
+        situacaoEndereco: '',
+        facebook: '',
+        instagram: ''
     });
 
-    // Handlers do modal
-    const closeModal = () => setShowModal(false);
-    const openModal = () => {
-        // Pegando os valores dos campos
-        const nome = document.getElementById("nome").value;
-        const rg = document.getElementById("rg").value;
-        const cpf = document.getElementById("cpf").value;
-        const celular = document.getElementById("celular").value;
-        const localtrabalho = document.getElementById("localtrabalho").value;
-        const cep = document.getElementById("cep").value;
-        const cidade = document.getElementById("cidade").value;
-        const estado = document.getElementById("estado").value;
-        const endereco = document.getElementById("endereco").value;
-        const numero = document.getElementById("numero").value;
-        const bairro = document.getElementById("bairro").value;
-        const facebook = document.getElementById("facebook").value;
-        const instagram = document.getElementById("instagram").value;
-        const moradiaSelecionada = formData.tipoMoradia === "Casa" || formData.tipoMoradia === "Apto";
-        const propriedadeSelecionada = formData.tipoMoradia === "Própria" || formData.tipoMoradia === "Alugada";
+    const { erro, tratarErro, limparErro } = useError();
+    const [tentouEnviar, setTentouEnviar] = useState(false);
+    const { buscarCep } = useBuscarCep();
 
-        if (!moradiaSelecionada || !propriedadeSelecionada) {
-            alert("Por favor, selecione uma opção de tipo de moradia (Casa ou Apto) e uma de propriedade (Própria ou Alugada).");
-            return;
-        }
-
-        // Validação dos campos
-        if (nome && rg && cpf && celular && localtrabalho && cep && cidade && estado && endereco && numero && bairro && facebook && instagram) {
-            setShowModal(true); // Mostra o modal de sucesso
-        } else {
-            return null;
-        }
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        limparErro();
+        setDadosAdotante({
+            ...dadosAdotante,
+            [id]: id === 'status' && value !== '' ? Number(value) : value
+        });
     };
 
-    // Handlers para telefones e responsáveis
-    const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
-    const handleRemoveTelefone = (index) => {
-        setTelefones(telefones.filter((_, i) => i !== index));
-    };
-    const handleTelefoneChange = (index, value) => {
-        const novosTelefones = [...telefones];
-        novosTelefones[index].telefone = value;
-        setTelefones(novosTelefones);
-    };
-    const handleResponsavelChange = (index, value) => {
-        const novosTelefones = [...telefones];
-        novosTelefones[index].responsavel = value;
-        setTelefones(novosTelefones);
-    };
-
-    // Handler para upload de foto
-    const handleFotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) setFoto(URL.createObjectURL(file));
-    };
-
-    // Limpeza dos campos do formulário
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Lógica de envio de formulário ou limpeza
-        event.target.reset();
-        setTelefones([{ telefone: '', responsavel: '' }]);
-        setFoto(null);
-        setFormData({
-            tipoMoradia: "",
-            nome: "",
-            rg: "",
-            cpf: "",
-            celular: "",
-            localtrabalho: "",
-            cep: "",
-            cidade: "",
-            estado: "",
-            endereco: "",
-            numero: "",
-            bairro: "",
-            complemento: "",
-            facebook: "",
-            instagram: "",
-        });
-    };
-
-    const handleFotoCamera = async () => {
+        setTentouEnviar(true); 
+        limparErro();
         try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
-
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            const capturePhoto = () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                // Parar o stream
-                stream.getTracks().forEach((track) => track.stop());
-
-                // Atualizar o estado da foto
-                setFoto(canvas.toDataURL('image/png'));
-            };
-
-            // Exibe um modal ou uma janela para tirar a foto
-            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
-            if (confirmPhoto) {
-                capturePhoto();
-            }
+            await criarAdotante(dadosAdotante);
+            setDadosAdotante({ 
+                nome: '',
+                rg: '',
+                cpf: '',
+                celular: '',
+                localTrabalho: '',
+                status: 1,
+                contato: '',
+                responsavelContato: '',
+                cep: '',
+                cidade: '',
+                uf: '',
+                logradouro: '',
+                numero: '',
+                bairro: '',
+                complemento: '',
+                situacaoEndereco: '',
+                facebook: '',
+                instagram: '',
+                bloqueio: 0,
+            });
+            setTentouEnviar(false);
         } catch (error) {
-            console.error("Erro ao acessar a câmera:", error);
-            alert("Não foi possível acessar a câmera. Verifique as permissões.");
+            tratarErro(error);
         }
     };
 
-    const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === "checkbox" ? checked : value,
-        });
+    // const [showModal, setShowModal] = useState(false);
+
+    // // Handlers do modal
+    // const closeModal = () => setShowModal(false);
+    // const openModal = () => {
+    //     // Pegando os valores dos campos
+    //     const nome = document.getElementById("nome").value;
+    //     const rg = document.getElementById("rg").value;
+    //     const cpf = document.getElementById("cpf").value;
+    //     const celular = document.getElementById("celular").value;
+    //     const localtrabalho = document.getElementById("localtrabalho").value;
+    //     const cep = document.getElementById("cep").value;
+    //     const cidade = document.getElementById("cidade").value;
+    //     const estado = document.getElementById("estado").value;
+    //     const endereco = document.getElementById("endereco").value;
+    //     const numero = document.getElementById("numero").value;
+    //     const bairro = document.getElementById("bairro").value;
+    //     const facebook = document.getElementById("facebook").value;
+    //     const instagram = document.getElementById("instagram").value;
+    //     const moradiaSelecionada = formData.tipoMoradia === "Casa" || formData.tipoMoradia === "Apto";
+    //     const propriedadeSelecionada = formData.tipoMoradia === "Própria" || formData.tipoMoradia === "Alugada";
+
+    //     if (!moradiaSelecionada || !propriedadeSelecionada) {
+    //         alert("Por favor, selecione uma opção de tipo de moradia (Casa ou Apto) e uma de propriedade (Própria ou Alugada).");
+    //         return;
+    //     }
+
+    //     // Validação dos campos
+    //     if (nome && rg && cpf && celular && localtrabalho && cep && cidade && estado && endereco && numero && bairro && facebook && instagram) {
+    //         setShowModal(true); // Mostra o modal de sucesso
+    //     } else {
+    //         return null;
+    //     }
+    // };
+
+    const handleBuscarCep = async () => {
+        try {
+            const cepLimpo = dadosAdotante.cep.match(/\d{8}/)?.[0];
+
+            const endereco = await buscarCep(cepLimpo);
+
+            setDadosAdotante((prev) => ({
+            ...prev,
+            logradouro: endereco.logradouro || '',
+            bairro: endereco.bairro || '',
+            cidade: endereco.localidade || '',
+            uf: endereco.uf || ''
+            }));
+        } catch (error) {
+            tratarErro(error);
+        }
     };
 
     return (
         <div className="cadastro-container">
             <form className="cadastroAdotante-form" onSubmit={handleSubmit}>
-
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-                        <input type="text" />
+                        <input type="text" disabled/>
                     </div>
 
-                    <div className="foto-upload">
-                        <div className="foto-buttons">
-                            {/* Botão de capturar foto */}
-                            <button type="button" className="camera" onClick={handleFotoCamera}>
-                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
-                            </button>
+                    <div> {/* sem classe pq peguei de outro lugar */}
+                        <label htmlFor="status">Status</label>
+                        <select 
+                            id="status" 
+                            name="status"
+                            value={dadosAdotante.status}
+                            onChange={handleChange}
+                        >
+                            <option value="">Selecione</option>
+                            <option value={1}>Ativo</option>
+                            <option value={0}>Inativo</option>
+                        </select>
 
-                            {/* Botão de upload */}
-                            <label className="upload">
-                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFotoUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
-                        </div>
-                        <div class="foto-preview-container">
-                            <span class="foto-label">Foto</span>
-                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
-                        </div>
+                        {(tentouEnviar && !dadosAdotante.status) && (
+                            <span className="erro-required"> O campo 'Status' é obrigatório </span>
+                        )}
                     </div>
-
                 </div>
 
                 <div className="form-group">
                     <label>Nome</label>
-                    <input id="nome" name="nome" type="text" placeholder="Digite o nome" />
+                    <input 
+                        id="nome" 
+                        name="nome" 
+                        type="text" 
+                        placeholder="Digite o nome" 
+                        value={dadosAdotante.nome}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>RG</label>
-                        <input id="rg" name="rg" type="text" placeholder="Digite o RG" />
+                        <input 
+                            id="rg" 
+                            name="rg" 
+                            type="text" 
+                            placeholder="Digite o RG" 
+                            value={dadosAdotante.rg}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.rg) && (
+                            <span className="erro-required"> O campo 'RG' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
-                        <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" />
+                        <input 
+                            id="cpf" 
+                            name="cpf" 
+                            type="text" 
+                            placeholder="Digite o CPF"
+                            value={dadosAdotante.cpf}
+                            onChange={handleChange} 
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.cpf) && (
+                            <span className="erro-required"> O campo 'CPF' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular-adotante" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input 
+                            id="celular" 
+                            name="celular" 
+                            type="text" 
+                            placeholder="Digite o celular com DDD" 
+                            value={dadosAdotante.celular}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.celular) && (
+                            <span className="erro-required"> O campo 'Celular' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="form-group">
                     <label>Local de Trabalho</label>
-                    <input id="localtrabalho" name="localtrabalho" type="text" />
+                    <input 
+                        id="localTrabalho" 
+                        name="localTrabalho" 
+                        type="text" 
+                        value={dadosAdotante.localTrabalho}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.localTrabalho) && (
+                        <span className="erro-required"> O campo 'Local de Trabalho' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className="form-group">
-                    <label>Telefone</label>
-                    {telefones.map((item, index) => (
-                        <div key={index} className="telefone-group">
-                            <input id='input-telefone'
-                                type="text"
-                                placeholder="Telefone"
-                                value={item.telefone}
-                                onChange={(e) => handleTelefoneChange(index, e.target.value)}
-                            />
-                            <input id='input-responsavel'
-                                type="text"
-                                placeholder="Responsável"
-                                value={item.responsavel}
-                                onChange={(e) => handleResponsavelChange(index, e.target.value)}
-                            />
-                            {telefones.length > 1 && (
-                                <button
-                                    type="button"
-                                    className="remove-btn-cad-doador"
-                                    onClick={() => handleRemoveTelefone(index)}
-                                >
-                                    <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon-remove-cad-doador" />
-                                </button>
-                            )}
-                        </div>
-                    ))}
-                    <button type="button" className="add-btn" onClick={handleAddTelefone}>
-                        + Telefones
-                    </button>
+                    <label>Contato</label>
+                    <input 
+                        id="contato"
+                        type="text"
+                        name="contato" 
+                        placeholder="Contato"
+                        value={dadosAdotante.contato}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.contato) && (
+                        <span className="erro-required"> O campo 'Contato' é obrigatório </span>
+                    )}
+                    
+                    <label>Responsável Contato</label>
+                    <input 
+                        id='responsavelContato'
+                        name="responsavelContato" 
+                        type="text"
+                        placeholder="Contato para recados"
+                        value={dadosAdotante.responsavelContato}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.responsavelContato) && (
+                        <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
+                    )}
                 </div>
 
-
-                <div className="radio-group">
+                {/* <div className="radio-group">
                     <label className="radio-label">
                         <input
                             type="radio"
@@ -265,102 +289,207 @@ const CadastroAdotante = () => {
                         />
                         Apto
                     </label>
-                </div>
+                </div> */}
 
                 <div className="radio-group">
                     <label className="radio-label">
                         <input
+                            id = "situacaoEndereco"
                             type="radio"
-                            name="tipoMoradiaPropriedade"
+                            name="situacaoEndereco"
                             value="Própria"
-                            checked={formData.tipoMoradiaPropriedade === "Própria"}
-                            onChange={handleInputChange}
+                            checked={dadosAdotante.situacaoEndereco === "Própria"}
+                            onChange={handleChange}
                         />
                         Própria
                     </label>
                     <label className="radio-label">
                         <input
+                            id = "situacaoEndereco"
                             type="radio"
-                            name="tipoMoradiaPropriedade"
+                            name="situacaoEndereco"
                             value="Alugada"
-                            checked={formData.tipoMoradiaPropriedade === "Alugada"}
-                            onChange={handleInputChange}
+                            checked={dadosAdotante.situacaoEndereco === "Alugada"}
+                            onChange={handleChange}
                         />
                         Alugada
                     </label>
+
+                    {(tentouEnviar && !dadosAdotante.situacaoEndereco) && (
+                        <span className="erro-required"> É obrigatório informar a situação de moradia </span>
+                    )}
                 </div>
-
-
-
-
 
                 <div className="cadastroAdotante-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
+                        <input 
+                            id="cep" 
+                            name="cep" 
+                            type="text" 
+                            placeholder="Digite o CEP" 
+                            value={dadosAdotante.cep}
+                            onBlur={handleBuscarCep}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.cep) && (
+                            <span className="erro-required"> O campo 'CEP' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input id="imput-cidade" name="cidade" type="text" placeholder="Digite a cidade" />
+                        <input 
+                            id="cidade" 
+                            name="cidade" 
+                            type="text" 
+                            placeholder="Digite a cidade" 
+                            value={dadosAdotante.cidade}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <input id="imput-estado" name="estado" type="text" placeholder="Digite o estado" />
+                        <input 
+                            id="uf" 
+                            name="uf" 
+                            type="text" 
+                            placeholder="Digite o estado" 
+                            value={dadosAdotante.uf}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.uf) && (
+                            <span className="erro-required"> O campo 'Estado' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
-
                 <div className="form-group">
-                    <label>Endereço</label>
-                    <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
+                    <label>Logradouro</label>
+                    <input 
+                        id="logradouro" 
+                        name="logradouro" 
+                        type="text" 
+                        placeholder="Digite o Endereço" 
+                        value={dadosAdotante.logradouro}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.logradouro) && (
+                        <span className="erro-required"> O campo 'Logradouro' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Número</label>
-                        <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
+                        <input 
+                            id="numero" 
+                            name="numero"
+                            type="text" 
+                            placeholder="Digite o nº da residência" 
+                            value={dadosAdotante.numero}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.numero) && (
+                            <span className="erro-required"> O campo 'Número' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-                        <input id="complemento" name="complemento" type="text" placeholder="Digite o complemento" />
+                        <input 
+                            id="complemento" 
+                            name="complemento" 
+                            type="text" 
+                            placeholder="Digite o complemento" 
+                            value={dadosAdotante.complemento}
+                            onChange={handleChange}
+                        />
+
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
-                        <input id="bairro" name="bairro" type="text" placeholder="Digite o bairro" />
+                        <input 
+                            id="bairro" 
+                            name="bairro" 
+                            type="text" 
+                            placeholder="Digite o bairro" 
+                            value={dadosAdotante.bairro}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.bairro) && (
+                            <span className="erro-required"> O campo 'Bairro' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div id="group4">
                     <div className="form-group">
                         <label htmlFor="facebook">Facebook</label>
-                        <input id="imput-facebook" name="facebook" type="text" />
+                        <input 
+                            id="facebook" 
+                            name="facebook" 
+                            type="text" 
+                            value={dadosAdotante.facebook}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.facebook) && (
+                            <span className="erro-required"> O campo 'Facebook' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="instagram">Instagram</label>
-                        <input id="imput-instagram" name="instagram" type="text" />
+                        <input 
+                            id="instagram" 
+                            name="instagram" 
+                            type="text" 
+                            value={dadosAdotante.instagram}
+                            onChange={handleChange}
+                        />
+
+                        {(tentouEnviar && !dadosAdotante.instagram) && (
+                            <span className="erro-required"> O campo 'Instagram' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="radio-group">
                     <label className="radio-label">
                         <input
+                            id='bloqueio'
                             type="checkbox"
-                            name="bloqueado"
-                            checked={formData.bloqueado}
-                            onChange={handleInputChange}
+                            name="bloqueio"
+                            checked={dadosAdotante.bloqueio === 1}
+                            value={dadosAdotante.bloqueio}
+                            onChange={e =>
+                                setDadosAdotante({ ...dadosAdotante, bloqueio: e.target.checked ? 1 : 0 })
+                            }
                         />
                         Bloqueado
                     </label>
+
+                    {(tentouEnviar && !dadosAdotante.bloqueio) && (
+                        <span className="erro-required"> O campo 'Bloqueado' é obrigatório </span>
+                    )}
                 </div>
                 <textarea
-                    name="observacao"
+                    name="observacaoBloqueio"
+                    id="observacaoBloqueio"
                     placeholder="Observação"
-                    value={formData.observacao}
-                    onChange={handleInputChange}
+                    value={dadosAdotante.observacaoBloqueio}
+                    onChange={handleChange}
                 />
 
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoSalvar /* showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>

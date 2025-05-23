@@ -5,12 +5,15 @@ export interface Adotante {
     cpf: string;
     status: 1 | 0;
 
-    telefones: string[];
+    celular: string;
+    contato: string;
+    responsavelContato: string;
 
     localTrabalho: string;
     facebook: string;
     instagram: string;
     bloqueio: 1 | 0;
+    observacaoBloqueio: string;
 
     logradouro: string;
     numero: number;

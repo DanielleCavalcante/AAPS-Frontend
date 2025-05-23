@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
+import { useBuscarCep } from '../../../hooks/useBuscarCep';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
@@ -6,8 +10,113 @@ import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarPontoAdocao.css';
 
 const VisualizarPontoAdocao = () => {
-    const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [showModalAlterar, setShowModalAlterar] = useState(false);
+    const { buscarPontoAdocaoPorId, atualizarPontoAdocao, erro, tratarErro, limparErro } = usePontosAdocao();
+
+    const { id } = useParams();
+    const [pontoAdocao, setPontoAdocao] = useState(null);
+    const [editando, setEditando] = useState(false);
+    const [formDados, setFormDados] = useState({});
+
+    const [tentouEnviar, setTentouEnviar] = useState(false);
+    const { buscarCep } = useBuscarCep();
+
+    useEffect(() => {
+        buscarPontoAdocaoPorId(id)
+            .then((dados) => {
+            const dadosFormatados = {
+                ...dados,
+                status: Number(dados.status)
+            };
+            setPontoAdocao(dadosFormatados);
+            setFormDados(dadosFormatados);
+            })
+            .catch(console.error);
+    }, [id]);
+
+    const handleBuscarCep = async () => {
+        try {
+            const cepLimpo = formDados.cep.match(/\d{8}/)?.[0];
+
+            const endereco = await buscarCep(cepLimpo);
+
+            setFormDados((prev) => ({
+            ...prev,
+            logradouro: endereco.logradouro || '',
+            bairro: endereco.bairro || '',
+            cidade: endereco.localidade || '',
+            uf: endereco.uf || ''
+            }));
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    if (erro) return <div className="erro">{erro}</div>;
+    if (!pontoAdocao) return <div>Ponto de adoção não encontrado</div>; // apagar depois
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        const numericFields = 'status';
+        const parsedValue = numericFields.includes(name) ? Number(value) : value;
+        setFormDados({ ...formDados, [name]: parsedValue });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setTentouEnviar(true); 
+        limparErro();
+
+        if (!formDados.nomeFantasia?.trim()) {
+            return; 
+        }
+        if (!formDados.cnpj?.trim()) {
+            return; 
+        }
+        if (!formDados.responsavel?.trim()) {
+            return; 
+        }
+        if (!formDados.celular?.trim()) {
+            return; 
+        }
+        if (!formDados.responsavelContato?.trim()) {
+            return; 
+        }
+        if (!formDados.contato?.trim()) {
+            return; 
+        }
+        if (!formDados.cep?.trim()) {
+            return; 
+        }
+        if (!formDados.cidade?.trim()) {
+            return; 
+        }
+        if (!formDados.uf?.trim()) {
+            return; 
+        }
+        if (!formDados.logradouro?.trim()) {
+            return; 
+        }
+        if (!formDados.numero || Number(formDados.numero) <= 0) {
+            return; 
+        }
+        if (!formDados.bairro?.trim()) {
+            return; 
+        }
+
+        try {
+            await atualizarPontoAdocao(id, formDados);
+            /* openModal(); */
+            // setEditando(false);
+            // setTentouEnviar(false);
+            setEditando(false);
+            setTentouEnviar(false);
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    /* const [showModalAlterar, setShowModalAlterar] = useState(false);
     const [showModalExcluir, setShowModalExcluir] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
@@ -59,13 +168,7 @@ const VisualizarPontoAdocao = () => {
     };
     const openConfirmModal = () => {
         setShowConfirmModal(true);
-    };
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        event.target.reset();
-        setTelefones(['']); // Limpa os telefones
-    };
+    }; */
 
     return (
         <div className="ponto-container">
@@ -74,106 +177,255 @@ const VisualizarPontoAdocao = () => {
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-                        <input type="text" />
+                        <input 
+                            type="text" 
+                            id="id" 
+                            value={pontoAdocao?.id || '' } 
+                            disabled
+                        />
                     </div>
                 </div>    
 
                 <div className="form-group">
-                    <label>Nome</label>
-                    <input id="nome" name="nome" type="text" />
+                    <label htmlFor="status">Status</label>
+                    <select 
+                        id="status" 
+                        name="status"
+                        value={formDados?.status}
+                        onChange={handleInputChange}
+                        disabled={!editando}
+                    >
+                        <option value={1}>Ativo</option>
+                        <option value={0}>Inativo</option>
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label>Nome Fantasia</label>
+                    <input 
+                        id="nomeFantasia" 
+                        name="nomeFantasia" 
+                        type="text" 
+                        value={formDados?.nomeFantasia || ''}
+                        onChange={handleInputChange}
+                        placeholder="Digite o nome fantasia" 
+                        disabled={!editando}
+                    />
+
+                    {(tentouEnviar && !formDados.nomeFantasia) && (
+                        <span className="erro-required"> O campo 'Nome Fantasia' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>CNPJ</label>
-                        <input id="cnpj" name="cnpj" type="text" />
+                        <input 
+                            id="cnpj" 
+                            name="cnpj" 
+                            type="text" 
+                            value={formDados?.cnpj || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                        />
+
+                        {(tentouEnviar && !formDados.cnpj) && (
+                            <span className="erro-required"> O campo 'CNPJ' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Responsável</label>
-                        <input id="responsavel" name="responsavel" type="text" />
+                        <input 
+                            id="responsavel" 
+                            name="responsavel" 
+                            type="text" 
+                            value={formDados?.responsavel || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                        />
+
+                        {(tentouEnviar && !formDados.responsavel    ) && (
+                            <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular-ponto" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input 
+                            id="celular" 
+                            name="celular" 
+                            type="text" 
+                            placeholder="Digite o celular com DDD" 
+                            value={formDados?.celular || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                        />
+
+                        {(tentouEnviar && !formDados.celular) && (
+                            <span className="erro-required"> O campo 'Celular' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label>Telefone</label>
-                    {telefones.map((item, index) => (
-                        <div key={index} className="telefone-group">
-                            <input id='input-telefone'
-                                type="text"
-                                placeholder="Telefone"
-                                value={item.telefone}
-                                onChange={(e) => handleTelefoneChange(index, e.target.value)}
-                            />
-                            <input id='input-responsavel'
-                                type="text"
-                                placeholder="Responsável"
-                                value={item.responsavel}
-                                onChange={(e) => handleResponsavelChange(index, e.target.value)}
-                            />
-                            {telefones.length > 1 && (
-                                <button
-                                    type="button"
-                                    className="remove-btn-cad-doador"
-                                    onClick={() => handleRemoveTelefone(index)}
-                                >
-                                    <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon-remove-cad-doador" />
-                                </button>
-                            )}
-                        </div>
-                    ))}
+                    <label>Contato</label>
+                    <div className="telefone-group">
+                        <input id='contato'
+                            type="text"
+                            name="contato"
+                            placeholder="Telefone"
+                            value={formDados?.contato || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                        />
 
+                        {(tentouEnviar && !formDados.contato) && (
+                            <span className="erro-required"> O campo 'Contato' é obrigatório </span>
+                        )}
+                        <input id='responsavel'
+                            type="text"
+                            name="responsavelContato"
+                            placeholder="Responsável"
+                            value={formDados?.responsavelContato || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                        />
+
+                        {(tentouEnviar && !formDados.responsavelContato) && (
+                            <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
+                        )}
+                    </div>
                 </div>
 
                 <div className="cadastroPonto-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
+                        <input 
+                            id="cep" 
+                            name="cep" 
+                            type="text" 
+                            placeholder="Digite o CEP" 
+                            value={formDados?.cep || ''}
+                            onChange={handleInputChange}
+                            onBlur={handleBuscarCep}
+                            disabled={!editando}
+                        />
+
+                        {(tentouEnviar && !formDados.cep) && (
+                            <span className="erro-required"> O campo 'CEP' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input id="imput-cidade-ponto" name="cidade" type="text" placeholder="Digite a cidade" />
+                        <input 
+                            id="cidade" 
+                            name="cidade" 
+                            type="text" 
+                            placeholder="Digite a cidade" 
+                            value={formDados?.cidade || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                        />
+
+                        {(tentouEnviar && !formDados.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <input id="imput-estado" name="estado" type="text" placeholder="Digite o estado" />
+                        <input 
+                            id="uf" 
+                            name="uf" 
+                            type="text" 
+                            placeholder="Digite o estado"
+                            value={formDados?.uf || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando} 
+                        />
+
+                        {(tentouEnviar && !formDados.uf) && (
+                            <span className="erro-required"> O campo 'Estado' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
-
                 <div className="form-group">
-                    <label>Endereço</label>
-                    <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
+                    <label>Logradouro</label>
+                    <input 
+                        id="logradouro" 
+                        name="logradouro" 
+                        type="text" 
+                        placeholder="Digite o Endereço" 
+                        value={formDados?.logradouro || ''}
+                        onChange={handleInputChange}
+                        disabled={!editando}  
+                    />
+
+                    {(tentouEnviar && !formDados.logradouro) && (
+                        <span className="erro-required"> O campo 'Logradouro' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Número</label>
-                        <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
+                        <input 
+                            id="numero" 
+                            name="numero" 
+                            type="number" 
+                            placeholder="Digite o nº da residência" 
+                            value={formDados?.numero || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando} 
+                        />
+
+                        {(tentouEnviar && !formDados.numero) && (
+                            <span className="erro-required"> O campo 'Número' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-                        <input id="complemento-ponto" name="complemento" type="text" placeholder="Digite o complemento" />
+                        <input 
+                            id="complemento" 
+                            name="complemento" 
+                            type="text" 
+                            placeholder="Digite o complemento" 
+                            value={formDados?.complemento || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando} 
+                        />
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
-                        <input id="bairro" name="bairro" type="text" placeholder="Digite o bairro" />
+                        <input 
+                            id="bairro" 
+                            name="bairro" 
+                            type="text" 
+                            placeholder="Digite o bairro" 
+                            value={formDados?.bairro || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando} 
+                        />
+
+                        {(tentouEnviar && !formDados.bairro) && (
+                            <span className="erro-required"> O campo 'Bairro' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoAlterar
-                        showModal={showModalAlterar}
-                        openModal={openModalAlterar}
-                        closeModal={closeModalAlterar}
-                        
-                    />
-                    <BotaoCancelar disabled={!isEditable} />  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
-
-
+                     {!editando ? (
+                        <BotaoAlterar onClick={() => setEditando(true)} 
+                            //disabled={editando}
+                        /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  *//>
+                        ) : (
+                        <button 
+                            type="submit" 
+                            className="botao-alterar" 
+                        > salvar
+                        </button>
+                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                    )}
+                    <BotaoCancelar/>  {/* Desabilita o botão "Cancelar" se os campos estiverem desabilitados */}
                 </div>
             </form>
         </div>

@@ -5,7 +5,9 @@ export interface Adotante {
     cnpj: string;
     status: 1 | 0;
 
-    telefones: string[];
+    celular: string;
+    contato: string;
+    responsavelContato: string;
 
     logradouro: string;
     numero: number;

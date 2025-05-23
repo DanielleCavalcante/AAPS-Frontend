@@ -77,7 +77,6 @@ const CadastroVoluntario = () => {
     return (
         <div className="cadastro-container">
             <form className="cadastroVoluntario-form" onSubmit={handleSubmit} >
-
                 <div className='cadastroVoluntario-linha'>
                     <div className="form-group">
                         <label htmlFor="id">Código</label>
@@ -91,12 +90,15 @@ const CadastroVoluntario = () => {
                             name="acesso"
                             value={dadosVoluntario.acesso}
                             onChange={handleChange}
-                            required // ver se vai tirar
                         >
                             <option value="">Selecione</option>
                             <option value="Padrao">Voluntário</option>
                             <option value="Admin">Administrador</option>
                         </select>
+
+                        {(tentouEnviar && !dadosVoluntario.acesso) && (
+                            <span className="erro-required"> O campo 'Acesso' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -109,8 +111,11 @@ const CadastroVoluntario = () => {
                         value={dadosVoluntario.nome}
                         onChange={handleChange}
                         placeholder="Digite o nome do voluntário" 
-                        required // ver se vai tirar
                     />
+
+                    {(tentouEnviar && !dadosVoluntario.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroVoluntario-linha'>
@@ -123,8 +128,11 @@ const CadastroVoluntario = () => {
                             value={dadosVoluntario.userName}
                             onChange={handleChange}
                             placeholder="Digite o nome de usuário do voluntário" 
-                            required // ver se vai tirar
                        />
+
+                       {(tentouEnviar && !dadosVoluntario.userName) && (
+                            <span className="erro-required"> O campo 'Nome de Usuário' é obrigatório </span>
+                        )}
                     </div>
 
                     <div className="form-group">
@@ -136,8 +144,11 @@ const CadastroVoluntario = () => {
                             value={dadosVoluntario.cpf}
                             onChange={handleChange}
                             placeholder="Digite o CPF do voluntário" 
-                            required // ver se vai tirar
                         />
+
+                        {(tentouEnviar && !dadosVoluntario.cpf) && (
+                            <span className="erro-required"> O campo 'CPF' é obrigatório </span>
+                        )}
                     </div>
 
                     <div className="form-group">
@@ -151,6 +162,10 @@ const CadastroVoluntario = () => {
                             placeholder="Digite o celular do voluntário" 
                             required // ver se vai tirar
                         />
+
+                        {(tentouEnviar && !dadosVoluntario.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                     </div>
                 </div>
 
@@ -165,6 +180,10 @@ const CadastroVoluntario = () => {
                         placeholder="Digite o email do voluntário" 
                         required // ver se vai tirar
                     />
+
+                    {(tentouEnviar && !dadosVoluntario.email) && (
+                        <span className="erro-required"> O campo 'Email' é obrigatório </span>
+                    )}
                 </div>
 
                 <div id="group-animal1">
@@ -195,6 +214,10 @@ const CadastroVoluntario = () => {
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
                         </select>
+
+                        {(tentouEnviar && !dadosVoluntario.status) && (
+                            <span className="erro-required"> O campo 'Status' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 

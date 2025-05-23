@@ -96,7 +96,7 @@ const Home = () => {
       </div>
 
       <button className="home-button-perfil">
-          <Link to='/perfil'>
+          <Link to={`/perfil/${user.usuarioId}`}>
             <img src={iconePerfil} alt="Ícone de perfil do usuario" className="icon" />
           </Link>
           <span>perfil</span>

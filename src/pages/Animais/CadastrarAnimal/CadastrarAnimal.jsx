@@ -23,7 +23,8 @@ const CadastroAnimal = () => {
         status: '',
         disponibilidade: '',
         doadorId: '',
-        nomeDoador: ''
+        nomeDoador: '',
+        resgatado: false,
     });
 
     const { listarDoadoresAtivos } = useDoadores();  
@@ -78,6 +79,7 @@ const CadastroAnimal = () => {
                 sexo: '',
                 status: '',
                 disponibilidade: '',
+                resgatado: false,
                 doadorId: '',
                 nomeDoador: ''
             });
@@ -109,45 +111,6 @@ const CadastroAnimal = () => {
             setShowModal(true);
         } else {
             return null;
-        }
-    };
-
-    // Handler para upload de foto
-    const handleFotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) setFoto(URL.createObjectURL(file));
-    };
-
-    const handleFotoCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
-
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            const capturePhoto = () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-
-                // Parar o stream
-                stream.getTracks().forEach((track) => track.stop());
-
-                // Atualizar o estado da foto
-                setFoto(canvas.toDataURL('image/png'));
-            };
-
-            // Exibe um modal ou uma janela para tirar a foto
-            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
-            if (confirmPhoto) {
-                capturePhoto();
-            }
-        } catch (error) {
-            console.error("Erro ao acessar a câmera:", error);
-            alert("Não foi possível acessar a câmera. Verifique as permissões.");
         }
     };
 
@@ -186,31 +149,6 @@ const CadastroAnimal = () => {
                         </select>
 
                     </div>
-
-                    <div className="foto-upload">
-                        <div className="foto-buttons">
-                            {/* Botão de capturar foto */}
-                            <button type="button" className="camera" onClick={handleFotoCamera}>
-                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
-                            </button>
-
-                            {/* Botão de upload */}
-                            <label className="upload">
-                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFotoUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
-                        </div>
-                        <div class="foto-preview-container">
-                            <span class="foto-label">Foto</span>
-                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
-                        </div>
-                    </div>
-
                 </div>
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
@@ -285,8 +223,22 @@ const CadastroAnimal = () => {
                         </select>
                     </div>
                 </div>
+
+                <label className="radio-label">
+                    <input
+                        type="checkbox"
+                        name="resgatado"
+                        id="resgatado"
+                        value={dadosAnimal.resgatado}
+                        checked={dadosAnimal.resgatado === true}
+                        onChange={e =>
+                            setDadosAnimal({ ...dadosAnimal, resgatado: e.target.checked })
+                        }
+                    />
+                    Resgatado
+                </label>
+
                 <div id='group3'>
-                    
                     <div className="form-group">
                         <label htmlFor="doadorId">Código Doador</label>
                         <input 

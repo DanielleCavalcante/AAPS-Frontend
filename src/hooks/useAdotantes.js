@@ -14,11 +14,11 @@ export const useAdotantes = () => {
         } 
       };
     
-    const listarDoadores = async (filtro = {}) => {
+    const listarAdotantes = async (filtro = {}) => {
         try {
             limparErro();
             return await AdotanteService.listarAdotantes(filtro);
-        } catch (error) {s
+        } catch (error) {
             tratarErro(error);
             throw error;
         }
@@ -66,7 +66,7 @@ export const useAdotantes = () => {
 
     return {
         criarAdotante,
-        listarDoadores,
+        listarAdotantes,
         listarAdotantesAtivos,
         buscarAdotantePorId,
         atualizarAdotante,

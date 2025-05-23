@@ -35,7 +35,7 @@ label {
   gap: 10px;
 }
 
-#input-telefone {
+#contato {
   width: 30%;
 }
 
@@ -93,15 +93,15 @@ label {
   justify-content: space-between;
 }
 
-#imput-cep {
+#cep {
   width: 100%; 
 }
 
-#imput-cidade {
+#cidade {
   width: 150%; 
 }
 
-#imput-estado {
+#uf {
   width: 100%; 
 }
 

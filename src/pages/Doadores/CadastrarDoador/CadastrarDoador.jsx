@@ -1,17 +1,98 @@
 import React, { useState } from 'react';
 
+import { useDoadores } from '../../../hooks/useDoadores';
+import { useError } from '../../../hooks/useError';
+import { useBuscarCep } from '../../../hooks/useBuscarCep';
+
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
 import './CadastrarDoador.css';
 
 const CadastroDoador = () => {
-    const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [foto, setFoto] = useState(null);
+    const { criarDoador } = useDoadores();
+    const [dadosDoador, setDadosDoador] = useState({ 
+            nome: '', 
+            rg: '', 
+            cpf: '', 
+            celular: '', 
+            contato: '', 
+            responsavelContato: '',
+            responsavel: '', 
+            status: 1,
+            cep: '', 
+            cidade: '', 
+            uf: '', 
+            logradouro: '', 
+            numero: '', 
+            complemento: '', 
+            bairro: '' 
+        });
+
+    const { erro, tratarErro, limparErro } = useError();
+    const [tentouEnviar, setTentouEnviar] = useState(false);
+    const { buscarCep } = useBuscarCep();
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        limparErro();
+        setDadosDoador({
+            ...dadosDoador,
+            [id]: id === 'status' && value !== '' ? Number(value) : value
+        });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setTentouEnviar(true); 
+        limparErro();
+        try {
+            await criarDoador(dadosDoador);
+            setDadosDoador({ 
+                nome: '', 
+                rg: '', 
+                cpf: '', 
+                celular: '', 
+                contato: '', 
+                responsavelContato: '',
+                responsavel: '',
+                status: 1,
+                cep: '', 
+                cidade: '', 
+                uf: '', 
+                logradouro: '', 
+                numero: '', 
+                complemento: '', 
+                bairro: '' 
+            });
+            setTentouEnviar(false);
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    const handleBuscarCep = async () => {
+        try {
+            const cepLimpo = dadosDoador.cep.match(/\d{8}/)?.[0];
+
+            const endereco = await buscarCep(cepLimpo);
+
+            setDadosDoador((prev) => ({
+            ...prev,
+            logradouro: endereco.logradouro || '',
+            bairro: endereco.bairro || '',
+            cidade: endereco.localidade || '',
+            uf: endereco.uf || ''
+            }));
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+     
     const [showModal, setShowModal] = useState(false);
 
     // Handlers do modal
-    const closeModal = () => setShowModal(false);
+    /* const closeModal = () => setShowModal(false);
     const openModal = () => {
         // Pegando os valores dos campos
         const nome = document.getElementById("nome").value;
@@ -32,132 +113,125 @@ const CadastroDoador = () => {
         } else {
             return null;
         }
-    };
-
-    // Handlers para telefones e responsáveis
-    const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
-    const handleRemoveTelefone = (index) => {
-        setTelefones(telefones.filter((_, i) => i !== index));
-    };
-    const handleTelefoneChange = (index, value) => {
-        const novosTelefones = [...telefones];
-        novosTelefones[index].telefone = value;
-        setTelefones(novosTelefones);
-    };
-    const handleResponsavelChange = (index, value) => {
-        const novosTelefones = [...telefones];
-        novosTelefones[index].responsavel = value;
-        setTelefones(novosTelefones);
-    };
-
-    // Handler para upload de foto
-    const handleFotoUpload = (e) => {
-        const file = e.target.files[0];
-        if (file) setFoto(URL.createObjectURL(file));
-    };
-
-    // Limpeza dos campos do formulário
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // Lógica de envio de formulário ou limpeza
-        event.target.reset();
-        setTelefones([{ telefone: '', responsavel: '' }]);
-        setFoto(null);
-    };
-
-    const handleFotoCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
+    }; */
     
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-    
-            const capturePhoto = () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-    
-                // Parar o stream
-                stream.getTracks().forEach((track) => track.stop());
-    
-                // Atualizar o estado da foto
-                setFoto(canvas.toDataURL('image/png'));
-            };
-    
-            // Exibe um modal ou uma janela para tirar a foto
-            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
-            if (confirmPhoto) {
-                capturePhoto();
-            }
-        } catch (error) {
-            console.error("Erro ao acessar a câmera:", error);
-            alert("Não foi possível acessar a câmera. Verifique as permissões.");
-        }
-    };
-    
-
     return (
         <div className="cadastro-container">
             <form className="cadastroDoador-form" onSubmit={handleSubmit}>
-
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-                        <input type="text" />
+                        <input type="text" disabled/>
                     </div>
+                    
+                    <div> {/* sem classe pq peguei de outro lugar */}
+                        <label htmlFor="status">Status</label>
+                        <select 
+                            id="status" 
+                            name="status"
+                            value={dadosDoador.status}
+                            onChange={handleChange}
+                        >
+                            <option value="">Selecione</option>
+                            <option value={1}>Ativo</option>
+                            <option value={0}>Inativo</option>
+                        </select>
 
-                    <div className="foto-upload">
-                        <div className="foto-buttons">
-                            {/* Botão de capturar foto */}
-                            <button type="button" className="camera" onClick={handleFotoCamera}>
-                                <img src="/src/assets/icone_camera.png" alt="Ícone câmera" className="icon" />
-                            </button>
-
-                            {/* Botão de upload */}
-                            <label className="upload">
-                                <img src="/src/assets/icone_upload.png" alt="Ícone upload" className="icon" />
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFotoUpload}
-                                    style={{ display: 'none' }}
-                                />
-                            </label>
-                        </div>
-                        <div class="foto-preview-container">
-                            <span class="foto-label">Foto</span>
-                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
-                        </div>
+                        {(tentouEnviar && !dadosDoador.status) && (
+                            <span className="erro-required"> O campo 'Status' é obrigatório </span>
+                        )}
                     </div>
-
                 </div>
 
                 <div className="form-group">
                     <label>Nome</label>
-                    <input id="nome" name="nome" type="text" placeholder="Digite o nome" />
+                    <input 
+                        id="nome" 
+                        name="nome" 
+                        type="text" 
+                        value={dadosDoador.nome}
+                        onChange={handleChange}
+                        placeholder="Digite o nome" 
+                    />
+
+                    {(tentouEnviar && !dadosDoador.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
                         <label>RG</label>
-                        <input id="rg" name="rg" type="text" placeholder="Digite o RG" />
+                        <input 
+                            id="rg" 
+                            name="rg" 
+                            type="text" 
+                            value={dadosDoador.rg}
+                            onChange={handleChange}
+                            placeholder="Digite o RG" 
+                        />
+
+                        {(tentouEnviar && !dadosDoador.rg) && (
+                            <span className="erro-required"> O campo 'RG' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
-                        <input id="cpf" name="cpf" type="text" placeholder="Digite o CPF" />
+                        <input 
+                            id="cpf" 
+                            name="cpf" 
+                            type="text" 
+                            value={dadosDoador.cpf}
+                            onChange={handleChange}
+                            placeholder="Digite o CPF" 
+                        />
+
+                        {(tentouEnviar && !dadosDoador.cpf) && (
+                            <span className="erro-required"> O campo 'CPF' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input id="celular-doador" name="celular" type="text" placeholder="Digite o celular com DDD" />
+                        <input 
+                            id="celular" 
+                            name="celular" 
+                            type="text" 
+                            value={dadosDoador.celular}
+                            onChange={handleChange}
+                            placeholder="Digite o celular com DDD" 
+                        />
+
+                        {(tentouEnviar && !dadosDoador.celular) && (
+                            <span className="erro-required"> O campo 'Celular' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label>Telefone</label>
-                    {telefones.map((item, index) => (
+                    <label>Contato</label>
+                    <input 
+                        id="contato" 
+                        name="contato" 
+                        type="text" 
+                        value={dadosDoador.contato}
+                        onChange={handleChange}
+                        placeholder="Digite o celular com DDD" 
+                    />
+
+                    {(tentouEnviar && !dadosDoador.contato) && (
+                        <span className="erro-required"> O campo 'Telefone' é obrigatório </span>
+                    )}
+
+                    <label>Responsável Contato</label>
+                    <input 
+                        id='responsavelContato'
+                        name="responsavelContato" 
+                        type="text"
+                        placeholder="Contato para recados"
+                        value={dadosDoador.responsavelContato}
+                        onChange={handleChange}
+                    />
+                    {/* {telefones.map((item, index) => (
                         <div key={index} className="telefone-group">
                             <input id='input-telefone'
                                 type="text"
@@ -181,50 +255,123 @@ const CadastroDoador = () => {
                                 </button>
                             )}
                         </div>
-                    ))}
-                    <button type="button" className="add-btn" onClick={handleAddTelefone}>
+                    ))} */}
+                    {/* <button type="button" className="add-btn" onClick={handleAddTelefone}>
                         + Telefones
-                    </button>
+                    </button> */}
                 </div>
 
                 <div className="cadastroDoador-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input id="imput-cep" name="cep" type="text" placeholder="Digite o CEP" />
+                        <input 
+                            id="cep" 
+                            name="cep" 
+                            type="text" 
+                            value={dadosDoador.cep}
+                            onChange={handleChange}
+                            onBlur={handleBuscarCep}
+                            placeholder="Digite o CEP" 
+                         />
+
+                         {(tentouEnviar && !dadosDoador.cep) && (
+                            <span className="erro-required"> O campo 'CEP' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-                        <input id="imput-cidade" name="cidade" type="text" placeholder="Digite a cidade" />
+                        <input 
+                            id="cidade"  
+                            name="cidade" 
+                            type="text" 
+                            value={dadosDoador.cidade}
+                            onChange={handleChange}
+                            placeholder="Digite a cidade" 
+                        />
+
+                        {(tentouEnviar && !dadosDoador.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-                        <input id="imput-estado" name="estado" type="text" placeholder="Digite o estado" />
+                        <input 
+                            id="uf" 
+                            name="uf" 
+                            type="text" 
+                            value={dadosDoador.uf}
+                            onChange={handleChange}
+                            placeholder="Digite o estado" 
+                        />
+
+                        {(tentouEnviar && !dadosDoador.uf) && (
+                            <span className="erro-required"> O campo 'Estado' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
-
                 <div className="form-group">
                     <label>Endereço</label>
-                    <input id="endereco" name="endereco" type="text" placeholder="Digite o Endereço" />
+                    <input 
+                        id="logradouro" 
+                        name="logradouro" 
+                        type="text" 
+                        value={dadosDoador.logradouro}
+                        onChange={handleChange}
+                        placeholder="Digite o Endereço" 
+                    />
+
+                    {(tentouEnviar && !dadosDoador.logradouro) && (
+                        <span className="erro-required"> O campo 'Logradouro' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
                         <label>Número</label>
-                        <input id="numero" name="numero" type="text" placeholder="Digite o nº da residência" />
+                        <input 
+                            id="numero" 
+                            name="numero" 
+                            type="number" 
+                            value={dadosDoador.numero}
+                            onChange={handleChange}
+                            placeholder="Digite o nº da residência" 
+                        />
+
+                        {(tentouEnviar && !dadosDoador.numero) && (
+                            <span className="erro-required"> O campo 'Número' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-                        <input id="complemento" name="complemento" type="text" placeholder="Digite o complemento" />
+                        <input 
+                            id="complemento" 
+                            name="complemento" 
+                            type="text" 
+                            value={dadosDoador.complemento}
+                            onChange={handleChange}
+                            placeholder="Digite o complemento" 
+                        />
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
-                        <input id="bairro" name="bairro" type="text" placeholder="Digite o bairro" />
+                        <input 
+                            id="bairro" 
+                            name="bairro" 
+                            type="text" 
+                            value={dadosDoador.bairro}
+                            onChange={handleChange}
+                            placeholder="Digite o bairro" 
+                        />
+
+                        {(tentouEnviar && !dadosDoador.bairro) && (
+                            <span className="erro-required"> O campo 'Bairro' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoSalvar /* showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>

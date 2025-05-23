@@ -75,7 +75,11 @@ const VisualizaEvento = () => {
             <form className="cadastroEvento-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="codigo">Código</label>
-                    <input type="text" id="id" value={evento?.id || '' } disabled
+                    <input 
+                        type="text" 
+                        id="id" 
+                        value={evento?.id || '' } 
+                        disabled
                     />
                 </div>
 

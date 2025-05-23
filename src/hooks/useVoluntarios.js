@@ -74,6 +74,26 @@ export const useVoluntarios = () => {
         }
     };
 
+    const buscarPerfilPorId = async (id) => {
+        try {
+            limparErro();
+            return await VoluntarioService.buscarPerfilPorId(id);
+        } catch (error) {
+            tratarErro(error);
+            throw error;
+        }
+    };
+
+    const alterarSenha = async (id, alterarSenha) => {
+        try {
+            limparErro();
+            return await VoluntarioService.alterarSenha(id, alterarSenha);
+        } catch (error) {
+            tratarErro(error);
+            throw error;
+        }
+    };
+
     return {
         criarVoluntario, 
         listarVoluntarios, 
@@ -82,6 +102,8 @@ export const useVoluntarios = () => {
         atualizarVoluntario,
         excluirVoluntario,
         resetarSenha,
+        buscarPerfilPorId,
+        alterarSenha,
         erro,
         tratarErro,
         limparErro
