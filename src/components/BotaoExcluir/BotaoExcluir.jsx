@@ -16,12 +16,12 @@ const BotaoExcluir = ({showModal, showConfirmModalExcluir, openModal, closeModal
 
         <Modal show={showConfirmModalExcluir} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>
           <img src="/src/assets/icone_alerta.png" alt="Ícone de sucesso" className="icon" />
-          <p>Deseja realmente excluir o cadastro?</p>
+          <p>Deseja realmente inativar o cadastro?</p>
         </Modal>
 
         <Modal show={showModal} onClose={closeModalExcluir}>
           <img src="/src/assets/emoji-frown.png" alt="Ícone de sucesso" className="icon" />
-          <p>Cadastro excluído com sucesso!</p>
+          <p>Cadastro inativado com sucesso!</p>
         </Modal>
       </div>
     );

@@ -1,4 +1,8 @@
-import { useState } from 'react'
+import React, { useState } from 'react';
+import InputMask from 'react-input-mask';
+import { validarCPF } from '../../../utils/ValidaCPF';
+import { validarNome } from '../../../utils/ValidaNome';
+
 
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
 import { useError } from '../../../hooks/useError';
@@ -22,10 +26,31 @@ const CadastroVoluntario = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [erroCPF, setErroCPF] = useState('');
 
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        //Chama a validação do CPF
+        if (id === 'cpf') {
+            // Remove caracteres não numéricos
+            const cpfLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 11 dígitos, faz a validação
+            if (cpfLimpo.length === 11) {
+                if (!validarCPF(cpfLimpo)) {
+                    setErroCPF('Eita! CPF inválido');
+                } else {
+                    setErroCPF('');
+                }
+            } 
+            else {
+                // Enquanto não tiver 11 dígitos, não mostra erro
+                setErroCPF('');
+            }
+        }
+
         setDadosVoluntario({
             ...dadosVoluntario,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -36,6 +61,13 @@ const CadastroVoluntario = () => {
         event.preventDefault();
         setTentouEnviar(true); 
         limparErro();
+
+        const cpfLimpo = dadosVoluntario.cpf.replace(/[^\d]+/g, '');
+        if (!validarCPF(cpfLimpo)) {
+            setErroCPF('Eita! CPF inválido');
+            return;
+        }
+
         try {
             await criarVoluntario(dadosVoluntario);
             setDadosVoluntario({ 
@@ -108,8 +140,14 @@ const CadastroVoluntario = () => {
                         type="text"
                         id="nome" 
                         name='nome'
+                        maxLength={50} //verificar tamanho maximo.
                         value={dadosVoluntario.nome}
                         onChange={handleChange}
+                        onKeyDown={(e) => {
+                            if (!validarNome(e.key) && e.key.length === 1) {
+                            e.preventDefault();
+                            }
+                        }}
                         placeholder="Digite o nome do voluntário" 
                     />
 
@@ -137,6 +175,7 @@ const CadastroVoluntario = () => {
 
                     <div className="form-group">
                         <label htmlFor="cpf">CPF</label>
+<<<<<<< HEAD
                         <input 
                             type="text" 
                             id="cpf" 
@@ -149,16 +188,35 @@ const CadastroVoluntario = () => {
                         {(tentouEnviar && !dadosVoluntario.cpf) && (
                             <span className="erro-required"> O campo 'CPF' é obrigatório </span>
                         )}
+=======
+                            <InputMask
+                                mask="999.999.999-99"
+                                value={dadosVoluntario.cpf}
+                                onChange={handleChange}
+                                placeholder="___.___.___-__"
+                                required
+                            >
+                                {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    id="cpf"
+                                    name="cpf"
+                                    type="text"
+                                    className={erroCPF ? 'input-error' : ''}
+                                />
+                                )}
+                            </InputMask>
+                            {erroCPF && <span className="error">{erroCPF}</span>}
+>>>>>>> validacoes
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="celular">Celular</label>
-                        <input 
-                            type="text" 
-                            id="phoneNumber" 
-                            name='phoneNumber'
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={dadosVoluntario.phoneNumber}
                             onChange={handleChange}
+<<<<<<< HEAD
                             placeholder="Digite o celular do voluntário" 
                             required // ver se vai tirar
                         />
@@ -166,6 +224,20 @@ const CadastroVoluntario = () => {
                         {(tentouEnviar && !dadosVoluntario.nome) && (
                         <span className="erro-required"> O campo 'Nome' é obrigatório </span>
                     )}
+=======
+                            placeholder="(__) _____-____"
+                            required
+                        >
+                            {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="phoneNumber"
+                                name="phoneNumber"
+                            />
+                            )}
+                        </InputMask>
+>>>>>>> validacoes
                     </div>
                 </div>
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
+import { bloquearTeclas } from '../../../utils/BloqueiaTeclas';
 import { useNavigate } from 'react-router-dom';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -42,6 +43,7 @@ const CadastroAnimal = () => {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
+
         setDadosAnimal({
             ...dadosAnimal,
             [id]: ['status', 'disponibilidade', 'doadorId'].includes(id) ? Number(value) : value
@@ -158,6 +160,7 @@ const CadastroAnimal = () => {
                         type="text"
                         id="nome"
                         name="nome"
+                        pattern="[A-Za-zÀ-ÿ\s]+"
                         value={dadosAnimal.nome}
                         onChange={handleChange}
                         placeholder="Digite o nome do animal"
@@ -171,6 +174,7 @@ const CadastroAnimal = () => {
                             type="text"
                             id="especie"
                             name="especie"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             value={dadosAnimal.especie}
                             onChange={handleChange}
                             placeholder="Digite a espécie do animal"
@@ -182,6 +186,7 @@ const CadastroAnimal = () => {
                         <input
                             type="text"
                             id="raca"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             value={dadosAnimal.raca}
                             onChange={handleChange}
                             placeholder="Digite a raça do animal"
@@ -205,6 +210,7 @@ const CadastroAnimal = () => {
                         <input
                             type="text"
                             id="pelagem"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             value={dadosAnimal.pelagem}
                             onChange={handleChange}
                             placeholder="cor e tipo"
@@ -247,8 +253,10 @@ const CadastroAnimal = () => {
                             type="number"
                             id="doadorId"
                             name="doadorId"
+                            min="1" //valores a partir de 1.
                             value={dadosAnimal.doadorId}
                             onChange={handleChange}
+                            onKeyDown={(e) => bloquearTeclas(e, dadosAnimal.doadorId)}
                         />
                     </div>
 

@@ -15,6 +15,11 @@
     margin: 50px auto 35px;
 }
 
+.cadastroVoluntario-form input::placeholder {
+  color: #555555;
+  opacity: 1;
+}
+
 .form-group label {
     display: block;
     margin-bottom: 15px;
