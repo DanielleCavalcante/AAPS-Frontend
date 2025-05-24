@@ -98,7 +98,11 @@ label {
 }
 
 #cidade {
+<<<<<<< HEAD
   width: 100%; 
+=======
+  width: 150%; 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
 }
 
 #uf {
@@ -109,15 +113,24 @@ label {
   width: 40%; 
 }
 
+<<<<<<< HEAD
 #complemento, #responsavelContato{
   width: 100%; 
+=======
+#complemento{
+  width: 150%; 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
 }
 
 #bairro {
   width: 100%; 
 }
 
+<<<<<<< HEAD
 #rg, #cpf, #contato {
+=======
+#rg, #cpf, #celular-doador {
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
   width: 100%; 
 }
 
@@ -183,6 +196,7 @@ label {
   max-height: 100%;
   object-fit: cover; 
 }
+<<<<<<< HEAD
 
 
 .group-doador{
@@ -196,3 +210,5 @@ label {
 input::placeholder {
     color: #999;
 }
+=======
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

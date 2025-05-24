@@ -79,6 +79,7 @@
   justify-items: stretch;
 }
 
+<<<<<<< HEAD
 #adotanteId, #animalId, #doadorId, #pontoAdocaoId, #codlocal {
   width: 40%; 
 }
@@ -101,4 +102,24 @@
 
 input::placeholder {
     color: #999;
+=======
+#adotanteId, #animalId, #doadorId, #pontoAdocaoId {
+  width: 150px; 
+}
+
+#nomeadotante, #nomeanimal, #nomedoador, #nomelocaladocao {
+  width: 750px; 
+}
+
+#rg, #cpf, #telefonedoador {
+  width: 250px; 
+}
+
+#sexo {
+  width: 50px; 
+}
+
+#pelagem {
+  width: 500px; 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
 }

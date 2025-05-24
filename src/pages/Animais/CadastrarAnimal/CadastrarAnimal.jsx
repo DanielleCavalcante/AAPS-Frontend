@@ -27,9 +27,15 @@ const CadastroAnimal = () => {
         resgatado: false,
     });
 
+<<<<<<< HEAD
     const { listarDoadoresAtivos } = useDoadores();
     const [doadores, setDoadores] = useState([]);
 
+=======
+    const { listarDoadoresAtivos } = useDoadores();  
+    const [doadores, setDoadores] = useState([]);
+    
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
     const [foto, setFoto] = useState(null);
 
     useEffect(() => {
@@ -123,10 +129,17 @@ const CadastroAnimal = () => {
                         <input type="text" id="codigo" disabled />
                     </div>
                     <div className="form-group">
+<<<<<<< HEAD
 
                         <label htmlFor="disponibilidade">Disponibilidade</label>
                         <select
                             id="disponibilidade"
+=======
+                        
+                        <label htmlFor="disponibilidade">Disponibilidade</label>
+                        <select 
+                            id="disponibilidade" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             name="disponibilidade"
                             value={dadosAnimal.disponibilidade}
                             onChange={handleChange}
@@ -135,8 +148,11 @@ const CadastroAnimal = () => {
                             <option value={0}>Adotado</option>
                             <option value={1}>Disponível</option>
                         </select>
+<<<<<<< HEAD
                     </div>
                     <div className="form-group">
+=======
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
 
                         <label htmlFor="status">Status</label>
                         <select
@@ -154,7 +170,11 @@ const CadastroAnimal = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
+<<<<<<< HEAD
                     <input
+=======
+                    <input 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         type="text"
                         id="nome"
                         name="nome"
@@ -167,7 +187,11 @@ const CadastroAnimal = () => {
                 <div id="group2">
                     <div className="form-group">
                         <label htmlFor="especie">Espécie</label>
+<<<<<<< HEAD
                         <input
+=======
+                        <input 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="text"
                             id="especie"
                             name="especie"
@@ -179,7 +203,11 @@ const CadastroAnimal = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
+<<<<<<< HEAD
                         <input
+=======
+                        <input 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="text"
                             id="raca"
                             value={dadosAnimal.raca}
@@ -190,7 +218,11 @@ const CadastroAnimal = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
+<<<<<<< HEAD
                         <input
+=======
+                        <input 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="date"
                             id="dataNascimento"
                             value={dadosAnimal.dataNascimento}
@@ -202,7 +234,11 @@ const CadastroAnimal = () => {
                 <div id='group3'>
                     <div className="form-group">
                         <label htmlFor="pelagem">Pelagem</label>
+<<<<<<< HEAD
                         <input
+=======
+                        <input 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="text"
                             id="pelagem"
                             value={dadosAnimal.pelagem}
@@ -213,7 +249,11 @@ const CadastroAnimal = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
+<<<<<<< HEAD
                         <select
+=======
+                        <select 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             id="sexo"
                             name='sexo'
                             value={dadosAnimal.sexo}
@@ -226,7 +266,11 @@ const CadastroAnimal = () => {
                     </div>
                 </div>
 
+<<<<<<< HEAD
                 <label className="radio-label-animal">
+=======
+                <label className="radio-label">
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     <input
                         type="checkbox"
                         name="resgatado"
@@ -240,10 +284,17 @@ const CadastroAnimal = () => {
                     Resgatado
                 </label>
 
+<<<<<<< HEAD
                 <div className='group-adocao'>
                     <div className="form-group">
                         <label htmlFor="doadorId">Código Doador</label>
                         <input
+=======
+                <div id='group3'>
+                    <div className="form-group">
+                        <label htmlFor="doadorId">Código Doador</label>
+                        <input 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="number"
                             id="doadorId"
                             name="doadorId"
@@ -272,7 +323,11 @@ const CadastroAnimal = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     <BotaoCancelar />
+<<<<<<< HEAD
                     <BotaoLimpar />
+=======
+                    <BotaoLimpar/>
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 </div>
             </form>
         </div>

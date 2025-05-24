@@ -147,7 +147,14 @@
     cursor: pointer;
 }
 
+<<<<<<< HEAD
 .search-bar-adotante input::placeholder {
     color: #fff;
     font-size: 15px;
 }
+=======
+input::placeholder {
+    color: white;
+    font-size: 15px;
+  }
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

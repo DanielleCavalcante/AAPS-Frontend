@@ -123,7 +123,11 @@ const Adocao = () => {
                                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>
+<<<<<<< HEAD
                                 <button className="delete-button" onClick={() => {handleExcluir(adocao.id)}}>
+=======
+                                <button className="search-button" onClick={() => {handleExcluir(adocao.id)}}>
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                                     <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
                                 </button>
                             </td>

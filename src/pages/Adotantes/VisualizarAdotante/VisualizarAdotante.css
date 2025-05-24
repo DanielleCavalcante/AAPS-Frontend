@@ -5,6 +5,7 @@
   background-color: #f4f4f4;
   padding: 2% 2%;
 }
+<<<<<<< HEAD
 
 .cadastroAdotante-form {
   background-color: white;
@@ -254,3 +255,227 @@ input::placeholder {
   height: 20px;
   margin-top: 30px;
 }
+=======
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  .form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    font-size: 14px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+  }
+  
+  .form-group-phone {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .telefone-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #input-telefone {
+    width: 30%;
+  }
+  
+  #input-responsavel {
+    width: 63%;
+  }
+  
+  .btn-add-phone,
+  .add-btn {
+    background-color: #009EE0;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .add-btn {
+    background-color: #009EE0;
+    width: 20%;
+    height: 40px;
+    margin-left: 80%;
+    margin-top: 10px;
+  }
+  
+  .remove-btn-cad-adotante {
+    background-color: #e63946;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-grid;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+    border: none;
+  }
+  
+  .icon-remove-cad-adotante {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .button-group,
+  .button-group-crud {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .button-group-crud {
+    justify-content: flex-end;
+  }
+  
+  .cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2%;
+    margin: 0 auto;
+  }
+  
+  .cadastroAdotante-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 80%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+  
+  .cadastroAdotante-linha1 {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #imput-cep,
+  #imput-estado,
+  #bairro {
+    width: 100%;
+  }
+  
+  #imput-cidade {
+    width: 150%;
+  }
+  
+  #numero {
+    width: 40%;
+  }
+  
+  #complemento {
+    width: 150%;
+  }
+  
+  #rg,
+  #cpf,
+  #celular-adotante {
+    width: 100%;
+  }
+  
+  .foto-upload {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end; /* Alinha tudo à direita */
+    align-items: center;
+    gap: 20px; /* Espaço entre os botões e a área da foto */
+    width: 100%;
+  }
+  
+  .foto-buttons {
+    display: flex;
+    flex-direction: column; /* Botões alinhados verticalmente */
+    gap: 10px; /* Espaço entre os botões */
+    align-items: center;
+  }
+  
+  .camera, .upload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #009EE0;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+  }
+  
+  .camera img, .upload img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .foto-preview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px; 
+    height: 150px;
+    border: 1px solid #ccc; 
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f4f4f4; 
+  }
+  
+  .foto-preview-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; 
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 40px;
+    margin-top: 10px; 
+    margin-bottom: 10px;
+  }
+  
+
+  
+  .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaçamento entre o input e o texto */
+  }
+
+  #group4{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+    align-items: center;
+}
+
+textarea {
+  width: 100%; /* Ocupa 100% da largura do container */
+  height: 150px; /* Define uma altura maior */
+  padding: 10px; /* Adiciona espaçamento interno */
+  font-size: 16px; /* Torna o texto mais legível */
+  border: 1px solid #ccc; /* Define uma borda */
+  border-radius: 5px; /* Bordas arredondadas */
+  resize: vertical; /* Permite o redimensionamento apenas na altura */
+  box-sizing: border-box; /* Inclui padding e border na largura total */
+}
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

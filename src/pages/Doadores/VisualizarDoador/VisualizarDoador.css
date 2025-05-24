@@ -138,7 +138,11 @@
 
 #rg,
 #cpf,
+<<<<<<< HEAD
 #celular {
+=======
+#celular-doador {
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
   width: 100%;
 }
 
@@ -193,7 +197,11 @@
   object-fit: cover; 
 }
 
+<<<<<<< HEAD
 /*.botao-alterar{
+=======
+.botao-alterar{
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
 background-color: #4CAF50;
     padding: 30px;
     width: 100px;
@@ -211,4 +219,8 @@ background-color: #4CAF50;
     align-items: center;
     justify-content: center;
     gap: 5px;
+<<<<<<< HEAD
 }*/
+=======
+}
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

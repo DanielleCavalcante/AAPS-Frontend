@@ -38,7 +38,11 @@
 }
 
 /* Barra de pesquisa */
+<<<<<<< HEAD
 .search-bar-animal {
+=======
+.search-bar {
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
     display: flex;
     align-items: center;
     flex: 1;
@@ -48,7 +52,11 @@
     padding: 5px;
 }
 
+<<<<<<< HEAD
 .search-bar-animal input {
+=======
+.search-bar input {
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
     flex: 1;
     padding: 20px;
     border: none;
@@ -148,7 +156,14 @@
     cursor: pointer;
 } */
 
+<<<<<<< HEAD
 .search-bar-animal input::placeholder {
     color: #fff;
     font-size: 15px;
 }
+=======
+input::placeholder {
+    color: white;
+    font-size: 15px;
+  }
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

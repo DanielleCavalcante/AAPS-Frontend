@@ -47,11 +47,19 @@ const CadastroAdotante = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+<<<<<<< HEAD
         setTentouEnviar(true);
         limparErro();
         try {
             await criarAdotante(dadosAdotante);
             setDadosAdotante({
+=======
+        setTentouEnviar(true); 
+        limparErro();
+        try {
+            await criarAdotante(dadosAdotante);
+            setDadosAdotante({ 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 nome: '',
                 rg: '',
                 cpf: '',
@@ -120,11 +128,19 @@ const CadastroAdotante = () => {
             const endereco = await buscarCep(cepLimpo);
 
             setDadosAdotante((prev) => ({
+<<<<<<< HEAD
                 ...prev,
                 logradouro: endereco.logradouro || '',
                 bairro: endereco.bairro || '',
                 cidade: endereco.localidade || '',
                 uf: endereco.uf || ''
+=======
+            ...prev,
+            logradouro: endereco.logradouro || '',
+            bairro: endereco.bairro || '',
+            cidade: endereco.localidade || '',
+            uf: endereco.uf || ''
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
             }));
         } catch (error) {
             tratarErro(error);
@@ -137,6 +153,7 @@ const CadastroAdotante = () => {
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Código</label>
+<<<<<<< HEAD
                         <input type="text" disabled />
                     </div>
 
@@ -144,6 +161,15 @@ const CadastroAdotante = () => {
                         <label htmlFor="status">Status</label>
                         <select
                             id="status"
+=======
+                        <input type="text" disabled/>
+                    </div>
+
+                    <div> {/* sem classe pq peguei de outro lugar */}
+                        <label htmlFor="status">Status</label>
+                        <select 
+                            id="status" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             name="status"
                             value={dadosAdotante.status}
                             onChange={handleChange}
@@ -161,11 +187,19 @@ const CadastroAdotante = () => {
 
                 <div className="form-group">
                     <label>Nome</label>
+<<<<<<< HEAD
                     <input
                         id="nome"
                         name="nome"
                         type="text"
                         placeholder="Digite o nome"
+=======
+                    <input 
+                        id="nome" 
+                        name="nome" 
+                        type="text" 
+                        placeholder="Digite o nome" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         value={dadosAdotante.nome}
                         onChange={handleChange}
                     />
@@ -178,11 +212,19 @@ const CadastroAdotante = () => {
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>RG</label>
+<<<<<<< HEAD
                         <input
                             id="rg"
                             name="rg"
                             type="text"
                             placeholder="Digite o RG"
+=======
+                        <input 
+                            id="rg" 
+                            name="rg" 
+                            type="text" 
+                            placeholder="Digite o RG" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.rg}
                             onChange={handleChange}
                         />
@@ -193,6 +235,7 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
+<<<<<<< HEAD
                         <input
                             id="cpf"
                             name="cpf"
@@ -200,6 +243,15 @@ const CadastroAdotante = () => {
                             placeholder="Digite o CPF"
                             value={dadosAdotante.cpf}
                             onChange={handleChange}
+=======
+                        <input 
+                            id="cpf" 
+                            name="cpf" 
+                            type="text" 
+                            placeholder="Digite o CPF"
+                            value={dadosAdotante.cpf}
+                            onChange={handleChange} 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosAdotante.cpf) && (
@@ -208,11 +260,19 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
+<<<<<<< HEAD
                         <input
                             id="celular"
                             name="celular"
                             type="text"
                             placeholder="Digite o celular com DDD"
+=======
+                        <input 
+                            id="celular" 
+                            name="celular" 
+                            type="text" 
+                            placeholder="Digite o celular com DDD" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.celular}
                             onChange={handleChange}
                         />
@@ -225,11 +285,18 @@ const CadastroAdotante = () => {
 
                 <div className="form-group">
                     <label>Local de Trabalho</label>
+<<<<<<< HEAD
                     <input
                         id="localTrabalho"
                         name="localTrabalho"
                         type="text"
                         placeholder="Digite o nome do local de trabalho"
+=======
+                    <input 
+                        id="localTrabalho" 
+                        name="localTrabalho" 
+                        type="text" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         value={dadosAdotante.localTrabalho}
                         onChange={handleChange}
                     />
@@ -239,6 +306,7 @@ const CadastroAdotante = () => {
                     )}
                 </div>
 
+<<<<<<< HEAD
                 <div className="group-adocao">
                     <div className="form-group">
                         <label>Contato</label>
@@ -271,6 +339,36 @@ const CadastroAdotante = () => {
                             <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
                         )}
                     </div>
+=======
+                <div className="form-group">
+                    <label>Contato</label>
+                    <input 
+                        id="contato"
+                        type="text"
+                        name="contato" 
+                        placeholder="Contato"
+                        value={dadosAdotante.contato}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.contato) && (
+                        <span className="erro-required"> O campo 'Contato' é obrigatório </span>
+                    )}
+                    
+                    <label>Responsável Contato</label>
+                    <input 
+                        id='responsavelContato'
+                        name="responsavelContato" 
+                        type="text"
+                        placeholder="Contato para recados"
+                        value={dadosAdotante.responsavelContato}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.responsavelContato) && (
+                        <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
+                    )}
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 </div>
 
                 {/* <div className="radio-group">
@@ -299,7 +397,11 @@ const CadastroAdotante = () => {
                 <div className="radio-group">
                     <label className="radio-label">
                         <input
+<<<<<<< HEAD
                             id="situacaoEndereco"
+=======
+                            id = "situacaoEndereco"
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="radio"
                             name="situacaoEndereco"
                             value="Própria"
@@ -310,7 +412,11 @@ const CadastroAdotante = () => {
                     </label>
                     <label className="radio-label">
                         <input
+<<<<<<< HEAD
                             id="situacaoEndereco"
+=======
+                            id = "situacaoEndereco"
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="radio"
                             name="situacaoEndereco"
                             value="Alugada"
@@ -328,11 +434,19 @@ const CadastroAdotante = () => {
                 <div className="cadastroAdotante-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
+<<<<<<< HEAD
                         <input
                             id="cep"
                             name="cep"
                             type="text"
                             placeholder="Digite o CEP"
+=======
+                        <input 
+                            id="cep" 
+                            name="cep" 
+                            type="text" 
+                            placeholder="Digite o CEP" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.cep}
                             onBlur={handleBuscarCep}
                             onChange={handleChange}
@@ -344,11 +458,19 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
+<<<<<<< HEAD
                         <input
                             id="cidade"
                             name="cidade"
                             type="text"
                             placeholder="Digite a cidade"
+=======
+                        <input 
+                            id="cidade" 
+                            name="cidade" 
+                            type="text" 
+                            placeholder="Digite a cidade" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.cidade}
                             onChange={handleChange}
                         />
@@ -359,11 +481,19 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
+<<<<<<< HEAD
                         <input
                             id="uf"
                             name="uf"
                             type="text"
                             placeholder="Digite o estado"
+=======
+                        <input 
+                            id="uf" 
+                            name="uf" 
+                            type="text" 
+                            placeholder="Digite o estado" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.uf}
                             onChange={handleChange}
                         />
@@ -375,12 +505,21 @@ const CadastroAdotante = () => {
                 </div>
 
                 <div className="form-group">
+<<<<<<< HEAD
                     <label>Endereço</label>
                     <input
                         id="logradouro"
                         name="logradouro"
                         type="text"
                         placeholder="Digite o Endereço"
+=======
+                    <label>Logradouro</label>
+                    <input 
+                        id="logradouro" 
+                        name="logradouro" 
+                        type="text" 
+                        placeholder="Digite o Endereço" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         value={dadosAdotante.logradouro}
                         onChange={handleChange}
                     />
@@ -393,11 +532,19 @@ const CadastroAdotante = () => {
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Número</label>
+<<<<<<< HEAD
                         <input
                             id="numero"
                             name="numero"
                             type="text"
                             placeholder="Digite o nº da residência"
+=======
+                        <input 
+                            id="numero" 
+                            name="numero"
+                            type="text" 
+                            placeholder="Digite o nº da residência" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.numero}
                             onChange={handleChange}
                         />
@@ -408,11 +555,19 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
+<<<<<<< HEAD
                         <input
                             id="complemento"
                             name="complemento"
                             type="text"
                             placeholder="Digite o complemento"
+=======
+                        <input 
+                            id="complemento" 
+                            name="complemento" 
+                            type="text" 
+                            placeholder="Digite o complemento" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.complemento}
                             onChange={handleChange}
                         />
@@ -420,11 +575,19 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
+<<<<<<< HEAD
                         <input
                             id="bairro"
                             name="bairro"
                             type="text"
                             placeholder="Digite o bairro"
+=======
+                        <input 
+                            id="bairro" 
+                            name="bairro" 
+                            type="text" 
+                            placeholder="Digite o bairro" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.bairro}
                             onChange={handleChange}
                         />
@@ -438,10 +601,17 @@ const CadastroAdotante = () => {
                 <div id="group4">
                     <div className="form-group">
                         <label htmlFor="facebook">Facebook</label>
+<<<<<<< HEAD
                         <input
                             id="facebook"
                             name="facebook"
                             type="text"
+=======
+                        <input 
+                            id="facebook" 
+                            name="facebook" 
+                            type="text" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.facebook}
                             onChange={handleChange}
                         />
@@ -452,10 +622,17 @@ const CadastroAdotante = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="instagram">Instagram</label>
+<<<<<<< HEAD
                         <input
                             id="instagram"
                             name="instagram"
                             type="text"
+=======
+                        <input 
+                            id="instagram" 
+                            name="instagram" 
+                            type="text" 
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdotante.instagram}
                             onChange={handleChange}
                         />
@@ -488,7 +665,11 @@ const CadastroAdotante = () => {
                 <textarea
                     name="observacaoBloqueio"
                     id="observacaoBloqueio"
+<<<<<<< HEAD
                     placeholder="Observação sobre o bloqueio"
+=======
+                    placeholder="Observação"
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     value={dadosAdotante.observacaoBloqueio}
                     onChange={handleChange}
                 />

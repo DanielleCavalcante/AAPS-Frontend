@@ -89,7 +89,11 @@ const Animal = () => {
                 </Link>
 
                 {/* Barra de Pesquisa: */}
+<<<<<<< HEAD
                 <div className="search-bar-animal">
+=======
+                <div className="search-bar">
+>>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     <input 
                         type="text"
                         name="busca"
