@@ -127,6 +127,7 @@ const VisualizaAnimal = () => {
                         type="text"
                         id="nome"
                         name="nome"
+                        pattern="[A-Za-zÀ-ÿ\s]+"
                         placeholder="Digite o nome do animal"
                         value={formDados?.nome || ''}
                         onChange={handleInputChange}
@@ -141,6 +142,7 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="especie"
                             name="especie"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             placeholder="Digite a espécie do animal"
                             value={formDados?.especie || ''}
                             onChange={handleInputChange}
@@ -154,6 +156,7 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="raca"
                             name="raca"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             placeholder="Digite a raça do animal"
                             value={formDados?.raca || ''}
                             onChange={handleInputChange}
@@ -180,6 +183,7 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="pelagem"
                             name="pelagem"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             placeholder="cor e tipo"
                             value={formDados?.pelagem || ''}
                             onChange={handleInputChange}
@@ -208,6 +212,7 @@ const VisualizaAnimal = () => {
                             type="number"
                             id="doadorId"
                             name="doadorId"
+                            min="1"
                             value={formDados?.doadorId ?? ''}
                             onChange={handleInputChange}
                             disabled={!editando}
