@@ -1,0 +1,26 @@
+.btn-Excluir{
+    background-color: red;
+    width: 30px;
+    height: 30px;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items:center;
+    padding: 5px;
+}
+
+.btn-Excluir img{
+    width: 20px;
+    height: 20px;
+    padding: 2%;
+}
+
+.btn-Excluir.disabled {
+    background-color: #d3d3d3; /* Cor de fundo cinza */
+    color: #a9a9a9; /* Texto cinza */
+    border: 1px solid #a9a9a9; /* Borda cinza */
+    cursor: not-allowed; /* Cursor desabilitado */
+  }
+

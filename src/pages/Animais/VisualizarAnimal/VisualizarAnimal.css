@@ -1,0 +1,207 @@
+.cadastro-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+  padding: 2% 2%;
+}
+
+.cadastroAnimal-form {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  width: 80%;
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 35px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+select {
+  font-family: "Poppins", sans-serif;
+}
+
+.button-group-crud {
+  display: flex;
+  justify-content: flex-end;
+  /*Alinha os botões à esquerda*/
+  gap: 10px;
+  /* Espaçamento entre os botões */
+}
+
+#group1 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 50px;
+  align-items: center;
+  justify-items: start;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  align-items: center;
+}
+
+#group2 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  /* 3 colunas de tamanhos iguais */
+  gap: 50px;
+  align-items: center;
+}
+
+#group3 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+  align-items: center;
+}
+
+.acompanhamento img {
+  width: 20px;
+  height: 20px;
+}
+
+.foto-upload {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  /* Alinha tudo à direita */
+  align-items: center;
+  gap: 20px;
+  /* Espaço entre os botões e a área da foto */
+  width: 100%;
+}
+
+.foto-buttons {
+  display: flex;
+  flex-direction: column;
+  /* Botões alinhados verticalmente */
+  gap: 10px;
+  /* Espaço entre os botões */
+  align-items: center;
+}
+
+.camera,
+.upload {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #009EE0;
+  color: white;
+  cursor: pointer;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+}
+
+.camera img,
+.upload img {
+  width: 20px;
+  height: 20px;
+}
+
+.foto-preview-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #f4f4f4;
+}
+
+.foto-preview-container img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+}
+
+#pelagem {
+  width: 100%;
+}
+
+#sexo {
+
+  width: 100%;
+}
+
+#doador {
+
+  width: 100%;
+}
+
+#coddoador {
+
+  width: 100%;
+}
+
+#dataNascimento {
+  width: 100%;
+}
+
+#group2 .form-group:nth-child(3) {
+  justify-self: end;
+  /* Ajusta o alinhamento apenas para o terceiro grupo */
+}
+
+#group3 .form-group:nth-child(2) {
+  justify-self: end;
+  /* Ajusta o alinhamento apenas para o terceiro grupo */
+}
+
+
+#resgatado {
+  width: 20px;
+  height: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.radio-label-animal {
+  display: flex;
+  gap: 15px;
+  /* Espaçamento entre o input e o texto */
+  align-items: center;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+.acompanhamento {
+  display: flex;
+  background-color: #009EE0;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 150PX;
+  height: 50px;
+  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+}

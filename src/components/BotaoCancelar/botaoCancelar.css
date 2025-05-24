@@ -1,0 +1,23 @@
+.btn-Cancelar{
+    background-color: #8A2BE2;
+    padding: 30px;
+    width: 100px;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    padding: 5px 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn-Cancelar img{
+    width: 30px;
+}

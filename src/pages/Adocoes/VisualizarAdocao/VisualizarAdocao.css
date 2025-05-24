@@ -1,0 +1,104 @@
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2% 2%;
+  }
+  
+  .cadastroAdocao-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 80%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+  
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+ 
+  .button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .button-group-crud {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+ 
+  .form-group input, select {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    margin: 2px;
+    flex: 0 0 auto;
+  }
+
+
+  #group-adocao1{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    align-items: center;
+  }
+  
+  #group-adocao2{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+    align-items: center;
+    justify-items: stretch;
+}
+
+#group-adocao3{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px;
+  align-items: center;
+  justify-items: stretch;
+}
+
+#codadotante, #codanimal, #coddoador, #codlocal {
+  width: 40%; 
+}
+
+#nomeadotante, #nomeanimal, #nomedoador, #nomelocaladocao {
+  width: 100%; 
+}
+
+#rg, #cpf, #telefonedoador {
+  width: 100%; 
+}
+
+#sexo {
+  width: 50%; 
+}
+
+#pelagem {
+  width: 100%;; 
+}
+
+input::placeholder {
+    color: #999;
+}

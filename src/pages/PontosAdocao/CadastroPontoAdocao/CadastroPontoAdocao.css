@@ -1,0 +1,138 @@
+.cadastro-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f4;
+    padding: 2% 2%;
+  }
+  
+  .cadastroPonto-form {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    width: 80%;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 35px;
+  }
+  
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+  label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .telefone-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  #input-telefone {
+    width: 30%;
+  }
+  
+  #input-responsavel {
+    width: 63%;
+  }
+  
+  .add-btn {
+    background-color: #009EE0;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 20%;
+    height: 40px;
+    margin-left: 80%;
+    margin-top: 10px;
+  }
+  
+  .remove-btn-cad-ponto {
+    background-color: #e63946;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-grid;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    margin: 5px;
+    border: none;
+    align-content: center;
+  }
+  
+  .icon-remove-cad-ponto {
+    width: 30px;
+    height: 30px;
+  }
+  
+  
+  .button-group {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+  }
+  
+  .button-group-crud {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  .cadastroPonto-linha1 {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  #imput-cidade-ponto, #complemento-ponto, #imput-cep {
+    width: 100%; 
+  }
+  
+  #numero {
+    width: 40%; 
+  }
+   
+  #bairro, #imput-estado, #status  {
+    width: 100%; 
+  }
+  
+  #cnpj, #reponsavel, #celular, #responsavelContato{
+    width: 100%; 
+  }
+
+  #contato{
+    width: 70%; 
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    margin: 2px;
+    flex: 0 0 auto;
+  }
+  
+  .group-adocao {
+    display: grid
+;   grid-template-columns: repeat(2, 1fr);
+    gap: 50px;
+    align-items: center;
+    justify-items: stretch;
+}
+
+input::placeholder {
+    color: #999;
+}

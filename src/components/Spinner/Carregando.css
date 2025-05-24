@@ -1,0 +1,12 @@
+.carregando-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vh;
+    height: 20vh;
+    text-align: center;
+  }
+  
+.carregador{
+  width: 50px;
+}

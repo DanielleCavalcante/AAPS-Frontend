@@ -1,0 +1,84 @@
+import { createContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginService } from "../services/loginService";
+
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const role = localStorage.getItem("role");
+    const expiration = localStorage.getItem("expiration");
+    const usuarioId = localStorage.getItem("usuarioId");
+
+    if (token && role && expiration && usuarioId ) {
+      const expirationDate = new Date(expiration);
+
+      if (expirationDate > new Date()) {
+        setUser({ token, role, expiration, usuarioId });
+      } else {
+        localStorage.removeItem("token");
+        localStorage.removeItem("role");
+        localStorage.removeItem("expiration");
+        localStorage.removeItem("usuarioId");
+        setUser(null);
+        navigate("/");
+      }
+    } else {
+      setUser(null);
+    }
+
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  const handleLogin = async (credentials) => {
+    try {
+      const { token, role, expiration, usuarioId } = await loginService(credentials);
+
+      if (token && role && expiration && usuarioId) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
+        localStorage.setItem("expiration", expiration);
+        localStorage.setItem("usuarioId", usuarioId);
+
+        setUser({ token, role, expiration, usuarioId });
+        navigate("/home");
+      } else {
+        throw new Error("Dados inválidos do login.");
+      }
+    } catch (error) {
+      console.error("Erro no login", error);
+
+      if (error.response && error.response.data) {
+        throw error; // nao tirar pq ta exibindo o erro na tela de login
+      }
+
+      throw new Error("Usuário ou senha incorretos");
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("expiration");
+    localStorage.removeItem("usuarioId");
+    setUser(null);
+    navigate("/");
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login: handleLogin, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export default AuthContext;
