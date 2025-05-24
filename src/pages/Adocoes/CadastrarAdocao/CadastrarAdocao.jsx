@@ -81,11 +81,7 @@ const CadastroAdocao = () => {
                 ? Number(value)
                 : value
         });
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
         if (id === "adotanteId") {
             const adotanteSelecionado = adotantes.find(a => a.id === Number(value));
             if (adotanteSelecionado) {
@@ -98,11 +94,7 @@ const CadastroAdocao = () => {
                 }));
             }
         }
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
         if (id === "animalId") {
             const animalSelecionado = animais.find(a => a.id === Number(value));
             if (animalSelecionado) {
@@ -119,11 +111,7 @@ const CadastroAdocao = () => {
                 }));
             }
         }
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
         if (id === "pontoAdocaoId") {
             const pontoSelecionado = pontosAdocao.find(p => p.id === Number(value));
             if (pontoSelecionado) {
@@ -186,11 +174,7 @@ const CadastroAdocao = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-<<<<<<< HEAD
         setTentouEnviar(true);
-=======
-        setTentouEnviar(true); 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
         limparErro();
         try {
             await criarAdocao(dadosAdocao);
@@ -256,26 +240,17 @@ const CadastroAdocao = () => {
                 <div id="group-adocao1">
                     <div className="form-group">
                         <label htmlFor="id" >Código</label>
-<<<<<<< HEAD
                         <input
                             type="text"
                             id="codigo"
                             disabled
                         />
-=======
-                        <input type="text" id="codigo" disabled />
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     </div>
 
                     <div className="form-group">
                         <label>Data</label>
-<<<<<<< HEAD
                         <input
                             type="date"
-=======
-                        <input 
-                            type="date" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             id="data"
                             value={dadosAdocao.data}
                             onChange={handleChange}
@@ -290,10 +265,7 @@ const CadastroAdocao = () => {
                     <div className="form-group">
                         <label htmlFor="nomeVoluntario">Voluntário</label>
                         <select
-<<<<<<< HEAD
                             type="text"
-=======
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             id="nomeVoluntario"
                             value={dadosAdocao.voluntarioId}
                             onChange={handleVoluntarioChange}
@@ -315,15 +287,9 @@ const CadastroAdocao = () => {
                 <div id="group-adocao2">
                     <div className="form-group">
                         <label htmlFor="adotanteId">Código Adotante</label>
-<<<<<<< HEAD
                         <input
                             type="number"
                             id="adotanteId"
-=======
-                        <input 
-                            type="number"
-                            id="adotanteId" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             name="adotanteId"
                             value={dadosAdocao.adotanteId}
                             onChange={handleChange}
@@ -334,13 +300,8 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomeAdotante">Nome adotante</label>
-<<<<<<< HEAD
                         <select
                             id="nomeAdotante"
-=======
-                        <select 
-                            id="nomeAdotante" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             name="nomeAdotante"
                             value={dadosAdocao.adotanteId}
                             onChange={handleAdotanteChange}
@@ -362,17 +323,10 @@ const CadastroAdocao = () => {
                 <div id="group-adocao1">
                     <div className="form-group">
                         <label htmlFor="rg">RG</label>
-<<<<<<< HEAD
                         <input
                             type="text"
                             id="rg"
                             name="rg"
-=======
-                        <input 
-                            type="text"
-                            id="rg" 
-                            name="rg"  
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdocao.rg}
                             onChange={handleAdotanteChange}
                             placeholder="Digite o RG"
@@ -385,7 +339,6 @@ const CadastroAdocao = () => {
 
                     <div className="form-group">
                         <label htmlFor="cpf">CPF</label>
-<<<<<<< HEAD
                         <input
                             type="text"
                             id="cpf"
@@ -393,15 +346,6 @@ const CadastroAdocao = () => {
                             value={dadosAdocao.cpf}
                             onChange={handleAdotanteChange}
                             placeholder="Digite o CPF"
-=======
-                        <input 
-                            type="text"
-                            id="cpf" 
-                            name="cpf"  
-                            value={dadosAdocao.cpf}
-                            onChange={handleAdotanteChange}
-                            placeholder="Digite o CPF" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosAdocao.data) && (
@@ -411,17 +355,10 @@ const CadastroAdocao = () => {
 
                     <div className="form-group">
                         <label htmlFor="telefoneAdotante" >Celular</label>
-<<<<<<< HEAD
                         <input
                             id="celular"
                             name="celular"
                             type="text"
-=======
-                        <input 
-                            type="text"
-                            id="telefones" 
-                            name="telefones"  
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdocao.telefoneAdotante[0] || ''}
                             onChange={handleAdotanteChange}
                             placeholder="Digite o celular com DDD" />
@@ -435,11 +372,7 @@ const CadastroAdocao = () => {
                 <div id="group-adocao2">
                     <div className="form-group">
                         <label htmlFor="animalId">Código animal</label>
-<<<<<<< HEAD
                         <input
-=======
-                        <input 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="number"
                             id="animalId"
                             name="animalId"
@@ -466,30 +399,18 @@ const CadastroAdocao = () => {
                             ))}
                         </select>
                         {(tentouEnviar && !dadosAdocao.data) && (
-<<<<<<< HEAD
                             <span className="erro-required"> É obrigatório informar um animal </span>
                         )}
-=======
-                        <span className="erro-required"> É obrigatório informar um animal </span>
-                    )}
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     </div>
                 </div>
 
                 <div id="group-adocao3">
                     <div className="form-group">
                         <label htmlFor="especie">Espécie</label>
-<<<<<<< HEAD
                         <input
                             type="text"
                             id="especie"
                             name="especie"
-=======
-                        <input 
-                            type="text"
-                            id="especie" 
-                            name="especie"  
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdocao.especie}
                             onChange={handleAnimalChange}
                             disabled
@@ -501,17 +422,10 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="idade">Idade</label>
-<<<<<<< HEAD
                         <input
                             type="text"
                             id="idade"
                             name="idade"
-=======
-                        <input 
-                            type="text" 
-                            id="idade" 
-                            name="idade"  
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={new Date().getFullYear() - new Date(dadosAdocao.idade).getFullYear()}
                             onChange={handleAnimalChange}
                             disabled
@@ -519,13 +433,8 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
-<<<<<<< HEAD
                         <select
                             id="sexo"
-=======
-                        <select 
-                            id="sexo" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             name="sexo"
                             value={dadosAdocao.sexo}
                             onChange={handleAnimalChange}
@@ -538,17 +447,10 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="pelagem">Pelagem</label>
-<<<<<<< HEAD
                         <input
                             type="text"
                             id="pelagem"
                             name="pelagem"
-=======
-                        <input 
-                            type="text" 
-                            id="pelagem" 
-                            name="pelagem"  
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={dadosAdocao.pelagem}
                             onChange={handleAnimalChange}
                             disabled
@@ -556,17 +458,10 @@ const CadastroAdocao = () => {
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <div id="group-adocao1">
                     <div className="form-group">
                         <label htmlFor="doadorId">Código doador</label>
                         <input
-=======
-                <div id="group-adocao2">
-                    <div className="form-group">
-                        <label htmlFor="doadorId">Código doador</label>
-                        <input 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             type="number"
                             id="doadorId"
                             name="doadorId"
@@ -589,7 +484,6 @@ const CadastroAdocao = () => {
                             ))}
                         </select>
                     </div>
-<<<<<<< HEAD
                     <div className="form-group">
                         <label htmlFor="telefoneDoador">Telefone doador</label>
                         <input
@@ -603,20 +497,6 @@ const CadastroAdocao = () => {
                 </div>
 
 
-=======
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="telefoneDoador">Telefone doador</label>
-                    <input 
-                        type="text"
-                        id="telefones"
-                        name="telefones"
-                        value={dadosAdocao.telefoneDoador|| ''}
-                        onChange={handleAnimalChange}
-                    />
-                </div>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
 
                 <div id="group-adocao2">
                     <div className="form-group">

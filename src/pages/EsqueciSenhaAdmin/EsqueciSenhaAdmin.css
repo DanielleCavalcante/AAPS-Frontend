@@ -93,18 +93,9 @@ button:hover {
     align-content: center;
 }
 
-<<<<<<< HEAD
 #celular[name="celular-senha"],
 #celular[name="userName"] {
     font-size: 14px;
     flex-direction: row;
     margin-top: 30px;
 }
-=======
-#celular {
-    font-size: 14px;
-    flex-direction:row;
-    margin-top: 30px;
-}
-
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

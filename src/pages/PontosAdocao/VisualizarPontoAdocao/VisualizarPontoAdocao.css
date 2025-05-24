@@ -4,10 +4,6 @@
   align-items: center;
   background-color: #f4f4f4;
   padding: 2% 2%;
-<<<<<<< HEAD
-=======
-  margin: 0 auto;
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
   }
   
   .form-group {
@@ -131,11 +127,7 @@
   }
   
   #imput-cidade-ponto, #complemento-ponto {
-<<<<<<< HEAD
     width: 100%;
-=======
-    width: 150%;
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
   }
   
   #numero {
@@ -143,7 +135,6 @@
   }
   
 
-<<<<<<< HEAD
   #rg, #cpf, #celular, #status {
     width: 100%;
   }
@@ -155,13 +146,3 @@
   input::placeholder {
     color: #999;
 }
-=======
-  #rg,
-  #cpf,
-  #celular-ponto {
-    width: 100%;
-  }
-  
-
-  
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

@@ -46,11 +46,7 @@ const EsqueciSenhaAdmin = () => {
                 </div>
 
                 <div className="esqueci-form-group">
-<<<<<<< HEAD
                     <label name="celular-senha" htmlFor="telefone" id="celular">DDD + celular</label>
-=======
-                    <label htmlFor="telefone" id="celular">DDD + celular</label>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     <input
                         type="text"
                         id="telefone"
@@ -64,11 +60,7 @@ const EsqueciSenhaAdmin = () => {
                         <span className="erro-required"> O campo 'Celular' é obrigatório </span>
                     )}
 
-<<<<<<< HEAD
                     <label name="userName" htmlFor="userName" id="celular">Nome de Usuário</label>
-=======
-                    <label htmlFor="userName" id="celular">Nome de Usuário</label>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     <input
                         type="text"
                         id="userName"

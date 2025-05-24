@@ -19,19 +19,11 @@ const CadastroPontoAdocao = () => {
         responsavelContato: '',
         cep: '',
         cidade: '',
-<<<<<<< HEAD
         uf: '',
         logradouro: '',
         numero: '',
         complemento: '',
         bairro: '',
-=======
-        uf: '', 
-        logradouro: '', 
-        numero: '', 
-        complemento: '', 
-        bairro: '' ,
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
         status: 1
     });
 
@@ -50,19 +42,11 @@ const CadastroPontoAdocao = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-<<<<<<< HEAD
         setTentouEnviar(true);
         limparErro();
         try {
             await criarPontoAdocao(dadosPontoAdocao);
             setDadosPontoAdocao({
-=======
-        setTentouEnviar(true); 
-        limparErro();
-        try {
-            await criarPontoAdocao(dadosPontoAdocao);
-            setDadosPontoAdocao({ 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 nomeFantasia: '',
                 cnpj: '',
                 responsavel: '',
@@ -71,19 +55,11 @@ const CadastroPontoAdocao = () => {
                 responsavelContato: '',
                 cep: '',
                 cidade: '',
-<<<<<<< HEAD
                 uf: '',
                 logradouro: '',
                 numero: '',
                 complemento: '',
                 bairro: '',
-=======
-                uf: '', 
-                logradouro: '', 
-                numero: '', 
-                complemento: '', 
-                bairro: '' ,
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 status: 1
             });
             setTentouEnviar(false);
@@ -99,19 +75,11 @@ const CadastroPontoAdocao = () => {
             const endereco = await buscarCep(cepLimpo);
 
             setDadosPontoAdocao((prev) => ({
-<<<<<<< HEAD
                 ...prev,
                 logradouro: endereco.logradouro || '',
                 bairro: endereco.bairro || '',
                 cidade: endereco.localidade || '',
                 uf: endereco.uf || ''
-=======
-            ...prev,
-            logradouro: endereco.logradouro || '',
-            bairro: endereco.bairro || '',
-            cidade: endereco.localidade || '',
-            uf: endereco.uf || ''
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
             }));
         } catch (error) {
             tratarErro(error);
@@ -166,7 +134,6 @@ const CadastroPontoAdocao = () => {
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-<<<<<<< HEAD
                         <input type="text" disabled />
                     </div>
 
@@ -174,15 +141,6 @@ const CadastroPontoAdocao = () => {
                         <label htmlFor="status">Status</label>
                         <select
                             id="status"
-=======
-                        <input type="text" disabled/>
-                    </div>
-
-                    <div> {/* sem classe pq peguei de outro lugar */}
-                        <label htmlFor="status">Status</label>
-                        <select 
-                            id="status" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             name="status"
                             value={dadosPontoAdocao.status}
                             onChange={handleChange}
@@ -200,7 +158,6 @@ const CadastroPontoAdocao = () => {
 
                 <div className="form-group">
                     <label>Nome Fantasia</label>
-<<<<<<< HEAD
                     <input
                         id="nomeFantasia"
                         name="nomeFantasia"
@@ -208,15 +165,6 @@ const CadastroPontoAdocao = () => {
                         value={dadosPontoAdocao.nomeFantasia}
                         onChange={handleChange}
                         placeholder="Digite o nome"
-=======
-                    <input 
-                        id="nomeFantasia" 
-                        name="nomeFantasia" 
-                        type="text"
-                        value={dadosPontoAdocao.nomeFantasia}
-                        onChange={handleChange}
-                        placeholder="Digite o nome" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     />
 
                     {(tentouEnviar && !dadosPontoAdocao.nomeFantasia) && (
@@ -227,7 +175,6 @@ const CadastroPontoAdocao = () => {
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>CNPJ</label>
-<<<<<<< HEAD
                         <input
                             id="cnpj"
                             name="cnpj"
@@ -235,22 +182,12 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.cnpj}
                             onChange={handleChange}
                             placeholder="Digite o CNPJ"
-=======
-                        <input 
-                            id="cnpj" 
-                            name="cnpj" 
-                            type="text"
-                            value={dadosPontoAdocao.cnpj}
-                            onChange={handleChange}
-                            placeholder="Digite o CNPJ" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.cnpj) && (
                             <span className="erro-required"> O campo 'Cnpj' é obrigatório </span>
                         )}
                     </div>
-<<<<<<< HEAD
 
                     <div className="form-group"> {/* Excluir esse campo */}
                         <label>Responsável - Pode excluir Dani</label>
@@ -261,17 +198,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.responsavel}
                             onChange={handleChange}
                             placeholder="Digite o Responsável"
-=======
-                    <div className="form-group">
-                        <label>Responsável</label>
-                        <input 
-                            id="responsavel" 
-                            name="responsavel" 
-                            type="text"
-                            value={dadosPontoAdocao.responsavel}
-                            onChange={handleChange}
-                            placeholder="Digite o Responsável" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.responsavel) && (
@@ -280,7 +206,6 @@ const CadastroPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-<<<<<<< HEAD
                         <input
                             id="celular"
                             name="celular"
@@ -288,15 +213,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.celular}
                             onChange={handleChange}
                             placeholder="Digite o celular com DDD"
-=======
-                        <input 
-                            id="celular" 
-                            name="celular" 
-                            type="text" 
-                            value={dadosPontoAdocao.celular}
-                            onChange={handleChange}
-                            placeholder="Digite o celular" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.celular) && (
@@ -305,7 +221,6 @@ const CadastroPontoAdocao = () => {
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <div className='group-adocao'>
                     <div className="form-group">
                         <label>Contato</label>
@@ -334,32 +249,6 @@ const CadastroPontoAdocao = () => {
                             onChange={handleChange}
                         />
                     </div>
-=======
-                <div className="form-group">
-                    <label>Contato</label>
-                    <input 
-                        id="contato" 
-                        name="contato" 
-                        type="text" 
-                        value={dadosPontoAdocao.contato}
-                        onChange={handleChange}
-                        placeholder="Digite o contato" 
-                    />
-
-                    {(tentouEnviar && !dadosPontoAdocao.contato) && (
-                        <span className="erro-required"> O campo 'Contato' é obrigatório </span>
-                    )}
-
-                    <label>Responsável Contato</label>
-                    <input 
-                        id='responsavelContato'
-                        name="responsavelContato" 
-                        type="text"
-                        placeholder="Contato para recados"
-                        value={dadosPontoAdocao.responsavelContato}
-                        onChange={handleChange}
-                    />
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     {/* {telefones.map((item, index) => (
                         <div key={index} className="telefone-group">
                             <input id='input-telefone'
@@ -388,16 +277,12 @@ const CadastroPontoAdocao = () => {
                     <button type="button" className="add-btn" onClick={handleAddTelefone}>
                         + Telefones
                     </button> */}
-<<<<<<< HEAD
 
-=======
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 </div>
 
                 <div className="cadastroPonto-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-<<<<<<< HEAD
                         <input
                             id="cep"
                             name="cep"
@@ -406,16 +291,6 @@ const CadastroPontoAdocao = () => {
                             onChange={handleChange}
                             onBlur={handleBuscarCep}
                             placeholder="Digite o CEP"
-=======
-                        <input 
-                            id="cep" 
-                            name="cep" 
-                            type="text" 
-                            value={dadosPontoAdocao.cep}
-                            onChange={handleChange}
-                            onBlur={handleBuscarCep}
-                            placeholder="Digite o CEP" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.cep) && (
@@ -424,7 +299,6 @@ const CadastroPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-<<<<<<< HEAD
                         <input
                             id="cidade"
                             name="cidade"
@@ -432,15 +306,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.cidade}
                             onChange={handleChange}
                             placeholder="Digite a cidade"
-=======
-                        <input 
-                            id="cidade" 
-                            name="cidade" 
-                            type="text" 
-                            value={dadosPontoAdocao.cidade}
-                            onChange={handleChange}
-                            placeholder="Digite a cidade" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.cidade) && (
@@ -449,7 +314,6 @@ const CadastroPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-<<<<<<< HEAD
                         <input
                             id="uf"
                             name="uf"
@@ -457,15 +321,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.uf}
                             onChange={handleChange}
                             placeholder="Digite o estado"
-=======
-                        <input 
-                            id="uf" 
-                            name="uf" 
-                            type="text" 
-                            value={dadosPontoAdocao.uf}
-                            onChange={handleChange}
-                            placeholder="Digite o estado" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.uf) && (
@@ -476,7 +331,6 @@ const CadastroPontoAdocao = () => {
 
                 <div className="form-group">
                     <label>Endereço</label>
-<<<<<<< HEAD
                     <input
                         id="logradouro"
                         name="logradouro"
@@ -484,15 +338,6 @@ const CadastroPontoAdocao = () => {
                         value={dadosPontoAdocao.logradouro}
                         onChange={handleChange}
                         placeholder="Digite o Endereço"
-=======
-                    <input 
-                        id="logradouro" 
-                        name="logradouro" 
-                        type="text" 
-                        value={dadosPontoAdocao.logradouro}
-                        onChange={handleChange}
-                        placeholder="Digite o Endereço" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     />
 
                     {(tentouEnviar && !dadosPontoAdocao.logradouro) && (
@@ -503,7 +348,6 @@ const CadastroPontoAdocao = () => {
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>Número</label>
-<<<<<<< HEAD
                         <input
                             id="numero"
                             name="numero"
@@ -511,15 +355,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.numero}
                             onChange={handleChange}
                             placeholder="Digite o nº da residência"
-=======
-                        <input 
-                            id="numero" 
-                            name="numero" 
-                            type="text" 
-                            value={dadosPontoAdocao.numero}
-                            onChange={handleChange}
-                            placeholder="Digite o nº da residência" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.numero) && (
@@ -528,7 +363,6 @@ const CadastroPontoAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-<<<<<<< HEAD
                         <input
                             id="complemento-ponto"
                             name="complemento"
@@ -536,20 +370,10 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.complemento}
                             onChange={handleChange}
                             placeholder="Digite o complemento"
-=======
-                        <input 
-                            id="complemento-ponto" 
-                            name="complemento" 
-                            type="text" 
-                            value={dadosPontoAdocao.complemento}
-                            onChange={handleChange}
-                            placeholder="Digite o complemento" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
-<<<<<<< HEAD
                         <input
                             id="bairro"
                             name="bairro"
@@ -557,15 +381,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.bairro}
                             onChange={handleChange}
                             placeholder="Digite o bairro"
-=======
-                        <input 
-                            id="bairro" 
-                            name="bairro" 
-                            type="text" 
-                            value={dadosPontoAdocao.bairro}
-                            onChange={handleChange}
-                            placeholder="Digite o bairro" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.bairro) && (

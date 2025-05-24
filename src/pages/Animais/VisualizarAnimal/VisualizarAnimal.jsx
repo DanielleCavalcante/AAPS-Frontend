@@ -79,33 +79,14 @@ const VisualizaAnimal = () => {
     };
     
     return (
-<<<<<<< HEAD
         <div className="cadastro-container">
-=======
-        <div className="visualizar-container">
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
             <form className="cadastroAnimal-form" onSubmit={handleSubmit}>
                 <div id="group2">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
                         <input type="text" id="id" value={animal?.id || ''} disabled />
                     </div>
-<<<<<<< HEAD
 
-=======
-                    <div className="form-group">
-                        <label htmlFor="status">Status</label>
-                        <select 
-                            id="status"
-                            name="status"
-                            value={formDados?.status}
-                            onChange={handleInputChange}
-                            disabled={!editando}
-                        >              
-                            <option value={1}>Ativo</option>
-                            <option value={0}>Inativo</option>
-                        </select>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         <div className="form-group">
                             <label htmlFor="disponibilidade">Disponibilidade</label>
                             <select 
@@ -119,7 +100,6 @@ const VisualizaAnimal = () => {
                                 <option value={0}>Adotado</option>
                             </select>
                         </div>
-<<<<<<< HEAD
 
                                             <div className="form-group">
                         <label htmlFor="status">Status</label>
@@ -135,9 +115,6 @@ const VisualizaAnimal = () => {
                         </select>
                         </div>
                     
-=======
-                    </div>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 </div>
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
@@ -220,11 +197,7 @@ const VisualizaAnimal = () => {
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <label className="radio-label-animal">
-=======
-                <label className="radio-label">
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     <input
                         type="checkbox"
                         name="resgatado"
@@ -239,11 +212,7 @@ const VisualizaAnimal = () => {
                     Resgatado
                 </label>
 
-<<<<<<< HEAD
                 <div className='group-adocao'>
-=======
-                <div id='group3'>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     <div className="form-group">
                         <label htmlFor="doadorId">Código Doador</label>
                         <input 

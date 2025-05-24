@@ -11,11 +11,7 @@ import './VisualizarDoador.css';
 
 const VisualizarDoador = () => {
     const { buscarDoadorPorId, atualizarDoador, erro, tratarErro, limparErro } = useDoadores();
-<<<<<<< HEAD
 
-=======
-    
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
     const { id } = useParams();
     const [doador, setDoador] = useState(null);
     const [editando, setEditando] = useState(false);
@@ -27,21 +23,12 @@ const VisualizarDoador = () => {
     useEffect(() => {
         buscarDoadorPorId(id)
             .then((dados) => {
-<<<<<<< HEAD
                 const dadosFormatados = {
                     ...dados,
                     status: Number(dados.status)
                 };
                 setDoador(dadosFormatados);
                 setFormDados(dadosFormatados);
-=======
-            const dadosFormatados = {
-                ...dados,
-                status: Number(dados.status)
-            };
-            setDoador(dadosFormatados);
-            setFormDados(dadosFormatados);
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
             })
             .catch(console.error);
     }, [id]);
@@ -53,19 +40,11 @@ const VisualizarDoador = () => {
             const endereco = await buscarCep(cepLimpo);
 
             setFormDados((prev) => ({
-<<<<<<< HEAD
                 ...prev,
                 logradouro: endereco.logradouro || '',
                 bairro: endereco.bairro || '',
                 cidade: endereco.localidade || '',
                 uf: endereco.uf || ''
-=======
-            ...prev,
-            logradouro: endereco.logradouro || '',
-            bairro: endereco.bairro || '',
-            cidade: endereco.localidade || '',
-            uf: endereco.uf || ''
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
             }));
         } catch (error) {
             tratarErro(error);
@@ -85,7 +64,6 @@ const VisualizarDoador = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-<<<<<<< HEAD
         setTentouEnviar(true);
         limparErro();
 
@@ -124,46 +102,6 @@ const VisualizarDoador = () => {
         }
         if (!formDados.bairro?.trim()) {
             return;
-=======
-        setTentouEnviar(true); 
-        limparErro();
-
-        if (!formDados.nome?.trim()) {
-            return; 
-        }
-        if (!formDados.rg?.trim()) {
-            return; 
-        }
-        if (!formDados.cpf?.trim()) {
-            return; 
-        }
-        if (!formDados.celular?.trim()) {
-            return; 
-        }
-        if (!formDados.responsavelContato?.trim()) {
-            return; 
-        }
-        if (!formDados.contato?.trim()) {
-            return; 
-        }
-        if (!formDados.cep?.trim()) {
-            return; 
-        }
-        if (!formDados.cidade?.trim()) {
-            return; 
-        }
-        if (!formDados.uf?.trim()) {
-            return; 
-        }
-        if (!formDados.logradouro?.trim()) {
-            return; 
-        }
-        if (!formDados.numero || Number(formDados.numero) <= 0) {
-            return; 
-        }
-        if (!formDados.bairro?.trim()) {
-            return; 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
         }
 
         try {
@@ -236,30 +174,18 @@ const VisualizarDoador = () => {
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-<<<<<<< HEAD
                         <input
                             type="text"
                             id="id"
                             value={doador?.id || ''}
-=======
-                        <input 
-                            type="text" 
-                            id="id" 
-                            value={doador?.id || '' } 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             disabled
                         />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="status">Status</label>
-<<<<<<< HEAD
                         <select
                             id="status"
-=======
-                        <select 
-                            id="status" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             name="status"
                             value={formDados?.status}
                             onChange={handleInputChange}
@@ -281,7 +207,6 @@ const VisualizarDoador = () => {
 
                 <div className="form-group">
                     <label>Nome</label>
-<<<<<<< HEAD
                     <input
                         id="nome"
                         name="nome"
@@ -289,15 +214,6 @@ const VisualizarDoador = () => {
                         value={formDados?.nome || ''}
                         onChange={handleInputChange}
                         placeholder="Digite o nome"
-=======
-                    <input 
-                        id="nome" 
-                        name="nome" 
-                        type="text" 
-                        value={formDados?.nome || ''}
-                        onChange={handleInputChange}
-                        placeholder="Digite o nome" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         disabled={!editando}
                     />
 
@@ -309,19 +225,11 @@ const VisualizarDoador = () => {
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
                         <label>RG</label>
-<<<<<<< HEAD
                         <input
                             id="rg"
                             name="rg"
                             type="text"
                             placeholder="Digite o RG"
-=======
-                        <input 
-                            id="rg" 
-                            name="rg" 
-                            type="text" 
-                            placeholder="Digite o RG" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={formDados?.rg || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
@@ -333,19 +241,11 @@ const VisualizarDoador = () => {
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
-<<<<<<< HEAD
                         <input
                             id="cpf"
                             name="cpf"
                             type="text"
                             placeholder="Digite o CPF"
-=======
-                        <input 
-                            id="cpf" 
-                            name="cpf" 
-                            type="text" 
-                            placeholder="Digite o CPF" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={formDados?.cpf || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
@@ -357,19 +257,11 @@ const VisualizarDoador = () => {
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-<<<<<<< HEAD
                         <input
                             id="celular"
                             name="celular"
                             type="text"
                             placeholder="Digite o celular com DDD"
-=======
-                        <input 
-                            id="celular" 
-                            name="celular" 
-                            type="text" 
-                            placeholder="Digite o celular com DDD" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={formDados?.celular || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
@@ -381,7 +273,6 @@ const VisualizarDoador = () => {
                     </div>
                 </div>
 
-<<<<<<< HEAD
                 <div className="group-doador">
                     <div className="form-group">
                         <label>Contato</label>
@@ -417,38 +308,6 @@ const VisualizarDoador = () => {
                                 <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
                             )}
                             {/* {telefones.length > 1 && (
-=======
-                <div className="form-group">
-                    <label>Contato</label>
-                  {/*   {telefones.map((item, index) => ( */}
-                    <div /* key={index} */ className="telefone-group">
-                        <input id='contato'
-                            type="text"
-                            name="contato"
-                            placeholder="Contato para recados"
-                            value={formDados?.contato || ''}
-                            onChange={handleInputChange}
-                            disabled={!editando}
-                        />
-
-                        {(tentouEnviar && !formDados.contato) && (
-                            <span className="erro-required"> O campo 'Contato' é obrigatório </span>
-                        )}
-                        <label>Responsável Contato</label>
-                        <input id='responsavel'
-                            type="text"
-                            name="responsavelContato"
-                            placeholder="Contato para recados"
-                            value={formDados?.responsavelContato || ''}
-                            onChange={handleInputChange}
-                            disabled={!editando}
-                        />
-
-                        {(tentouEnviar && !formDados.responsavelContato) && (
-                            <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
-                        )}
-                        {/* {telefones.length > 1 && (
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             <button
                                 type="button"
                                 className="remove-btn-cad-doador"
@@ -457,30 +316,18 @@ const VisualizarDoador = () => {
                                 <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon-remove-cad-doador" />
                             </button>
                         )} */}
-<<<<<<< HEAD
                         </div>
                    
-=======
-                    </div>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                 </div>
 
                 <div className="cadastroDoador-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-<<<<<<< HEAD
                         <input
                             id="cep"
                             name="cep"
                             type="text"
                             placeholder="Digite o CEP"
-=======
-                        <input 
-                            id="cep" 
-                            name="cep" 
-                            type="text" 
-                            placeholder="Digite o CEP" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={formDados?.cep || ''}
                             onChange={handleInputChange}
                             onBlur={handleBuscarCep}
@@ -493,19 +340,11 @@ const VisualizarDoador = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
-<<<<<<< HEAD
                         <input
                             id="cidade"
                             name="cidade"
                             type="text"
                             placeholder="Digite a cidade"
-=======
-                        <input 
-                            id="cidade" 
-                            name="cidade" 
-                            type="text" 
-                            placeholder="Digite a cidade" 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                             value={formDados?.cidade || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
@@ -517,7 +356,6 @@ const VisualizarDoador = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
-<<<<<<< HEAD
                         <input
                             id="uf"
                             name="uf"
@@ -526,16 +364,6 @@ const VisualizarDoador = () => {
                             value={formDados?.uf || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-=======
-                        <input 
-                            id="uf" 
-                            name="uf" 
-                            type="text" 
-                            placeholder="Digite o estado"
-                            value={formDados?.uf || ''}
-                            onChange={handleInputChange}
-                            disabled={!editando} 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !formDados.uf) && (
@@ -546,7 +374,6 @@ const VisualizarDoador = () => {
 
                 <div className="form-group">
                     <label>Logradouro</label>
-<<<<<<< HEAD
                     <input
                         id="logradouro"
                         name="logradouro"
@@ -555,16 +382,6 @@ const VisualizarDoador = () => {
                         value={formDados?.logradouro || ''}
                         onChange={handleInputChange}
                         disabled={!editando}
-=======
-                    <input 
-                        id="logradouro" 
-                        name="logradouro" 
-                        type="text" 
-                        placeholder="Digite o Endereço" 
-                        value={formDados?.logradouro || ''}
-                        onChange={handleInputChange}
-                        disabled={!editando} 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     />
 
                     {(tentouEnviar && !formDados.logradouro) && (
@@ -575,7 +392,6 @@ const VisualizarDoador = () => {
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
                         <label>Número</label>
-<<<<<<< HEAD
                         <input
                             id="numero"
                             name="numero"
@@ -584,16 +400,6 @@ const VisualizarDoador = () => {
                             value={formDados?.numero || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-=======
-                        <input 
-                            id="numero" 
-                            name="numero" 
-                            type="number" 
-                            placeholder="Digite o nº da residência" 
-                            value={formDados?.numero || ''}
-                            onChange={handleInputChange}
-                            disabled={!editando} 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !formDados.numero) && (
@@ -602,7 +408,6 @@ const VisualizarDoador = () => {
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
-<<<<<<< HEAD
                         <input
                             id="complemento"
                             name="complemento"
@@ -611,21 +416,10 @@ const VisualizarDoador = () => {
                             value={formDados?.complemento || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-=======
-                        <input 
-                            id="complemento" 
-                            name="complemento" 
-                            type="text" 
-                            placeholder="Digite o complemento" 
-                            value={formDados?.complemento || ''}
-                            onChange={handleInputChange}
-                            disabled={!editando} 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
                     </div>
                     <div className="form-group">
                         <label>Bairro</label>
-<<<<<<< HEAD
                         <input
                             id="bairro"
                             name="bairro"
@@ -634,16 +428,6 @@ const VisualizarDoador = () => {
                             value={formDados?.bairro || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-=======
-                        <input 
-                            id="bairro" 
-                            name="bairro" 
-                            type="text" 
-                            placeholder="Digite o bairro" 
-                            value={formDados?.bairro || ''}
-                            onChange={handleInputChange}
-                            disabled={!editando} 
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         />
 
                         {(tentouEnviar && !formDados.bairro) && (
@@ -654,7 +438,6 @@ const VisualizarDoador = () => {
 
                 <div className="button-group-crud">
                     {!editando ? (
-<<<<<<< HEAD
                         <BotaoAlterar onClick={() => setEditando(true)}
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
@@ -670,23 +453,6 @@ const VisualizarDoador = () => {
                 </div>
             </form >
         </div >
-=======
-                        <BotaoAlterar onClick={() => setEditando(true)} 
-                            //disabled={editando}
-                        /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  *//>
-                        ) : (
-                        <button 
-                            type="submit" 
-                            className="botao-alterar" 
-                        > salvar
-                        </button>
-                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
-                        )}
-                    <BotaoCancelar />
-                </div>
-            </form>
-        </div>
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
     );
 };
 

@@ -93,19 +93,7 @@
     justify-content: space-between;
   }
   
-<<<<<<< HEAD
   #imput-cidade-ponto, #complemento-ponto, #imput-cep {
-=======
-  #imput-cep {
-    width: 100%; 
-  }
-  
-  #imput-cidade-ponto, #complemento-ponto {
-    width: 150%; 
-  }
-  
-  #imput-estado {
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
     width: 100%; 
   }
   
@@ -113,7 +101,6 @@
     width: 40%; 
   }
    
-<<<<<<< HEAD
   #bairro, #imput-estado, #status  {
     width: 100%; 
   }
@@ -125,15 +112,6 @@
   #contato{
     width: 70%; 
   }
-=======
-  #bairro {
-    width: 100%; 
-  }
-  
-  #cnpj, #reponsavel, #celular-ponto{
-    width: 100%; 
-  }
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
   
   .form-group input {
     width: 100%;
@@ -147,7 +125,6 @@
     flex: 0 0 auto;
   }
   
-<<<<<<< HEAD
   .group-adocao {
     display: grid
 ;   grid-template-columns: repeat(2, 1fr);
@@ -159,6 +136,3 @@
 input::placeholder {
     color: #999;
 }
-=======
-  
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c

@@ -56,28 +56,17 @@ const PontoAdocao = () => {
     };
 
     return(
-<<<<<<< HEAD
         <div className="container-ponto">
             <div className="toolbar-ponto">
                 <Link to='/cadastrar-ponto-adocao' style={{ textDecoration: 'none' }}>
                     <button className="button-cadastrar">
-=======
-        <div className="container-evento">
-            <div className="toolbar-evento">
-                <Link to='/cadastrar-ponto-adocao' style={{ textDecoration: 'none' }}>
-                    <button className="button-cadastrar-evento">
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         <div>
                             <img src={iconeCadastrar} alt="Ícone de sucesso" className="icon" />
                             Cadastrar
                         </div>
                     </button>
                 </Link>
-<<<<<<< HEAD
                 <div className="search-bar-ponto">
-=======
-                <div className="search-bar-evento">
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                     <input 
                         type="text" 
                         name="busca"
@@ -85,11 +74,7 @@ const PontoAdocao = () => {
                         onChange={handleChange}
                         placeholder="Busque um ponto de adoção por nome fantasia, responsável ou CNPJ"
                     />
-<<<<<<< HEAD
                     <button className="search-button">
-=======
-                    <button className="search-button-evento">
->>>>>>> 9f43d04f5f4692b2a4e46b5944ca1465bd6c8f5c
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                     </button>
                 </div>
