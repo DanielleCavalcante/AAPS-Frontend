@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
-import { bloquearTeclas } from '../../../utils/BloqueiaTeclas';
+import { useError } from '../../../hooks/useError';
+// import { bloquearTeclas } from '../../../utils/BloqueiaTeclas';
 import { useNavigate } from 'react-router-dom';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -31,7 +32,8 @@ const CadastroAnimal = () => {
     const { listarDoadoresAtivos } = useDoadores();
     const [doadores, setDoadores] = useState([]);
 
-    const [foto, setFoto] = useState(null);
+    const { erro, tratarErro, limparErro } = useError();
+    const [tentouEnviar, setTentouEnviar] = useState(false);
 
     useEffect(() => {
         const fetchDoadores = async () => {
@@ -70,6 +72,8 @@ const CadastroAnimal = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setTentouEnviar(true); 
+        limparErro();
         try {
             await criarAnimal(dadosAnimal);
             setDadosAnimal({
@@ -85,9 +89,8 @@ const CadastroAnimal = () => {
                 doadorId: '',
                 nomeDoador: ''
             });
-            setFoto(null);
         } catch (error) {
-            alert("Erro ao cadastrar animal!");
+            tratarErro(error);
         }
     };
 
@@ -137,6 +140,9 @@ const CadastroAnimal = () => {
                             <option value={0}>Adotado</option>
                             <option value={1}>Disponível</option>
                         </select>
+                        {(tentouEnviar && !dadosAnimal.disponibilidade) && (
+                            <span className="erro-required"> O campo 'Disponibilidade' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
 
@@ -151,7 +157,9 @@ const CadastroAnimal = () => {
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
                         </select>
-
+                        {(tentouEnviar && !dadosAnimal.status) && (
+                            <span className="erro-required"> O campo 'Status' é obrigatório </span>
+                        )}
                     </div>
                 </div>
                 <div className="form-group">
@@ -164,8 +172,10 @@ const CadastroAnimal = () => {
                         value={dadosAnimal.nome}
                         onChange={handleChange}
                         placeholder="Digite o nome do animal"
-                        required
                     />
+                    {(tentouEnviar && !dadosAnimal.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
                 <div id="group2">
                     <div className="form-group">
@@ -178,8 +188,10 @@ const CadastroAnimal = () => {
                             value={dadosAnimal.especie}
                             onChange={handleChange}
                             placeholder="Digite a espécie do animal"
-                            required
                         />
+                        {(tentouEnviar && !dadosAnimal.especie) && (
+                            <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
@@ -190,8 +202,10 @@ const CadastroAnimal = () => {
                             value={dadosAnimal.raca}
                             onChange={handleChange}
                             placeholder="Digite a raça do animal"
-                            required
                         />
+                        {(tentouEnviar && !dadosAnimal.raca) && (
+                            <span className="erro-required"> O campo 'Raça' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
@@ -202,6 +216,9 @@ const CadastroAnimal = () => {
                             onChange={handleChange}
                             placeholder="Digite a data de nascimento do animal"
                         />
+                        {(tentouEnviar && !dadosAnimal.dataNascimento) && (
+                            <span className="erro-required"> O campo 'Data de Nascimento' é obrigatório </span>
+                        )}
                     </div>
                 </div>
                 <div id='group3'>
@@ -214,8 +231,10 @@ const CadastroAnimal = () => {
                             value={dadosAnimal.pelagem}
                             onChange={handleChange}
                             placeholder="cor e tipo"
-                            required
                         />
+                        {(tentouEnviar && !dadosAnimal.pelagem) && (
+                            <span className="erro-required"> O campo 'Pelagem' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
@@ -229,6 +248,9 @@ const CadastroAnimal = () => {
                             <option value="M">Macho</option>
                             <option value="F">Fêmea</option>
                         </select>
+                        {(tentouEnviar && !dadosAnimal.sexo) && (
+                            <span className="erro-required"> O campo 'Sexo' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -256,8 +278,11 @@ const CadastroAnimal = () => {
                             min="1" //valores a partir de 1.
                             value={dadosAnimal.doadorId}
                             onChange={handleChange}
-                            onKeyDown={(e) => bloquearTeclas(e, dadosAnimal.doadorId)}
+                            // onKeyDown={(e) => bloquearTeclas(e, dadosAnimal.doadorId)}
                         />
+                        {(tentouEnviar && !dadosAnimal.doadorId) && (
+                            <span className="erro-required"> O campo 'Código Doador' é obrigatório </span>
+                        )}
                     </div>
 
                     <div className="form-group">

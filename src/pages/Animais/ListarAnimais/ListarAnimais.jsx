@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
 import { useAnimais } from '../../../hooks/useAnimais';
@@ -6,16 +6,16 @@ import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import carregando from '../../../components/Spinner/Carregando';
+import Carregando from '../../../components/Spinner/Carregando';
 import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
 import './ListarAnimais.css';
 
 const Animal = () => {
-    // const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
+    const { listarAnimais, excluirAnimal, erro, limparErro } = useAnimais();
     const [showModalExcluir, setShowModalExcluir] = useState(false);
     const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);
-    const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
+    // const { listarAnimais, excluirAnimal, carregando, erro } = useAnimais();
 
     const [animais, setAnimais] = useState([]);
     const [filtro, setFiltro] = useState({
@@ -25,6 +25,9 @@ const Animal = () => {
         status: '',
         disponibilidade: ''
     });
+
+    const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
+    const [dadosCarregados, setDadosCarregados] = useState(false);
 
     //Modais para botão Excluir:
     const openModalExcluir = () => {
@@ -67,14 +70,22 @@ const Animal = () => {
     };
       
     const handleExcluir = async (id) => {
-        await excluirAnimal(id);
-        const dadosAtualizados = await listarAnimais(filtro);
-        openModalExcluir();
-        setAnimais(dadosAtualizados);
+        iniciarCarregamento();
+        try {
+            await excluirAnimal(id);
+            limparErro();
+            const dadosAtualizados = await listarAnimais(filtro);
+            openModalExcluir();
+            setAnimais(dadosAtualizados);
+        } catch (error) {
+            console.error('Erro ao excluir voluntario');
+        } finally {
+            finalizarCarregamento();
+        }
     };
     
-    if (erro) return <div>Carregando...</div>;
-    if (erro) return <div className="erro">{erro}</div>;
+    // if (erro) return <div>Carregando...</div>;
+    // if (erro) return <div className="erro">{erro}</div>;
 
     return(
         <div className="container-animal">
@@ -156,7 +167,19 @@ const Animal = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {animais.map((animal) => (
+                    {erro ? (
+                        <tr>
+                            <td colSpan="4" className="erro" style={{ textAlign: 'center', height: '20vh' }}>
+                                {erro}
+                            </td>
+                        </tr>
+                    ) : carregando ? (
+                        <tr>
+                            <td colSpan="4">
+                                <carregando />
+                            </td>
+                        </tr>
+                    ) :  (animais.map((animal) => (
                         <tr key={animal.id}>
                             <td>{animal.id}</td>
                             <td>{animal.nome}</td>
@@ -183,7 +206,8 @@ const Animal = () => {
                                 </div>
                             </td>
                         </tr>
-                    ))}
+                    ))
+                )}
                 </tbody>
             </table>
         </div>

@@ -29,7 +29,9 @@ const CadastroAdotante = () => {
         complemento: '',
         situacaoEndereco: '',
         facebook: '',
-        instagram: ''
+        instagram: '',
+        bloqueio: 0,
+        observacaoBloqueio: '',
     });
 
     const { erro, tratarErro, limparErro } = useError();
@@ -71,6 +73,7 @@ const CadastroAdotante = () => {
                 facebook: '',
                 instagram: '',
                 bloqueio: 0,
+                observacaoBloqueio: '',
             });
             setTentouEnviar(false);
         } catch (error) {
@@ -297,7 +300,7 @@ const CadastroAdotante = () => {
                 </div> */}
 
                 <div className="radio-group">
-                    <label className="radio-label">
+                     <label className="radio-label">
                         <input
                             id="situacaoEndereco"
                             type="radio"
@@ -320,10 +323,10 @@ const CadastroAdotante = () => {
                         Alugada
                     </label>
 
-                    {(tentouEnviar && !dadosAdotante.situacaoEndereco) && (
-                        <span className="erro-required"> É obrigatório informar a situação de moradia </span>
-                    )}
-                </div>
+                        {(tentouEnviar && !dadosAdotante.situacaoEndereco) && (
+                            <span className="erro-required"> É obrigatório informar a situação de moradia </span>
+                        )}
+                    </div>
 
                 <div className="cadastroAdotante-linha1">
                     <div className="form-group">
@@ -480,10 +483,10 @@ const CadastroAdotante = () => {
                         />
                         Bloqueado
                     </label>
-
+{/* 
                     {(tentouEnviar && !dadosAdotante.bloqueio) && (
                         <span className="erro-required"> O campo 'Bloqueado' é obrigatório </span>
-                    )}
+                    )} */}
                 </div>
                 <textarea
                     name="observacaoBloqueio"

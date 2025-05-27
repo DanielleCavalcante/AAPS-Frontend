@@ -1,5 +1,10 @@
 //Validação de CPF:
 export function validarCPF(cpf) {
+    cpf = cpf.replace(/[^\d]+/g, '');
+
+    // Verifica se tem 11 dígitos
+    if (cpf.length !== 11) return false;
+    
     if (/^(\d)\1+$/.test(cpf)) return false;
 
     let soma = 0;

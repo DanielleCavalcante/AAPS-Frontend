@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
 import { useDoadores } from '../../../hooks/useDoadores';
@@ -6,8 +6,8 @@ import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import iconeExcluir from '/src/assets/icone_excluir.png';
 import Carregando from '../../../components/Spinner/Carregando';
+import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
 import './ListarDoadores.css';
 
 const Doador = () => {
@@ -18,6 +18,10 @@ const Doador = () => {
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
+
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+    const [idParaExcluir, setIdParaExcluir] = useState(null);
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -46,12 +50,37 @@ const Doador = () => {
             await excluirDoador(id);
             limparErro();
             const dadosAtualizados = await listarDoadores(filtro);
+            openModalExcluir();
             setDoadores(dadosAtualizados);
-            /* openModalExcluir(); */
         } catch (error) {
             console.error('Erro ao excluir doador');
         } finally {
             finalizarCarregamento();
+        }
+    };
+
+    //Modais para botão Excluir:
+    const openModalExcluir = () => {
+        setShowConfirmModalExcluir(false);
+        setShowModalExcluir(true);
+    };
+
+    const closeModalExcluir = () => {
+        setShowModalExcluir(false);
+    };
+
+    const openConfirmModalExcluir = (id) => {
+        setIdParaExcluir(id); // salva o ID
+        setShowConfirmModalExcluir(true); // abre o modal de confirmação
+    };
+
+    const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
+
+    const confirmarExclusao = async () => {
+        if (idParaExcluir) {
+            await handleExcluir(idParaExcluir);
+            setIdParaExcluir(null); // limpa o estado
+            setShowConfirmModalExcluir(false);
         }
     };
 
@@ -124,15 +153,21 @@ const Doador = () => {
                             <td>{doador.celular}</td>
                             <td>{doador.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
-                                <Link to={`/visualizar-doador/${doador.id}`}>
-                                    <button className="search-button-doador">
-                                        <img src={iconeBusca} alt="Ícone de busca" className="icon" />
-                                    </button>
-                                </Link>
-                                <button className="delete-button" onClick={() => { handleExcluir(doador.id) }}>
-                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
-                                </button>
-
+                                <div className='botoes'>
+                                    <Link to={`/visualizar-doador/${doador.id}`}>
+                                        <button className="search-button-doador">
+                                            <img src={iconeBusca} alt="Ícone de busca" className="icon" />
+                                        </button>
+                                    </Link>
+                                    <BotaoExcluir 
+                                        showModal={showModalExcluir} 
+                                        showConfirmModalExcluir={showConfirmModalExcluir} 
+                                        openModal={() => openConfirmModalExcluir(doador.id)} 
+                                        closeModal2={closeConfirmModalExcluir} 
+                                        closeModal={confirmarExclusao}
+                                        closeModalExcluir={closeModalExcluir}
+                                    />
+                                </div>
                             </td>
                         </tr>
                         ))

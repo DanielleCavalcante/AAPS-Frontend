@@ -3,12 +3,11 @@ import { useParams } from 'react-router-dom';
 
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
+import { useError } from '../../../hooks/useError';
 
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
-
-import foto from '../../../assets/aaps_logo1.png';
 import './VisualizarAnimal.css';
 
 const VisualizaAnimal = () => {
@@ -18,11 +17,12 @@ const VisualizaAnimal = () => {
     const [animal, setAnimal] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
+    const [tentouEnviar, setTentouEnviar] = useState(false);
     const [doadores, setDoadores] = useState([]); 
     const [showModal, setShowModal] = useState(false);
 
+    //Modais:
     const openModal = () => setShowModal(true);
-    
     const closeModal = () => {
         setEditando(false);
         setShowModal(false);
@@ -70,11 +70,39 @@ const VisualizaAnimal = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //evita o reload da página e mantém o modal aberto
+        setTentouEnviar(true); 
+        limparErro();
+
+        if (!formDados.nome?.trim()) {
+        return; 
+        }
+        if (!formDados.especie?.trim()) {
+        return; 
+        }
+        if (!formDados.raca?.trim()) {
+        return; 
+        }
+        if (!formDados.dataNascimento?.trim()) {
+        return; 
+        }
+        if (!formDados.pelagem?.trim()) {
+        return; 
+        }
+        if (!formDados.sexo?.trim()) {
+        return; 
+        }
+        if (!formDados.sexo?.trim()) {
+        return; 
+        }
+        if (!formDados.doadorId?.trim()) {
+        return; 
+        }
+
         try {
             await atualizarAnimal(id, formDados);
             openModal();
         } catch (error) {
-            console.error("Erro ao salvar:", error);
+            tratarErro(error);
         }
     };
     
@@ -101,18 +129,18 @@ const VisualizaAnimal = () => {
                             </select>
                         </div>
 
-                                            <div className="form-group">
-                        <label htmlFor="status">Status</label>
-                        <select 
-                            id="status"
-                            name="status"
-                            value={formDados?.status}
-                            onChange={handleInputChange}
-                            disabled={!editando}
-                        >              
-                            <option value={1}>Ativo</option>
-                            <option value={0}>Inativo</option>
-                        </select>
+                        <div className="form-group">
+                            <label htmlFor="status">Status</label>
+                            <select 
+                                id="status"
+                                name="status"
+                                value={formDados?.status}
+                                onChange={handleInputChange}
+                                disabled={!editando}
+                            >              
+                                <option value={1}>Ativo</option>
+                                <option value={0}>Inativo</option>
+                            </select>
                         </div>
                     
                 </div>
@@ -126,9 +154,11 @@ const VisualizaAnimal = () => {
                         placeholder="Digite o nome do animal"
                         value={formDados?.nome || ''}
                         onChange={handleInputChange}
-                        required
                         disabled={!editando}
                     />
+                     {(tentouEnviar && !formDados.nome) && (
+                                <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
                 <div id="group2">
                     <div className="form-group">
@@ -141,9 +171,11 @@ const VisualizaAnimal = () => {
                             placeholder="Digite a espécie do animal"
                             value={formDados?.especie || ''}
                             onChange={handleInputChange}
-                            required
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.especie) && (
+                                <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
@@ -155,9 +187,11 @@ const VisualizaAnimal = () => {
                             placeholder="Digite a raça do animal"
                             value={formDados?.raca || ''}
                             onChange={handleInputChange}
-                            required
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.raca) && (
+                                <span className="erro-required"> O campo 'Raça' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
@@ -169,6 +203,9 @@ const VisualizaAnimal = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.dataNascimento) && (
+                                <span className="erro-required"> O campo 'Data de Nascimento' é obrigatório </span>
+                        )}
                     </div>
                 </div>
                 <div id='group3'>
@@ -182,9 +219,11 @@ const VisualizaAnimal = () => {
                             placeholder="cor e tipo"
                             value={formDados?.pelagem || ''}
                             onChange={handleInputChange}
-                            required
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.pelagem) && (
+                                <span className="erro-required"> O campo 'Pelagem' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
@@ -198,6 +237,9 @@ const VisualizaAnimal = () => {
                             <option value="M">Macho</option>
                             <option value="F">Fêmea</option>
                         </select>
+                        {(tentouEnviar && !formDados.sexo) && (
+                                <span className="erro-required"> O campo 'Sexo' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -228,6 +270,9 @@ const VisualizaAnimal = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.doadorId) && (
+                                <span className="erro-required"> O campo 'Código do Doador' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomeDoador">Nome do Doador</label>
