@@ -15,6 +15,11 @@
     margin: 50px auto 35px;
 }
 
+.cadastroVoluntario-form input::placeholder {
+  color: #555555;
+  opacity: 1;
+}
+
 .form-group label {
     display: block;
     margin-bottom: 15px;
@@ -53,17 +58,6 @@ select {
     justify-content: space-between;
 }
 
-.botao-resetar-senha {
-    background-color: #009EE0;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    height: 40px;
-    margin-right: auto;
-}
-
 .senha-botao-grupo {
     display: flex;
     align-items: center;
@@ -87,19 +81,13 @@ select {
     align-items: center;
   }
 
-  #senha {
-    width: 300px;
-  }
-
-  #situacao {
-    width: 200px;
-  }
 
 #group-animal1 .form-group:nth-child(3) {
   justify-self: end;
 }
 
-#codigo {
-    width: 100%;
+#codigo, #status, #id {
+    width: 60%;
 }
+
 

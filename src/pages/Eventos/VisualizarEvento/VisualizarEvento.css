@@ -36,12 +36,20 @@
     gap: 10px;
   }
   
-  #codigo {
+ .cadastro-evento #codigo {
+    width: 20%; /* Largura de 60% */
+  }
+
+   .cadastro-evento #id {
     width: 20%; /* Largura de 60% */
   }
 
   #descricao {
     width: 60%; /* Largura de 30% */
   }
+
+  .cadastro-evento #status {
+  width: 20%;
+}
 
  

@@ -11,7 +11,7 @@
     padding: 40px;
     border-radius: 8px;
     width: 80%;
-    text-align: center;
+    text-align: right;
     margin-top: 50px;
     margin-bottom: 35px;
   }
@@ -101,7 +101,7 @@
     width: 40%; 
   }
    
-  #bairro, #imput-estado, #status  {
+  #bairro, #imput-estado  {
     width: 100%; 
   }
   
@@ -112,6 +112,14 @@
   #contato{
     width: 70%; 
   }
+
+#codigo, #id {
+    width: 60%;
+}
+
+#status{
+   width: 100%;
+}
   
   .form-group input {
     width: 100%;

@@ -208,22 +208,12 @@ const VisualizarAdotante = () => {
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label>Local de Trabalho</label>
-                    <input
-                        id="localtrabalho"
-                        name="localtrabalho"
-                        type="text"
-                        placeholder="Digite o nome do local de trabalho"
-                    />
-                </div>
-
                 <div className="group-adocao">
                     <div className="form-group">
                         <label>Contato</label>
                         {/*{telefones.map((item, index) => ( 
                         <div key={index}  className = "telefone-group" >*/}
-                        <input 
+                        <input
                             id='contato'
                             type="text"
                             name="contato"
@@ -244,6 +234,26 @@ const VisualizarAdotante = () => {
                     </div>
 
                     {/*))}*/}
+                </div>
+
+                <div className="form-group">
+                    <label>E-mail</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="Digite o e-mail"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label>Local de Trabalho</label>
+                    <input
+                        id="localtrabalho"
+                        name="localtrabalho"
+                        type="text"
+                        placeholder="Digite o nome do local de trabalho"
+                    />
                 </div>
 
                 {/*<div className="radio-group">

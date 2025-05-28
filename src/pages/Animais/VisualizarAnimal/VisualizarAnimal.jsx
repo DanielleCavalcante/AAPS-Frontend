@@ -1,28 +1,31 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
+import { useError } from '../../../hooks/useError';
 
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
-
-import foto from '../../../assets/aaps_logo1.png';
 import './VisualizarAnimal.css';
 
 const VisualizaAnimal = () => {
+    const navigate = useNavigate();
     const { buscarAnimalPorId, atualizarAnimal, carregando, erro } = useAnimais();
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
+    const [tentouEnviar, setTentouEnviar] = useState(false);
     const [doadores, setDoadores] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
+    //Modais:
     const openModal = () => setShowModal(true);
-
     const closeModal = () => {
         setEditando(false);
         setShowModal(false);
@@ -70,14 +73,45 @@ const VisualizaAnimal = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); //evita o reload da página e mantém o modal aberto
+        setTentouEnviar(true);
+        limparErro();
+
+        if (!formDados.nome?.trim()) {
+            return;
+        }
+        if (!formDados.especie?.trim()) {
+            return;
+        }
+        if (!formDados.raca?.trim()) {
+            return;
+        }
+        if (!formDados.dataNascimento?.trim()) {
+            return;
+        }
+        if (!formDados.pelagem?.trim()) {
+            return;
+        }
+        if (!formDados.sexo?.trim()) {
+            return;
+        }
+        if (!formDados.sexo?.trim()) {
+            return;
+        }
+        if (!formDados.doadorId?.trim()) {
+            return;
+        }
+
         try {
             await atualizarAnimal(id, formDados);
             openModal();
         } catch (error) {
-            console.error("Erro ao salvar:", error);
+            tratarErro(error);
         }
     };
 
+  const irParaAcompanhamento = () => {
+    navigate('/acompanhamento');
+  };
 
     return (
         <div className="cadastro-container">
@@ -123,12 +157,15 @@ const VisualizaAnimal = () => {
                         type="text"
                         id="nome"
                         name="nome"
+                        pattern="[A-Za-zÀ-ÿ\s]+"
                         placeholder="Digite o nome do animal"
                         value={formDados?.nome || ''}
                         onChange={handleInputChange}
-                        required
                         disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
                 <div id="group2">
                     <div className="form-group">
@@ -137,12 +174,15 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="especie"
                             name="especie"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             placeholder="Digite a espécie do animal"
                             value={formDados?.especie || ''}
                             onChange={handleInputChange}
-                            required
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.especie) && (
+                            <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
@@ -150,12 +190,15 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="raca"
                             name="raca"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             placeholder="Digite a raça do animal"
                             value={formDados?.raca || ''}
                             onChange={handleInputChange}
-                            required
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.raca) && (
+                            <span className="erro-required"> O campo 'Raça' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
@@ -167,6 +210,9 @@ const VisualizaAnimal = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.dataNascimento) && (
+                            <span className="erro-required"> O campo 'Data de Nascimento' é obrigatório </span>
+                        )}
                     </div>
                 </div>
                 <div id='group3'>
@@ -176,12 +222,15 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="pelagem"
                             name="pelagem"
+                            pattern="[A-Za-zÀ-ÿ\s]+"
                             placeholder="cor e tipo"
                             value={formDados?.pelagem || ''}
                             onChange={handleInputChange}
-                            required
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.pelagem) && (
+                            <span className="erro-required"> O campo 'Pelagem' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
@@ -195,6 +244,9 @@ const VisualizaAnimal = () => {
                             <option value="M">Macho</option>
                             <option value="F">Fêmea</option>
                         </select>
+                        {(tentouEnviar && !formDados.sexo) && (
+                            <span className="erro-required"> O campo 'Sexo' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -220,10 +272,14 @@ const VisualizaAnimal = () => {
                             type="number"
                             id="doadorId"
                             name="doadorId"
+                            min="1"
                             value={formDados?.doadorId ?? ''}
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.doadorId) && (
+                            <span className="erro-required"> O campo 'Código do Doador' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomeDoador">Nome do Doador</label>
@@ -245,13 +301,18 @@ const VisualizaAnimal = () => {
 
                 <div id="group3">
                     <div className="form-group">
-                        <button className="home-button">
-                            <Link to='/acompanhamento'>
-                                <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
-                            </Link>
+                        <button
+                            type="button"
+                            id="button-acompanhamento"
+                            className={`button-acompanhamento ${editando ? 'ativo' : 'desabilitado'}`}
+                            disabled={!editando}
+                            onClick={irParaAcompanhamento}
+                        >
+                            <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
                             <span>Acompanhamento</span>
                         </button>
                     </div>
+
                     <div className="button-group-crud">
 
                         {!editando ? (

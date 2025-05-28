@@ -53,32 +53,39 @@
     justify-content: space-between;
   }
   
-  .botao-resetar-senha.ativo {
-    background-color: #009EE0;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    height: 40px;
-    margin-top: 25px;
-  }
-  
-  /* O botão desabilitado já terá os estilos de background e cursor padrão */
-  .botao-resetar-senha:disabled {
-    background-color: darkgray; /* Confirma cor cinza */
-    color: rgb(121, 121, 121); /* Texto cinza */
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    height: 40px;
-    margin-top: 25px;
-  }
-  
+.botao-resetar-senha.ativo {
+  background-color: #009EE0;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 40px;
+  margin-top: 25px;
+  display: flex;              
+  align-items: center;        
+  justify-content: center;    
+  font-size: 16px;            
+  font-weight: bold; 
+  max-width: fit-content;  
+}
 
-
-
+.botao-resetar-senha:disabled {
+  background-color: darkgray;
+  color: rgb(121, 121, 121);
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  height: 40px;
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+  max-width: fit-content;
+}
 
   .senha-botao-grupo {
     display: flex;
@@ -103,17 +110,16 @@
     align-items: center;
   }
 
-  #senha {
-    width: 300px;
-  }
-
-  #situacao {
-    width: 200px;
-  }
 
   #celular-doador, #userName, #cpf {
     width: 100%;
   }
+  
+#codigo, #status, #id {
+    width: 60%;
+}
+
+
 
 #group-animal1 .form-group:nth-child(3) {
   justify-self: end;

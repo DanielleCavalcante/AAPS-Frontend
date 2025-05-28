@@ -135,13 +135,21 @@
   }
   
 
-  #rg, #cpf, #celular, #status {
+  #rg, #cpf, #celular{
     width: 100%;
   }
   
   #contato{
     width: 70%; 
   }
+
+#codigo, #id {
+    width: 60%;
+}
+
+#status{
+   width: 100%;
+}
   
   input::placeholder {
     color: #999;

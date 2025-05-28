@@ -1,14 +1,18 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import InputMask from 'react-input-mask';
+import { validarCPF } from '../../../utils/ValidaCPF';
+import { validarNome } from '../../../utils/ValidaNome';
 
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
 import { useError } from '../../../hooks/useError';
-
+import { useNavigate } from 'react-router-dom';
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
 import './CadastrarVoluntario.css';
 
 const CadastroVoluntario = () => {
+    const navigate = useNavigate();
     const { criarVoluntario } = useVoluntarios();
     const [dadosVoluntario, setDadosVoluntario] = useState({ 
         nome: '', 
@@ -22,10 +26,31 @@ const CadastroVoluntario = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [erroCPF, setErroCPF] = useState('');
 
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        //Chama a validação do CPF
+        if (id === 'cpf') {
+            // Remove caracteres não numéricos
+            const cpfLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 11 dígitos, faz a validação
+            if (cpfLimpo.length === 11) {
+                if (!validarCPF(cpfLimpo)) {
+                    setErroCPF('Eita! CPF inválido');
+                } else {
+                    setErroCPF('');
+                }
+            } 
+            else {
+                // Enquanto não tiver 11 dígitos, não mostra erro
+                setErroCPF('');
+            }
+        }
+
         setDadosVoluntario({
             ...dadosVoluntario,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -36,7 +61,17 @@ const CadastroVoluntario = () => {
         event.preventDefault();
         setTentouEnviar(true); 
         limparErro();
+
+        const cpfLimpo = dadosVoluntario.cpf.replace(/[^\d]+/g, '');
+
+        if (!validarCPF(cpfLimpo)){
+            setErroCPF('Eita! CPF inválido');
+            alert("CPF invalido. Insira novamente");
+            return;
+        }
+
         try {
+            dadosVoluntario.cpf = cpfLimpo; //enviar o cpf limpo (apenas numero) para criação do voluntário.
             await criarVoluntario(dadosVoluntario);
             setDadosVoluntario({ 
                 nome: '', 
@@ -54,24 +89,27 @@ const CadastroVoluntario = () => {
         }
     };
    
-    //configurações de modal
+    // Configurações do modal
     const [showModal, setShowModal] = useState(false);
-    const [botaoAtivo, setBotaoAtivo] = useState(false);
-
-    const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate('/listar-voluntarios');
+    }
     const openModal = () => {
-        // const tipo = document.getElementById('tipo').value;
-        // const nome = document.getElementById('nome').value;
-        // const cpf = document.getElementById('cpf').value;
-        // const celular = document.getElementById('celular').value;
-        // const senha = document.getElementById('senha').value;
+        const acesso = document.getElementById('acesso').value;
+        const nome = document.getElementById('nome').value;
+        const nomeUsuario = document.getElementById('userName').value;
+        const cpf = document.getElementById('cpf').value;
+        const phoneNumber = document.getElementById('phoneNumber').value;
+        const email = document.getElementById('email').value;
+        const status = document.getElementById('status').value;
 
-        // // Verifica se todos os campos estão preenchidos
-        // if (tipo && nome && cpf && celular && senha) {
+        // Verifica se todos os campos estão preenchidos
+        if (acesso && nome && nomeUsuario && cpf && phoneNumber && email && status) {
             setShowModal(true);
-        // } else {
-        //     return null;
-        // }
+        } else {
+            return null;
+        }
     };
 
     return (
@@ -108,8 +146,14 @@ const CadastroVoluntario = () => {
                         type="text"
                         id="nome" 
                         name='nome'
+                        maxLength={50} //verificar tamanho maximo.
                         value={dadosVoluntario.nome}
                         onChange={handleChange}
+                        onKeyDown={(e) => {
+                            if (!validarNome(e.key) && e.key.length === 1) {
+                            e.preventDefault();
+                            }
+                        }}
                         placeholder="Digite o nome do voluntário" 
                     />
 
@@ -137,34 +181,63 @@ const CadastroVoluntario = () => {
 
                     <div className="form-group">
                         <label htmlFor="cpf">CPF</label>
-                        <input 
+                        {/* <input 
                             type="text" 
                             id="cpf" 
                             name='cpf'
                             value={dadosVoluntario.cpf}
                             onChange={handleChange}
                             placeholder="Digite o CPF do voluntário" 
-                        />
-
-                        {(tentouEnviar && !dadosVoluntario.cpf) && (
-                            <span className="erro-required"> O campo 'CPF' é obrigatório </span>
-                        )}
+                        /> */}
+                        <InputMask
+                             mask="999.999.999-99"
+                            value={dadosVoluntario.cpf}
+                            onChange={handleChange}
+                            placeholder="___.___.___-__"
+                            required>
+                            {(inputProps) => (
+                            <input
+                            {...inputProps}
+                                id="cpf"
+                                name="cpf"
+                                type="text"
+                                className={erroCPF ? 'input-error' : ''}
+                            />
+                            )}
+                        </InputMask>
+                            {erroCPF && <span className="error">{erroCPF}</span>}
+                            {(tentouEnviar && !dadosVoluntario.cpf) && (
+                                <span className="erro-required"> O campo 'CPF' é obrigatório </span>
+                            )}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="celular">Celular</label>
-                        <input 
-                            type="text" 
-                            id="phoneNumber" 
-                            name='phoneNumber'
+                        {/* <input 
+                            type="text"
+                            id="phoneNumber"
+                            name="phoneNumber"
                             value={dadosVoluntario.phoneNumber}
                             onChange={handleChange}
-                            placeholder="Digite o celular do voluntário" 
-                            required // ver se vai tirar
-                        />
-
-                        {(tentouEnviar && !dadosVoluntario.nome) && (
-                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                        /> */}
+                        <InputMask
+                            mask="(99) 99999-9999"
+                            value={dadosVoluntario.phoneNumber}
+                            onChange={handleChange}
+                            placeholder="(__) _____-____"
+                            required
+                        >
+                            {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="phoneNumber"
+                                name="phoneNumber"
+                            />
+                            )}
+                        </InputMask>
+                        {(tentouEnviar && !dadosVoluntario.phoneNumber) && (
+                        <span className="erro-required"> O campo 'Celular' é obrigatório </span>
                     )}
                     </div>
                 </div>

@@ -29,7 +29,9 @@ const CadastroAdotante = () => {
         complemento: '',
         situacaoEndereco: '',
         facebook: '',
-        instagram: ''
+        instagram: '',
+        bloqueio: 0,
+        observacaoBloqueio: '',
     });
 
     const { erro, tratarErro, limparErro } = useError();
@@ -71,6 +73,7 @@ const CadastroAdotante = () => {
                 facebook: '',
                 instagram: '',
                 bloqueio: 0,
+                observacaoBloqueio: '',
             });
             setTentouEnviar(false);
         } catch (error) {
@@ -223,22 +226,6 @@ const CadastroAdotante = () => {
                     </div>
                 </div>
 
-                <div className="form-group">
-                    <label>Local de Trabalho</label>
-                    <input
-                        id="localTrabalho"
-                        name="localTrabalho"
-                        type="text"
-                        placeholder="Digite o nome do local de trabalho"
-                        value={dadosAdotante.localTrabalho}
-                        onChange={handleChange}
-                    />
-
-                    {(tentouEnviar && !dadosAdotante.localTrabalho) && (
-                        <span className="erro-required"> O campo 'Local de Trabalho' é obrigatório </span>
-                    )}
-                </div>
-
                 <div className="group-adocao">
                     <div className="form-group">
                         <label>Contato</label>
@@ -271,6 +258,38 @@ const CadastroAdotante = () => {
                             <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
                         )}
                     </div>
+                </div>
+
+                <div className="form-group">
+                    <label>E-mail</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="Digite o e-mail"
+                        value={dadosAdotante.email}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.localTrabalho) && (
+                        <span className="erro-required"> O campo 'E-mail' é obrigatório </span>
+                    )}
+                </div>
+
+                <div className="form-group">
+                    <label>Local de Trabalho</label>
+                    <input
+                        id="localTrabalho"
+                        name="localTrabalho"
+                        type="text"
+                        placeholder="Digite o nome do local de trabalho"
+                        value={dadosAdotante.localTrabalho}
+                        onChange={handleChange}
+                    />
+
+                    {(tentouEnviar && !dadosAdotante.localTrabalho) && (
+                        <span className="erro-required"> O campo 'Local de Trabalho' é obrigatório </span>
+                    )}
                 </div>
 
                 {/* <div className="radio-group">
@@ -480,10 +499,10 @@ const CadastroAdotante = () => {
                         />
                         Bloqueado
                     </label>
-
+                    {/* 
                     {(tentouEnviar && !dadosAdotante.bloqueio) && (
                         <span className="erro-required"> O campo 'Bloqueado' é obrigatório </span>
-                    )}
+                    )} */}
                 </div>
                 <textarea
                     name="observacaoBloqueio"

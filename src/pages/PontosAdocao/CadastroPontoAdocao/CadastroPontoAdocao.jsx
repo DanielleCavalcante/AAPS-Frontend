@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
+import { useNavigate } from 'react-router-dom';
+import InputMask from 'react-input-mask';
+import { validarNome } from '../../../utils/ValidaNome';
+import { validarCNPJ } from '../../../utils/ValidaCNPJ';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -9,6 +13,7 @@ import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
 import './CadastroPontoAdocao.css';
 
 const CadastroPontoAdocao = () => {
+    const navigate = useNavigate();
     const { criarPontoAdocao } = usePontosAdocao();
     const [dadosPontoAdocao, setDadosPontoAdocao] = useState({
         nomeFantasia: '',
@@ -29,11 +34,32 @@ const CadastroPontoAdocao = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [erroCNPJ, setErroCNPJ] = useState('');
     const { buscarCep } = useBuscarCep();
 
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        //Chama a validação do CNPJ
+        if (id === 'cnpj') {
+            // Remove caracteres não numéricos
+            const cnpjLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 11 dígitos, faz a validação
+            if (cnpjLimpo.length === 14) {
+                if (!validarCNPJ(cnpjLimpo)) {
+                    setErroCNPJ('Eita! CNPJ inválido');
+                } else {
+                    setErroCNPJ('');
+                }
+            }
+            else {
+                // Enquanto não tiver 11 dígitos, não mostra erro
+                setErroCNPJ('');
+            }
+        }
+
         setDadosPontoAdocao({
             ...dadosPontoAdocao,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -44,7 +70,17 @@ const CadastroPontoAdocao = () => {
         event.preventDefault();
         setTentouEnviar(true);
         limparErro();
+
+        const cnpjLimpo = dadosPontoAdocao.cnpj.replace(/[^\d]+/g, '');
+
+        if (!validarCNPJ(cnpjLimpo)) {
+            setErroCNPJ('Eita! CNPJ inválido');
+            alert("CNPJ invalido. Insira novamente");
+            return;
+        }
+
         try {
+            dadosPontoAdocao.cnpj = cnpjLimpo;
             await criarPontoAdocao(dadosPontoAdocao);
             setDadosPontoAdocao({
                 nomeFantasia: '',
@@ -63,6 +99,7 @@ const CadastroPontoAdocao = () => {
                 status: 1
             });
             setTentouEnviar(false);
+            openModal();
         } catch (error) {
             tratarErro(error);
         }
@@ -70,7 +107,8 @@ const CadastroPontoAdocao = () => {
 
     const handleBuscarCep = async () => {
         try {
-            const cepLimpo = dadosPontoAdocao.cep.match(/\d{8}/)?.[0];
+            const cepLimpo = dadosPontoAdocao.cep.replace(/[^\d]+/g, '');
+            // const cepLimpo = dadosPontoAdocao.cep.match(/\d{8}/)?.[0];
 
             const endereco = await buscarCep(cepLimpo);
 
@@ -86,31 +124,30 @@ const CadastroPontoAdocao = () => {
         }
     };
 
-    /* const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]); */
+    // Configurações do modal
     const [showModal, setShowModal] = useState(false);
-
-    // Handlers do modal
-    /* const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate('/listar-pontos-adocao');
+    }
     const openModal = () => {
-        // Pegando os valores dos campos
-        const nome = document.getElementById("nome").value;
-        const cnpj = document.getElementById("cnpj").value;
-        const responsavel = document.getElementById("responsavel").value;
-        const celular = document.getElementById("celular").value;
-        const cep = document.getElementById("cep").value;
-        const cidade = document.getElementById("cidade").value;
-        const estado = document.getElementById("estado").value;
-        const endereco = document.getElementById("endereco").value;
-        const numero = document.getElementById("numero").value;
-        const bairro = document.getElementById("bairro").value;
+        const status = document.getElementById('status').value;
+        const nome = document.getElementById('nomeFantasia').value;
+        const cnpj = document.getElementById('cnpj').value;
+        const responsavel = document.getElementById('responsavel').value;
+        const celular = document.getElementById('celular').value;
+        const contato = document.getElementById('contato').value;
+        const responsavelContato = document.getElementById('responsavelContato').value;
+        const cep = document.getElementById('cep').value;
+        const numero = document.getElementById('numero').value;
 
-        // Validação dos campos
-        if (nome && cnpj && responsavel && celular && cep && cidade && estado && endereco && numero && bairro) {
-            setShowModal(true); // Mostra o modal de sucesso
+        // Verifica se todos os campos estão preenchidos
+        if (status && nome && cnpj && responsavel && celular && contato && responsavelContato && cep && numero) {
+            setShowModal(true);
         } else {
             return null;
         }
-    }; */
+    };
 
     /* // Handlers para telefones e responsáveis
     const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
@@ -137,7 +174,7 @@ const CadastroPontoAdocao = () => {
                         <input type="text" disabled />
                     </div>
 
-                    <div className="form-group"> 
+                    <div className="form-group">
                         <label htmlFor="status">Status</label>
                         <select
                             id="status"
@@ -145,7 +182,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.status}
                             onChange={handleChange}
                         >
-                            <option value="">Selecione</option>
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
                         </select>
@@ -159,14 +195,19 @@ const CadastroPontoAdocao = () => {
                 <div className="form-group">
                     <label>Nome Fantasia</label>
                     <input
+                        type="text"
                         id="nomeFantasia"
                         name="nomeFantasia"
-                        type="text"
+                        maxLength={50} //verificar tamanho maximo.
                         value={dadosPontoAdocao.nomeFantasia}
                         onChange={handleChange}
-                        placeholder="Digite o nome"
+                        onKeyDown={(e) => {
+                            if (!validarNome(e.key) && e.key.length === 1) {
+                                e.preventDefault();
+                            }
+                        }}
+                        placeholder="Digite a Razão Social"
                     />
-
                     {(tentouEnviar && !dadosPontoAdocao.nomeFantasia) && (
                         <span className="erro-required"> O campo 'Nome Fantasia' é obrigatório </span>
                     )}
@@ -175,46 +216,67 @@ const CadastroPontoAdocao = () => {
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
                         <label>CNPJ</label>
-                        <input
-                            id="cnpj"
-                            name="cnpj"
-                            type="text"
+                        <InputMask
+                            mask="99.999.999/9999-99"
                             value={dadosPontoAdocao.cnpj}
                             onChange={handleChange}
-                            placeholder="Digite o CNPJ"
-                        />
-
+                            placeholder="__.___.___/____-__"
+                        // required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="cnpj"
+                                    name="cnpj"
+                                />
+                            )}
+                        </InputMask>
+                        {erroCNPJ && <span className="error">{erroCNPJ}</span>}
                         {(tentouEnviar && !dadosPontoAdocao.cnpj) && (
-                            <span className="erro-required"> O campo 'Cnpj' é obrigatório </span>
+                            <span className="erro-required"> O campo 'CNPJ' é obrigatório </span>
                         )}
                     </div>
 
-                    <div className="form-group"> {/* Excluir esse campo */}
-                        <label>Responsável - Pode excluir Dani</label>
+                    {/*<div className="form-group"> Excluir esse campo
+                        <label>Responsável</label>
                         <input
+                            type="text"
                             id="responsavel"
                             name="responsavel"
-                            type="text"
+                            maxLength={50} //verificar tamanho maximo.
                             value={dadosPontoAdocao.responsavel}
                             onChange={handleChange}
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
                             placeholder="Digite o Responsável"
                         />
-
                         {(tentouEnviar && !dadosPontoAdocao.responsavel) && (
                             <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
                         )}
-                    </div>
+                    </div>*/}
+
                     <div className="form-group">
                         <label>Celular</label>
-                        <input
-                            id="celular"
-                            name="celular"
-                            type="text"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={dadosPontoAdocao.celular}
                             onChange={handleChange}
-                            placeholder="Digite o celular com DDD"
-                        />
-
+                            placeholder="(__) _____-____"
+                        // required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="celular"
+                                    name="celular"
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !dadosPontoAdocao.celular) && (
                             <span className="erro-required"> O campo 'Celular' é obrigatório </span>
                         )}
@@ -224,15 +286,22 @@ const CadastroPontoAdocao = () => {
                 <div className='group-adocao'>
                     <div className="form-group">
                         <label>Contato</label>
-                        <input
-                            id="contato"
-                            name="contato"
-                            type="text"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={dadosPontoAdocao.contato}
                             onChange={handleChange}
-                            placeholder="Digite um nº de contato"
-                        />
-
+                            placeholder="(__) _____-____"
+                        // required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="contato"
+                                    name="contato"
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !dadosPontoAdocao.contato) && (
                             <span className="erro-required"> O campo 'Contato' é obrigatório </span>
                         )}
@@ -241,14 +310,24 @@ const CadastroPontoAdocao = () => {
                     <div className="form-group">
                         <label>Responsável pelo Contato</label>
                         <input
+                            type="text"
                             id='responsavelContato'
                             name="responsavelContato"
-                            type="text"
-                            placeholder="Nome do contato para recados"
+                            maxLength={50} //verificar tamanho maximo.
                             value={dadosPontoAdocao.responsavelContato}
                             onChange={handleChange}
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
+                            placeholder="Digite o Responsável"
                         />
+                        {(tentouEnviar && !dadosPontoAdocao.responsavel) && (
+                            <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
+                        )}
                     </div>
+                    
                     {/* {telefones.map((item, index) => (
                         <div key={index} className="telefone-group">
                             <input id='input-telefone'
@@ -283,16 +362,23 @@ const CadastroPontoAdocao = () => {
                 <div className="cadastroPonto-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input
-                            id="cep"
-                            name="cep"
-                            type="text"
+                        <InputMask
+                            mask="99999-999"
                             value={dadosPontoAdocao.cep}
                             onChange={handleChange}
                             onBlur={handleBuscarCep}
-                            placeholder="Digite o CEP"
-                        />
-
+                            placeholder="_____-___"
+                        // required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="cep"
+                                    name="cep"
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !dadosPontoAdocao.cep) && (
                             <span className="erro-required"> O campo 'Cep' é obrigatório </span>
                         )}
@@ -305,7 +391,8 @@ const CadastroPontoAdocao = () => {
                             type="text"
                             value={dadosPontoAdocao.cidade}
                             onChange={handleChange}
-                            placeholder="Digite a cidade"
+                            // placeholder="Digite a cidade"
+                            disabled
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.cidade) && (
@@ -320,7 +407,8 @@ const CadastroPontoAdocao = () => {
                             type="text"
                             value={dadosPontoAdocao.uf}
                             onChange={handleChange}
-                            placeholder="Digite o estado"
+                            // placeholder="Digite o estado"
+                            disabled
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.uf) && (
@@ -337,7 +425,8 @@ const CadastroPontoAdocao = () => {
                         type="text"
                         value={dadosPontoAdocao.logradouro}
                         onChange={handleChange}
-                        placeholder="Digite o Endereço"
+                        // placeholder="Digite o Endereço"
+                        disabled
                     />
 
                     {(tentouEnviar && !dadosPontoAdocao.logradouro) && (
@@ -364,7 +453,7 @@ const CadastroPontoAdocao = () => {
                     <div className="form-group">
                         <label>Complemento</label>
                         <input
-                            id="complemento-ponto"
+                            id="complemento"
                             name="complemento"
                             type="text"
                             value={dadosPontoAdocao.complemento}
@@ -380,7 +469,8 @@ const CadastroPontoAdocao = () => {
                             type="text"
                             value={dadosPontoAdocao.bairro}
                             onChange={handleChange}
-                            placeholder="Digite o bairro"
+                            // placeholder="Digite o bairro"
+                            disabled
                         />
 
                         {(tentouEnviar && !dadosPontoAdocao.bairro) && (
@@ -390,7 +480,7 @@ const CadastroPontoAdocao = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoSalvar /* showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                    <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>

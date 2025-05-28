@@ -34,8 +34,12 @@ const Login = () => {
     }
   };
 
-  const handleForgotPassword = () => {
+  /*const handleForgotPassword = () => {
     navigate('/esqueci-senha');
+  };*/
+
+    const handleForgotPassword = () => {
+    navigate('/esqueci-senha-admin');
   };
 
   return (

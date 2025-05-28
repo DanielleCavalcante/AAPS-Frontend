@@ -17,15 +17,15 @@ const Perfil = () => {
 
     useEffect(() => {
         buscarPerfilPorId(id)
-        .then((dados) => {
-        const dadosFormatados = {
-            ...dados,
-            status: Number(dados.status)
-        };
-        setVoluntario(dadosFormatados);
-        setFormDados(dadosFormatados);
-        })
-        .catch(console.error);
+            .then((dados) => {
+                const dadosFormatados = {
+                    ...dados,
+                    status: Number(dados.status)
+                };
+                setVoluntario(dadosFormatados);
+                setFormDados(dadosFormatados);
+            })
+            .catch(console.error);
     }, [id]);
 
     return (
@@ -38,21 +38,31 @@ const Perfil = () => {
 
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
-                    <input 
-                        type="text" 
-                        id="nome" 
-                        name= "nome"
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
                         value={voluntario?.nome || ''}
                         disabled
                     />
                 </div>
 
-                <div id="group-adocao2">
+                <div className='cadastroVoluntario-linha'>
+                    <div className="form-group">
+                        <label htmlFor="userName">Nome de Usuário</label>
+                        <input
+                            type="text"
+                            id="userName"
+                            name='userName'
+                            value={voluntario?.userName || ''}
+                            disabled
+                        />
+                    </div>
                     <div className="form-group">
                         <label htmlFor="cpf">CPF</label>
-                        <input 
-                            type="text" 
-                            id="cpf" 
+                        <input
+                            type="text"
+                            id="cpf"
                             name="cpf"
                             value={voluntario?.cpf || ''}
                             disabled
@@ -60,20 +70,30 @@ const Perfil = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="celular">Celular</label>
-                        <input 
-                            type="text" 
-                            id="celular-perfil" 
+                        <input
+                            type="text"
+                            id="celular-perfil"
                             name="phoneNumber"
                             value={voluntario?.phoneNumber || ''}
                             disabled
                         />
                     </div>
                 </div>
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        value={voluntario?.email || ''}
+                        disabled
+                    />
+                </div>
                 <div className="button-group-crud">
                     <div className="form-group">
                         <button className="btn-resetar-senha">
                             <Link to={`/alterar-senha/${user.usuarioId}`}>
-                            <img src={iconeSenha} alt="Ícone senha" className="icon" /> 
+                                <img src={iconeSenha} alt="Ícone senha" className="icon" />
                             </Link>
                             <span>alterar senha</span>
                         </button>
@@ -84,7 +104,7 @@ const Perfil = () => {
                             className="btn-sair"
                             onClick={() => console.log('Sair clicado')}
                         >
-                            <img src={iconeSair} alt="Ícone sair" className="icon" /> 
+                            <img src={iconeSair} alt="Ícone sair" className="icon" />
                             <span> Sair</span>
                         </button>
                     </div>

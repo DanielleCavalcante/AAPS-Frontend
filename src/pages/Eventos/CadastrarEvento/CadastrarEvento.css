@@ -37,10 +37,16 @@
     gap: 10px;
   }
   
-  #imput-codigo {
+ .cadastro-evento #codigo {
     width: 20%; /* Largura de 60% */
   }
 
-  #descricao, #status {
+  #descricao {
     width: 60%; /* Largura de 30% */
   }
+
+  .cadastro-evento #status {
+  width: 20%;
+}
+
+  
