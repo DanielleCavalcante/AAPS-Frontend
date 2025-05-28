@@ -5,7 +5,7 @@ import { useDoadores } from '../../../hooks/useDoadores';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import InputMask from 'react-input-mask';
 import { validarCPF } from '../../../utils/ValidaCPF';
-import { validarRG } from '../../../utils/ValidaRG';
+import { validarRG } from '../../../utils/validaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -107,6 +107,14 @@ const VisualizarDoador = () => {
             else {
                 // Enquanto não tiver 11 dígitos, não mostra erro
                 setErroCPF('');
+            }
+        }
+
+        if (name === 'numero') {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosDoador({ ...dadosDoador, [name]: '' });
+                return;
             }
         }
 

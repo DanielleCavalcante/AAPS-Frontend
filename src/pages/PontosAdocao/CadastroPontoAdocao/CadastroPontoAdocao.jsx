@@ -60,6 +60,14 @@ const CadastroPontoAdocao = () => {
             }
         }
 
+        if (id === "numero") {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosDoador({ ...dadosDoador, [id]: '' });
+                return;
+            }
+        }
+
         setDadosPontoAdocao({
             ...dadosPontoAdocao,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -327,7 +335,7 @@ const CadastroPontoAdocao = () => {
                             <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
                         )}
                     </div>
-                    
+
                     {/* {telefones.map((item, index) => (
                         <div key={index} className="telefone-group">
                             <input id='input-telefone'
@@ -438,14 +446,13 @@ const CadastroPontoAdocao = () => {
                     <div className="form-group">
                         <label>Número</label>
                         <input
+                            type="number"
                             id="numero"
                             name="numero"
-                            type="text"
                             value={dadosPontoAdocao.numero}
                             onChange={handleChange}
                             placeholder="Digite o nº da residência"
                         />
-
                         {(tentouEnviar && !dadosPontoAdocao.numero) && (
                             <span className="erro-required"> O campo 'Número' é obrigatório </span>
                         )}

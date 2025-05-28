@@ -92,6 +92,14 @@ const VisualizarPontoAdocao = () => {
             }
         }
 
+        if (name === "numero") {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosDoador({ ...dadosDoador, [name]: '' });
+                return;
+            }
+        }
+
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
