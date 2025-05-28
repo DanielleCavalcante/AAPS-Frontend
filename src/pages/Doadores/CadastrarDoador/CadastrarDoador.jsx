@@ -5,6 +5,7 @@ import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import { validarCPF } from '../../../utils/ValidaCPF';
+import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -37,10 +38,30 @@ const CadastroDoador = () => {
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const { buscarCep } = useBuscarCep();
     const [erroCPF, setErroCPF] = useState('');
+    const [erroRG, setErroRG] = useState('');
 
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        //Chama a validação do RG
+        if (id === 'rg') {
+            // Remove caracteres não numéricos
+            const rgLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 9 dígitos, faz a validação
+            if (rgLimpo.length === 9) {
+                if (!validarRG(rgLimpo)) {
+                    setErroRG('Eita! RG inválido');
+                } else {
+                    setErroRG('');
+                }
+            }
+            else {
+                // Enquanto não tiver 9 dígitos, não mostra erro
+                setErroRG('');
+            }
+        }
 
         //Chama a validação do CPF
         if (id === 'cpf') {
@@ -60,6 +81,7 @@ const CadastroDoador = () => {
                 setErroCPF('');
             }
         }
+
         setDadosDoador({
             ...dadosDoador,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -72,10 +94,16 @@ const CadastroDoador = () => {
         limparErro();
 
         const cpfLimpo = dadosDoador.cpf.replace(/[^\d]+/g, '');
-        const rgLimpo = dadosDoador.rg.replace(/[^\d]+/g, '');
+        const rgLimpo = dadosDoador.rg.replace(/[^0-9Xx]+/g, '');
         const cepLimpo = dadosDoador.cep.replace(/[^\d]+/g, '');
         const celularLimpo = dadosDoador.celular.replace(/[^\d]+/g, '');
         const contatoLimpo = dadosDoador.contato.replace(/[^\d]+/g, '');
+
+        if (!validarRG(rgLimpo)) {
+            setErroRG('Eita! RG inválido');
+            alert("RG invalido. Insira novamente");
+            return;
+        }
 
         if (!validarCPF(cpfLimpo)) {
             setErroCPF('Eita! CPF inválido');
@@ -215,7 +243,10 @@ const CadastroDoador = () => {
                         <label>RG</label>
                         <InputMask
                             mask="99.999.999-*"
-                            //ajeitar o último digito.
+                            formatChars={{
+                                '9': '[0-9]',
+                                '*': '[0-9Xx]'  // aqui o '*' aceita dígitos de 0 a 9 e também X ou x
+                            }}
                             value={dadosDoador.rg}
                             onChange={handleChange}
                             placeholder="__.___.___-_"
@@ -226,11 +257,11 @@ const CadastroDoador = () => {
                                     id="rg"
                                     name="rg"
                                     type="text"
-                                    className={erroCPF ? 'input-error' : ''}
+                                    className={erroRG ? 'input-error' : ''}
                                 />
                             )}
                         </InputMask>
-                         {/* {erroCPF && <span className="error">{erroCPF}</span>} */}
+                        {erroRG && <span className="error">{erroRG}</span>}
                         {(tentouEnviar && !dadosDoador.rg) && (
                             <span className="erro-required"> O campo 'RG' é obrigatório </span>
                         )}
@@ -253,7 +284,7 @@ const CadastroDoador = () => {
                                 />
                             )}
                         </InputMask>
-                         {erroCPF && <span className="error">{erroCPF}</span>}
+                        {erroCPF && <span className="error">{erroCPF}</span>}
                         {(tentouEnviar && !dadosDoador.cpf) && (
                             <span className="erro-required"> O campo 'CPF' é obrigatório </span>
                         )}

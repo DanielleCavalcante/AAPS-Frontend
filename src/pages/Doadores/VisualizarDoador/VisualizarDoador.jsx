@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-
+import InputMask from 'react-input-mask';
+import { validarCPF } from '../../../utils/ValidaCPF';
+import { validarRG } from '../../../utils/ValidaRG';
+import { validarNome } from '../../../utils/ValidaNome';
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -11,14 +14,24 @@ import './VisualizarDoador.css';
 
 const VisualizarDoador = () => {
     const { buscarDoadorPorId, atualizarDoador, erro, tratarErro, limparErro } = useDoadores();
-
+    const navigate = useNavigate();
     const { id } = useParams();
     const [doador, setDoador] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
-
+    const [erroCPF, setErroCPF] = useState('');
+    const [erroRG, setErroRG] = useState('');
+    const [showModal, setShowModal] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const { buscarCep } = useBuscarCep();
+
+    //Modais:
+    const openModal = () => setShowModal(true);
+    const closeModal = () => {
+        setEditando(false);
+        setShowModal(false);
+        navigate('/listar-doadores');
+    }
 
     useEffect(() => {
         buscarDoadorPorId(id)
@@ -35,8 +48,8 @@ const VisualizarDoador = () => {
 
     const handleBuscarCep = async () => {
         try {
-            const cepLimpo = formDados.cep.match(/\d{8}/)?.[0];
-
+            // const cepLimpo = formDados.cep.match(/\d{8}/)?.[0];
+            const cepLimpo = dadosDoador.cep.replace(/[^\d]+/g, '');
             const endereco = await buscarCep(cepLimpo);
 
             setFormDados((prev) => ({
@@ -58,6 +71,45 @@ const VisualizarDoador = () => {
         const { name, value } = e.target;
         const numericFields = 'status';
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+        //Chama a validação do RG
+        if (name === 'rg') {
+            // Remove caracteres não numéricos
+            const rgLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 9 dígitos, faz a validação
+            if (rgLimpo.length === 9) {
+                if (!validarRG(rgLimpo)) {
+                    setErroRG('Eita! RG inválido');
+                } else {
+                    setErroRG('');
+                }
+            }
+            else {
+                // Enquanto não tiver 9 dígitos, não mostra erro
+                setErroRG('');
+            }
+        }
+
+        //Chama a validação do CPF
+        if (name === 'cpf') {
+            // Remove caracteres não numéricos
+            const cpfLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 11 dígitos, faz a validação
+            if (cpfLimpo.length === 11) {
+                if (!validarCPF(cpfLimpo)) {
+                    setErroCPF('Eita! CPF inválido');
+                } else {
+                    setErroCPF('');
+                }
+            }
+            else {
+                // Enquanto não tiver 11 dígitos, não mostra erro
+                setErroCPF('');
+            }
+        }
+
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
@@ -104,13 +156,34 @@ const VisualizarDoador = () => {
             return;
         }
 
+        const cpfLimpo = formDados.cpf.replace(/[^\d]+/g, '');
+        const rgLimpo = formDados.rg.replace(/[^0-9Xx]+/g, '');
+        const cepLimpo = formDados.cep.replace(/[^\d]+/g, '');
+        const celularLimpo = formDados.celular.replace(/[^\d]+/g, '');
+        const contatoLimpo = formDados.contato.replace(/[^\d]+/g, '');
+
+        if (!validarRG(rgLimpo)) {
+            setErroRG('Eita! RG inválido');
+            alert("RG invalido. Insira novamente");
+            return;
+        }
+
+        if (!validarCPF(cpfLimpo)) {
+            setErroCPF('Eita! CPF inválido');
+            alert("CPF invalido. Insira novamente");
+            return;
+        }
+
         try {
+            formDados.cpf = cpfLimpo;
+            formDados.rg = rgLimpo;
+            formDados.cep = cepLimpo;
+            formDados.celular = celularLimpo;
+            formDados.contato = contatoLimpo;
             await atualizarDoador(id, formDados);
-            /* openModal(); */
+            openModal();
             // setEditando(false);
             // setTentouEnviar(false);
-            setEditando(false);
-            setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
         }
@@ -208,15 +281,20 @@ const VisualizarDoador = () => {
                 <div className="form-group">
                     <label>Nome</label>
                     <input
-                        id="nome"
-                        name="nome"
                         type="text"
+                        id="nome"
+                        name='nome'
+                        maxLength={50} //verificar tamanho maximo.
                         value={formDados?.nome || ''}
                         onChange={handleInputChange}
-                        placeholder="Digite o nome"
                         disabled={!editando}
+                        onKeyDown={(e) => {
+                            if (!validarNome(e.key) && e.key.length === 1) {
+                                e.preventDefault();
+                            }
+                        }}
+                        placeholder="Digite o nome"
                     />
-
                     {(tentouEnviar && !formDados.nome) && (
                         <span className="erro-required"> O campo 'Nome' é obrigatório </span>
                     )}
@@ -225,48 +303,78 @@ const VisualizarDoador = () => {
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
                         <label>RG</label>
-                        <input
-                            id="rg"
-                            name="rg"
-                            type="text"
-                            placeholder="Digite o RG"
+                        <InputMask
+                            mask="99.999.999-*"
+                            formatChars={{
+                                '9': '[0-9]',
+                                '*': '[0-9Xx]'  // aqui o '*' aceita dígitos de 0 a 9 e também X ou x
+                            }}
                             value={formDados?.rg || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
-
+                            placeholder="__.___.___-_"
+                            required>
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    id="rg"
+                                    name="rg"
+                                    type="text"
+                                    className={erroCPF ? 'input-error' : ''}
+                                    disabled={!editando}
+                                />
+                            )}
+                        </InputMask>
+                        {erroRG && <span className="error">{erroRG}</span>}
                         {(tentouEnviar && !formDados.rg) && (
                             <span className="erro-required"> O campo 'RG' é obrigatório </span>
                         )}
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
-                        <input
-                            id="cpf"
-                            name="cpf"
-                            type="text"
-                            placeholder="Digite o CPF"
+                        <InputMask
+                            mask="999.999.999-99"
                             value={formDados?.cpf || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
-
+                            placeholder="___.___.___-__"
+                            required>
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    id="cpf"
+                                    name="cpf"
+                                    type="text"
+                                    disabled={!editando}
+                                    className={erroCPF ? 'input-error' : ''}
+                                />
+                            )}
+                        </InputMask>
+                        {erroCPF && <span className="error">{erroCPF}</span>}
                         {(tentouEnviar && !formDados.cpf) && (
                             <span className="erro-required"> O campo 'CPF' é obrigatório </span>
                         )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input
-                            id="celular"
-                            name="celular"
-                            type="text"
-                            placeholder="Digite o celular com DDD"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={formDados?.celular || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
-
+                            placeholder="(__) _____-____"
+                            required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="celular"
+                                    name="celular"
+                                    disabled={!editando}
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !formDados.celular) && (
                             <span className="erro-required"> O campo 'Celular' é obrigatório </span>
                         )}
@@ -278,36 +386,49 @@ const VisualizarDoador = () => {
                         <label>Contato</label>
                         {/*   {telefones.map((item, index) => ( 
                         <div key={index} className="telefone-group"> */}
-
-                            <input id='contato'
-                                type="text"
-                                name="contato"
-                                placeholder="Contato para recados"
-                                value={formDados?.contato || ''}
-                                onChange={handleInputChange}
-                                disabled={!editando}
-                            />
-
-                            {(tentouEnviar && !formDados.contato) && (
-                                <span className="erro-required"> O campo 'Contato' é obrigatório </span>
+                        <InputMask
+                            mask="(99) 99999-9999"
+                            value={formDados?.contato || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                            placeholder="(__) _____-____"
+                            required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="contato"
+                                    name="contato"
+                                    disabled={!editando}
+                                />
                             )}
-                        </div>
+                        </InputMask>
+                        {(tentouEnviar && !formDados.contato) && (
+                            <span className="erro-required"> O campo 'Contato' é obrigatório </span>
+                        )}
+                    </div>
 
-                        <div className="form-group">
-                            <label>Responsável Contato</label>
-                            <input id='responsavel'
-                                type="text"
-                                name="responsavelContato"
-                                placeholder="Contato para recados"
-                                value={formDados?.responsavelContato || ''}
-                                onChange={handleInputChange}
-                                disabled={!editando}
-                            />
-
-                            {(tentouEnviar && !formDados.responsavelContato) && (
-                                <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
-                            )}
-                            {/* {telefones.length > 1 && (
+                    <div className="form-group">
+                        <label>Responsável Contato</label>
+                        <input
+                            type="text"
+                            id='responsavelContato'
+                            name="responsavelContato"
+                            maxLength={50} //verificar tamanho maximo.
+                            value={formDados?.responsavelContato || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
+                        />
+                        {(tentouEnviar && !formDados.responsavelContato) && (
+                            <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
+                        )}
+                        {/* {telefones.length > 1 && (
                             <button
                                 type="button"
                                 className="remove-btn-cad-doador"
@@ -316,24 +437,32 @@ const VisualizarDoador = () => {
                                 <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon-remove-cad-doador" />
                             </button>
                         )} */}
-                        </div>
-                   
+                    </div>
+
                 </div>
 
                 <div className="cadastroDoador-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input
-                            id="cep"
-                            name="cep"
-                            type="text"
-                            placeholder="Digite o CEP"
+                        <InputMask
+                            mask="99999-999"
                             value={formDados?.cep || ''}
                             onChange={handleInputChange}
                             onBlur={handleBuscarCep}
                             disabled={!editando}
-                        />
-
+                            placeholder="_____-___"
+                            required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="cep"
+                                    name="cep"
+                                    disabled={!editando}
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !formDados.cep) && (
                             <span className="erro-required"> O campo 'CEP' é obrigatório </span>
                         )}
@@ -442,12 +571,7 @@ const VisualizarDoador = () => {
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
                     ) : (
-                        <button
-                            type="submit"
-                            className="botao-alterar"
-                        > <BotaoSalvar />
-                        </button>
-                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                        <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     )}
                     <BotaoCancelar />
                 </div>

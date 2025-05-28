@@ -5,6 +5,7 @@ import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import { validarNome } from '../../../utils/ValidaNome';
+import { validarCNPJ } from '../../../utils/ValidaCNPJ';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -33,11 +34,32 @@ const CadastroPontoAdocao = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [erroCNPJ, setErroCNPJ] = useState('');
     const { buscarCep } = useBuscarCep();
 
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        //Chama a validação do CNPJ
+        if (id === 'cnpj') {
+            // Remove caracteres não numéricos
+            const cnpjLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 11 dígitos, faz a validação
+            if (cnpjLimpo.length === 14) {
+                if (!validarCNPJ(cnpjLimpo)) {
+                    setErroCNPJ('Eita! CNPJ inválido');
+                } else {
+                    setErroCNPJ('');
+                }
+            }
+            else {
+                // Enquanto não tiver 11 dígitos, não mostra erro
+                setErroCNPJ('');
+            }
+        }
+
         setDadosPontoAdocao({
             ...dadosPontoAdocao,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -48,7 +70,17 @@ const CadastroPontoAdocao = () => {
         event.preventDefault();
         setTentouEnviar(true);
         limparErro();
+
+        const cnpjLimpo = dadosPontoAdocao.cnpj.replace(/[^\d]+/g, '');
+
+        if (!validarCNPJ(cnpjLimpo)) {
+            setErroCNPJ('Eita! CNPJ inválido');
+            alert("CNPJ invalido. Insira novamente");
+            return;
+        }
+
         try {
+            dadosPontoAdocao.cnpj = cnpjLimpo;
             await criarPontoAdocao(dadosPontoAdocao);
             setDadosPontoAdocao({
                 nomeFantasia: '',
@@ -67,6 +99,7 @@ const CadastroPontoAdocao = () => {
                 status: 1
             });
             setTentouEnviar(false);
+            openModal();
         } catch (error) {
             tratarErro(error);
         }
@@ -149,7 +182,6 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.status}
                             onChange={handleChange}
                         >
-                            <option value="">Selecione</option>
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
                         </select>
@@ -176,7 +208,6 @@ const CadastroPontoAdocao = () => {
                         }}
                         placeholder="Digite a Razão Social"
                     />
-
                     {(tentouEnviar && !dadosPontoAdocao.nomeFantasia) && (
                         <span className="erro-required"> O campo 'Nome Fantasia' é obrigatório </span>
                     )}
@@ -190,7 +221,7 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.cnpj}
                             onChange={handleChange}
                             placeholder="__.___.___/____-__"
-                            required
+                            // required
                         >
                             {(inputProps) => (
                                 <input
@@ -201,8 +232,9 @@ const CadastroPontoAdocao = () => {
                                 />
                             )}
                         </InputMask>
+                        {erroCNPJ && <span className="error">{erroCNPJ}</span>}
                         {(tentouEnviar && !dadosPontoAdocao.cnpj) && (
-                            <span className="erro-required"> O campo 'Cnpj' é obrigatório </span>
+                            <span className="erro-required"> O campo 'CNPJ' é obrigatório </span>
                         )}
                     </div>
 
@@ -222,7 +254,6 @@ const CadastroPontoAdocao = () => {
                             }}
                             placeholder="Digite o Responsável"
                         />
-
                         {(tentouEnviar && !dadosPontoAdocao.responsavel) && (
                             <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
                         )}
@@ -234,7 +265,7 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.celular}
                             onChange={handleChange}
                             placeholder="(__) _____-____"
-                            required
+                            // required
                         >
                             {(inputProps) => (
                                 <input
@@ -259,7 +290,7 @@ const CadastroPontoAdocao = () => {
                             value={dadosPontoAdocao.contato}
                             onChange={handleChange}
                             placeholder="(__) _____-____"
-                            required
+                            // required
                         >
                             {(inputProps) => (
                                 <input
@@ -331,7 +362,7 @@ const CadastroPontoAdocao = () => {
                             onChange={handleChange}
                             onBlur={handleBuscarCep}
                             placeholder="_____-___"
-                            required
+                            // required
                         >
                             {(inputProps) => (
                                 <input
@@ -443,7 +474,7 @@ const CadastroPontoAdocao = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>

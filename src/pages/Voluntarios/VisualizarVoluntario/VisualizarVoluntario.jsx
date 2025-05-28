@@ -199,6 +199,7 @@ const VisualizarVoluntario = () => {
               value={formDados.cpf}
               onChange={handleInputChange}
               placeholder="___.___.___-__"
+              disabled={!editando}
             >
               {(inputProps) => (
                 <input
@@ -206,6 +207,7 @@ const VisualizarVoluntario = () => {
                   id="cpf"
                   name="cpf"
                   type="text"
+                  disabled={!editando}
                   className={erroCPF ? 'input-error' : ''}
                 />
               )}
@@ -231,6 +233,7 @@ const VisualizarVoluntario = () => {
                   type="text"
                   id="phoneNumber"
                   name="phoneNumber"
+                  disabled={!editando}
                 />
               )}
             </InputMask>
