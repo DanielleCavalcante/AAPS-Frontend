@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from "../../hooks/useAuth"; 
+import { useAuth } from "../../hooks/useAuth";
 
 import './Home.css';
 import Modal from '/src/components/Modal/Modal.jsx';
@@ -23,7 +23,7 @@ const Home = () => {
   const [showModal, setShowModal] = useState(false);
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
-      
+
   const handleSair = () => {
     console.log("Usuário saiu!");
     closeModal();
@@ -56,15 +56,17 @@ const Home = () => {
               </Link>
               <span>relatório</span>
             </button>
+
+            <button className="home-button">
+              <Link to='/listar-eventos'>
+                <img src={iconeEvento} alt="Ícone de evento" className="icon" />
+              </Link>
+              <span>evento</span>
+            </button>
           </>
         )}
 
-        <button className="home-button">
-          <Link to='/listar-eventos'>
-            <img src={iconeEvento} alt="Ícone de evento" className="icon" />
-          </Link>
-          <span>evento</span>
-        </button>
+
 
         <button className="home-button">
           <Link to='/listar-animais'>
@@ -96,12 +98,12 @@ const Home = () => {
       </div>
 
       <button className="home-button-perfil">
-          <Link to={`/perfil/${user.usuarioId}`}>
-            <img src={iconePerfil} alt="Ícone de perfil do usuario" className="icon" />
-          </Link>
-          <span>perfil</span>
-        </button>
-    
+        <Link to={`/perfil/${user.usuarioId}`}>
+          <img src={iconePerfil} alt="Ícone de perfil do usuario" className="icon" />
+        </Link>
+        <span>perfil</span>
+      </button>
+
       {showModal && (
         <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>
           <img src="/src/assets/icone_alerta.png" alt="Ícone de alerta" className="icon" />
