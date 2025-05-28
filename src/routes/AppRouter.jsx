@@ -38,6 +38,7 @@ import VisualizarVoluntario from '../pages/Voluntarios/VisualizarVoluntario/Visu
 import PontoAdocao from "../pages/PontosAdocao/ListarPontosAdocao/ListarPontosAdocao";
 import CadastroPontoAdocao from '../pages/PontosAdocao/CadastroPontoAdocao/CadastroPontoAdocao';
 import VisualizarPontoAdocao from '../pages/PontosAdocao/VisualizarPontoAdocao/VisualizarPontoAdocao';
+import Acompanhamento from '../pages/Acompanhamento/Acompanhamento';
 
 import ComingSoon from '../pages/EmBreve/ComingSoon/ComingSoon';
 
@@ -45,52 +46,55 @@ const AppRouter = () => {
     return (
         <AuthProvider>
             <Routes>
-                <Route path="/" element={<Login />}/>
-                <Route path="/esqueci-senha" element={<EsqueciSenha/>} />
-                <Route path="/esqueci-senha-celular" element={<EsqueciSenhaCodigo/>} />
-                <Route path="/redefinir-senha-celular" element={<RedefinirSenhaCodigo/>} />
-                <Route path="/esqueci-senha-admin" element={<EsqueciSenhaAdmin/>} />
-                <Route path="/digitar-senha-celular" element={<DigiteNovaSenhaCelular/>} />
+                <Route path="/" element={<Login />} />
+                <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+                <Route path="/esqueci-senha-celular" element={<EsqueciSenhaCodigo />} />
+                <Route path="/redefinir-senha-celular" element={<RedefinirSenhaCodigo />} />
+                <Route path="/esqueci-senha-admin" element={<EsqueciSenhaAdmin />} />
+                <Route path="/digitar-senha-celular" element={<DigiteNovaSenhaCelular />} />
 
-                <Route element={<Layout/>}>
-                    <Route element={<PrivateRoute/>}>
-                        <Route path="/home" element = {<Home/>} />
-                        <Route path="/listar-animais" element={<Animal/>} />
-                        <Route path="/cadastrar-animal" element={<CadastroAnimal/>} />
+                <Route element={<Layout />}>
+                    <Route element={<PrivateRoute />}>
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/listar-animais" element={<Animal />} />
+                        <Route path="/cadastrar-animal" element={<CadastroAnimal />} />
                         <Route path="/visualizar-animal/:id" element={<VisualizarAnimal />} />
 
-                        <Route path="/listar-doadores" element={<Doador/>} />
-                        <Route path="/cadastrar-doador" element={<CadastroDoador/>} />
-                        <Route path="/visualizar-doador/:id" element={<VisualizarDoador/>} />
+                        <Route path="/listar-doadores" element={<Doador />} />
+                        <Route path="/cadastrar-doador" element={<CadastroDoador />} />
+                        <Route path="/visualizar-doador/:id" element={<VisualizarDoador />} />
 
-                        <Route path="/listar-eventos" element={<Evento/>} />
-                        <Route path="/cadastrar-evento" element={<CadastroEvento/>} />
-                        <Route path="/visualizar-evento/:id" element={<VisualizarEvento/>} />
+                        <Route path="/listar-adotantes" element={<Adotante />} />
+                        <Route path="/cadastrar-adotante" element={<CadastroAdotante />} />
+                        <Route path="/visualizar-adotante/:id" element={<VisualizarAdotante />} />
 
-                        <Route path="/listar-adotantes" element={<Adotante/>} />
-                        <Route path="/cadastrar-adotante" element={<CadastroAdotante/>} />
-                        <Route path="/visualizar-adotante/:id" element={<VisualizarAdotante/>} />
+                        <Route path="/listar-adocoes" element={<Adocao />} />
+                        <Route path="/cadastrar-adocao" element={<CadastroAdocao />} />
+                        <Route path="/visualizar-adocao/:id" element={<VisualizarAdocao />} />
 
-                        <Route path="/listar-adocoes" element={<Adocao/>} />
-                        <Route path="/cadastrar-adocao" element={<CadastroAdocao/>} />
-                        <Route path="/visualizar-adocao/:id" element={<VisualizarAdocao/>} />
-                        
-                        <Route path="/perfil/:id" element={<Perfil/>} />
-                        <Route path="/alterar-senha/:id" element={<AlterarSenha/>} />
-                            
+                        <Route path="/perfil/:id" element={<Perfil />} />
+                        <Route path="/alterar-senha/:id" element={<AlterarSenha />} />
+
+                        <Route path="/acompanhamento" element={<Acompanhamento />} />
+
                         {/* Rotas de admin */}
                         <Route element={<PrivateRoute requiredRole="Admin" />} >
-                            <Route path="/listar-voluntarios" element={<Voluntario/>} />
-                            <Route path="/cadastrar-voluntario" element={<CadastroVoluntario/>}/>
-                            <Route path="/visualizar-voluntario/:id" element={<VisualizarVoluntario/>} />
-                            <Route path="/listar-pontos-adocao" element={<PontoAdocao/>} />
-                            <Route path="/cadastrar-ponto-adocao" element={<CadastroPontoAdocao/>} />
-                            <Route path="/visualizar-ponto-adocao/:id" element={<VisualizarPontoAdocao/>} />
+                            <Route path="/listar-voluntarios" element={<Voluntario />} />
+                            <Route path="/cadastrar-voluntario" element={<CadastroVoluntario />} />
+                            <Route path="/visualizar-voluntario/:id" element={<VisualizarVoluntario />} />
 
-                            <Route path="/relatorio" element={<Relatorio/>} />
+                            <Route path="/listar-pontos-adocao" element={<PontoAdocao />} />
+                            <Route path="/cadastrar-ponto-adocao" element={<CadastroPontoAdocao />} />
+                            <Route path="/visualizar-ponto-adocao/:id" element={<VisualizarPontoAdocao />} />
+
+                            <Route path="/listar-eventos" element={<Evento />} />
+                            <Route path="/cadastrar-evento" element={<CadastroEvento />} />
+                            <Route path="/visualizar-evento/:id" element={<VisualizarEvento />} />
+
+                            <Route path="/relatorio" element={<Relatorio />} />
                         </Route>
 
-                        <Route path="*" element={<ComingSoon />}/>
+                        <Route path="*" element={<ComingSoon />} />
                     </Route>
                 </Route>
             </Routes>

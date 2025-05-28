@@ -1,0 +1,46 @@
+.container-acompanhamento {
+    max-width: 90%;
+    max-height: 50%;
+    margin: 5%;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+#mes, #ano{
+    background-color: #009EE0;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 160px;
+    height: 40px;
+    cursor: pointer;
+    text-align: center;
+    font-size: 15px;
+}
+
+.dropdowns-relatorio {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* alinha botão e filtros */
+}
+
+.filtros {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-relatorio {
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #009EE0;
+    height: 40px;
+}
+
+ 
+ 

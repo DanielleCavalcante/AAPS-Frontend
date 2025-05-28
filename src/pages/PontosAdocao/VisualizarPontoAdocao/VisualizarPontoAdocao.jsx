@@ -236,7 +236,7 @@ const VisualizarPontoAdocao = () => {
                         )}
                     </div>
 
-                    <div className="form-group"> {/* Excluir esse campo */}
+                   {/* <div className="form-group">  Excluir esse campo 
                         <label>Responsável - Pode excluir Dani</label>
                         <input
                             id="responsavel"
@@ -250,7 +250,7 @@ const VisualizarPontoAdocao = () => {
                         {(tentouEnviar && !formDados.responsavel) && (
                             <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
                         )}
-                    </div>
+                    </div>*/}
                     <div className="form-group">
                         <label>Celular</label>
                         <input
@@ -289,6 +289,7 @@ const VisualizarPontoAdocao = () => {
                         </div>
 
                          <div className="form-group">
+                            <label>Responsável pelo contato</label>
                         <input id='responsavel'
                             type="text"
                             name="responsavelContato"

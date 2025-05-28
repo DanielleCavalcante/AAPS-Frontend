@@ -18,11 +18,11 @@ const VisualizaAnimal = () => {
     const [animal, setAnimal] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
-    const [doadores, setDoadores] = useState([]); 
+    const [doadores, setDoadores] = useState([]);
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => setShowModal(true);
-    
+
     const closeModal = () => {
         setEditando(false);
         setShowModal(false);
@@ -31,16 +31,16 @@ const VisualizaAnimal = () => {
     useEffect(() => {
         buscarAnimalPorId(id)
             .then((dados) => {
-            const dadosFormatados = {
-                ...dados,
-                status: Number(dados.status),
-                doadorId: Number(dados.doadorId),
-                disponibilidade: Number(dados.disponibilidade),
-                dataNascimento: dados.dataNascimento || '',
-                resgatado: dados.resgatado || false,
-            };
-            setAnimal(dadosFormatados);
-            setFormDados(dadosFormatados);
+                const dadosFormatados = {
+                    ...dados,
+                    status: Number(dados.status),
+                    doadorId: Number(dados.doadorId),
+                    disponibilidade: Number(dados.disponibilidade),
+                    dataNascimento: dados.dataNascimento || '',
+                    resgatado: dados.resgatado || false,
+                };
+                setAnimal(dadosFormatados);
+                setFormDados(dadosFormatados);
             })
             .catch(console.error);
 
@@ -77,7 +77,8 @@ const VisualizaAnimal = () => {
             console.error("Erro ao salvar:", error);
         }
     };
-    
+
+
     return (
         <div className="cadastro-container">
             <form className="cadastroAnimal-form" onSubmit={handleSubmit}>
@@ -87,38 +88,38 @@ const VisualizaAnimal = () => {
                         <input type="text" id="id" value={animal?.id || ''} disabled />
                     </div>
 
-                        <div className="form-group">
-                            <label htmlFor="disponibilidade">Disponibilidade</label>
-                            <select 
-                                id="disponibilidade" 
-                                name="disponibilidade"
-                                value={formDados?.disponibilidade}
-                                onChange={handleInputChange}
-                                disabled={!editando}
-                            >
-                                <option value={1}>Disponível</option>
-                                <option value={0}>Adotado</option>
-                            </select>
-                        </div>
+                    <div className="form-group">
+                        <label htmlFor="disponibilidade">Disponibilidade</label>
+                        <select
+                            id="disponibilidade"
+                            name="disponibilidade"
+                            value={formDados?.disponibilidade}
+                            onChange={handleInputChange}
+                            disabled={!editando}
+                        >
+                            <option value={1}>Disponível</option>
+                            <option value={0}>Adotado</option>
+                        </select>
+                    </div>
 
-                                            <div className="form-group">
+                    <div className="form-group">
                         <label htmlFor="status">Status</label>
-                        <select 
+                        <select
                             id="status"
                             name="status"
                             value={formDados?.status}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        >              
+                        >
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
                         </select>
-                        </div>
-                    
+                    </div>
+
                 </div>
                 <div className="form-group">
                     <label htmlFor="nome">Nome</label>
-                    <input 
+                    <input
                         type="text"
                         id="nome"
                         name="nome"
@@ -132,7 +133,7 @@ const VisualizaAnimal = () => {
                 <div id="group2">
                     <div className="form-group">
                         <label htmlFor="especie">Espécie</label>
-                        <input 
+                        <input
                             type="text"
                             id="especie"
                             name="especie"
@@ -145,7 +146,7 @@ const VisualizaAnimal = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
-                        <input 
+                        <input
                             type="text"
                             id="raca"
                             name="raca"
@@ -158,7 +159,7 @@ const VisualizaAnimal = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
-                        <input 
+                        <input
                             type="date"
                             id="dataNascimento"
                             name="dataNascimento"
@@ -171,7 +172,7 @@ const VisualizaAnimal = () => {
                 <div id='group3'>
                     <div className="form-group">
                         <label htmlFor="pelagem">Pelagem</label>
-                        <input 
+                        <input
                             type="text"
                             id="pelagem"
                             name="pelagem"
@@ -184,7 +185,7 @@ const VisualizaAnimal = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo</label>
-                        <select 
+                        <select
                             id="sexo"
                             name="sexo"
                             value={formDados?.sexo || ''}
@@ -215,7 +216,7 @@ const VisualizaAnimal = () => {
                 <div className='group-adocao'>
                     <div className="form-group">
                         <label htmlFor="doadorId">Código Doador</label>
-                        <input 
+                        <input
                             type="number"
                             id="doadorId"
                             name="doadorId"
@@ -244,23 +245,25 @@ const VisualizaAnimal = () => {
 
                 <div id="group3">
                     <div className="form-group">
-                        <button type="button" className="acompanhamento">
-                            <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
-                            Acompanhamento
+                        <button className="home-button">
+                            <Link to='/acompanhamento'>
+                                <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
+                            </Link>
+                            <span>Acompanhamento</span>
                         </button>
                     </div>
                     <div className="button-group-crud">
 
-                    {!editando ? (
-                        <BotaoAlterar onClick={() => setEditando(true)}/> //disabled={editando}
-                    ) : (
-                        <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
-                    )}
+                        {!editando ? (
+                            <BotaoAlterar onClick={() => setEditando(true)} /> //disabled={editando}
+                        ) : (
+                            <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                        )}
                         <BotaoCancelar />
                     </div>
                 </div>
             </form >
-        </div > 
+        </div >
     );
 }
 
