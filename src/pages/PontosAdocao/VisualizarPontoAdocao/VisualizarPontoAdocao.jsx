@@ -360,6 +360,7 @@ const VisualizarPontoAdocao = () => {
                                     e.preventDefault();
                                 }
                             }}
+                            placeholder="Digite o Responsável"
                         />
                         {(tentouEnviar && !formDados.responsavelContato) && (
                             <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
