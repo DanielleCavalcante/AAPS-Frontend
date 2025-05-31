@@ -14,17 +14,19 @@ export const AuthProvider = ({ children }) => {
     const role = localStorage.getItem("role");
     const expiration = localStorage.getItem("expiration");
     const usuarioId = localStorage.getItem("usuarioId");
+    const nomeUsuario = localStorage.getItem("nomeUsuario");
 
-    if (token && role && expiration && usuarioId ) {
+    if (token && role && expiration && usuarioId && nomeUsuario) {
       const expirationDate = new Date(expiration);
 
       if (expirationDate > new Date()) {
-        setUser({ token, role, expiration, usuarioId });
+        setUser({ token, role, expiration, usuarioId, nomeUsuario });
       } else {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
         localStorage.removeItem("expiration");
         localStorage.removeItem("usuarioId");
+        localStorage.removeItem("nomeUsuario");
         setUser(null);
         navigate("/");
       }
@@ -41,15 +43,16 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (credentials) => {
     try {
-      const { token, role, expiration, usuarioId } = await loginService(credentials);
+      const { token, role, expiration, usuarioId, nomeUsuario } = await loginService(credentials);
 
-      if (token && role && expiration && usuarioId) {
+      if (token && role && expiration && usuarioId && nomeUsuario) {
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
         localStorage.setItem("expiration", expiration);
         localStorage.setItem("usuarioId", usuarioId);
+        localStorage.setItem("nomeUsuario", nomeUsuario);
 
-        setUser({ token, role, expiration, usuarioId });
+        setUser({ token, role, expiration, usuarioId, nomeUsuario });
         navigate("/home");
       } else {
         throw new Error("Dados inválidos do login.");
@@ -70,6 +73,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("role");
     localStorage.removeItem("expiration");
     localStorage.removeItem("usuarioId");
+    localStorage.removeItem("nomeUsuario");
     setUser(null);
     navigate("/");
   };

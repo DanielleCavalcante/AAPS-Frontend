@@ -66,8 +66,6 @@ const Home = () => {
           </>
         )}
 
-
-
         <button className="home-button">
           <Link to='/listar-animais'>
             <img src={iconeAnimal} alt="Ícone de animal" className="icon" />

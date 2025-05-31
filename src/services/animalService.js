@@ -11,6 +11,11 @@ export const AnimalService = {
     return response.data.dados;
   },
 
+  async listarAnimaisAtivos() {
+    const response = await api.get('/Animal/ObterAnimaisAtivos');
+    return response.data.dados;
+  },
+
   async buscarAnimalPorId (id){
     const response = await api.get(`/Animal/ObterAnimalPorId/${id}`);
     return response.data.dados;

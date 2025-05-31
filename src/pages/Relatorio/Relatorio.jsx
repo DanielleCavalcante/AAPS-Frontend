@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
+import { useRelatorios } from '../../hooks/useRelatorios';
 import './Relatorio.css';
 
 const Relatorio = () => {
-  const [dataInicio, setDataInicio] = useState('');
-  const [dataFim, setDataFim] = useState('');
+  const { gerarRelatorioExcel, gerarRelatorioPdf } = useRelatorios();
+  const [filtro, setFiltro] = useState({ dataInicio: '', dataFim: '' });
+  const [carregando, setCarregando] = useState(false);
 
-  const handleGerarRelatorio = () => {
-    console.log('Data início:', dataInicio);
-    console.log('Data final:', dataFim);
-    // Aqui você pode adicionar a lógica para gerar o relatório
+  const handleSubmitRelatorio = async (gerador) => {
+    try {
+      setCarregando(true);
+      await gerador(filtro);
+      setFiltro({ dataInicio: '', dataFim: '' });
+    } catch (error) {
+      console.error('Erro ao gerar relatório:', error);
+    } finally {
+      setCarregando(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    setFiltro({
+      ...filtro,
+      [e.target.name]: e.target.value
+    });
   };
 
   return (
@@ -19,9 +34,11 @@ const Relatorio = () => {
             <label htmlFor="data-inicio">Data Início</label>
             <input
               type="date"
-              id="data-inicio"
-              value={dataInicio}
-              onChange={(e) => setDataInicio(e.target.value)}
+              id="dataInicio"
+              name="dataInicio"
+              value={filtro.dataInicio}
+              onChange={handleChange}
+              disabled={carregando}
             />
           </div>
 
@@ -29,15 +46,31 @@ const Relatorio = () => {
             <label htmlFor="data-fim">Data Final</label>
             <input
               type="date"
-              id="data-fim"
-              value={dataFim}
-              onChange={(e) => setDataFim(e.target.value)}
+              id="dataFim"
+              name="dataFim"
+              value={filtro.dataFim}
+              onChange={handleChange}
+              disabled={carregando}
             />
           </div>
         </div>
 
-        <button type="button" className="btn-relatorio" onClick={handleGerarRelatorio}>
-          Gerar Relatório
+        <button 
+          type="button" 
+          className="btn-relatorio" 
+          onClick={() => handleSubmitRelatorio(gerarRelatorioExcel)}
+          disabled={carregando}
+        >
+          {carregando ? 'Gerando...' : 'Gerar Relatório Excel'}
+        </button>
+
+        <button 
+          type="button" 
+          className="btn-relatorio" 
+          onClick={() => handleSubmitRelatorio(gerarRelatorioPdf)}
+          disabled={carregando}
+        >
+          {carregando ? 'Gerando...' : 'Gerar Relatório Pdf'}
         </button>
       </div>
     </div>

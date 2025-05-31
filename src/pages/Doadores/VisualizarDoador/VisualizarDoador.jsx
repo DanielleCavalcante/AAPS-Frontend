@@ -49,7 +49,7 @@ const VisualizarDoador = () => {
     const handleBuscarCep = async () => {
         try {
             // const cepLimpo = formDados.cep.match(/\d{8}/)?.[0];
-            const cepLimpo = dadosDoador.cep.replace(/[^\d]+/g, '');
+            const cepLimpo = formDados.cep.replace(/[^\d]+/g, '');
             const endereco = await buscarCep(cepLimpo);
 
             setFormDados((prev) => ({
@@ -127,42 +127,18 @@ const VisualizarDoador = () => {
         setTentouEnviar(true);
         limparErro();
 
-        if (!formDados.nome?.trim()) {
-            return;
-        }
-        if (!formDados.rg?.trim()) {
-            return;
-        }
-        if (!formDados.cpf?.trim()) {
-            return;
-        }
-        if (!formDados.celular?.trim()) {
-            return;
-        }
-        if (!formDados.responsavelContato?.trim()) {
-            return;
-        }
-        if (!formDados.contato?.trim()) {
-            return;
-        }
-        if (!formDados.cep?.trim()) {
-            return;
-        }
-        if (!formDados.cidade?.trim()) {
-            return;
-        }
-        if (!formDados.uf?.trim()) {
-            return;
-        }
-        if (!formDados.logradouro?.trim()) {
-            return;
-        }
-        if (!formDados.numero || Number(formDados.numero) <= 0) {
-            return;
-        }
-        if (!formDados.bairro?.trim()) {
-            return;
-        }
+        if (!formDados.nome?.trim()) return;
+        if (!formDados.rg?.trim()) return;
+        if (!formDados.cpf?.trim()) return;
+        if (!formDados.celular?.trim()) return;
+        if (!formDados.responsavelContato?.trim()) return;
+        if (!formDados.contato?.trim()) return;
+        if (!formDados.cep?.trim()) return;
+        if (!formDados.cidade?.trim()) return;
+        if (!formDados.uf?.trim()) return;
+        if (!formDados.logradouro?.trim()) return;
+        if (!formDados.numero || Number(formDados.numero) <= 0) return;
+        if (!formDados.bairro?.trim()) return;
 
         const cpfLimpo = formDados.cpf.replace(/[^\d]+/g, '');
         const rgLimpo = formDados.rg.replace(/[^0-9Xx]+/g, '');
@@ -459,7 +435,7 @@ const VisualizarDoador = () => {
                             onBlur={handleBuscarCep}
                             disabled={!editando}
                             placeholder="_____-___"
-                            required
+                            /* required */
                         >
                             {(inputProps) => (
                                 <input
@@ -484,7 +460,7 @@ const VisualizarDoador = () => {
                             placeholder="Digite a cidade"
                             value={formDados?.cidade || ''}
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            /* disabled={!editando} */
                         />
 
                         {(tentouEnviar && !formDados.cidade) && (

@@ -18,6 +18,7 @@ const Evento = () => {
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
+    
     const [showModalExcluir, setShowModalExcluir] = useState(false);
     const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
     const [idParaExcluir, setIdParaExcluir] = useState(null);

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-import { useNavigate } from 'react-router-dom';
+
 import InputMask from 'react-input-mask';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarCNPJ } from '../../../utils/ValidaCNPJ';

@@ -45,7 +45,7 @@ const VisualizarAdotante = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); 
 
-        setTentouEnviar(true); 
+        setTentouEnviar(true);
 
         limparErro();
 
@@ -238,6 +238,9 @@ const VisualizarAdotante = () => {
                         onChange={handleInputChange}
                         disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroAdotante-linha1'>
@@ -252,6 +255,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.rg) && (
+                            <span className="erro-required"> O campo 'RG' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
@@ -264,6 +270,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cpf) && (
+                            <span className="erro-required"> O campo 'CPF' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
@@ -276,6 +285,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.celular) && (
+                            <span className="erro-required"> O campo 'Celular' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -291,6 +303,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.contato) && (
+                            <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Responsável Contato</label>
@@ -303,7 +318,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
-
+                        {(tentouEnviar && !formDados.responsavelContato) && (
+                            <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -318,6 +335,9 @@ const VisualizarAdotante = () => {
                         onChange={handleInputChange}
                         disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.email) && (
+                        <span className="erro-required"> O campo 'E-mail' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className="form-group">
@@ -331,6 +351,9 @@ const VisualizarAdotante = () => {
                         onChange={handleInputChange}
                         disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.localTrabalho) && (
+                        <span className="erro-required"> O campo 'Local de Trabalho' é obrigatório </span>
+                    )}
                 </div>
 
                 {/*<div className="radio-group">
@@ -393,6 +416,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cep) && (
+                            <span className="erro-required"> O campo 'CEP' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
@@ -405,6 +431,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
@@ -417,6 +446,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -431,6 +463,9 @@ const VisualizarAdotante = () => {
                         onChange={handleInputChange}
                         disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.logradouro) && (
+                        <span className="erro-required"> O campo 'Endereço' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroAdotante-linha1'>
@@ -445,6 +480,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.numero) && (
+                            <span className="erro-required"> O campo 'Número' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
@@ -469,6 +507,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.bairro) && (
+                            <span className="erro-required"> O campo 'Bairro' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -483,6 +524,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.facebook) && (
+                            <span className="erro-required"> O campo 'Facebook' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="instagram">Instagram</label>
@@ -494,6 +538,9 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.instagram) && (
+                            <span className="erro-required"> O campo 'Instagram' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 

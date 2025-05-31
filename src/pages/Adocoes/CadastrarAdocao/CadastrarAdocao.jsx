@@ -3,15 +3,18 @@ import React, { useState, useEffect } from 'react';
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useAdotantes } from '../../../hooks/useAdotantes';
 import { useAnimais } from '../../../hooks/useAnimais';
-import { useVoluntarios } from '../../../hooks/useVoluntarios';
+
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
+import { useAuth } from '../../../hooks/useAuth';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
 import './CadastrarAdocao.css';
+import { use } from 'react';
 
 const CadastroAdocao = () => {
+    const { user } = useAuth();
     const { criarAdocao, erro, tratarErro, limparErro } = useAdocoes();
     const [dadosAdocao, setDadosAdocao] = useState({
         data: '',
@@ -29,6 +32,7 @@ const CadastroAdocao = () => {
         doadorId: '',
         nomeDoador: '',
         telefoneDoador: '',
+        voluntarioId: user.usuarioId,
         nomeVoluntario: '',
         nomePontoAdocao: '',
         pontoAdocaoId: ''
@@ -42,9 +46,6 @@ const CadastroAdocao = () => {
     const { listarAnimaisAtivos } = useAnimais();
     const [animais, setAnimais] = useState([]);
 
-    const { listarVoluntariosAtivos } = useVoluntarios();
-    const [voluntarios, setVoluntarios] = useState([]);
-
     const { listarPontosAdocaoAtivos } = usePontosAdocao();
     const [pontosAdocao, setPontosAdocao] = useState([]);
 
@@ -57,17 +58,12 @@ const CadastroAdocao = () => {
             const animaisData = await listarAnimaisAtivos();
             setAnimais(animaisData);
         };
-        const fetchVoluntarios = async () => {
-            const voluntariosData = await listarVoluntariosAtivos();
-            setVoluntarios(voluntariosData);
-        };
         const fetchPontosAdocao = async () => {
             const pontosAdocaoData = await listarPontosAdocaoAtivos();
-            setVoluntarios(pontosAdocaoData);
+            setPontosAdocao(pontosAdocaoData);
         };
         fetchAdotantes();
         fetchAnimais();
-        fetchVoluntarios();
         fetchPontosAdocao();
     }, []);
 
@@ -90,7 +86,7 @@ const CadastroAdocao = () => {
                     nomeAdotante: adotanteSelecionado.nome ? adotanteSelecionado.nome : '',
                     cpf: adotanteSelecionado.cpf ? adotanteSelecionado.cpf : '',
                     rg: adotanteSelecionado.rg ? adotanteSelecionado.rg : '',
-                    telefoneAdotante: adotanteSelecionado.telefones ? adotanteSelecionado.telefones : '' // VER COMO LISTA DEPOIS
+                    telefoneAdotante: adotanteSelecionado.celular ? adotanteSelecionado.celular : ''
                 }));
             }
         }
@@ -101,13 +97,13 @@ const CadastroAdocao = () => {
                 setDadosAdocao(prevState => ({
                     ...prevState,
                     nomeAnimal: animalSelecionado.nome ? animalSelecionado.nome : '',
-                    especie: animalSelecionado ? animalSelecionado.especie : '',
-                    idade: animalSelecionado ? animalSelecionado.dataNascimento : '',
-                    sexo: animalSelecionado ? animalSelecionado.sexo : '',
-                    pelagem: animalSelecionado ? animalSelecionado.pelagem : '',
-                    doadorId: animalSelecionado ? animalSelecionado.doadorId : '',
-                    nomeDoador: animalSelecionado ? animalSelecionado.nomeDoador : '',
-                    telefoneDoador: animalSelecionado ? animalSelecionado.telefones : '',
+                    especie: animalSelecionado.especie ? animalSelecionado.especie : '',
+                    idade: animalSelecionado.dataNascimento ? animalSelecionado.dataNascimento : '',
+                    sexo: animalSelecionado.sexo ? animalSelecionado.sexo : '',
+                    pelagem: animalSelecionado.pelagem ? animalSelecionado.pelagem : '',
+                    doadorId: animalSelecionado.doadorId ? animalSelecionado.doadorId : '',
+                    nomeDoador: animalSelecionado.nomeDoador ? animalSelecionado.nomeDoador : '',
+                    telefoneDoador: animalSelecionado.telefoneDoador ? animalSelecionado.telefoneDoador : '',
                 }));
             }
         }
@@ -126,41 +122,43 @@ const CadastroAdocao = () => {
     const handleAdotanteChange = (e) => {
         const adotanteId = e.target.value;
         const adotanteSelecionado = adotantes.find(a => a.id === Number(adotanteId));
+
         setDadosAdocao({
             ...dadosAdocao,
             adotanteId,
-            nomeAdotante: adotanteSelecionado ? adotanteSelecionado.nome : '',
+            nomeAdotante: adotanteSelecionado.nome ? adotanteSelecionado.nome : '',
             cpf: adotanteSelecionado.cpf ? adotanteSelecionado.cpf : '',
             rg: adotanteSelecionado.rg ? adotanteSelecionado.rg : '',
-            telefoneAdotante: adotanteSelecionado.telefones ? adotanteSelecionado.telefones : ''
+            telefoneAdotante: adotanteSelecionado.celular ? adotanteSelecionado.celular : ''
         });
     };
 
     const handleAnimalChange = (e) => {
         const animalId = e.target.value;
         const animalSelecionado = animais.find(a => a.id === Number(animalId));
+
         setDadosAdocao({
             ...dadosAdocao,
             animalId,
-            nomeAnimal: animalSelecionado ? animalSelecionado.nome : '',
-            especie: animalSelecionado ? animalSelecionado.especie : '',
-            idade: animalSelecionado ? animalSelecionado.dataNascimento : '',
-            sexo: animalSelecionado ? animalSelecionado.sexo : '',
-            pelagem: animalSelecionado ? animalSelecionado.pelagem : '',
-            doadorId: animalSelecionado ? animalSelecionado.doadorId : '',
-            nomeDoador: animalSelecionado ? animalSelecionado.nomeDoador : '',
-            telefoneDoador: animalSelecionado ? animalSelecionado.telefones : '',
+            nomeAnimal: animalSelecionado.nomeAnimal ? animalSelecionado.nomeAnimal : '',
+            especie: animalSelecionado.especie ? animalSelecionado.especie : '',
+            idade: animalSelecionado.dataNascimento ? animalSelecionado.dataNascimento : '',
+            sexo: animalSelecionado.sexo ? animalSelecionado.sexo : '',
+            pelagem: animalSelecionado.pelagem ? animalSelecionado.pelagem : '',
+            doadorId: animalSelecionado.doadorId ? animalSelecionado.doadorId : '',
+            nomeDoador: animalSelecionado.nomeDoador ? animalSelecionado.nomeDoador : '',
+            telefoneDoador: animalSelecionado.telefoneDoador ? animalSelecionado.telefoneDoador : '',
         });
     };
 
-    const handleVoluntarioChange = (e) => {
+/*     const handleVoluntarioChange = (e) => {
         const voluntarioId = e.target.value;
         const voluntarioSelecionado = voluntarios.find(v => v.id === Number(voluntarioId));
         setDadosAdocao({
             ...dadosAdocao,
             nomeVoluntario: voluntarioSelecionado ? voluntarioSelecionado.nome : ''
         });
-    };
+    }; */
 
     const handlePontoAdocaoChange = (e) => {
         const pontoAdocaoId = e.target.value;
@@ -168,7 +166,7 @@ const CadastroAdocao = () => {
         setDadosAdocao({
             ...dadosAdocao,
             pontoAdocaoId,
-            nomePontoAdocao: pontoSelecionado ? pontoSelecionado.nome : ''
+            nomePontoAdocao: pontoSelecionado.nomePontoAdocao ? pontoSelecionado.nomePontoAdocao : ''
         });
     };
 
@@ -194,7 +192,6 @@ const CadastroAdocao = () => {
                 doadorId: '',
                 nomeDoador: '',
                 telefoneDoador: '',
-                nomeVoluntario: '',
                 nomePontoAdocao: '',
                 pontoAdocaoId: ''
             });
@@ -256,7 +253,6 @@ const CadastroAdocao = () => {
                             onChange={handleChange}
                             placeholder="Digite a data da adoção"
                         />
-
                         {(tentouEnviar && !dadosAdocao.data) && (
                             <span className="erro-required"> O campo 'Data' é obrigatório </span>
                         )}
@@ -264,7 +260,12 @@ const CadastroAdocao = () => {
 
                     <div className="form-group">
                         <label htmlFor="nomeVoluntario">Voluntário</label>
-                        <select
+                        <input
+                            type="text"
+                            value={ user.nomeUsuario }
+                            disabled
+                        />
+                        {/* <select
                             type="text"
                             id="nomeVoluntario"
                             value={dadosAdocao.voluntarioId}
@@ -276,11 +277,7 @@ const CadastroAdocao = () => {
                                     {vol.nome}
                                 </option>
                             ))}
-                        </select>
-
-                        {(tentouEnviar && !dadosAdocao.data) && (
-                            <span className="erro-required"> É obrigatório informar um adotante </span>
-                        )}
+                        </select> */}
                     </div>
                 </div>
 
@@ -294,7 +291,7 @@ const CadastroAdocao = () => {
                             value={dadosAdocao.adotanteId}
                             onChange={handleChange}
                         />
-                        {(tentouEnviar && !dadosAdocao.data) && (
+                        {(tentouEnviar && !dadosAdocao.adotanteId) && (
                             <span className="erro-required"> É obrigatório informar um adotante </span>
                         )}
                     </div>
@@ -313,8 +310,7 @@ const CadastroAdocao = () => {
                                 </option>
                             ))}
                         </select>
-
-                        {(tentouEnviar && !dadosAdocao.data) && (
+                        {(tentouEnviar && !dadosAdocao.nomeAdotante) && (
                             <span className="erro-required"> É obrigatório informar um adotante </span>
                         )}
                     </div>
@@ -329,12 +325,8 @@ const CadastroAdocao = () => {
                             name="rg"
                             value={dadosAdocao.rg}
                             onChange={handleAdotanteChange}
-                            placeholder="Digite o RG"
+                            disabled
                         />
-
-                        {(tentouEnviar && !dadosAdocao.data) && (
-                            <span className="erro-required"> O campo 'RG' é obrigatório </span>
-                        )}
                     </div>
 
                     <div className="form-group">
@@ -345,27 +337,20 @@ const CadastroAdocao = () => {
                             name="cpf"
                             value={dadosAdocao.cpf}
                             onChange={handleAdotanteChange}
-                            placeholder="Digite o CPF"
+                            disabled
                         />
-
-                        {(tentouEnviar && !dadosAdocao.data) && (
-                            <span className="erro-required"> O campo 'CPF' é obrigatório </span>
-                        )}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="telefoneAdotante" >Celular</label>
                         <input
-                            id="celular"
-                            name="celular"
+                            id="telefoneAdotante"
+                            name="telefoneAdotante"
                             type="text"
-                            value={dadosAdocao.telefoneAdotante[0] || ''}
+                            value={dadosAdocao.telefoneAdotante || ''}
                             onChange={handleAdotanteChange}
-                            placeholder="Digite o celular com DDD" />
-
-                        {(tentouEnviar && !dadosAdocao.data) && (
-                            <span className="erro-required"> O campo 'Celular' é obrigatório </span>
-                        )}
+                            disabled
+                        />
                     </div>
                 </div>
 
@@ -379,8 +364,7 @@ const CadastroAdocao = () => {
                             value={dadosAdocao.animalId}
                             onChange={handleChange}
                         />
-
-                        {(tentouEnviar && !dadosAdocao.data) && (
+                        {(tentouEnviar && !dadosAdocao.animalId) && (
                             <span className="erro-required"> É obrigatório informar um animal </span>
                         )}
                     </div>
@@ -388,6 +372,7 @@ const CadastroAdocao = () => {
                         <label htmlFor="nomeAnimal">Nome animal</label>
                         <select
                             id="nomeAnimal"
+                            name='nomeAnimal'
                             value={dadosAdocao.animalId}
                             onChange={handleAnimalChange}
                         >
@@ -398,7 +383,7 @@ const CadastroAdocao = () => {
                                 </option>
                             ))}
                         </select>
-                        {(tentouEnviar && !dadosAdocao.data) && (
+                        {(tentouEnviar && !dadosAdocao.nomeAnimal) && (
                             <span className="erro-required"> É obrigatório informar um animal </span>
                         )}
                     </div>
@@ -415,10 +400,6 @@ const CadastroAdocao = () => {
                             onChange={handleAnimalChange}
                             disabled
                         />
-
-                        {(tentouEnviar && !dadosAdocao.data) && (
-                            <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
-                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="idade">Idade</label>
@@ -426,7 +407,22 @@ const CadastroAdocao = () => {
                             type="text"
                             id="idade"
                             name="idade"
-                            value={new Date().getFullYear() - new Date(dadosAdocao.idade).getFullYear()}
+                            value={
+                                dadosAdocao.idade
+                                    ? (() => {
+                                        const nascimento = new Date(dadosAdocao.idade);
+                                        const hoje = new Date();
+                                        let idade = hoje.getFullYear() - nascimento.getFullYear();
+                                        const m = hoje.getMonth() - nascimento.getMonth();
+                                        if (m < 0 || (m === 0 && hoje.getDate() < nascimento.getDate())) {
+                                            idade--;
+                                        }
+                                        if (isNaN(idade) || idade < 0) return '';
+                                        return idade + (idade === 1 ? ' ano' : ' anos');
+                                    })()
+                                    : ''
+                            }
+                            /* value={new Date().getFullYear() - new Date(dadosAdocao.idade).getFullYear()} */
                             onChange={handleAnimalChange}
                             disabled
                         />
@@ -440,7 +436,7 @@ const CadastroAdocao = () => {
                             onChange={handleAnimalChange}
                             disabled
                         >
-                            <option value="">Selecione</option>
+                            <option value=""></option>
                             <option value="F">Fêmea</option>
                             <option value="M">Macho</option>
                         </select>
@@ -466,7 +462,8 @@ const CadastroAdocao = () => {
                             id="doadorId"
                             name="doadorId"
                             value={dadosAdocao.doadorId}
-                            onChange={handleAnimalChange}
+                            onChange={handleChange}
+                            disabled
                         />
                     </div>
                     <div className="form-group">
@@ -475,11 +472,12 @@ const CadastroAdocao = () => {
                             id="nomeDoador"
                             value={dadosAdocao.doadorId}
                             onChange={handleAnimalChange}
+                            disabled
                         >
-                            <option value="">Selecione um doador</option>
-                            {animais.map(animais => (
-                                <option key={animais.id} value={animais.doadorId}>
-                                    {animais.nomeDoador}
+                            <option value=""></option>
+                            {animais.map(animal => (
+                                <option key={animal.doadorId} value={animal.doadorId}>
+                                    {animal.nomeDoador}
                                 </option>
                             ))}
                         </select>
@@ -488,33 +486,50 @@ const CadastroAdocao = () => {
                         <label htmlFor="telefoneDoador">Telefone doador</label>
                         <input
                             type="text"
-                            id="telefones"
-                            name="telefones"
+                            id="telefoneDoador"
+                            name="telefoneDoador"
                             value={dadosAdocao.telefoneDoador || ''}
                             onChange={handleAnimalChange}
+                            disabled
                         />
                     </div>
                 </div>
 
-
-
                 <div id="group-adocao2">
                     <div className="form-group">
                         <label htmlFor="codlocal">Código local</label>
-                        <select id="codlocal" name="codlocal">
-                            <option value="1">local01</option>
-                            <option value="2">local02</option>
-                        </select>
+                        <input
+                            type="number"
+                            id="pontoAdocaoId"
+                            name="pontoAdocaoId"
+                            value={dadosAdocao.pontoAdocaoId}
+                            onChange={handleChange}
+                            disabled
+                        />
+                        {(tentouEnviar && !dadosAdocao.pontoAdocaoId) && (
+                            <span className="erro-required"> É obrigatório informar um local de adoção </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomelocaladocao">Nome local de adoção</label>
-                        <select id="nomelocaladocao" name="nomelocaladocao">
-                            <option value="1">local01</option>
-                            <option value="2">local02</option>
+                        <select 
+                            id="nomePontoAdocao"
+                            name="nomePontoAdocao"
+                            value={dadosAdocao.pontoAdocaoId}
+                            onChange={handlePontoAdocaoChange}
+                        >
+                            <option value="">Selecione um ponto de adoção</option>
+                            {pontosAdocao.map(ponto => (
+                                <option key={ponto.id} value={ponto.id}>
+                                    {ponto.nomeFantasia}
+                                </option>
+                            ))}
                         </select>
+                        {(tentouEnviar && !dadosAdocao.nomePontoAdocao) && (
+                            <span className="erro-required"> É obrigatório informar um local de adoção </span>
+                        )}
                     </div>
                 </div>
-
 
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
