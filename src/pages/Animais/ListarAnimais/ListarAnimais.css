@@ -136,7 +136,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px; /* espaço entre os botões */
+    gap: 8px; /* espaço entre os botões */
   }
 
 /* .view-button {
