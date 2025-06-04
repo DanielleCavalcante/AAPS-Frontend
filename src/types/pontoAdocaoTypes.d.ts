@@ -1,7 +1,6 @@
 export interface Adotante {
     id: number;
     nomeFantasia: string;
-    responsavel: string;
     cnpj: string;
     status: 1 | 0;
 

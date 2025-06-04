@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-import { useNavigate } from 'react-router-dom';
+
 import InputMask from 'react-input-mask';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarCNPJ } from '../../../utils/ValidaCNPJ';
@@ -92,6 +93,14 @@ const VisualizarPontoAdocao = () => {
             }
         }
 
+        if (name === "numero") {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setPontoAdocao({ ...formDados, [name]: '' });
+                return;
+            }
+        }
+
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
@@ -104,9 +113,6 @@ const VisualizarPontoAdocao = () => {
             return;
         }
         if (!formDados.cnpj?.trim()) {
-            return;
-        }
-        if (!formDados.responsavel?.trim()) {
             return;
         }
         if (!formDados.celular?.trim()) {
@@ -138,6 +144,9 @@ const VisualizarPontoAdocao = () => {
         }
 
         const cnpjLimpo = formDados.cnpj.replace(/[^\d]+/g, '');
+        const cepLimpo = formDados.cep.replace(/[^\d]+/g, '');
+        const celularLimpo = formDados.celular.replace(/[^\d]+/g, '');
+        const contatoLimpo = formDados.contato.replace(/[^\d]+/g, '');
 
         if (!validarCNPJ(cnpjLimpo)) {
             setErroCNPJ('Eita! CNPJ inválido');
@@ -147,6 +156,9 @@ const VisualizarPontoAdocao = () => {
 
         try {
             formDados.cnpj = cnpjLimpo;
+            formDados.cep = cepLimpo;
+            formDados.celular = celularLimpo;
+            formDados.contato = contatoLimpo;
             await atualizarPontoAdocao(id, formDados);
             openModal();
             // setEditando(false);
@@ -270,28 +282,7 @@ const VisualizarPontoAdocao = () => {
                             <span className="erro-required"> O campo 'CNPJ' é obrigatório </span>
                         )}
                     </div>
-
-                   {/* <div className="form-group">  Excluir esse campo 
-                        <label>Responsável - Pode excluir Dani</label>
-                        <input
-                            type="text"
-                            id="responsavel"
-                            name="responsavel"
-                            maxLength={50} //verificar tamanho maximo.
-                            value={formDados?.responsavel || ''}
-                            onChange={handleInputChange}
-                            disabled={!editando}
-                            onKeyDown={(e) => {
-                                if (!validarNome(e.key) && e.key.length === 1) {
-                                    e.preventDefault();
-                                }
-                            }}
-                            placeholder="Digite o Responsável"
-                        />
-                        {(tentouEnviar && !formDados.responsavel) && (
-                            <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
-                        )}
-                    </div>*/}
+                    
                     <div className="form-group">
                         <label>Celular</label>
                         <InputMask

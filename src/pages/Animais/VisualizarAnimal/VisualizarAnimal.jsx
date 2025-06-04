@@ -14,7 +14,7 @@ import './VisualizarAnimal.css';
 
 const VisualizaAnimal = () => {
     const navigate = useNavigate();
-    const { buscarAnimalPorId, atualizarAnimal, carregando, erro } = useAnimais();
+    const { buscarAnimalPorId, atualizarAnimal, carregando, erro, limparErro } = useAnimais();
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
@@ -60,6 +60,15 @@ const VisualizaAnimal = () => {
         const { name, value } = e.target;
         const numericFields = ['status', 'disponibilidade', 'doadorId'];
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+        if (name === 'doadorId') {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosDoador({ ...dadosDoador, [name]: '' });
+                return;
+            }
+        }
+
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
@@ -97,7 +106,7 @@ const VisualizaAnimal = () => {
         if (!formDados.sexo?.trim()) {
             return;
         }
-        if (!formDados.doadorId?.trim()) {
+        if (!formDados.doadorId || Number(formDados.doadorId) <= 0) {
             return;
         }
 
@@ -109,9 +118,9 @@ const VisualizaAnimal = () => {
         }
     };
 
-  const irParaAcompanhamento = () => {
-    navigate('/acompanhamento');
-  };
+    const irParaAcompanhamento = () => {
+        navigate('/acompanhamento');
+    };
 
     return (
         <div className="cadastro-container">
@@ -272,7 +281,6 @@ const VisualizaAnimal = () => {
                             type="number"
                             id="doadorId"
                             name="doadorId"
-                            min="1"
                             value={formDados?.doadorId ?? ''}
                             onChange={handleInputChange}
                             disabled={!editando}

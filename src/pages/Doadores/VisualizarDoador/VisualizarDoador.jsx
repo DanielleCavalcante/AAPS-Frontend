@@ -5,7 +5,7 @@ import { useDoadores } from '../../../hooks/useDoadores';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import InputMask from 'react-input-mask';
 import { validarCPF } from '../../../utils/ValidaCPF';
-import { validarRG } from '../../../utils/ValidaRG';
+import { validarRG } from '../../../utils/validaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -49,7 +49,7 @@ const VisualizarDoador = () => {
     const handleBuscarCep = async () => {
         try {
             // const cepLimpo = formDados.cep.match(/\d{8}/)?.[0];
-            const cepLimpo = dadosDoador.cep.replace(/[^\d]+/g, '');
+            const cepLimpo = formDados.cep.replace(/[^\d]+/g, '');
             const endereco = await buscarCep(cepLimpo);
 
             setFormDados((prev) => ({
@@ -110,6 +110,14 @@ const VisualizarDoador = () => {
             }
         }
 
+        if (name === 'numero') {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosDoador({ ...dadosDoador, [name]: '' });
+                return;
+            }
+        }
+
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
@@ -119,42 +127,18 @@ const VisualizarDoador = () => {
         setTentouEnviar(true);
         limparErro();
 
-        if (!formDados.nome?.trim()) {
-            return;
-        }
-        if (!formDados.rg?.trim()) {
-            return;
-        }
-        if (!formDados.cpf?.trim()) {
-            return;
-        }
-        if (!formDados.celular?.trim()) {
-            return;
-        }
-        if (!formDados.responsavelContato?.trim()) {
-            return;
-        }
-        if (!formDados.contato?.trim()) {
-            return;
-        }
-        if (!formDados.cep?.trim()) {
-            return;
-        }
-        if (!formDados.cidade?.trim()) {
-            return;
-        }
-        if (!formDados.uf?.trim()) {
-            return;
-        }
-        if (!formDados.logradouro?.trim()) {
-            return;
-        }
-        if (!formDados.numero || Number(formDados.numero) <= 0) {
-            return;
-        }
-        if (!formDados.bairro?.trim()) {
-            return;
-        }
+        if (!formDados.nome?.trim()) return;
+        if (!formDados.rg?.trim()) return;
+        if (!formDados.cpf?.trim()) return;
+        if (!formDados.celular?.trim()) return;
+        if (!formDados.responsavelContato?.trim()) return;
+        if (!formDados.contato?.trim()) return;
+        if (!formDados.cep?.trim()) return;
+        if (!formDados.cidade?.trim()) return;
+        if (!formDados.uf?.trim()) return;
+        if (!formDados.logradouro?.trim()) return;
+        if (!formDados.numero || Number(formDados.numero) <= 0) return;
+        if (!formDados.bairro?.trim()) return;
 
         const cpfLimpo = formDados.cpf.replace(/[^\d]+/g, '');
         const rgLimpo = formDados.rg.replace(/[^0-9Xx]+/g, '');
@@ -451,7 +435,7 @@ const VisualizarDoador = () => {
                             onBlur={handleBuscarCep}
                             disabled={!editando}
                             placeholder="_____-___"
-                            required
+                            /* required */
                         >
                             {(inputProps) => (
                                 <input
@@ -476,7 +460,7 @@ const VisualizarDoador = () => {
                             placeholder="Digite a cidade"
                             value={formDados?.cidade || ''}
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            /* disabled={!editando} */
                         />
 
                         {(tentouEnviar && !formDados.cidade) && (

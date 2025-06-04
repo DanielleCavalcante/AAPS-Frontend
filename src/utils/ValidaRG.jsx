@@ -14,5 +14,19 @@ export function validarRG(rg) {
     const numerosValidos = /^[0-9]+$/.test(rgSemUltimo);
     const ultimoValido = /^[0-9X]$/.test(ultimoChar);
 
-    return numerosValidos && ultimoValido;
+    if (!(numerosValidos && ultimoValido)) {
+        return false;
+    }
+
+    // Verifica se todos os dígitos são iguais (ignorando o 'X' se houver)
+    const numerosParaVerificar = rgLimpo.replace(/X/i, '');
+    const todosIguais = numerosParaVerificar
+        .split('')
+        .every(char => char === numerosParaVerificar[0]);
+
+    if (todosIguais) {
+        return false;
+    }
+
+    return true;
 }

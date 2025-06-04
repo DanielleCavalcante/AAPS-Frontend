@@ -66,7 +66,6 @@ const CadastroVoluntario = () => {
 
         if (!validarCPF(cpfLimpo)){
             setErroCPF('Eita! CPF inválido');
-            alert("CPF invalido. Insira novamente");
             return;
         }
 

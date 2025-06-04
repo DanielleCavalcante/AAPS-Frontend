@@ -108,6 +108,9 @@ const VisualizarVoluntario = () => {
     try {
       formDados.cpf = cpfLimpo;
       await atualizarVoluntario(id, formDados);
+
+      localStorage.setItem("nomeUsuario", formDados.nome);
+
       openModal();
       // setEditando(false);
       // setTentouEnviar(false);

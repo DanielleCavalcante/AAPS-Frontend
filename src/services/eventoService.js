@@ -11,6 +11,11 @@ export const EventoService = {
     return response.data.dados;
   },
 
+  async listarEventosAtivos() {
+    const response = await api.get('/Evento/ObterEventosAtivos');
+    return response.data.dados;
+  },
+
   async buscarEventoPorId(id) {
     const response = await api.get(`/Evento/ObterEventoPorId/${id}`);
     return response.data.dados;

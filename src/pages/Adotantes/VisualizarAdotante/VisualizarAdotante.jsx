@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
+import { useAdotantes } from '../../../hooks/useAdotantes';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
@@ -6,13 +9,79 @@ import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarAdotante.css';
 
 const VisualizarAdotante = () => {
-    const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [showModalAlterar, setShowModalAlterar] = useState(false);
+    const { buscarAdotantePorId, atualizarAdotante, erro, tratarErro, limparErro } = useAdotantes();
+
+    const { id } = useParams();
+    const [adotante, setAdotante] = useState(null);
+    const [formDados, setFormDados] = useState({});
+
+    const [editando, setEditando] = useState(false);
+    const [tentouEnviar, setTentouEnviar] = useState(false);
+
+    useEffect(() => {
+        buscarAdotantePorId(id)
+            .then((dados) => {
+            const dadosFormatados = {
+                ...dados,
+                status: Number(dados.status),
+                bloqueio: Number(dados.bloqueio),
+            };
+            setAdotante(dadosFormatados);
+            setFormDados(dadosFormatados);
+            })
+            .catch(console.error);
+    }, [id]);
+
+    if (erro) return <div className="erro">{erro}</div>;
+    if (!adotante) return <div>Adotante não encontrado</div>;
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        const numericFields = 'status';
+        const parsedValue = numericFields.includes(name) ? Number(value) : value;
+        setFormDados({ ...formDados, [name]: parsedValue });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+
+        setTentouEnviar(true);
+
+        limparErro();
+
+        if (!formDados.nome?.trim()) return;
+        if (!formDados.rg?.trim()) return;
+        if (!formDados.cpf?.trim()) return;
+        if (!formDados.responsavelContato?.trim()) return;
+        if (!formDados.contato?.trim()) return;
+        if (!formDados.celular?.trim()) return;
+        if (!formDados.email?.trim()) return;
+        if (!formDados.localTrabalho?.trim()) return;
+        if (!formDados.facebook?.trim()) return;
+        if (!formDados.instagram?.trim()) return;
+        if (!formDados.situacaoEndereco?.trim()) return;
+        if (!formDados.cep?.trim()) return;
+        if (!formDados.cidade?.trim()) return;
+        if (!formDados.uf?.trim()) return;
+        if (!formDados.logradouro?.trim()) return;
+        if (!formDados.numero || Number(formDados.numero) <= 0) return;
+        if (!formDados.bairro?.trim()) return;
+
+        try {
+            await atualizarAdotante(id, formDados);
+           /*  openModal(); */
+            // setEditando(false);
+            // setTentouEnviar(false);
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    /* const [showModalAlterar, setShowModalAlterar] = useState(false);
     const [showModalExcluir, setShowModalExcluir] = useState(false);
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
     const [foto, setFoto] = useState(null);  // Para controlar a foto carregada
-    const [editando, setEditando] = useState(false);
     const [formData, setFormData] = useState({
         tipoMoradiaResidencial: "", // Casa ou Apto
         tipoMoradiaPropriedade: "", // Própria ou Alugada
@@ -30,7 +99,7 @@ const VisualizarAdotante = () => {
         complemento: "",
         facebook: "",
         instagram: "",
-    });
+    }); */
 
     // Handlers para telefones e responsáveis
     /*const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
@@ -48,7 +117,7 @@ const VisualizarAdotante = () => {
         setTelefones(novosTelefones);
     };*/
 
-    const closeModalAlterar = () => setShowModalAlterar(false);
+    /* const closeModalAlterar = () => setShowModalAlterar(false);
     const openModalAlterar = () => {
         const nome = document.getElementById('nome').value;
         const rg = document.getElementById('rg').value;
@@ -73,27 +142,20 @@ const VisualizarAdotante = () => {
             setShowModalAlterar(true);
             setIsEditable(true);  // Habilita todos os campos e botões após clicar em "Alterar"
         }
-    };
+    }; */
 
-    const closeModalExcluir = () => setShowModalExcluir(false);
+    /* const closeModalExcluir = () => setShowModalExcluir(false);
     const openModalExcluir = () => {
         setShowConfirmModal(false);
         setShowModalExcluir(true);
-    };
+    }; */
 
-    const closeConfirmModal = () => {
+    /* const closeConfirmModal = () => {
         setShowConfirmModal(false);
     };
     const openConfirmModal = () => {
         setShowConfirmModal(true);
-    };
-
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        event.target.reset();
-        setTelefones(['']); // Limpa os telefones
-    };
+    }; */
 
     /*const handleFotoCamera = async () => {
         try {
@@ -128,23 +190,18 @@ const VisualizarAdotante = () => {
         }
     };*/
 
-    const handleInputChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === "checkbox" ? checked : value,
-        });
-    };
-
-
     return (
         <div className="cadastro-container">
             <form className="cadastroAdotante-form" onSubmit={handleSubmit}>
-
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-                        <input type="text" />
+                        <input 
+                            type="text" 
+                            id="id"
+                            value={adotante?.id || ''}
+                            disabled
+                        />
                     </div>
 
                     <div className="form-group">
@@ -152,7 +209,9 @@ const VisualizarAdotante = () => {
                         <select
                             id="status"
                             name="status"
-
+                            value={formDados?.status}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         >
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
@@ -175,7 +234,13 @@ const VisualizarAdotante = () => {
                         name="nome"
                         type="text"
                         placeholder="Digite o nome"
+                        value={formDados?.nome || ''}
+                        onChange={handleInputChange}
+                        disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.nome) && (
+                        <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroAdotante-linha1'>
@@ -186,7 +251,13 @@ const VisualizarAdotante = () => {
                             name="rg"
                             type="text"
                             placeholder="Digite o RG"
+                            value={formDados?.rg || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.rg) && (
+                            <span className="erro-required"> O campo 'RG' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
@@ -195,7 +266,13 @@ const VisualizarAdotante = () => {
                             name="cpf"
                             type="text"
                             placeholder="Digite o CPF"
+                            value={formDados?.cpf || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cpf) && (
+                            <span className="erro-required"> O campo 'CPF' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
@@ -204,22 +281,31 @@ const VisualizarAdotante = () => {
                             name="celular"
                             type="text"
                             placeholder="Digite o celular com DDD"
+                            value={formDados?.celular || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.celular) && (
+                            <span className="erro-required"> O campo 'Celular' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <div className="group-adocao">
                     <div className="form-group">
                         <label>Contato</label>
-                        {/*{telefones.map((item, index) => ( 
-                        <div key={index}  className = "telefone-group" >*/}
                         <input
                             id='contato'
                             type="text"
                             name="contato"
                             placeholder="Digite um nº de contato"
-
+                            value={formDados?.contato || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.contato) && (
+                            <span className="erro-required"> O campo 'Nome' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Responsável Contato</label>
@@ -228,12 +314,14 @@ const VisualizarAdotante = () => {
                             name="responsavelContato"
                             type="text"
                             placeholder="Nome do contato para recados"
-
+                            value={formDados?.responsavelContato || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
-
+                        {(tentouEnviar && !formDados.responsavelContato) && (
+                            <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
+                        )}
                     </div>
-
-                    {/*))}*/}
                 </div>
 
                 <div className="form-group">
@@ -243,17 +331,29 @@ const VisualizarAdotante = () => {
                         name="email"
                         type="text"
                         placeholder="Digite o e-mail"
+                        value={formDados?.email || ''}
+                        onChange={handleInputChange}
+                        disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.email) && (
+                        <span className="erro-required"> O campo 'E-mail' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className="form-group">
                     <label>Local de Trabalho</label>
                     <input
-                        id="localtrabalho"
-                        name="localtrabalho"
+                        id="localTrabalho"
+                        name="localTrabalho"
                         type="text"
                         placeholder="Digite o nome do local de trabalho"
+                        value={formDados?.localTrabalho || ''}
+                        onChange={handleInputChange}
+                        disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.localTrabalho) && (
+                        <span className="erro-required"> O campo 'Local de Trabalho' é obrigatório </span>
+                    )}
                 </div>
 
                 {/*<div className="radio-group">
@@ -286,7 +386,7 @@ const VisualizarAdotante = () => {
                             type="radio"
                             name="situacaoEndereco"
                             value="Própria"
-                            checked={formData.tipoMoradiaPropriedade === "Própria"}
+                            checked={formDados.situacaoEndereco === "Própria"}
                             onChange={handleInputChange}
                         />
                         Própria
@@ -297,7 +397,7 @@ const VisualizarAdotante = () => {
                             type="radio"
                             name="situacaoEndereco"
                             value="Alugada"
-                            checked={formData.tipoMoradiaPropriedade === "Alugada"}
+                            checked={formDados.situacaoEndereco === "Alugada"}
                             onChange={handleInputChange}
                         />
                         Alugada
@@ -312,7 +412,13 @@ const VisualizarAdotante = () => {
                             name="cep"
                             type="text"
                             placeholder="Digite o CEP"
+                            value={formDados?.cep || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cep) && (
+                            <span className="erro-required"> O campo 'CEP' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="cidade">Cidade</label>
@@ -321,7 +427,13 @@ const VisualizarAdotante = () => {
                             name="cidade"
                             type="text"
                             placeholder="Digite a cidade"
+                            value={formDados?.cidade || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="estado">Estado</label>
@@ -330,10 +442,15 @@ const VisualizarAdotante = () => {
                             name="uf"
                             type="text"
                             placeholder="Digite o estado"
+                            value={formDados?.uf || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.cidade) && (
+                            <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
+                        )}
                     </div>
                 </div>
-
 
                 <div className="form-group">
                     <label>Endereço</label>
@@ -342,7 +459,13 @@ const VisualizarAdotante = () => {
                         name="logradouro"
                         type="text"
                         placeholder="Digite o Endereço"
+                        value={formDados?.logradouro || ''}
+                        onChange={handleInputChange}
+                        disabled={!editando}
                     />
+                    {(tentouEnviar && !formDados.logradouro) && (
+                        <span className="erro-required"> O campo 'Endereço' é obrigatório </span>
+                    )}
                 </div>
 
                 <div className='cadastroAdotante-linha1'>
@@ -353,7 +476,13 @@ const VisualizarAdotante = () => {
                             name="numero"
                             type="text"
                             placeholder="Digite o nº da residência"
+                            value={formDados?.numero || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.numero) && (
+                            <span className="erro-required"> O campo 'Número' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Complemento</label>
@@ -362,6 +491,9 @@ const VisualizarAdotante = () => {
                             name="complemento"
                             type="text"
                             placeholder="Digite o complemento"
+                            value={formDados?.complemento || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
                     </div>
                     <div className="form-group">
@@ -371,7 +503,13 @@ const VisualizarAdotante = () => {
                             name="bairro"
                             type="text"
                             placeholder="Digite o bairro"
+                            value={formDados?.bairro || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.bairro) && (
+                            <span className="erro-required"> O campo 'Bairro' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -382,7 +520,13 @@ const VisualizarAdotante = () => {
                             id="facebook"
                             name="facebook"
                             type="text"
+                            value={formDados?.facebook || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.facebook) && (
+                            <span className="erro-required"> O campo 'Facebook' é obrigatório </span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="instagram">Instagram</label>
@@ -390,7 +534,13 @@ const VisualizarAdotante = () => {
                             id="instagram"
                             name="instagram"
                             type="text"
+                            value={formDados?.instagram || ''}
+                            onChange={handleInputChange}
+                            disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.instagram) && (
+                            <span className="erro-required"> O campo 'Instagram' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
@@ -400,17 +550,23 @@ const VisualizarAdotante = () => {
                             id='bloqueio'
                             type="checkbox"
                             name="bloqueio"
-                            checked={formData.bloqueado}
-                            onChange={handleInputChange}
+                            value={formDados.bloqueio}
+                            checked={formDados.bloqueio === 1}
+                            onChange={e =>
+                                setFormDados({ ...formDados, bloqueio: e.target.checked ? 1 : 0 })
+                            }
+                            disabled={!editando}
                         />
                         Bloqueado
                     </label>
                 </div>
                 <textarea
-                    name="observacao"
+                    id="observacaoBloqueio"
+                    name="observacaoBloqueio"
                     placeholder="Observação"
-                    value={formData.observacao}
+                    value={formDados?.observacaoBloqueio || ''}
                     onChange={handleInputChange}
+                    disabled={!editando}
                 />
 
                 <div className="button-group-crud">
@@ -419,11 +575,9 @@ const VisualizarAdotante = () => {
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
                     ) : (
-                        <button
-                            type="submit"
-                            className="botao-alterar"
-                        > <BotaoSalvar />
-                        </button>
+
+                        <BotaoSalvar />
+
                         //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
                     )}
                     <BotaoCancelar />

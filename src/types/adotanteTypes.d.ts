@@ -5,6 +5,8 @@ export interface Adotante {
     cpf: string;
     status: 1 | 0;
 
+    email: string;
+
     celular: string;
     contato: string;
     responsavelContato: string;

@@ -18,7 +18,6 @@ const CadastroPontoAdocao = () => {
     const [dadosPontoAdocao, setDadosPontoAdocao] = useState({
         nomeFantasia: '',
         cnpj: '',
-        responsavel: '',
         celular: '',
         telefone: '',
         responsavelContato: '',
@@ -60,6 +59,14 @@ const CadastroPontoAdocao = () => {
             }
         }
 
+        if (id === "numero") {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosPontoAdocao({ ...dadosPontoAdocao, [id]: '' });
+                return;
+            }
+        }
+
         setDadosPontoAdocao({
             ...dadosPontoAdocao,
             [id]: id === 'status' && value !== '' ? Number(value) : value
@@ -72,6 +79,9 @@ const CadastroPontoAdocao = () => {
         limparErro();
 
         const cnpjLimpo = dadosPontoAdocao.cnpj.replace(/[^\d]+/g, '');
+        const cepLimpo = dadosPontoAdocao.cep.replace(/[^\d]+/g, '');
+        const celularLimpo = dadosPontoAdocao.celular.replace(/[^\d]+/g, '');
+        const contatoLimpo = dadosPontoAdocao.contato.replace(/[^\d]+/g, '');
 
         if (!validarCNPJ(cnpjLimpo)) {
             setErroCNPJ('Eita! CNPJ inválido');
@@ -81,11 +91,13 @@ const CadastroPontoAdocao = () => {
 
         try {
             dadosPontoAdocao.cnpj = cnpjLimpo;
+            dadosPontoAdocao.cep = cepLimpo;
+            dadosPontoAdocao.celular = celularLimpo;
+            dadosPontoAdocao.contato = contatoLimpo;
             await criarPontoAdocao(dadosPontoAdocao);
             setDadosPontoAdocao({
                 nomeFantasia: '',
                 cnpj: '',
-                responsavel: '',
                 celular: '',
                 contato: '',
                 responsavelContato: '',
@@ -134,7 +146,6 @@ const CadastroPontoAdocao = () => {
         const status = document.getElementById('status').value;
         const nome = document.getElementById('nomeFantasia').value;
         const cnpj = document.getElementById('cnpj').value;
-        const responsavel = document.getElementById('responsavel').value;
         const celular = document.getElementById('celular').value;
         const contato = document.getElementById('contato').value;
         const responsavelContato = document.getElementById('responsavelContato').value;
@@ -142,7 +153,7 @@ const CadastroPontoAdocao = () => {
         const numero = document.getElementById('numero').value;
 
         // Verifica se todos os campos estão preenchidos
-        if (status && nome && cnpj && responsavel && celular && contato && responsavelContato && cep && numero) {
+        if (status && nome && cnpj && celular && contato && responsavelContato && cep && numero) {
             setShowModal(true);
         } else {
             return null;
@@ -323,11 +334,11 @@ const CadastroPontoAdocao = () => {
                             }}
                             placeholder="Digite o Responsável"
                         />
-                        {(tentouEnviar && !dadosPontoAdocao.responsavel) && (
+                        {(tentouEnviar && !dadosPontoAdocao.responsavelContato) && (
                             <span className="erro-required"> O campo 'Responsável' é obrigatório </span>
                         )}
                     </div>
-                    
+
                     {/* {telefones.map((item, index) => (
                         <div key={index} className="telefone-group">
                             <input id='input-telefone'
@@ -438,14 +449,13 @@ const CadastroPontoAdocao = () => {
                     <div className="form-group">
                         <label>Número</label>
                         <input
+                            type="number"
                             id="numero"
                             name="numero"
-                            type="text"
                             value={dadosPontoAdocao.numero}
                             onChange={handleChange}
                             placeholder="Digite o nº da residência"
                         />
-
                         {(tentouEnviar && !dadosPontoAdocao.numero) && (
                             <span className="erro-required"> O campo 'Número' é obrigatório </span>
                         )}

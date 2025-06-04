@@ -5,7 +5,7 @@ import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { useNavigate } from 'react-router-dom';
 import InputMask from 'react-input-mask';
 import { validarCPF } from '../../../utils/ValidaCPF';
-import { validarRG } from '../../../utils/ValidaRG';
+import { validarRG } from '../../../utils/validaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -79,6 +79,14 @@ const CadastroDoador = () => {
             else {
                 // Enquanto não tiver 11 dígitos, não mostra erro
                 setErroCPF('');
+            }
+        }
+
+        if (id === 'numero') {
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosDoador({ ...dadosDoador, [id]: '' });
+                return;
             }
         }
 
@@ -477,6 +485,7 @@ const CadastroDoador = () => {
                             id="numero"
                             name="numero"
                             type="number"
+                            min="1"
                             value={dadosDoador.numero}
                             onChange={handleChange}
                             placeholder="Digite o nº da residência"

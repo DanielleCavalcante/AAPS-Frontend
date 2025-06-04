@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react'
-
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
-// import { bloquearTeclas } from '../../../utils/BloqueiaTeclas';
 import { useNavigate } from 'react-router-dom';
-
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
@@ -51,7 +48,13 @@ const CadastroAnimal = () => {
             [id]: ['status', 'disponibilidade', 'doadorId'].includes(id) ? Number(value) : value
         });
 
-        if (id === "doadorId") {
+        if (id === "doadorId"){
+            const numero = parseInt(value, 10);
+            if (numero <= 0 || isNaN(numero)) {
+                setDadosDoador({ ...dadosDoador, [id]: '' });
+                return;
+            }
+
             const doadorSelecionado = doadores.find(d => d.id === Number(value));
             setDadosAnimal(prevState => ({
                 ...prevState,
@@ -275,7 +278,6 @@ const CadastroAnimal = () => {
                             type="number"
                             id="doadorId"
                             name="doadorId"
-                            min="1" //valores a partir de 1.
                             value={dadosAnimal.doadorId}
                             onChange={handleChange}
                             // onKeyDown={(e) => bloquearTeclas(e, dadosAnimal.doadorId)}
