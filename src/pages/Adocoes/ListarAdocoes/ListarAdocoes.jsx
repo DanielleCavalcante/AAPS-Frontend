@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
 import { useAdocoes } from '../../../hooks/useAdocoes';
+import { useTermoAdocao } from '../../../hooks/useTermoAdocao';
 import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import iconeExcluir from '/src/assets/icone_excluir.png';
+import iconeUpload from '/src/assets/icone_upload.png';
+import iconeChat from '/src/assets/icone_chat.png';
 import Carregando from '../../../components/Spinner/Carregando';
 import './ListarAdocoes.css';
 
@@ -15,6 +17,8 @@ const Adocao = () => {
 
     const [adocoes, setAdocoes] = useState([]);
     const [filtro, setFiltro] = useState({ busca: ''});
+
+    const { enviarTermoAdocao, gerarTermoAdocao } = useTermoAdocao();
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
@@ -52,6 +56,25 @@ const Adocao = () => {
             console.error('Erro ao excluir adoção');
         } finally {
             finalizarCarregamento();
+        }
+    };
+
+    const handleEnviarTermo = async (adocaoId, adotanteId) => {
+        limparErro();
+        try {
+            await enviarTermoAdocao({ adocaoId, adotanteId });
+            alert("E-mail enviado com sucesso!");
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    const handleGerarTermo = async (id) => {
+        limparErro();
+        try {
+            await gerarTermoAdocao(id);
+        } catch (error) {
+            tratarErro(error);
         }
     };
 
@@ -123,8 +146,14 @@ const Adocao = () => {
                                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>
-                                <button className="delete-button" onClick={() => {handleExcluir(adocao.id)}}>
-                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
+                                <button className="delete-button" onClick={() => {handleGerarTermo(adocao.id)}}>
+                                    <img src={iconeUpload} alt="Ícone de excluir" className="icon" />
+                                </button>
+                                <button
+                                    className="delete-button"
+                                    onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}
+                                >
+                                    <img src={iconeChat} alt="Ícone de excluir" className="icon" />
                                 </button>
                             </td>
                         </tr>
