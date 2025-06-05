@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
-
+import InputMask from 'react-input-mask';
+import { useState } from 'react';
+import { validarCPF } from '../../../utils/ValidaCPF';
+import { validarRG } from '../../../utils/validaRG';
+import { validarNome } from '../../../utils/ValidaNome';
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -7,9 +10,9 @@ import './VisualizarAdotante.css';
 
 const VisualizarAdotante = () => {
     const [telefones, setTelefones] = useState([{ telefone: '', responsavel: '' }]);
-    const [showModalAlterar, setShowModalAlterar] = useState(false);
-    const [showModalExcluir, setShowModalExcluir] = useState(false);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [erroCPF, setErroCPF] = useState('');
+    const [erroRG, setErroRG] = useState('');
+    const [showModal, setShowModal] = useState(false);
     const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
     const [foto, setFoto] = useState(null);  // Para controlar a foto carregada
     const [editando, setEditando] = useState(false);
@@ -32,6 +35,14 @@ const VisualizarAdotante = () => {
         instagram: "",
     });
 
+    //Modais:
+    const openModal = () => setShowModal(true);
+    const closeModal = () => {
+        setEditando(false);
+        setShowModal(false);
+        navigate('/listar-adotantes');
+    }
+
     // Handlers para telefones e responsáveis
     /*const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
     const handleRemoveTelefone = (index) => {
@@ -48,46 +59,32 @@ const VisualizarAdotante = () => {
         setTelefones(novosTelefones);
     };*/
 
-    const closeModalAlterar = () => setShowModalAlterar(false);
-    const openModalAlterar = () => {
-        const nome = document.getElementById('nome').value;
-        const rg = document.getElementById('rg').value;
-        const cpf = document.getElementById('cpf').value;
-        const celular = document.getElementById('celular').value;
-        const localtrabalho = document.getElementById('localtrabalho').value;
-        const cep = document.getElementById('cep').value;
-        const cidade = document.getElementById('cidade').value;
-        const estado = document.getElementById('estado').value;
-        const endereco = document.getElementById('endereco').value;
-        const numero = document.getElementById('numero').value;
-        const bairro = document.getElementById('bairro').value;
-        const moradiaSelecionada = formData.tipoMoradia === "Casa" || formData.tipoMoradia === "Apto";
-        const propriedadeSelecionada = formData.tipoMoradia === "Própria" || formData.tipoMoradia === "Alugada";
+    // const closeModalAlterar = () => setShowModalAlterar(false);
+    // const openModalAlterar = () => {
+    //     const nome = document.getElementById('nome').value;
+    //     const rg = document.getElementById('rg').value;
+    //     const cpf = document.getElementById('cpf').value;
+    //     const celular = document.getElementById('celular').value;
+    //     const localtrabalho = document.getElementById('localtrabalho').value;
+    //     const cep = document.getElementById('cep').value;
+    //     const cidade = document.getElementById('cidade').value;
+    //     const estado = document.getElementById('estado').value;
+    //     const endereco = document.getElementById('endereco').value;
+    //     const numero = document.getElementById('numero').value;
+    //     const bairro = document.getElementById('bairro').value;
+    //     const moradiaSelecionada = formData.tipoMoradia === "Casa" || formData.tipoMoradia === "Apto";
+    //     const propriedadeSelecionada = formData.tipoMoradia === "Própria" || formData.tipoMoradia === "Alugada";
 
-        if (!moradiaSelecionada || !propriedadeSelecionada) {
-            alert("Por favor, selecione uma opção de tipo de moradia (Casa ou Apto) e uma de propriedade (Própria ou Alugada).");
-            return;
-        }
+    //     if (!moradiaSelecionada || !propriedadeSelecionada) {
+    //         alert("Por favor, selecione uma opção de tipo de moradia (Casa ou Apto) e uma de propriedade (Própria ou Alugada).");
+    //         return;
+    //     }
 
-        if (nome && rg && cpf && celular && localtrabalho && cep && cidade && estado && endereco && numero && bairro && facebook && instagram) {
-            setShowModalAlterar(true);
-            setIsEditable(true);  // Habilita todos os campos e botões após clicar em "Alterar"
-        }
-    };
-
-    const closeModalExcluir = () => setShowModalExcluir(false);
-    const openModalExcluir = () => {
-        setShowConfirmModal(false);
-        setShowModalExcluir(true);
-    };
-
-    const closeConfirmModal = () => {
-        setShowConfirmModal(false);
-    };
-    const openConfirmModal = () => {
-        setShowConfirmModal(true);
-    };
-
+    //     if (nome && rg && cpf && celular && localtrabalho && cep && cidade && estado && endereco && numero && bairro && facebook && instagram) {
+    //         setShowModalAlterar(true);
+    //         setIsEditable(true);  // Habilita todos os campos e botões após clicar em "Alterar"
+    //     }
+    // };
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -130,6 +127,55 @@ const VisualizarAdotante = () => {
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
+
+        //Chama a validação do RG
+        if (name === 'rg') {
+            // Remove caracteres não numéricos
+            const rgLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 9 dígitos, faz a validação
+            if (rgLimpo.length === 9) {
+                if (!validarRG(rgLimpo)) {
+                    setErroRG('Eita! RG inválido');
+                } else {
+                    setErroRG('');
+                }
+            }
+            else {
+                // Enquanto não tiver 9 dígitos, não mostra erro
+                setErroRG('');
+            }
+        }
+
+        //Chama a validação do CPF
+        if (name === 'cpf') {
+            // Remove caracteres não numéricos
+            const cpfLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 11 dígitos, faz a validação
+            if (cpfLimpo.length === 11) {
+                if (!validarCPF(cpfLimpo)) {
+                    setErroCPF('Eita! CPF inválido');
+                } else {
+                    setErroCPF('');
+                }
+            }
+            else {
+                // Enquanto não tiver 11 dígitos, não mostra erro
+                setErroCPF('');
+            }
+        }
+
+        if (name === 'numero') {
+            if (value === '') {
+                setFormData({ ...formData, [name]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+            }
+        }
         setFormData({
             ...formData,
             [name]: type === "checkbox" ? checked : value,

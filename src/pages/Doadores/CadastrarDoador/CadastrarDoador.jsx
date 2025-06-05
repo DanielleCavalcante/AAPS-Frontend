@@ -1,9 +1,9 @@
+import InputMask from 'react-input-mask';
 import { useState } from 'react';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { useNavigate } from 'react-router-dom';
-import InputMask from 'react-input-mask';
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/validaRG';
 import { validarNome } from '../../../utils/ValidaNome';
@@ -83,9 +83,12 @@ const CadastroDoador = () => {
         }
 
         if (id === 'numero') {
-            const numero = parseInt(value, 10);
-            if (numero <= 0 || isNaN(numero)) {
+            if (value === '') {
                 setDadosDoador({ ...dadosDoador, [id]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
                 return;
             }
         }
@@ -354,6 +357,7 @@ const CadastroDoador = () => {
                             maxLength={50} //verificar tamanho maximo.
                             value={dadosDoador.responsavelContato}
                             onChange={handleChange}
+                            placeholder="Nome do contato para recados"
                             onKeyDown={(e) => {
                                 if (!validarNome(e.key) && e.key.length === 1) {
                                     e.preventDefault();
@@ -485,12 +489,10 @@ const CadastroDoador = () => {
                             id="numero"
                             name="numero"
                             type="number"
-                            min="1"
                             value={dadosDoador.numero}
                             onChange={handleChange}
                             placeholder="Digite o nº da residência"
                         />
-
                         {(tentouEnviar && !dadosDoador.numero) && (
                             <span className="erro-required"> O campo 'Número' é obrigatório </span>
                         )}

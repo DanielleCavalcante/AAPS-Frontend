@@ -1,35 +1,38 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import './Footer.css';
 
 const Footer = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleBack = () => {
-    //verifica se há histórico de páginas anteriores
     if (window.history.length > 1) {
       navigate(-1);
     } else {
-      navigate("/"); // fallback para a página inicial ou qualquer outra
+      navigate("/home");
     }
   };
+
+  const hideBackButtonRoutes = ['/home']; //Botão de retorno não aparece na tela de Menu.
+  const isBackButtonVisible = !hideBackButtonRoutes.includes(location.pathname);
 
   return (
     <footer className="footer">
       <div className="footer-container">
-        <i
-          id="fas-reply"
-          className="fas fa-reply fa-2x"
-          onClick={handleBack}
-          style={{ cursor: 'pointer' }} // deixa o cursor como 'mãozinha'
-        ></i>
 
-        {/* <i className="fas fa-user-circle fa-2x"></i> -- icone de Menu*/}
+        {isBackButtonVisible && (
+          <i
+            id="fas-reply"
+            className="fas fa-reply fa-2x"
+            onClick={handleBack}
+            style={{ cursor: 'pointer' }}
+          ></i>
+        )}
 
       </div>
     </footer>
-
   );
 };
 

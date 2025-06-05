@@ -75,8 +75,8 @@ const Animal = () => {
             await excluirAnimal(id);
             limparErro();
             const dadosAtualizados = await listarAnimais(filtro);
-            openModalExcluir();
             setAnimais(dadosAtualizados);
+            openModalExcluir();
         } catch (error) {
             console.error('Erro ao excluir voluntario');
         } finally {

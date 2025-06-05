@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import InputMask from 'react-input-mask';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-import InputMask from 'react-input-mask';
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/validaRG';
 import { validarNome } from '../../../utils/ValidaNome';
@@ -111,9 +111,12 @@ const VisualizarDoador = () => {
         }
 
         if (name === 'numero') {
-            const numero = parseInt(value, 10);
-            if (numero <= 0 || isNaN(numero)) {
+            if (value === '') {
                 setDadosDoador({ ...dadosDoador, [name]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
                 return;
             }
         }

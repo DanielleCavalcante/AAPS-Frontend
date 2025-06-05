@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import Modal from "/src/components/Modal/Modal.jsx";
 import { useVoluntarios } from '../../hooks/useVoluntarios';
 import { useAuth } from '../../hooks/useAuth';
-
 import iconeSenha from '../../assets/icone_senha.png';
 import iconeSair from '../../assets/icone_sair.png';
 import './Perfil.css';
 
 const Perfil = () => {
+    const { logout } = useAuth();
+    const { user } = useAuth();
     const { id } = useParams();
     const { buscarPerfilPorId } = useVoluntarios();
     const [voluntario, setVoluntario] = useState(null);
+    const navigate = useNavigate();
+    //implementação de modal de confirmação de saída:
+    const [showModal, setShowModal] = useState(false);
+    const openModal = () => setShowModal(true);
+    const closeModal = () => setShowModal(false);
 
-    const { user } = useAuth();
+    const handleSair = () => {
+        setShowModal(false);
+        logout();
+        closeModal();
+        navigate('/');
+    };
 
     useEffect(() => {
         buscarPerfilPorId(id)
@@ -102,13 +113,20 @@ const Perfil = () => {
                         <button
                             type="button"
                             className="btn-sair"
-                            onClick={() => console.log('Sair clicado')}
+                            onClick={openModal}
+                        // onClick={() => console.log('Sair clicado')}
                         >
                             <img src={iconeSair} alt="Ícone sair" className="icon" />
                             <span> Sair</span>
                         </button>
                     </div>
                 </div>
+                {showModal && (
+                    <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>
+                        <img src="/src/assets/icone_alerta.png" alt="Ícone de alerta" className="icon" />
+                        <p>Deseja realmente sair?</p>
+                    </Modal>
+                )}
 
             </form >
         </div >

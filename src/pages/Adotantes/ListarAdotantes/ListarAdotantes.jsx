@@ -6,18 +6,46 @@ import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import iconeExcluir from '/src/assets/icone_excluir.png';
+import BotaoExcluir from "/src/components/BotaoExcluir/BotaoExcluir.jsx";
 import Carregando from '../../../components/Spinner/Carregando';
 import './ListarAdotantes.css';
 
 const Adotante = () => {
     const { listarAdotantes, excluirAdotante, erro, limparErro } = useAdotantes();
+    const [showModalExcluir, setShowModalExcluir] = useState(false);
+    const [showConfirmModalExcluir, setShowConfirmModalExcluir] = useState(false);
+    const [idParaExcluir, setIdParaExcluir] = useState(null);
 
     const [adotantes, setAdotantes] = useState([]);
     const [filtro, setFiltro] = useState({ busca: '', status: '', bloqueio: '' });
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
+
+    //Modais para botão Excluir:
+    const openModalExcluir = () => {
+        setShowConfirmModalExcluir(false);
+        setShowModalExcluir(true);
+    };
+
+    const closeModalExcluir = () => {
+        setShowModalExcluir(false);
+    };
+
+    const openConfirmModalExcluir = (id) => {
+        setIdParaExcluir(id); // salva o ID
+        setShowConfirmModalExcluir(true); // abre o modal de confirmação
+    };
+
+    const closeConfirmModalExcluir = () => setShowConfirmModalExcluir(false);
+
+    const confirmarExclusao = async () => {
+        if (idParaExcluir) {
+            await handleExcluir(idParaExcluir);
+            setIdParaExcluir(null); // limpa o estado
+            setShowConfirmModalExcluir(false);
+        }
+    };
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -47,7 +75,7 @@ const Adotante = () => {
             limparErro();
             const dadosAtualizados = await listarAdotantes(filtro);
             setAdotantes(dadosAtualizados);
-            /* openModalExcluir(); */
+            openModalExcluir();
         } catch (error) {
             console.error('Erro ao excluir adotante');
         } finally {
@@ -55,7 +83,7 @@ const Adotante = () => {
         }
     };
 
-    return(
+    return (
         <div className="container-adotante">
             <div className="toolbar-adotante">
                 <Link to='/cadastrar-adotante' style={{ textDecoration: 'none' }}>
@@ -68,7 +96,7 @@ const Adotante = () => {
                 </Link>
                 <div className="search-bar-adotante">
                     <input
-                        type="text" 
+                        type="text"
                         name="busca"
                         value={filtro.busca}
                         onChange={handleChange}
@@ -96,7 +124,7 @@ const Adotante = () => {
                     </select>
                 </div>
             </div>
-            
+
             <table className="table">
                 <thead>
                     <tr>
@@ -122,7 +150,7 @@ const Adotante = () => {
                                 <Carregando />
                             </td>
                         </tr>
-                    ) :  ( adotantes.map((adotante) => (
+                    ) : (adotantes.map((adotante) => (
                         <tr key={adotante.id}>
                             <td>{adotante.id}</td>
                             <td>{adotante.nome}</td>
@@ -131,18 +159,24 @@ const Adotante = () => {
                             <td>{adotante.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>{adotante.bloqueio === 1 ? 'Sim' : 'Não'}</td>
                             <td>
-                                <Link to={`/visualizar-adotante/${adotante.id}`}>
-                                    <button className="search-button-adotante">
-                                        <img src={iconeBusca} alt="Ícone de busca" className="icon" />
-                                    </button>
-                                </Link>
-                                <button className="delete-button" onClick={() => {handleExcluir(adotante.id)}}>
-                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
-                                </button>
-
+                                <div className='botoes'>
+                                    <Link to={`/visualizar-adotante/${adotante.id}`}>
+                                        <button className="search-button-adotante">
+                                            <img src={iconeBusca} alt="Ícone de busca" className="icon" />
+                                        </button>
+                                    </Link>
+                                    <BotaoExcluir
+                                        showModal={showModalExcluir}
+                                        showConfirmModalExcluir={showConfirmModalExcluir}
+                                        openModal={() => openConfirmModalExcluir(adotante.id)}
+                                        closeModal2={closeConfirmModalExcluir}
+                                        closeModal={confirmarExclusao}
+                                        closeModalExcluir={closeModalExcluir}
+                                    />
+                                </div>
                             </td>
                         </tr>
-                        ))
+                    ))
                     )}
                 </tbody>
             </table>

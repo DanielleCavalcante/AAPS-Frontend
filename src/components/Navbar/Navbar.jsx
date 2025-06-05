@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import './Navbar.css';
-// import Modal from '/src/components/Modal';
 import Modal from "../Modal/Modal";
 import { useLocation } from 'react-router-dom';
 
@@ -12,7 +11,6 @@ const Navbar = () => {
   const { logout } = useAuth();
 
   const navigate = useNavigate();
-
   //implementação de modal de confirmação de saída:
   const [showModal, setShowModal] = useState(false);
   const openModal = () => setShowModal(true);
@@ -122,7 +120,7 @@ const Navbar = () => {
 
 
           <button className="navbar-button">
-            <Link to='/Home'><img src="/src/assets/aaps_logo1.png" alt="Logotipo AAPS" className="icon-logo" /></Link>
+            <Link to='/home'><img src="/src/assets/aaps_logo1.png" alt="Logotipo AAPS" className="icon-logo" /></Link>
           </button>
         </div>
         <div id='Sair'>

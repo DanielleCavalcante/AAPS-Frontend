@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import { validarNome } from '../../../utils/ValidaNome';
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
@@ -14,7 +14,7 @@ import './VisualizarAnimal.css';
 
 const VisualizaAnimal = () => {
     const navigate = useNavigate();
-    const { buscarAnimalPorId, atualizarAnimal, carregando, erro } = useAnimais();
+    const { buscarAnimalPorId, atualizarAnimal, carregando, erro, tratarErro, limparErro } = useAnimais();
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
@@ -29,6 +29,7 @@ const VisualizaAnimal = () => {
     const closeModal = () => {
         setEditando(false);
         setShowModal(false);
+        navigate('/listar-animais');
     }
 
     useEffect(() => {
@@ -62,9 +63,12 @@ const VisualizaAnimal = () => {
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
 
         if (name === 'doadorId') {
+            if (value === '') {
+                setFormDados({ ...formDados, [name]: '' });
+                return;
+            }
             const numero = parseInt(value, 10);
-            if (numero <= 0 || isNaN(numero)) {
-                setDadosDoador({ ...dadosDoador, [name]: '' });
+            if (isNaN(numero) || numero <= 0) {
                 return;
             }
         }
@@ -103,10 +107,13 @@ const VisualizaAnimal = () => {
         if (!formDados.sexo?.trim()) {
             return;
         }
-        if (!formDados.sexo?.trim()) {
-            return;
-        }
-        if (!formDados.doadorId?.trim()) {
+        // if (!formDados.sexo?.trim()) {
+        //     return;
+        // }
+        // if (!formDados.doadorId?.trim()) {
+        //     return;
+        // }
+        if (!formDados.doadorId || Number(formDados.doadorId) <= 0) {
             return;
         }
 
@@ -165,12 +172,17 @@ const VisualizaAnimal = () => {
                     <input
                         type="text"
                         id="nome"
-                        name="nome"
-                        pattern="[A-Za-zÀ-ÿ\s]+"
+                        name='nome'
+                        maxLength={50} //verificar tamanho maximo.
                         placeholder="Digite o nome do animal"
                         value={formDados?.nome || ''}
                         onChange={handleInputChange}
                         disabled={!editando}
+                        onKeyDown={(e) => {
+                            if (!validarNome(e.key) && e.key.length === 1) {
+                                e.preventDefault();
+                            }
+                        }}
                     />
                     {(tentouEnviar && !formDados.nome) && (
                         <span className="erro-required"> O campo 'Nome' é obrigatório </span>
@@ -183,11 +195,16 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="especie"
                             name="especie"
-                            pattern="[A-Za-zÀ-ÿ\s]+"
+                            maxLength={50} //verificar tamanho maximo.
                             placeholder="Digite a espécie do animal"
                             value={formDados?.especie || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                         {(tentouEnviar && !formDados.especie) && (
                             <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
@@ -199,11 +216,16 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="raca"
                             name="raca"
-                            pattern="[A-Za-zÀ-ÿ\s]+"
+                            maxLength={50} //verificar tamanho maximo.
                             placeholder="Digite a raça do animal"
                             value={formDados?.raca || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                         {(tentouEnviar && !formDados.raca) && (
                             <span className="erro-required"> O campo 'Raça' é obrigatório </span>
@@ -231,11 +253,16 @@ const VisualizaAnimal = () => {
                             type="text"
                             id="pelagem"
                             name="pelagem"
-                            pattern="[A-Za-zÀ-ÿ\s]+"
+                            maxLength={50} //verificar tamanho maximo.
                             placeholder="cor e tipo"
                             value={formDados?.pelagem || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                         {(tentouEnviar && !formDados.pelagem) && (
                             <span className="erro-required"> O campo 'Pelagem' é obrigatório </span>
@@ -326,7 +353,7 @@ const VisualizaAnimal = () => {
                         {!editando ? (
                             <BotaoAlterar onClick={() => setEditando(true)} /> //disabled={editando}
                         ) : (
-                            <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                            <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                         )}
                         <BotaoCancelar />
                     </div>
