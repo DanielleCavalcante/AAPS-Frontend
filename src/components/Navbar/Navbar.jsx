@@ -46,11 +46,11 @@ const Navbar = () => {
         return { titulo: 'Detalhes do Doador', icone: 'fas fa-user' };
 
       case '/listar-eventos':
-        return { titulo: 'Lista de Eventos', icone: 'fas fa-calendar-alt' };
+        return { titulo: 'Lista de Procedimentos', icone: 'fas fa-list' };
       case '/cadastrar-evento':
-        return { titulo: 'Cadastrar Evento', icone: 'fas fa-plus-circle' };
+        return { titulo: 'Cadastrar Procedimento', icone: 'fas fa-notes-medical' };
       case `/visualizar-evento/${location.pathname.split('/')[2]}`:
-        return { titulo: 'Detalhes do Evento', icone: 'fas fa-info-circle' };
+        return { titulo: 'Detalhes do Procedimento', icone: 'fas fa-file-alt' };
 
       case '/listar-adotantes':
         return { titulo: 'Lista de Adotantes', icone: 'fas fa-users' };

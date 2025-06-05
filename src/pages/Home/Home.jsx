@@ -61,7 +61,7 @@ const Home = () => {
               <Link to='/listar-eventos'>
                 <img src={iconeEvento} alt="Ícone de evento" className="icon" />
               </Link>
-              <span>evento</span>
+              <span>procedimento</span>
             </button>
           </>
         )}

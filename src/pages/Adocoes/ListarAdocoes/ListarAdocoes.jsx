@@ -13,11 +13,10 @@ import Carregando from '../../../components/Spinner/Carregando';
 import './ListarAdocoes.css';
 
 const Adocao = () => {
-    const { listarAdocoes, excluirAdocao, erro, limparErro} = useAdocoes();
+    const { listarAdocoes, excluirAdocao, erro, limparErro } = useAdocoes();
 
     const [adocoes, setAdocoes] = useState([]);
     const [filtro, setFiltro] = useState({ busca: ''});
-
     const { enviarTermoAdocao, gerarTermoAdocao } = useTermoAdocao();
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
@@ -34,7 +33,7 @@ const Adocao = () => {
             finalizarCarregamento();
             setDadosCarregados(true);
         };
-    
+
         carregarDados();
     }, [filtro]);
 
@@ -78,7 +77,7 @@ const Adocao = () => {
         }
     };
 
-    return(
+    return (
         <div className="container-adocao">
             <div className="toolbar-adocao">
                 <Link to='/cadastrar-adocao' style={{ textDecoration: 'none' }}>
@@ -90,7 +89,7 @@ const Adocao = () => {
                     </button>
                 </Link>
                 <div className="search-bar-adocao">
-                    <input 
+                    <input
                         type="text"
                         name="busca"
                         value={filtro.busca}
@@ -108,7 +107,7 @@ const Adocao = () => {
                     <option value="3">Nome animal</option>
                 </select> */}
             </div>
-            
+
             <table className="table">
                 <thead>
                     <tr>
@@ -133,7 +132,7 @@ const Adocao = () => {
                                 <Carregando />
                             </td>
                         </tr>
-                    ) : ( adocoes.map((adocao) => (
+                    ) : (adocoes.map((adocao) => (
                         <tr key={adocao.id}>
                             <td>{adocao.id}</td>
                             <td>{adocao.nomeAnimal}</td>
@@ -141,6 +140,7 @@ const Adocao = () => {
                             <td>{adocao.nomeVoluntario}</td>
                             <td>{adocao.nomePontoAdocao}</td>
                             <td>
+                                <div className="acoes-adocao">
                                 <Link to={`/visualizar-adocao/${adocao.id}`}>
                                     <button className="search-button-adocao">
                                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
@@ -155,9 +155,10 @@ const Adocao = () => {
                                 >
                                     <img src={iconeChat} alt="Ícone de excluir" className="icon" />
                                 </button>
+                                </div>
                             </td>
                         </tr>
-                        ))
+                    ))
                     )}
                 </tbody>
             </table>

@@ -575,11 +575,9 @@ const VisualizarAdotante = () => {
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
                     ) : (
-                        <button 
-                            type="submit" 
-                        >
-                            Salvar
-                        </button>
+
+                        <BotaoSalvar />
+
                         //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
                     )}
                     <BotaoCancelar />

@@ -131,6 +131,7 @@ const Adotante = () => {
                             <td>{adotante.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>{adotante.bloqueio === 1 ? 'Sim' : 'Não'}</td>
                             <td>
+                                <div className="acoes-adotante">
                                 <Link to={`/visualizar-adotante/${adotante.id}`}>
                                     <button className="search-button-adotante">
                                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
@@ -139,7 +140,7 @@ const Adotante = () => {
                                 <button className="delete-button" onClick={() => {handleExcluir(adotante.id)}}>
                                     <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
                                 </button>
-
+                                </div>
                             </td>
                         </tr>
                         ))

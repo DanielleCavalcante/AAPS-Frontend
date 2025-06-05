@@ -151,3 +151,10 @@
     color: #fff;
     font-size: 15px;
 }
+
+.acoes-adotante {
+    display: flex;
+    gap: 8px; /* espaço entre os botões */
+    justify-content: center;
+    align-items: center;
+}

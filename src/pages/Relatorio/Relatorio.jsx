@@ -70,7 +70,7 @@ const Relatorio = () => {
           onClick={() => handleSubmitRelatorio(gerarRelatorioPdf)}
           disabled={carregando}
         >
-          {carregando ? 'Gerando...' : 'Gerar Relatório Pdf'}
+          {carregando ? 'Gerando...' : 'Gerar Relatório PDF'}
         </button>
       </div>
     </div>

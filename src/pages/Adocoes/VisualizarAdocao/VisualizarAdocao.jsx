@@ -416,20 +416,37 @@ const VisualizarAdocao = () => {
                     </div>
                 </div>
 
-                <div className="button-group-crud">
-                    {!editando ? (
-                        <BotaoAlterar onClick={() => setEditando(true)}
+                <div id="group3">
+                    <div className="form-group">
+                        <button
+                            type="button"
+                            id="button-anular"
+                            className={`button-anular ${editando ? 'ativo' : 'desabilitado'}`}
+                            disabled={!editando}
+                        //onClick={irParaAcompanhamento}
+                        >
+                            <i className="fas fa-ban fa-lg"></i>
+
+                            <span>Anular</span>
+                        </button>
+                    </div>
+
+                    <div className="button-group-crud">
+                        {!editando ? (
+                            <BotaoAlterar onClick={() => setEditando(true)}
+
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
-                    ) : (
-                        <button
-                            type="submit"
-                            className="botao-alterar"
-                        > <BotaoSalvar />
-                        </button>
-                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
-                    )}
-                    <BotaoCancelar />
+                        ) : (
+                            <button
+                                type="submit"
+                                className="botao-alterar"
+                            > <BotaoSalvar />
+                            </button>
+                            //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                        )}
+                        <BotaoCancelar />
+                    </div>
                 </div>
             </form>
         </div>
