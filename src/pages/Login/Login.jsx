@@ -5,7 +5,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { useError } from '../../hooks/useError';
 
 import logo from '../../assets/aaps_logo1.png';
-import './login.css';
+import './Login.css';
 
 const Login = () => {
   const { login } = useAuth();
