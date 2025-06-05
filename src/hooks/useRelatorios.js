@@ -1,5 +1,5 @@
 import { useError } from './useError';
-import { RelatorioService } from '../services/RelatorioService';
+import { RelatorioService } from '../services/relatorioService';
 
 export const useRelatorios = () => {
     const { erro, tratarErro, limparErro } = useError();
