@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-
 import { useError } from '../../../hooks/useError';
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
