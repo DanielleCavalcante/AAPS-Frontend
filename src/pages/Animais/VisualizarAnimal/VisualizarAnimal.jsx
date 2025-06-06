@@ -14,7 +14,7 @@ import './VisualizarAnimal.css';
 
 const VisualizaAnimal = () => {
     const navigate = useNavigate();
-    const { buscarAnimalPorId, atualizarAnimal, carregando, erro, tratarErro, limparErro } = useAnimais();
+    const { buscarAnimalPorId, atualizarAnimal, carregando, erro, limparErro } = useAnimais();
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
@@ -107,12 +107,9 @@ const VisualizaAnimal = () => {
         if (!formDados.sexo?.trim()) {
             return;
         }
-        // if (!formDados.sexo?.trim()) {
-        //     return;
-        // }
-        // if (!formDados.doadorId?.trim()) {
-        //     return;
-        // }
+        if (!formDados.sexo?.trim()) {
+            return;
+        }
         if (!formDados.doadorId || Number(formDados.doadorId) <= 0) {
             return;
         }

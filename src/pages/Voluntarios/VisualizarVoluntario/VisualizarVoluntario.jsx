@@ -116,11 +116,17 @@ const VisualizarVoluntario = () => {
       return;
     }
 
-    if (!formDados.email.includes('@')) {
-      setCampoAlerta('email');
-      setAlertMensagem('E-mail inválido. Insira novamente.');
-      setAlertAtencao(true);
-      return;
+    try {
+      formDados.cpf = cpfLimpo;
+      await atualizarVoluntario(id, formDados);
+
+      localStorage.setItem("nomeUsuario", formDados.nome);
+
+      openModal();
+      // setEditando(false);
+      // setTentouEnviar(false);
+    } catch (error) {
+      tratarErro(error);
     }
 
   const cpfLimpo = formDados.cpf.replace(/[^\d]+/g, '');

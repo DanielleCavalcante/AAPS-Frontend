@@ -91,11 +91,8 @@ const CadastroVoluntario = () => {
 
         const cpfLimpo = dadosVoluntario.cpf.replace(/[^\d]+/g, '');
 
-        if (cpfLimpo.length > 1 && cpfLimpo.length < 11) {
-            setAlertAtencao(true);
-        }
-
-        if (!validarCPF(cpfLimpo)) {
+        if (!validarCPF(cpfLimpo)){
+            setErroCPF('Eita! CPF inválido');
             return;
         }
 

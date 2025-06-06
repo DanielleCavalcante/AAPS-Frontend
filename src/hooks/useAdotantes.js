@@ -72,6 +72,7 @@ export const useAdotantes = () => {
         atualizarAdotante,
         excluirAdotante,
         erro,
-        limparErro
+        limparErro,
+        tratarErro
     }
 };

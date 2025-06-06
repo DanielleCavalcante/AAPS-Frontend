@@ -12,7 +12,7 @@ export const  AdotanteService = {
   },
 
   async listarAdotantesAtivos() {
-    const response = await api.get('/Adotante/ObterAdotantesAtivos');
+    const response = await api.get('/Adotante/ObterAdotantesDesbloqueadosEAtivos');
     return response.data.dados;
   },
 

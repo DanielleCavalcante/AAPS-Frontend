@@ -5,7 +5,7 @@ import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { useNavigate } from 'react-router-dom';
 import { validarCPF } from '../../../utils/ValidaCPF';
-import { validarRG } from '../../../utils/validaRG';
+import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";

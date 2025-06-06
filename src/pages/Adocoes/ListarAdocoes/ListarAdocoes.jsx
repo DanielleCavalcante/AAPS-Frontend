@@ -2,19 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 
 import { useAdocoes } from '../../../hooks/useAdocoes';
+import { useTermoAdocao } from '../../../hooks/useTermoAdocao';
 import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
-import iconeExcluir from '/src/assets/icone_excluir.png';
+import iconeUpload from '/src/assets/icone_upload.png';
+import iconeChat from '/src/assets/icone_chat.png';
 import Carregando from '../../../components/Spinner/Carregando';
 import './ListarAdocoes.css';
 
 const Adocao = () => {
-    const { listarAdocoes, excluirAdocao, erro, limparErro} = useAdocoes();
+    const { listarAdocoes, excluirAdocao, erro, limparErro } = useAdocoes();
 
     const [adocoes, setAdocoes] = useState([]);
     const [filtro, setFiltro] = useState({ busca: ''});
+    const { enviarTermoAdocao, gerarTermoAdocao } = useTermoAdocao();
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
@@ -30,7 +33,7 @@ const Adocao = () => {
             finalizarCarregamento();
             setDadosCarregados(true);
         };
-    
+
         carregarDados();
     }, [filtro]);
 
@@ -55,7 +58,26 @@ const Adocao = () => {
         }
     };
 
-    return(
+    const handleEnviarTermo = async (adocaoId, adotanteId) => {
+        limparErro();
+        try {
+            await enviarTermoAdocao({ adocaoId, adotanteId });
+            alert("E-mail enviado com sucesso!");
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    const handleGerarTermo = async (id) => {
+        limparErro();
+        try {
+            await gerarTermoAdocao(id);
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    return (
         <div className="container-adocao">
             <div className="toolbar-adocao">
                 <Link to='/cadastrar-adocao' style={{ textDecoration: 'none' }}>
@@ -67,7 +89,7 @@ const Adocao = () => {
                     </button>
                 </Link>
                 <div className="search-bar-adocao">
-                    <input 
+                    <input
                         type="text"
                         name="busca"
                         value={filtro.busca}
@@ -85,7 +107,7 @@ const Adocao = () => {
                     <option value="3">Nome animal</option>
                 </select> */}
             </div>
-            
+
             <table className="table">
                 <thead>
                     <tr>
@@ -110,7 +132,7 @@ const Adocao = () => {
                                 <Carregando />
                             </td>
                         </tr>
-                    ) : ( adocoes.map((adocao) => (
+                    ) : (adocoes.map((adocao) => (
                         <tr key={adocao.id}>
                             <td>{adocao.id}</td>
                             <td>{adocao.nomeAnimal}</td>
@@ -118,17 +140,25 @@ const Adocao = () => {
                             <td>{adocao.nomeVoluntario}</td>
                             <td>{adocao.nomePontoAdocao}</td>
                             <td>
+                                <div className="acoes-adocao">
                                 <Link to={`/visualizar-adocao/${adocao.id}`}>
                                     <button className="search-button-adocao">
                                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                     </button>
                                 </Link>
-                                <button className="delete-button" onClick={() => {handleExcluir(adocao.id)}}>
-                                    <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
+                                <button className="delete-button" onClick={() => {handleGerarTermo(adocao.id)}}>
+                                    <img src={iconeUpload} alt="Ícone de excluir" className="icon" />
                                 </button>
+                                <button
+                                    className="delete-button"
+                                    onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}
+                                >
+                                    <img src={iconeChat} alt="Ícone de excluir" className="icon" />
+                                </button>
+                                </div>
                             </td>
                         </tr>
-                        ))
+                    ))
                     )}
                 </tbody>
             </table>

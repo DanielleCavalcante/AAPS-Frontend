@@ -52,7 +52,7 @@ const VisualizaEvento = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); //evita o reload da página e mantém o modal aberto
+        e.preventDefault();
         setTentouEnviar(true); 
         limparErro();
 

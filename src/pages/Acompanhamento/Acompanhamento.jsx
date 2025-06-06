@@ -56,13 +56,13 @@ const Acompanhamento = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="Evento">Evento</label>
+                        <label htmlFor="Evento">Procedimento</label>
                         <select
                             id="Evento"
                             value={descricaoEvento}
                             onChange={(e) => setDescricaoEvento(e.target.value)}
                         >
-                            <option value="">Selecione um evento</option>
+                            <option value="">Selecione um procedimento</option>
                             <option value="Vacinação">Vacinado</option>
                             <option value="Consulta">Castrado</option>
                             <option value="Cirurgia">Vermifugad</option>
@@ -96,7 +96,7 @@ const Acompanhamento = () => {
                         onClick={adicionarEvento}
                     >
                         <i className="fas fa-plus" style={{ marginRight: '8px' }}></i>
-                        Adicionar Evento
+                        Adicionar Procedimento
                     </button>
                 </div>
 
@@ -118,7 +118,7 @@ const Acompanhamento = () => {
                             <tbody>
                                 {eventos.length === 0 && (
                                     <tr>
-                                        <td colSpan="5" style={{ textAlign: 'center' }}>Nenhum evento cadastrado.</td>
+                                        <td colSpan="5" style={{ textAlign: 'center' }}>Nenhum procedimento cadastrado.</td>
                                     </tr>
                                 )}
                                 {eventos.map(evento => (

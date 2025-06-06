@@ -24,6 +24,16 @@ export const useEventos = () => {
     }
   };
 
+  const listarEventosAtivos = async () => {
+      try {
+        limparErro();
+        return await EventoService.listarEventosAtivos();
+      } catch (error) {
+          tratarErro(error);
+          throw error;
+      } 
+    };
+
   const buscarEventoPorId = async (id) => {
     try {
       limparErro();
@@ -54,5 +64,5 @@ export const useEventos = () => {
     }
   };
 
-  return { criarEvento, listarEventos, buscarEventoPorId, atualizarEvento, excluirEvento, erro, limparErro };
+  return { criarEvento, listarEventos, listarEventosAtivos, buscarEventoPorId, atualizarEvento, excluirEvento, erro, limparErro };
 };
