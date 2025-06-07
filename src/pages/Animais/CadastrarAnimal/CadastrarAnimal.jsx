@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
 import { useNavigate } from 'react-router-dom';
 import { validarNome } from '../../../utils/ValidaNome';
+import { validarData } from '../../../utils/validaData';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
@@ -33,6 +35,11 @@ const CadastroAnimal = () => {
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
 
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const dataRef = useRef(null);
+
     useEffect(() => {
         const fetchDoadores = async () => {
             const doadoresData = await listarDoadoresAtivos();
@@ -55,16 +62,26 @@ const CadastroAnimal = () => {
             }
         }
 
+        //valida Data
+        if (id === 'dataNascimento'){
+            if (validarData(value)) {
+                setCampoAlerta('dataNascimento');
+                setAlertMensagem('Data de Nascimento inválida. Insira novamente.');
+                setAlertAtencao(true);
+                return;
+            }
+        }
+
         setDadosAnimal({
             ...dadosAnimal,
             [id]: ['status', 'disponibilidade', 'doadorId'].includes(id) ? Number(value) : value
         });
 
         const doadorSelecionado = doadores.find(d => d.id === Number(value));
-            setDadosAnimal(prevState => ({
-                ...prevState,
-                nomeDoador: doadorSelecionado ? doadorSelecionado.nome : ''
-            }));
+        setDadosAnimal(prevState => ({
+            ...prevState,
+            nomeDoador: doadorSelecionado ? doadorSelecionado.nome : ''
+        }));
     };
 
     const handleDoadorChange = (e) => {
@@ -108,24 +125,16 @@ const CadastroAnimal = () => {
         setShowModal(false);
         navigate('/listar-animais');
     }
-    const openModal = () => {
-        setShowModal(true);
-        // const nome = document.getElementById('nome').value;
-        // const especie = document.getElementById('especie').value;
-        // const raca = document.getElementById('raca').value;
-        // const pelagem = document.getElementById('pelagem').value;
-        // const sexo = document.getElementById('sexo').value;
-        // const dataNascimento = document.getElementById('dataNascimento').value;
-        // const status = document.getElementById('status').value;
-        // const doadorId = document.getElementById('doadorId').value;
-        // const disponibilidade = document.getElementById('disponibilidade').value;
+    const openModal = () => setShowModal(true);
 
-        // // Verifica se todos os campos estão preenchidos
-        // if (status && nome && especie && raca && dataNascimento && pelagem && sexo && doadorId && disponibilidade) {
-        //     setShowModal(true);
-        // } else {
-        //     return null;
-        // }
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setDadosAnimal(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
+
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
+        }
     };
 
     return (
@@ -193,38 +202,38 @@ const CadastroAnimal = () => {
                     <div className="form-group">
                         <label htmlFor="especie">Espécie</label>
                         <input
-                        type="text"
-                        id="especie"
-                        name="especie"
-                        maxLength={50} //verificar tamanho maximo.
-                        value={dadosAnimal.especie}
-                        onChange={handleChange}
-                        placeholder="Digite a espécie do animal"
-                        onKeyDown={(e) => {
-                            if (!validarNome(e.key) && e.key.length === 1) {
-                                e.preventDefault();
-                            }
-                        }}
-                    />
-                    {(tentouEnviar && !dadosAnimal.especie) && (
-                        <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
-                    )}
-                </div>
+                            type="text"
+                            id="especie"
+                            name="especie"
+                            maxLength={50} //verificar tamanho maximo.
+                            value={dadosAnimal.especie}
+                            onChange={handleChange}
+                            placeholder="Digite a espécie do animal"
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
+                        />
+                        {(tentouEnviar && !dadosAnimal.especie) && (
+                            <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
+                        )}
+                    </div>
                     <div className="form-group">
                         <label htmlFor="raca">Raça</label>
                         <input
-                        type="text"
-                        id="raca"
-                        maxLength={50} //verificar tamanho maximo.
-                        value={dadosAnimal.raca}
-                        onChange={handleChange}
-                        placeholder="Digite a raça do animal"
-                        onKeyDown={(e) => {
-                            if (!validarNome(e.key) && e.key.length === 1) {
-                                e.preventDefault();
-                            }
-                        }}
-                    />
+                            type="text"
+                            id="raca"
+                            maxLength={50} //verificar tamanho maximo.
+                            value={dadosAnimal.raca}
+                            onChange={handleChange}
+                            placeholder="Digite a raça do animal"
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
+                        />
                         {/* <input
                             type="text"
                             id="raca"
@@ -350,6 +359,17 @@ const CadastroAnimal = () => {
                     <BotaoLimpar />
                 </div>
             </form>
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            dataNascimento: dataRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div>
     );
 }

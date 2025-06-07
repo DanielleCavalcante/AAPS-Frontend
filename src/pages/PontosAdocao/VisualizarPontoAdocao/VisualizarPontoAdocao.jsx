@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import InputMask from 'react-input-mask';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-
-import InputMask from 'react-input-mask';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarCNPJ } from '../../../utils/ValidaCNPJ';
-
+import { validarTelefone } from '../../../utils/ValidaTelefone';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -25,6 +24,12 @@ const VisualizarPontoAdocao = () => {
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const { buscarCep } = useBuscarCep();
     const [showModal, setShowModal] = useState(false);
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const cnpjRef = useRef(null);
+    const celularRef = useRef(null);
+    const contatoRef = useRef(null);
 
     //Modais:
     const openModal = () => setShowModal(true);
@@ -82,14 +87,10 @@ const VisualizarPontoAdocao = () => {
             // Se CPF tiver exatamente 11 dígitos, faz a validação
             if (cnpjLimpo.length === 14) {
                 if (!validarCNPJ(cnpjLimpo)) {
-                    setErroCNPJ('Eita! CNPJ inválido');
-                } else {
-                    setErroCNPJ('');
+                    setCampoAlerta('cnpj'); // ou 'email'
+                    setAlertMensagem('CNPJ inválido. Insira novamente.');
+                    setAlertAtencao(true);
                 }
-            }
-            else {
-                // Enquanto não tiver 11 dígitos, não mostra erro
-                setErroCNPJ('');
             }
         }
 
@@ -148,9 +149,27 @@ const VisualizarPontoAdocao = () => {
         const celularLimpo = formDados.celular.replace(/[^\d]+/g, '');
         const contatoLimpo = formDados.contato.replace(/[^\d]+/g, '');
 
+        //Chama a validação de CNPJ
         if (!validarCNPJ(cnpjLimpo)) {
-            setErroCNPJ('Eita! CNPJ inválido');
-            alert("CNPJ invalido. Insira novamente");
+            setCampoAlerta('cnpj'); // ou 'email'
+            setAlertMensagem('CNPJ inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        //Chama validação de celular
+        if (!validarTelefone(formDados.celular)) {
+            setCampoAlerta('celular');
+            setAlertMensagem('Número de celular inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        //Chama validação de contato
+        if (!validarTelefone(formDados.contato)) {
+            setCampoAlerta('contato');
+            setAlertMensagem('Número de contato inválido. Insira novamente.');
+            setAlertAtencao(true);
             return;
         }
 
@@ -202,6 +221,16 @@ const VisualizarPontoAdocao = () => {
         novosTelefones[index].responsavel = value;
         setTelefones(novosTelefones);
     }; */
+
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setFormDados(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
+
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
+        }
+    };
 
     return (
         <div className="ponto-container">
@@ -282,7 +311,7 @@ const VisualizarPontoAdocao = () => {
                             <span className="erro-required"> O campo 'CNPJ' é obrigatório </span>
                         )}
                     </div>
-                    
+
                     <div className="form-group">
                         <label>Celular</label>
                         <InputMask
@@ -497,6 +526,19 @@ const VisualizarPontoAdocao = () => {
                     <BotaoCancelar />
                 </div>
             </form>
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            cnpj: cnpjRef,
+                            celular: celularRef,
+                            contato: contatoRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div>
     );
 };

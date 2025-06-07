@@ -1,10 +1,12 @@
 import InputMask from 'react-input-mask';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/validaRG';
 import { validarNome } from '../../../utils/ValidaNome';
+import { validarTelefone } from '../../../utils/ValidaTelefone';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { Link, useParams } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import { useAdotantes } from '../../../hooks/useAdotantes';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -13,25 +15,34 @@ import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarAdotante.css';
 
 const VisualizarAdotante = () => {
+    const navigate = useNavigate();
     const { buscarAdotantePorId, atualizarAdotante, erro, tratarErro, limparErro } = useAdotantes();
 
     const { id } = useParams();
     const [adotante, setAdotante] = useState(null);
     const [formDados, setFormDados] = useState({});
-
+    const [showModal, setShowModal] = useState(false);
     const [editando, setEditando] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const rgRef = useRef(null);
+    const cpfRef = useRef(null);
+    const emailRef = useRef(null);
+    const celularRef = useRef(null);
+    const contatoRef = useRef(null);
 
     useEffect(() => {
         buscarAdotantePorId(id)
             .then((dados) => {
-            const dadosFormatados = {
-                ...dados,
-                status: Number(dados.status),
-                bloqueio: Number(dados.bloqueio),
-            };
-            setAdotante(dadosFormatados);
-            setFormDados(dadosFormatados);
+                const dadosFormatados = {
+                    ...dados,
+                    status: Number(dados.status),
+                    bloqueio: Number(dados.bloqueio),
+                };
+                setAdotante(dadosFormatados);
+                setFormDados(dadosFormatados);
             })
             .catch(console.error);
     }, [id]);
@@ -43,11 +54,76 @@ const VisualizarAdotante = () => {
         const { name, value } = e.target;
         const numericFields = 'status';
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+        //Chama a validação do RG
+        if (name === 'rg') {
+            // Remove caracteres não numéricos
+            const rgLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se RG tiver exatamente 9 dígitos, faz a validação
+            if (rgLimpo.length === 9) {
+                if (!validarRG(rgLimpo)) {
+                    setCampoAlerta('rg');
+                    setAlertMensagem('RG inválido. Insira novamente.');
+                    setAlertAtencao(true);
+                }
+            }
+        }
+
+        //Chama a validação do CPF
+        if (name === 'cpf') {
+            // Remove caracteres não numéricos
+            const cpfLimpo = value.replace(/[^\d]+/g, '');
+
+            // Se CPF tiver exatamente 11 dígitos, faz a validação
+            if (cpfLimpo.length === 11) {
+                if (!validarCPF(cpfLimpo)) {
+                    setCampoAlerta('cpf');
+                    setAlertMensagem('CPF inválido. Insira novamente.');
+                    setAlertAtencao(true);
+                }
+            }
+        }
+
+        if (name === 'celular') {
+            const numeros = value.replace(/\D/g, ''); // remove tudo que não for número
+            if (numeros.length == 11) {
+                if (!validarTelefone(numeros)) {
+                    setCampoAlerta('celular');
+                    setAlertMensagem('Número de celular inválido. Insira novamente.');
+                    setAlertAtencao(true);
+                    return;
+                }
+            }
+        }
+
+        if (name === 'contato') {
+            const numeros = value.replace(/\D/g, ''); // remove tudo que não for número
+            if (numeros.length == 11) {
+                if (!validarTelefone(value)) {
+                    setCampoAlerta('contato');
+                    setAlertMensagem('Número de contato inválido. Insira novamente.');
+                    setAlertAtencao(true);
+                    return;
+                }
+            }
+        }
+
+        if (name === 'numero') {
+            if (value === '') {
+                setFormDados({ ...dadosAdotante, [id]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+            }
+        }
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
 
         setTentouEnviar(true);
 
@@ -71,40 +147,62 @@ const VisualizarAdotante = () => {
         if (!formDados.numero || Number(formDados.numero) <= 0) return;
         if (!formDados.bairro?.trim()) return;
 
+        const cpfLimpo = formDados.cpf.replace(/[^\d]+/g, '');
+        const rgLimpo = formDados.rg.replace(/[^0-9Xx]+/g, '');
+        const cepLimpo = formDados.cep.replace(/[^\d]+/g, '');
+        const celularLimpo = formDados.celular.replace(/[^\d]+/g, '');
+        const contatoLimpo = formDados.contato.replace(/[^\d]+/g, '');
+
+        if (!validarRG(rgLimpo)) {
+            setCampoAlerta('rg');
+            setAlertMensagem('RG inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        if (!validarCPF(cpfLimpo)) {
+            setCampoAlerta('cpf');
+            setAlertMensagem('CPF inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        if (!validarTelefone(formDados.celular)) {
+            setCampoAlerta('celular');
+            setAlertMensagem('Número de celular inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        if (!validarTelefone(formDados.contato)) {
+            setCampoAlerta('contato');
+            setAlertMensagem('Número de contato inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        if (!formDados.email.includes('@')) {
+            setCampoAlerta('email');
+            setAlertMensagem('E-mail inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
         try {
+            formDados.cpf = cpfLimpo;
+            formDados.rg = rgLimpo;
+            formDados.cep = cepLimpo;
+            formDados.celular = celularLimpo;
+            formDados.contato = contatoLimpo;
             await atualizarAdotante(id, formDados);
-           /*  openModal(); */
+            openModal();
             // setEditando(false);
             // setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
         }
     };
-
-    /* const [showModalAlterar, setShowModalAlterar] = useState(false);
-    const [showModalExcluir, setShowModalExcluir] = useState(false);
-    const [showConfirmModal, setShowConfirmModal] = useState(false);
-    const [isEditable, setIsEditable] = useState(false);  // Controle para habilitar edição
-    const [foto, setFoto] = useState(null);  // Para controlar a foto carregada
-    const [formData, setFormData] = useState({
-        tipoMoradiaResidencial: "", // Casa ou Apto
-        tipoMoradiaPropriedade: "", // Própria ou Alugada
-        nome: "",
-        rg: "",
-        cpf: "",
-        celular: "",
-        localtrabalho: "",
-        cep: "",
-        cidade: "",
-        estado: "",
-        endereco: "",
-        numero: "",
-        bairro: "",
-        complemento: "",
-        facebook: "",
-        instagram: "",
-    }); */
-
+    
     //Modais:
     const openModal = () => setShowModal(true);
     const closeModal = () => {
@@ -129,78 +227,15 @@ const VisualizarAdotante = () => {
         setTelefones(novosTelefones);
     };*/
 
-    /* const closeModalAlterar = () => setShowModalAlterar(false);
-    const openModalAlterar = () => {
-        const nome = document.getElementById('nome').value;
-        const rg = document.getElementById('rg').value;
-        const cpf = document.getElementById('cpf').value;
-        const celular = document.getElementById('celular').value;
-        const localtrabalho = document.getElementById('localtrabalho').value;
-        const cep = document.getElementById('cep').value;
-        const cidade = document.getElementById('cidade').value;
-        const estado = document.getElementById('estado').value;
-        const endereco = document.getElementById('endereco').value;
-        const numero = document.getElementById('numero').value;
-        const bairro = document.getElementById('bairro').value;
-        const moradiaSelecionada = formData.tipoMoradia === "Casa" || formData.tipoMoradia === "Apto";
-        const propriedadeSelecionada = formData.tipoMoradia === "Própria" || formData.tipoMoradia === "Alugada";
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setFormDados(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
 
-        if (!moradiaSelecionada || !propriedadeSelecionada) {
-            alert("Por favor, selecione uma opção de tipo de moradia (Casa ou Apto) e uma de propriedade (Própria ou Alugada).");
-            return;
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
         }
-
-        if (nome && rg && cpf && celular && localtrabalho && cep && cidade && estado && endereco && numero && bairro && facebook && instagram) {
-            setShowModalAlterar(true);
-            setIsEditable(true);  // Habilita todos os campos e botões após clicar em "Alterar"
-        }
-    }; */
-
-    /* const closeModalExcluir = () => setShowModalExcluir(false);
-    const openModalExcluir = () => {
-        setShowConfirmModal(false);
-        setShowModalExcluir(true);
-    }; */
-
-    /* const closeConfirmModal = () => {
-        setShowConfirmModal(false);
     };
-    const openConfirmModal = () => {
-        setShowConfirmModal(true);
-    }; */
-
-    /*const handleFotoCamera = async () => {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            const videoElement = document.createElement('video');
-            videoElement.srcObject = stream;
-            videoElement.play();
-    
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-    
-            const capturePhoto = () => {
-                canvas.width = videoElement.videoWidth;
-                canvas.height = videoElement.videoHeight;
-                context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-    
-                // Parar o stream
-                stream.getTracks().forEach((track) => track.stop());
-    
-                // Atualizar o estado da foto
-                setFoto(canvas.toDataURL('image/png'));
-            };
-    
-            // Exibe um modal ou uma janela para tirar a foto
-            const confirmPhoto = window.confirm("Pronto para capturar a foto?");
-            if (confirmPhoto) {
-                capturePhoto();
-            }
-        } catch (error) {
-            console.error("Erro ao acessar a câmera:", error);
-            alert("Não foi possível acessar a câmera. Verifique as permissões.");
-        }
-    };*/
 
     return (
         <div className="cadastro-container">
@@ -208,8 +243,8 @@ const VisualizarAdotante = () => {
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>Código</label>
-                        <input 
-                            type="text" 
+                        <input
+                            type="text"
                             id="id"
                             value={adotante?.id || ''}
                             disabled
@@ -242,13 +277,19 @@ const VisualizarAdotante = () => {
                 <div className="form-group">
                     <label>Nome</label>
                     <input
-                        id="nome"
-                        name="nome"
                         type="text"
-                        placeholder="Digite o nome"
+                        id="nome"
+                        name='nome'
+                        maxLength={50} //verificar tamanho maximo.
                         value={formDados?.nome || ''}
                         onChange={handleInputChange}
                         disabled={!editando}
+                        onKeyDown={(e) => {
+                            if (!validarNome(e.key) && e.key.length === 1) {
+                                e.preventDefault();
+                            }
+                        }}
+                        placeholder="Digite o nome"
                     />
                     {(tentouEnviar && !formDados.nome) && (
                         <span className="erro-required"> O campo 'Nome' é obrigatório </span>
@@ -258,45 +299,77 @@ const VisualizarAdotante = () => {
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
                         <label>RG</label>
-                        <input
-                            id="rg"
-                            name="rg"
-                            type="text"
-                            placeholder="Digite o RG"
+                        <InputMask
+                            mask="99.999.999-*"
+                            formatChars={{
+                                '9': '[0-9]',
+                                '*': '[0-9Xx]'  // aqui o '*' aceita dígitos de 0 a 9 e também X ou x
+                            }}
                             value={formDados?.rg || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
+                            placeholder="__.___.___-_"
+                            required>
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    id="rg"
+                                    name="rg"
+                                    type="text"
+                                    ref={rgRef}
+                                    disabled={!editando}
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !formDados.rg) && (
                             <span className="erro-required"> O campo 'RG' é obrigatório </span>
                         )}
                     </div>
                     <div className="form-group">
                         <label>CPF</label>
-                        <input
-                            id="cpf"
-                            name="cpf"
-                            type="text"
-                            placeholder="Digite o CPF"
+                        <InputMask
+                            mask="999.999.999-99"
                             value={formDados?.cpf || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
+                            placeholder="___.___.___-__"
+                            required>
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    id="cpf"
+                                    name="cpf"
+                                    type="text"
+                                    disabled={!editando}
+                                    ref={cpfRef}
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !formDados.cpf) && (
                             <span className="erro-required"> O campo 'CPF' é obrigatório </span>
                         )}
                     </div>
                     <div className="form-group">
                         <label>Celular</label>
-                        <input
-                            id="celular"
-                            name="celular"
-                            type="text"
-                            placeholder="Digite o celular com DDD"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={formDados?.celular || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
+                            placeholder="(__) _____-____"
+                            required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="celular"
+                                    name="celular"
+                                    disabled={!editando}
+                                    ref={celularRef}
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !formDados.celular) && (
                             <span className="erro-required"> O campo 'Celular' é obrigatório </span>
                         )}
@@ -306,15 +379,25 @@ const VisualizarAdotante = () => {
                 <div className="group-adocao">
                     <div className="form-group">
                         <label>Contato</label>
-                        <input
-                            id='contato'
-                            type="text"
-                            name="contato"
-                            placeholder="Digite um nº de contato"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={formDados?.contato || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
+                            placeholder="(__) _____-____"
+                            required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="contato"
+                                    name="contato"
+                                    disabled={!editando}
+                                    ref={contatoRef}
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !formDados.contato) && (
                             <span className="erro-required"> O campo 'Nome' é obrigatório </span>
                         )}
@@ -322,13 +405,19 @@ const VisualizarAdotante = () => {
                     <div className="form-group">
                         <label>Responsável Contato</label>
                         <input
+                            type="text"
                             id='responsavelContato'
                             name="responsavelContato"
-                            type="text"
-                            placeholder="Nome do contato para recados"
+                            maxLength={50} //verificar tamanho maximo.
                             value={formDados?.responsavelContato || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
+                            placeholder="Nome do contato para recados"
+                            onKeyDown={(e) => {
+                                if (!validarNome(e.key) && e.key.length === 1) {
+                                    e.preventDefault();
+                                }
+                            }}
                         />
                         {(tentouEnviar && !formDados.responsavelContato) && (
                             <span className="erro-required"> O campo 'Responsável Contato' é obrigatório </span>
@@ -346,6 +435,7 @@ const VisualizarAdotante = () => {
                         value={formDados?.email || ''}
                         onChange={handleInputChange}
                         disabled={!editando}
+                        ref={emailRef}
                     />
                     {(tentouEnviar && !formDados.email) && (
                         <span className="erro-required"> O campo 'E-mail' é obrigatório </span>
@@ -419,15 +509,25 @@ const VisualizarAdotante = () => {
                 <div className="cadastroAdotante-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>
-                        <input
-                            id="cep"
-                            name="cep"
-                            type="text"
-                            placeholder="Digite o CEP"
+                        <InputMask
+                            mask="99999-999"
                             value={formDados?.cep || ''}
                             onChange={handleInputChange}
                             disabled={!editando}
-                        />
+                            // onBlur={handleBuscarCep}
+                            placeholder="_____-___"
+                            required
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="cep"
+                                    name="cep"
+                                    disabled={!editando}
+                                />
+                            )}
+                        </InputMask>
                         {(tentouEnviar && !formDados.cep) && (
                             <span className="erro-required"> O campo 'CEP' é obrigatório </span>
                         )}
@@ -441,7 +541,7 @@ const VisualizarAdotante = () => {
                             placeholder="Digite a cidade"
                             value={formDados?.cidade || ''}
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                         {(tentouEnviar && !formDados.cidade) && (
                             <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
@@ -456,7 +556,7 @@ const VisualizarAdotante = () => {
                             placeholder="Digite o estado"
                             value={formDados?.uf || ''}
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                         {(tentouEnviar && !formDados.cidade) && (
                             <span className="erro-required"> O campo 'Cidade' é obrigatório </span>
@@ -473,7 +573,7 @@ const VisualizarAdotante = () => {
                         placeholder="Digite o Endereço"
                         value={formDados?.logradouro || ''}
                         onChange={handleInputChange}
-                        disabled={!editando}
+                        disabled
                     />
                     {(tentouEnviar && !formDados.logradouro) && (
                         <span className="erro-required"> O campo 'Endereço' é obrigatório </span>
@@ -517,7 +617,7 @@ const VisualizarAdotante = () => {
                             placeholder="Digite o bairro"
                             value={formDados?.bairro || ''}
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                         {(tentouEnviar && !formDados.bairro) && (
                             <span className="erro-required"> O campo 'Bairro' é obrigatório </span>
@@ -587,14 +687,26 @@ const VisualizarAdotante = () => {
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
                     ) : (
-
-                        <BotaoSalvar />
-
-                        //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                        <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     )}
                     <BotaoCancelar />
                 </div>
             </form>
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            rg: rgRef,
+                            cpf: cpfRef,
+                            celular: celularRef,
+                            contato: contatoRef,
+                            email: emailRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div>
     );
 };

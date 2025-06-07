@@ -1,5 +1,5 @@
 import InputMask from 'react-input-mask';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDoadores } from '../../../hooks/useDoadores';
@@ -7,6 +7,8 @@ import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
+import { validarTelefone } from '../../../utils/ValidaTelefone';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -19,11 +21,16 @@ const VisualizarDoador = () => {
     const [doador, setDoador] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
-    const [erroCPF, setErroCPF] = useState('');
-    const [erroRG, setErroRG] = useState('');
     const [showModal, setShowModal] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const { buscarCep } = useBuscarCep();
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const rgRef = useRef(null);
+    const cpfRef = useRef(null);
+    const celularRef = useRef(null);
+    const contatoRef = useRef(null);
 
     //Modais:
     const openModal = () => setShowModal(true);
@@ -80,14 +87,10 @@ const VisualizarDoador = () => {
             // Se CPF tiver exatamente 9 dígitos, faz a validação
             if (rgLimpo.length === 9) {
                 if (!validarRG(rgLimpo)) {
-                    setErroRG('Eita! RG inválido');
-                } else {
-                    setErroRG('');
+                    setCampoAlerta('rg'); // ou 'email'
+                    setAlertMensagem('RG inválido. Insira novamente.');
+                    setAlertAtencao(true);
                 }
-            }
-            else {
-                // Enquanto não tiver 9 dígitos, não mostra erro
-                setErroRG('');
             }
         }
 
@@ -99,14 +102,36 @@ const VisualizarDoador = () => {
             // Se CPF tiver exatamente 11 dígitos, faz a validação
             if (cpfLimpo.length === 11) {
                 if (!validarCPF(cpfLimpo)) {
-                    setErroCPF('Eita! CPF inválido');
-                } else {
-                    setErroCPF('');
+                    setCampoAlerta('cpf'); // ou 'email'
+                    setAlertMensagem('CPF inválido. Insira novamente.');
+                    setAlertAtencao(true);
                 }
             }
-            else {
-                // Enquanto não tiver 11 dígitos, não mostra erro
-                setErroCPF('');
+        }
+
+        //Chama a validação de Celular
+        if (name === 'celular') {
+            const numeros = value.replace(/\D/g, ''); // remove tudo que não for número
+            if (numeros.length == 11) {
+                if (!validarTelefone(numeros)) {
+                    setCampoAlerta('celular');
+                    setAlertMensagem('Número de celular inválido. Insira novamente.');
+                    setAlertAtencao(true);
+                    return;
+                }
+            }
+        }
+
+        //Chama a validação de Contato
+        if (name === 'contato') {
+            const numeros = value.replace(/\D/g, ''); // remove tudo que não for número
+            if (numeros.length == 11) {
+                if (!validarTelefone(value)) {
+                    setCampoAlerta('contato');
+                    setAlertMensagem('Número de contato inválido. Insira novamente.');
+                    setAlertAtencao(true);
+                    return;
+                }
             }
         }
 
@@ -150,14 +175,32 @@ const VisualizarDoador = () => {
         const contatoLimpo = formDados.contato.replace(/[^\d]+/g, '');
 
         if (!validarRG(rgLimpo)) {
-            setErroRG('Eita! RG inválido');
-            alert("RG invalido. Insira novamente");
+            setCampoAlerta('rg'); // ou 'email'
+            setAlertMensagem('RG inválido. Insira novamente.');
+            setAlertAtencao(true);
             return;
         }
 
         if (!validarCPF(cpfLimpo)) {
-            setErroCPF('Eita! CPF inválido');
-            alert("CPF invalido. Insira novamente");
+            setCampoAlerta('cpf'); // ou 'email'
+            setAlertMensagem('CPF inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        //Chama validação de celular
+        if (!validarTelefone(formDados.celular)) {
+            setCampoAlerta('celular');
+            setAlertMensagem('Número de celular inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        //Chama validação de contato
+        if (!validarTelefone(formDados.contato)) {
+            setCampoAlerta('contato');
+            setAlertMensagem('Número de contato inválido. Insira novamente.');
+            setAlertAtencao(true);
             return;
         }
 
@@ -175,11 +218,6 @@ const VisualizarDoador = () => {
             tratarErro(error);
         }
     };
-
-
-
-
-
 
     /* const [showModalAlterar, setShowModalAlterar] = useState(false); //Alteração
     const [showModalExcluir, setShowModalExcluir] = useState(false); //Exclusão
@@ -228,6 +266,17 @@ const VisualizarDoador = () => {
         setShowConfirmModal(true);
     };
  */
+
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setFormDados(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
+
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
+        }
+    };
+
     return (
         <div className="cadastro-container">
             <form className="cadastroDoador-form" onSubmit={handleSubmit}>
@@ -307,12 +356,11 @@ const VisualizarDoador = () => {
                                     id="rg"
                                     name="rg"
                                     type="text"
-                                    className={erroCPF ? 'input-error' : ''}
                                     disabled={!editando}
+                                    ref={rgRef}
                                 />
                             )}
                         </InputMask>
-                        {erroRG && <span className="error">{erroRG}</span>}
                         {(tentouEnviar && !formDados.rg) && (
                             <span className="erro-required"> O campo 'RG' é obrigatório </span>
                         )}
@@ -333,11 +381,10 @@ const VisualizarDoador = () => {
                                     name="cpf"
                                     type="text"
                                     disabled={!editando}
-                                    className={erroCPF ? 'input-error' : ''}
+                                    ref={cpfRef}
                                 />
                             )}
                         </InputMask>
-                        {erroCPF && <span className="error">{erroCPF}</span>}
                         {(tentouEnviar && !formDados.cpf) && (
                             <span className="erro-required"> O campo 'CPF' é obrigatório </span>
                         )}
@@ -359,6 +406,7 @@ const VisualizarDoador = () => {
                                     id="celular"
                                     name="celular"
                                     disabled={!editando}
+                                    ref={celularRef}
                                 />
                             )}
                         </InputMask>
@@ -388,6 +436,7 @@ const VisualizarDoador = () => {
                                     id="contato"
                                     name="contato"
                                     disabled={!editando}
+                                    ref={contatoRef}
                                 />
                             )}
                         </InputMask>
@@ -438,7 +487,7 @@ const VisualizarDoador = () => {
                             onBlur={handleBuscarCep}
                             disabled={!editando}
                             placeholder="_____-___"
-                            /* required */
+                        /* required */
                         >
                             {(inputProps) => (
                                 <input
@@ -463,7 +512,7 @@ const VisualizarDoador = () => {
                             placeholder="Digite a cidade"
                             value={formDados?.cidade || ''}
                             onChange={handleInputChange}
-                            /* disabled={!editando} */
+                        /* disabled={!editando} */
                         />
 
                         {(tentouEnviar && !formDados.cidade) && (
@@ -563,6 +612,20 @@ const VisualizarDoador = () => {
                     <BotaoCancelar />
                 </div>
             </form >
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            rg: rgRef,
+                            cpf: cpfRef,
+                            celular: celularRef,
+                            contato: contatoRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div >
     );
 };

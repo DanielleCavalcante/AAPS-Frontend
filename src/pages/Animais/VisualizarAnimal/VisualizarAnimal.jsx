@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { validarNome } from '../../../utils/ValidaNome';
+import { validarData } from '../../../utils/validaData';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
-
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -14,7 +15,8 @@ import './VisualizarAnimal.css';
 
 const VisualizaAnimal = () => {
     const navigate = useNavigate();
-    const { buscarAnimalPorId, atualizarAnimal, carregando, erro, limparErro } = useAnimais();
+    // const { buscarAnimalPorId, atualizarAnimal, carregando, erro, limparErro } = useAnimais();
+    const { buscarAnimalPorId, atualizarAnimal, carregando, erro, tratarErro, limparErro } = useAnimais();
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
@@ -23,6 +25,10 @@ const VisualizaAnimal = () => {
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const [doadores, setDoadores] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const dataRef = useRef(null);
 
     //Modais:
     const openModal = () => setShowModal(true);
@@ -69,6 +75,16 @@ const VisualizaAnimal = () => {
             }
             const numero = parseInt(value, 10);
             if (isNaN(numero) || numero <= 0) {
+                return;
+            }
+        }
+
+        //valida Data
+        if (name === 'dataNascimento') {
+            if (validarData(value)) {
+                setCampoAlerta('dataNascimento');
+                setAlertMensagem('Data de Nascimento inválida. Insira novamente.');
+                setAlertAtencao(true);
                 return;
             }
         }
@@ -124,6 +140,16 @@ const VisualizaAnimal = () => {
 
     const irParaAcompanhamento = () => {
         navigate('/acompanhamento');
+    };
+
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setFormDados(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
+
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
+        }
     };
 
     return (
@@ -356,6 +382,17 @@ const VisualizaAnimal = () => {
                     </div>
                 </div>
             </form >
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            dataNascimento: dataRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div >
     );
 }

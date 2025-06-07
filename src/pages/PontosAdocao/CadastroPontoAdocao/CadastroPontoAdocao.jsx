@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import InputMask from 'react-input-mask';
+import { useState, useRef } from 'react';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { useNavigate } from 'react-router-dom';
-import InputMask from 'react-input-mask';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarCNPJ } from '../../../utils/ValidaCNPJ';
-
+import { validarTelefone } from '../../../utils/ValidaTelefone';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
@@ -33,7 +34,13 @@ const CadastroPontoAdocao = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
-    const [erroCNPJ, setErroCNPJ] = useState('');
+    // const [erroCNPJ, setErroCNPJ] = useState('');
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const cnpjRef = useRef(null);
+    const celularRef = useRef(null);
+    const contatoRef = useRef(null);
     const { buscarCep } = useBuscarCep();
 
     const handleChange = (e) => {
@@ -48,14 +55,10 @@ const CadastroPontoAdocao = () => {
             // Se CPF tiver exatamente 11 dígitos, faz a validação
             if (cnpjLimpo.length === 14) {
                 if (!validarCNPJ(cnpjLimpo)) {
-                    setErroCNPJ('Eita! CNPJ inválido');
-                } else {
-                    setErroCNPJ('');
+                    setCampoAlerta('cnpj'); // ou 'email'
+                    setAlertMensagem('CNPJ inválido. Insira novamente.');
+                    setAlertAtencao(true);
                 }
-            }
-            else {
-                // Enquanto não tiver 11 dígitos, não mostra erro
-                setErroCNPJ('');
             }
         }
 
@@ -83,9 +86,27 @@ const CadastroPontoAdocao = () => {
         const celularLimpo = dadosPontoAdocao.celular.replace(/[^\d]+/g, '');
         const contatoLimpo = dadosPontoAdocao.contato.replace(/[^\d]+/g, '');
 
+        //Chama a validação de CNPJ
         if (!validarCNPJ(cnpjLimpo)) {
-            setErroCNPJ('Eita! CNPJ inválido');
-            alert("CNPJ invalido. Insira novamente");
+            setCampoAlerta('cnpj'); // ou 'email'
+            setAlertMensagem('CNPJ inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        //Chama validação de celular
+        if (!validarTelefone(dadosPontoAdocao.celular)) {
+            setCampoAlerta('celular');
+            setAlertMensagem('Número de celular inválido. Insira novamente.');
+            setAlertAtencao(true);
+            return;
+        }
+
+        //Chama validação de contato
+        if (!validarTelefone(dadosPontoAdocao.contato)) {
+            setCampoAlerta('contato');
+            setAlertMensagem('Número de contato inválido. Insira novamente.');
+            setAlertAtencao(true);
             return;
         }
 
@@ -138,27 +159,12 @@ const CadastroPontoAdocao = () => {
 
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
+    const openModal = () => setShowModal(true);
     const closeModal = () => {
         setShowModal(false);
         navigate('/listar-pontos-adocao');
     }
-    const openModal = () => {
-        const status = document.getElementById('status').value;
-        const nome = document.getElementById('nomeFantasia').value;
-        const cnpj = document.getElementById('cnpj').value;
-        const celular = document.getElementById('celular').value;
-        const contato = document.getElementById('contato').value;
-        const responsavelContato = document.getElementById('responsavelContato').value;
-        const cep = document.getElementById('cep').value;
-        const numero = document.getElementById('numero').value;
-
-        // Verifica se todos os campos estão preenchidos
-        if (status && nome && cnpj && celular && contato && responsavelContato && cep && numero) {
-            setShowModal(true);
-        } else {
-            return null;
-        }
-    };
+    
 
     /* // Handlers para telefones e responsáveis
     const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
@@ -175,6 +181,16 @@ const CadastroPontoAdocao = () => {
         novosTelefones[index].responsavel = value;
         setTelefones(novosTelefones);
     }; */
+
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setDadosPontoAdocao(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
+
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
+        }
+    };
 
     return (
         <div className="cadastro-container">
@@ -196,7 +212,6 @@ const CadastroPontoAdocao = () => {
                             <option value={1}>Ativo</option>
                             <option value={0}>Inativo</option>
                         </select>
-
                         {(tentouEnviar && !dadosPontoAdocao.status) && (
                             <span className="erro-required"> O campo 'Status' é obrigatório </span>
                         )}
@@ -243,7 +258,7 @@ const CadastroPontoAdocao = () => {
                                 />
                             )}
                         </InputMask>
-                        {erroCNPJ && <span className="error">{erroCNPJ}</span>}
+                        {/* {erroCNPJ && <span className="error">{erroCNPJ}</span>} */}
                         {(tentouEnviar && !dadosPontoAdocao.cnpj) && (
                             <span className="erro-required"> O campo 'CNPJ' é obrigatório </span>
                         )}
@@ -495,6 +510,19 @@ const CadastroPontoAdocao = () => {
                     <BotaoLimpar />
                 </div>
             </form>
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            cnpj: cnpjRef,
+                            celular: celularRef,
+                            contato: contatoRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div>
     );
 };

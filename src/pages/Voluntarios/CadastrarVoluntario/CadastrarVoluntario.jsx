@@ -53,14 +53,15 @@ const CadastroVoluntario = () => {
                     setAlertAtencao(true);
                     // exibirAlerta('CPF inválido. Insira novamente.')
                     // setAlertAtencao(true);
-                } else {
-                    setErroCPF('');
-                }
+                } 
+                // else {
+                //     setErroCPF('');
+                // }
             }
-            else {
-                // Enquanto não tiver 11 dígitos, não mostra erro
-                setErroCPF('');
-            }
+            // else {
+            //     // Enquanto não tiver 11 dígitos, não mostra erro
+            //     setErroCPF('');
+            // }
         }
 
         setDadosVoluntario({
@@ -91,8 +92,14 @@ const CadastroVoluntario = () => {
 
         const cpfLimpo = dadosVoluntario.cpf.replace(/[^\d]+/g, '');
 
-        if (!validarCPF(cpfLimpo)){
-            setErroCPF('Eita! CPF inválido');
+        if (cpfLimpo.length > 1 && cpfLimpo.length < 11) {
+            setAlertAtencao(true);
+        }
+
+        if (!validarCPF(cpfLimpo)) {
+            setCampoAlerta('cpf');
+            setAlertMensagem('CPF inválido. Insira novamente.');
+            setAlertAtencao(true);
             return;
         }
 
