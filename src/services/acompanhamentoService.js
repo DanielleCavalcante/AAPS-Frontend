@@ -13,8 +13,12 @@ export const AcompanhamentoService = {
         const response = await api.get(`/Acompanhamento/ObterAcompanhamentoPorId/${id}`);
         return response.data.dados;
     },
+    async buscarAcompanhamentosPorAnimalId(id) {
+        const response = await api.get(`/Acompanhamento/ObterAcompanhamentosPorAnimalId/${id}`);
+        return response.data.dados;
+    },
     async excluirAcompanhamento(id) {
-        const response = await api.put(`/Acompanhamento/ExcluirAcompanhamento/${id}`);
+        const response = await api.delete(`/Acompanhamento/ExcluirAcompanhamento/${id}`);
         return response.data.dados;
     }
 }

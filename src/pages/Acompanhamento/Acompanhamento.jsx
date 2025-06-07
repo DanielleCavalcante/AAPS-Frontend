@@ -1,73 +1,174 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from "react-router-dom";
+
+import { useAcompanhamentos } from '../../hooks/useAcompanhamentos';
+import { useEventos } from '../../hooks/useEventos';
+import { useError } from '../../hooks/useError';
+import { useLoading } from '../../hooks/useLoading';
+
+import iconeExcluir from '/src/assets/icone_excluir.png';
+import Carregando from '../../components/Spinner/Carregando';
 import './Acompanhamento.css';
 
 const Acompanhamento = () => {
-    // Estado para os eventos de acompanhamento
+    const { id } = useParams();
+
+    const { criarAcompanhamento, listarAcompanhamentosPorAnimalId, excluirAcompanhamento } = useAcompanhamentos();
+    const { listarEventosAtivos } = useEventos();
+
+    const { erro, limparErro } = useError();
+    const [tentouEnviar, setTentouEnviar] = useState(false);
+
+    const [dadosAcompanhamento, setDadosAcompanhamento] = useState({
+        eventoId: '',
+        descricaoEvento: '',
+        data: '',
+        observacao: ''
+    });
     const [eventos, setEventos] = useState([]);
 
-    // Estado dos campos do formulário
-    const [codigo, setCodigo] = useState('');
-    const [descricaoEvento, setDescricaoEvento] = useState('');
-    const [data, setData] = useState('');
-    const [observacao, setObservacao] = useState('');
+    const [acompanhamentos, setAcompanhamentos] = useState([]);
 
-    // Função para adicionar evento
-    const adicionarEvento = () => {
-        if (!codigo || !descricaoEvento || !data) {
-            alert('Preencha todos os campos obrigatórios: Código, Evento e Data.');
-            return;
-        }
+    const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
+    const [dadosCarregados, setDadosCarregados] = useState(false);
 
-        const novoEvento = {
-            id: codigo,
-            evento: descricaoEvento,
-            data,
-            observacao
+    const camposObrigatorios =
+        dadosAcompanhamento.eventoId &&
+        dadosAcompanhamento.descricaoEvento &&
+        dadosAcompanhamento.data;
+
+    useEffect(() => {
+        const fetchEventos = async () => {
+            const eventosData = await listarEventosAtivos();
+            setEventos(eventosData);
         };
 
-        setEventos([...eventos, novoEvento]);
+        const carregarDados = async () => {
+            iniciarCarregamento();
+            limparErro();
+            const dados = await listarAcompanhamentosPorAnimalId(Number(id));
+            setAcompanhamentos(dados || []);
+            finalizarCarregamento();
+            setDadosCarregados(true);
+        };
 
-        // Limpar campos
-        setCodigo('');
-        setDescricaoEvento('');
-        setData('');
-        setObservacao('');
+        fetchEventos();
+        carregarDados();
+    }, []);
+
+    const carregarDados = async () => {
+        iniciarCarregamento();
+        limparErro();
+        const dados = await listarAcompanhamentosPorAnimalId(Number(id));
+        setAcompanhamentos(dados || []);
+        finalizarCarregamento();
+        setDadosCarregados(true);
     };
 
-    // Função para excluir evento
-    const handleExcluir = (id) => {
-        const eventosAtualizados = eventos.filter(evento => evento.id !== id);
-        setEventos(eventosAtualizados);
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        limparErro();
+
+        setDadosAcompanhamento({
+            ...dadosAcompanhamento,
+            [id]: ['eventoId'].includes(id) ? Number(value) : value
+        });
+
+        if (id === "eventoId"){
+            const eventoSelecionado = eventos.find(e => e.id === Number(value));
+            if (eventoSelecionado) {
+                setDadosAcompanhamento(prevState => ({
+                    ...prevState,
+                    descricaoEvento: eventoSelecionado.descricao ? eventoSelecionado.descricao : '',
+                }));
+            }
+        }
+    };
+
+    const handleEventoChange = (e) => {
+        const eventoId = e.target.value;
+        const eventoSelecionado = eventos.find(e => e.id === Number(eventoId));
+
+        setDadosAcompanhamento({
+            ...dadosAcompanhamento,
+            eventoId,
+            descricaoEvento: eventoSelecionado.descricao ? eventoSelecionado.descricao : ''
+        });
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setTentouEnviar(true); 
+        limparErro();
+        try {
+            await criarAcompanhamento({
+                ...dadosAcompanhamento,
+                animalId: Number(id)
+            });
+            setDadosAcompanhamento({
+                data: '',
+                observacao: '',
+                eventoId: '',
+                descricaoEvento: ''
+            });
+            setTentouEnviar(false)
+            await carregarDados(); 
+        } catch (error) {
+            tratarErro(error);
+        }
+    };
+
+    const handleExcluir = async (id) => {
+        iniciarCarregamento();
+        try {
+            await excluirAcompanhamento(id);
+            limparErro();
+            const dadosAtualizados = await listarAcompanhamentosPorAnimalId(id);
+            setAcompanhamentos(dadosAtualizados);
+            await carregarDados(); 
+        } catch (error) {
+            console.log('Erro ao excluir acompanhamento', error);
+        } finally {
+            finalizarCarregamento();
+        }
     };
 
     return (
         <div className="container-acompanhamento">
-            <form className="acompanhamento-form">
-
+            <form className="acompanhamento-form" onSubmit={handleSubmit}>
                 <div className='cadastroAcompanhamento-linha1'>
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
                         <input
-                            type="text"
-                            id="codigo"
-                            value={codigo}
-                            onChange={(e) => setCodigo(e.target.value)}
+                            type="number"
+                            id="eventoId"
+                            name="eventoId"
+                            value={dadosAcompanhamento.eventoId}
+                            onChange={handleChange}
                         />
+                        {(tentouEnviar && !dadosAcompanhamento.eventoId) && (
+                            <span className="erro-required"> O campo 'Código Evento' é obrigatório </span>
+                        )}
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="Evento">Procedimento</label>
                         <select
-                            id="Evento"
-                            value={descricaoEvento}
-                            onChange={(e) => setDescricaoEvento(e.target.value)}
+                            id="descricaoEvento"
+                            name="descricaoEvento"
+                            value={dadosAcompanhamento.eventoId}
+                            onChange={handleEventoChange}
                         >
-                            <option value="">Selecione um procedimento</option>
-                            <option value="Vacinação">Vacinado</option>
-                            <option value="Consulta">Castrado</option>
-                            <option value="Cirurgia">Vermifugad</option>
-                            {/* Adicione outras opções conforme necessidade */}
+                            <option value="">Selecione uma descrição do procedimento</option>
+                            {eventos.map(evento => (
+                                <option key={evento.id} value={evento.id}>
+                                    {evento.descricao}
+                                </option>
+                            ))}
                         </select>
+                        {(tentouEnviar && !dadosAcompanhamento.descricaoEvento) && (
+                            <span className="erro-required"> O campo 'Descrição' é obrigatório </span>
+                        )}
                     </div>
 
                     <div className="form-group">
@@ -75,32 +176,34 @@ const Acompanhamento = () => {
                         <input
                             type="date"
                             id="data"
-                            value={data}
-                            onChange={(e) => setData(e.target.value)}
+                            value={dadosAcompanhamento.data}
+                            onChange={handleChange}
+                            placeholder="Digite a data do procedimento"
                         />
+                        {(tentouEnviar && !dadosAcompanhamento.data) && (
+                            <span className="erro-required"> O campo 'Data' é obrigatório </span>
+                        )}
                     </div>
                 </div>
 
                 <textarea
-                    name="observacaoAcompanhamento"
-                    id="observacaoAcompanhamento"
+                    name="observacao"
+                    id="observacao"
                     placeholder="Observação sobre o acompanhamento"
-                    value={observacao}
-                    onChange={(e) => setObservacao(e.target.value)}
+                    value={dadosAcompanhamento.observacao}
+                    onChange={handleChange}
                 />
 
                 <div className="button-wrapper">
                     <button
-                        type="button"
+                        type="submit"
                         className="button-adicionar-evento"
-                        onClick={adicionarEvento}
+                        disabled={!camposObrigatorios}
                     >
                         <i className="fas fa-plus" style={{ marginRight: '8px' }}></i>
                         Adicionar Procedimento
                     </button>
                 </div>
-
-
 
                 <div id="group">
                     <div className="form-group">
@@ -109,35 +212,42 @@ const Acompanhamento = () => {
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>Evento</th>
+                                    <th>Procedimento</th>
                                     <th>Data</th>
                                     <th>Observação</th>
                                     <th>Excluir</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {eventos.length === 0 && (
+                                {erro ? (
                                     <tr>
-                                        <td colSpan="5" style={{ textAlign: 'center' }}>Nenhum procedimento cadastrado.</td>
+                                        <td colSpan="4" className="erro" style={{ textAlign: 'center', height: '20vh' }}>
+                                            {erro}
+                                        </td>
                                     </tr>
-                                )}
-                                {eventos.map(evento => (
-                                    <tr key={evento.id}>
-                                        <td>{evento.id}</td>
-                                        <td>{evento.evento}</td>
-                                        <td>{evento.data}</td>
-                                        <td>{evento.observacao}</td>
+                                ) : carregando ? (
+                                    <tr>
+                                        <td colSpan="4">
+                                            <Carregando />
+                                        </td>
+                                    </tr>
+                                ) :  ( acompanhamentos.map((acompanhamento) => (
+                                    <tr key={acompanhamento.id}>
+                                        <td>{acompanhamento.id}</td>
+                                        <td>{acompanhamento.descricao}</td>
+                                        <td>{acompanhamento.data ? new Date(acompanhamento.data).toLocaleDateString('pt-BR'): ''}</td>
+                                        <td>{acompanhamento.observacao}</td>
                                         <td>
-                                            <button
-                                                className="delete-button"
-                                                onClick={() => handleExcluir(evento.id)}
-                                                title="Excluir evento"
+                                            <button className="delete-button" 
+                                                title="Excluir evento" 
+                                                onClick={() => {handleExcluir(acompanhamento.id)}}
                                             >
                                                 <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />
                                             </button>
                                         </td>
                                     </tr>
-                                ))}
+                                    ))
+                                 )}
                             </tbody>
                         </table>
                     </div>

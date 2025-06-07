@@ -131,7 +131,6 @@ const CadastroAnimal = () => {
                         <input type="text" id="codigo" disabled />
                     </div>
                     <div className="form-group">
-
                         <label htmlFor="disponibilidade">Disponibilidade</label>
                         <select
                             id="disponibilidade"

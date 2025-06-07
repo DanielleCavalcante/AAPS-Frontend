@@ -35,6 +35,16 @@ export const useAcompanhamentos = () => {
         }
     };
 
+    const listarAcompanhamentosPorAnimalId = async (id) => {
+        try {
+            limparErro();
+            return await AcompanhamentoService.buscarAcompanhamentosPorAnimalId(id);
+        } catch (error) {
+            tratarErro(error);
+            throw error;
+        }
+    };
+
     const excluirAcompanhamento = async (id) => {
         try {
             limparErro();
@@ -49,6 +59,7 @@ export const useAcompanhamentos = () => {
         criarAcompanhamento,
         listarAcompanhamentos,
         buscarAcompanhamentoPorId,
+        listarAcompanhamentosPorAnimalId,
         excluirAcompanhamento,
         erro
     };

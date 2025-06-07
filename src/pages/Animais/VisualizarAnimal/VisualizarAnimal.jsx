@@ -117,7 +117,7 @@ const VisualizaAnimal = () => {
     };
 
     const irParaAcompanhamento = () => {
-        navigate('/acompanhamento');
+        navigate(`/acompanhamento/${animal.id}`);
     };
 
     return (
