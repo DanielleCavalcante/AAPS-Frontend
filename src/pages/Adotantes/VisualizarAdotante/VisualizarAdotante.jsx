@@ -1,7 +1,7 @@
 import InputMask from 'react-input-mask';
 import React, { useState, useEffect, useRef } from 'react';
 import { validarCPF } from '../../../utils/ValidaCPF';
-import { validarRG } from '../../../utils/validaRG';
+import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";

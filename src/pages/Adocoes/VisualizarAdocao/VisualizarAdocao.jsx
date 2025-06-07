@@ -1,7 +1,7 @@
 import InputMask from 'react-input-mask';
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ValidarData } from '../../../utils/ValidarData';
+import { validarData } from '../../../utils/ValidaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useError } from '../../../hooks/useError';
 import { useAdocoes } from '../../../hooks/useAdocoes';
@@ -85,7 +85,7 @@ const VisualizarAdocao = () => {
 
         //valida Data
         if (name === 'data') {
-            if (ValidarData(value)) {
+            if (validarData(value)) {
                 setCampoAlerta('data');
                 setAlertMensagem('Data inválida! Insira novamente.');
                 setAlertAtencao(true);
