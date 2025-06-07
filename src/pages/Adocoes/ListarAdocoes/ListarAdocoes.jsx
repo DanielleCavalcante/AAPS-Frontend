@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-
+import AlertSucesso from '../../../components/AlertSucesso/alertSucesso';
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useTermoAdocao } from '../../../hooks/useTermoAdocao';
 import { useLoading } from '../../../hooks/useLoading';
 
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
+import iconeDownload from '/src/assets/icone_download.png';
+import iconeCompartilhar from '/src/assets/icone_compartilhar.png';
 import iconeUpload from '/src/assets/icone_upload.png';
 import iconeChat from '/src/assets/icone_chat.png';
 import Carregando from '../../../components/Spinner/Carregando';
@@ -16,11 +18,13 @@ const Adocao = () => {
     const { listarAdocoes, excluirAdocao, erro, limparErro } = useAdocoes();
 
     const [adocoes, setAdocoes] = useState([]);
-    const [filtro, setFiltro] = useState({ busca: ''});
+    const [filtro, setFiltro] = useState({ busca: '' });
     const { enviarTermoAdocao, gerarTermoAdocao } = useTermoAdocao();
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
+
+    const [alertSucesso, setAlertSucesso] = useState(false);
 
     useEffect(() => {
         const carregarDados = async () => {
@@ -62,7 +66,8 @@ const Adocao = () => {
         limparErro();
         try {
             await enviarTermoAdocao({ adocaoId, adotanteId });
-            alert("E-mail enviado com sucesso!");
+            setAlertSucesso(true);
+            // alert("E-mail enviado com sucesso!");
         } catch (error) {
             tratarErro(error);
         }
@@ -141,20 +146,20 @@ const Adocao = () => {
                             <td>{adocao.nomePontoAdocao}</td>
                             <td>
                                 <div className="acoes-adocao">
-                                <Link to={`/visualizar-adocao/${adocao.id}`}>
-                                    <button className="search-button-adocao">
-                                        <img src={iconeBusca} alt="Ícone de busca" className="icon" />
+                                    <Link to={`/visualizar-adocao/${adocao.id}`}>
+                                        <button className="search-button-adocao">
+                                            <img src={iconeBusca} alt="Ícone de busca" className="icon" />
+                                        </button>
+                                    </Link>
+                                    <button className="delete-button" onClick={() => { handleGerarTermo(adocao.id) }}>
+                                        <img src={iconeDownload} alt="Ícone de download" className="icon" />
                                     </button>
-                                </Link>
-                                <button className="delete-button" onClick={() => {handleGerarTermo(adocao.id)}}>
-                                    <img src={iconeUpload} alt="Ícone de download" className="icon" />
-                                </button>
-                                <button
-                                    className="delete-button"
-                                    onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}
-                                >
-                                    <img src={iconeChat} alt="Ícone de excluir" className="icon" />
-                                </button>
+                                    <button
+                                        className="delete-button"
+                                        onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}
+                                    >
+                                        <img src={iconeCompartilhar} alt="Ícone de excluir" className="icon" />
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -162,6 +167,12 @@ const Adocao = () => {
                     )}
                 </tbody>
             </table>
+            {alertSucesso && (
+                <AlertSucesso
+                    mensagem="Termo enviado com sucesso!"
+                    onClose={() => setAlertSucesso(false)}
+                />
+            )}
         </div>
     );
 }
