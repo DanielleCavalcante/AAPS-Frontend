@@ -4,7 +4,7 @@ import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
 import { useNavigate } from 'react-router-dom';
 import { validarNome } from '../../../utils/ValidaNome';
-import { validarData } from '../../../utils/validaData';
+import { validarData } from '../../../utils/ValidaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -22,8 +22,8 @@ const CadastroAnimal = () => {
         dataNascimento: '',
         pelagem: '',
         sexo: '',
-        status: '',
-        disponibilidade: '',
+        status: 1,
+        disponibilidade: 1,
         doadorId: '',
         nomeDoador: '',
         resgatado: false,
@@ -107,7 +107,7 @@ const CadastroAnimal = () => {
                 dataNascimento: '',
                 pelagem: '',
                 sexo: '',
-                status: '',
+                status: 1,
                 disponibilidade: '',
                 resgatado: false,
                 doadorId: '',
