@@ -17,12 +17,12 @@ export const AdocaoService = {
     },
 
     async atualizarAdocao(id, acompanhamentoDevolvido) {
-        const response = await api.put(`/Adocao/CancelarAdocao/${id}`, acompanhamentoDevolvido);
+        const response = await api.put(`/Adocao/AtualizarAdocao/${id}`, acompanhamentoDevolvido);
         return response.data.dados;
     },
 
     async cancelarAdocao(id, adocao) {
-        const response = await api.put(`/Adocao/AtualizarAdocao/${id}`, adocao);
+        const response = await api.put(`/Adocao/CancelarAdocao/${id}`, acompanhamentoDevolvido);
         return response.data.dados;
     },
 

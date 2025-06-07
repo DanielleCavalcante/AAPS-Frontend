@@ -111,7 +111,7 @@ const VisualizarAdotante = () => {
 
         if (name === 'numero') {
             if (value === '') {
-                setFormDados({ ...dadosAdotante, [id]: '' });
+                setFormDados({ ...formDados, [name]: '' });
                 return;
             }
             const numero = parseInt(value, 10);
@@ -124,9 +124,7 @@ const VisualizarAdotante = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setTentouEnviar(true);
-
         limparErro();
 
         if (!formDados.nome?.trim()) return;
@@ -586,7 +584,7 @@ const VisualizarAdotante = () => {
                         <input
                             id="numero"
                             name="numero"
-                            type="text"
+                            type="number"
                             placeholder="Digite o nº da residência"
                             value={formDados?.numero || ''}
                             onChange={handleInputChange}

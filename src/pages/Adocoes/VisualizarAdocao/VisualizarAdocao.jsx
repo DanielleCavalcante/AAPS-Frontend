@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import { validarData } from '../../../utils/validaData';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useError } from '../../../hooks/useError';
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
@@ -19,7 +20,7 @@ const VisualizarAdocao = () => {
     const { listarAdotantesAtivos } = useAdotantes();
     const { listarAnimais } = useAnimais();
     const { listarPontosAdocaoAtivos } = usePontosAdocao();
-    const { erro, carregando, limparErro } = useError();
+    const { erro, carregando, limparErro, tratarErro } = useError();
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -33,6 +34,13 @@ const VisualizarAdocao = () => {
 
     const [editando, setEditando] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
+
+    const [showModal, setShowModal] = useState(false);
+
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const dataRef = useRef(null);
 
     useEffect(() => {
         buscarAdocaoPorId(id)
@@ -74,6 +82,46 @@ const VisualizarAdocao = () => {
         const numericFields = ['status', 'voluntarioId', 'adotanteId', 'animalId', 'doadorId', 'pontoAdocaoId'];
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
 
+        //valida Data
+        if (name === 'data') {
+            if (validarData(value)) {
+                setCampoAlerta('data');
+                setAlertMensagem('Data inválida! Insira novamente.');
+                setAlertAtencao(true);
+                return;
+            }
+        }
+
+        if (name === "adotanteId") {
+            if (value === '') {
+                setFormDados({ ...formDados, [name]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+        }}
+
+        if (name === "animalId") {
+            if (value === '') {
+                setFormDados({ ...formDados, [name]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+        }}
+
+        if (name === "pontoAdocaoId") {
+            if (value === '') {
+                setFormDados({ ...formDados, [name]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+        }}
+
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
@@ -110,7 +158,7 @@ const VisualizarAdocao = () => {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         setTentouEnviar(true);
         limparErro();
 
@@ -124,11 +172,29 @@ const VisualizarAdocao = () => {
 
         try {
             await atualizarAdocao(id, formDados);
-            setEditando(false);
-            setTentouEnviar(false);
             openModal();
+            // setEditando(false);
+            // setTentouEnviar(false);
+            
         } catch (error) {
             tratarErro(error);
+        }
+    };
+
+    // CONFIGURAÇÕES DE MODAL
+    const openModal = () => setShowModal(true);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate('/listar-adocoes');
+    }
+
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setFormDados(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
+
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
         }
     };
 
@@ -142,7 +208,7 @@ const VisualizarAdocao = () => {
                             type="text"
                             id="codigo"
                             name="id"
-                            value={adocao?.id || '' } 
+                            value={adocao?.id || ''}
                             disabled
                         />
                     </div>
@@ -311,36 +377,36 @@ const VisualizarAdocao = () => {
                             /* value={
                                 animais.find(a => a.id === formDados.animalId)?.idade || ''
                             } */
-                           value={
-                            (() => {
-                                const dataNascimento = animais.find(a => a.id === formDados.animalId)?.dataNascimento;
-                                if (!dataNascimento) return '';
-                                const nascimento = new Date(dataNascimento);
-                                const hoje = new Date();
-                                let anos = hoje.getFullYear() - nascimento.getFullYear();
-                                let meses = hoje.getMonth() - nascimento.getMonth();
-                                let dias = hoje.getDate() - nascimento.getDate();
+                            value={
+                                (() => {
+                                    const dataNascimento = animais.find(a => a.id === formDados.animalId)?.dataNascimento;
+                                    if (!dataNascimento) return '';
+                                    const nascimento = new Date(dataNascimento);
+                                    const hoje = new Date();
+                                    let anos = hoje.getFullYear() - nascimento.getFullYear();
+                                    let meses = hoje.getMonth() - nascimento.getMonth();
+                                    let dias = hoje.getDate() - nascimento.getDate();
 
-                                if (dias < 0) {
-                                meses--;
-                                }
-                                if (meses < 0) {
-                                anos--;
-                                meses += 12;
-                                }
-                                if (isNaN(anos) || anos < 0) return '';
+                                    if (dias < 0) {
+                                        meses--;
+                                    }
+                                    if (meses < 0) {
+                                        anos--;
+                                        meses += 12;
+                                    }
+                                    if (isNaN(anos) || anos < 0) return '';
 
-                                if (anos === 0 && meses === 0) {
-                                return 'menos de 1 mês';
-                                }
-                                if (anos === 0) {
-                                return meses === 1 ? '1 mês' : `${meses} meses`;
-                                }
-                                if (meses === 0) {
-                                return anos === 1 ? '1 ano' : `${anos} anos`;
-                                }
-                                return `${anos} ${anos === 1 ? 'ano' : 'anos'} e ${meses} ${meses === 1 ? 'mês' : 'meses'}`;
-                            })()
+                                    if (anos === 0 && meses === 0) {
+                                        return 'menos de 1 mês';
+                                    }
+                                    if (anos === 0) {
+                                        return meses === 1 ? '1 mês' : `${meses} meses`;
+                                    }
+                                    if (meses === 0) {
+                                        return anos === 1 ? '1 ano' : `${anos} anos`;
+                                    }
+                                    return `${anos} ${anos === 1 ? 'ano' : 'anos'} e ${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+                                })()
                             }
                             onChange={handleInputChange}
                             disabled
@@ -407,10 +473,10 @@ const VisualizarAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label>Telefone doador</label>
-                        <input 
+                        <input
                             id="telefoneDoador"
-                            name="telefoneDoador" 
-                            type="text" 
+                            name="telefoneDoador"
+                            type="text"
                             value={
                                 animais.find(a => a.id === formDados.animalId)?.telefoneDoador || ''
                             }
@@ -472,13 +538,23 @@ const VisualizarAdocao = () => {
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
                         ) : (
-                            <BotaoSalvar />
-                            //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
+                            <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                         )}
                         <BotaoCancelar />
                     </div>
                 </div>
             </form>
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            data: dataRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div>
     );
 };

@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-
+import React, { useState, useEffect, useRef } from 'react';
+import { validarData } from '../../../utils/validaData';
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useAdotantes } from '../../../hooks/useAdotantes';
 import { useAnimais } from '../../../hooks/useAnimais';
-
+import { useNavigate } from 'react-router-dom';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useAuth } from '../../../hooks/useAuth';
 
@@ -15,6 +16,7 @@ import { use } from 'react';
 
 const CadastroAdocao = () => {
     const { user } = useAuth();
+    const navigate = useNavigate();
     const { criarAdocao, erro, tratarErro, limparErro } = useAdocoes();
     const [dadosAdocao, setDadosAdocao] = useState({
         data: '',
@@ -49,6 +51,11 @@ const CadastroAdocao = () => {
     const { listarPontosAdocaoAtivos } = usePontosAdocao();
     const [pontosAdocao, setPontosAdocao] = useState([]);
 
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAlerta, setCampoAlerta] = useState('');
+    const dataRef = useRef(null);
+
     useEffect(() => {
         const fetchAdotantes = async () => {
             const adotantesData = await listarAdotantesAtivos();
@@ -71,6 +78,83 @@ const CadastroAdocao = () => {
         const { id, value } = e.target;
         limparErro();
 
+        //valida Data
+        if (id === 'data') {
+            if (validarData(value)) {
+                setCampoAlerta('data');
+                setAlertMensagem('Data inválida! Insira novamente.');
+                setAlertAtencao(true);
+                return;
+            }
+        }
+
+        if (id === 'adotanteId') {
+            if (value === '') {
+                setDadosAdocao({ ...dadosAdocao, [id]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+            } else {
+                const adotanteSelecionado = adotantes.find(a => a.id === Number(value));
+                if (adotanteSelecionado) {
+                    setDadosAdocao(prevState => ({
+                        ...prevState,
+                        nomeAdotante: adotanteSelecionado.nome ? adotanteSelecionado.nome : '',
+                        cpf: adotanteSelecionado.cpf ? adotanteSelecionado.cpf : '',
+                        rg: adotanteSelecionado.rg ? adotanteSelecionado.rg : '',
+                        telefoneAdotante: adotanteSelecionado.celular ? adotanteSelecionado.celular : ''
+                    }));
+                }
+            }
+        }
+
+        if (id === "animalId") {
+            if (value === '') {
+                setDadosAdocao({ ...dadosAdocao, [id]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+            } else {
+                const animalSelecionado = animais.find(a => a.id === Number(value));
+                if (animalSelecionado) {
+                    setDadosAdocao(prevState => ({
+                        ...prevState,
+                        nomeAnimal: animalSelecionado.nome ? animalSelecionado.nome : '',
+                        especie: animalSelecionado.especie ? animalSelecionado.especie : '',
+                        idade: animalSelecionado.dataNascimento ? animalSelecionado.dataNascimento : '',
+                        sexo: animalSelecionado.sexo ? animalSelecionado.sexo : '',
+                        pelagem: animalSelecionado.pelagem ? animalSelecionado.pelagem : '',
+                        doadorId: animalSelecionado.doadorId ? animalSelecionado.doadorId : '',
+                        nomeDoador: animalSelecionado.nomeDoador ? animalSelecionado.nomeDoador : '',
+                        telefoneDoador: animalSelecionado.telefoneDoador ? animalSelecionado.telefoneDoador : '',
+                    }));
+                }
+            }
+        }
+
+        if (id === "pontoAdocaoId") {
+            if (value === '') {
+                setDadosAdocao({ ...dadosAdocao, [id]: '' });
+                return;
+            }
+            const numero = parseInt(value, 10);
+            if (isNaN(numero) || numero <= 0) {
+                return;
+            } else {
+                const pontoSelecionado = pontosAdocao.find(p => p.id === Number(value));
+                if (pontoSelecionado) {
+                    setDadosAdocao(prevState => ({
+                        ...prevState,
+                        nomePontoAdocao: pontoSelecionado.nome ? pontoSelecionado.nome : ''
+                    }));
+                }
+            }
+        }
+
         setDadosAdocao({
             ...dadosAdocao,
             [id]: ['adotanteId', 'animalId', 'doadorId', 'voluntarioId', 'pontoAdocaoId'].includes(id)
@@ -78,45 +162,6 @@ const CadastroAdocao = () => {
                 : value
         });
 
-        if (id === "adotanteId") {
-            const adotanteSelecionado = adotantes.find(a => a.id === Number(value));
-            if (adotanteSelecionado) {
-                setDadosAdocao(prevState => ({
-                    ...prevState,
-                    nomeAdotante: adotanteSelecionado.nome ? adotanteSelecionado.nome : '',
-                    cpf: adotanteSelecionado.cpf ? adotanteSelecionado.cpf : '',
-                    rg: adotanteSelecionado.rg ? adotanteSelecionado.rg : '',
-                    telefoneAdotante: adotanteSelecionado.celular ? adotanteSelecionado.celular : ''
-                }));
-            }
-        }
-
-        if (id === "animalId") {
-            const animalSelecionado = animais.find(a => a.id === Number(value));
-            if (animalSelecionado) {
-                setDadosAdocao(prevState => ({
-                    ...prevState,
-                    nomeAnimal: animalSelecionado.nome ? animalSelecionado.nome : '',
-                    especie: animalSelecionado.especie ? animalSelecionado.especie : '',
-                    idade: animalSelecionado.dataNascimento ? animalSelecionado.dataNascimento : '',
-                    sexo: animalSelecionado.sexo ? animalSelecionado.sexo : '',
-                    pelagem: animalSelecionado.pelagem ? animalSelecionado.pelagem : '',
-                    doadorId: animalSelecionado.doadorId ? animalSelecionado.doadorId : '',
-                    nomeDoador: animalSelecionado.nomeDoador ? animalSelecionado.nomeDoador : '',
-                    telefoneDoador: animalSelecionado.telefoneDoador ? animalSelecionado.telefoneDoador : '',
-                }));
-            }
-        }
-
-        if (id === "pontoAdocaoId") {
-            const pontoSelecionado = pontosAdocao.find(p => p.id === Number(value));
-            if (pontoSelecionado) {
-                setDadosAdocao(prevState => ({
-                    ...prevState,
-                    nomePontoAdocao: pontoSelecionado.nome ? pontoSelecionado.nome : ''
-                }));
-            }
-        }
     };
 
     const handleAdotanteChange = (e) => {
@@ -151,14 +196,14 @@ const CadastroAdocao = () => {
         });
     };
 
-/*     const handleVoluntarioChange = (e) => {
-        const voluntarioId = e.target.value;
-        const voluntarioSelecionado = voluntarios.find(v => v.id === Number(voluntarioId));
-        setDadosAdocao({
-            ...dadosAdocao,
-            nomeVoluntario: voluntarioSelecionado ? voluntarioSelecionado.nome : ''
-        });
-    }; */
+    /*     const handleVoluntarioChange = (e) => {
+            const voluntarioId = e.target.value;
+            const voluntarioSelecionado = voluntarios.find(v => v.id === Number(voluntarioId));
+            setDadosAdocao({
+                ...dadosAdocao,
+                nomeVoluntario: voluntarioSelecionado ? voluntarioSelecionado.nome : ''
+            });
+        }; */
 
     const handlePontoAdocaoChange = (e) => {
         const pontoAdocaoId = e.target.value;
@@ -196,6 +241,7 @@ const CadastroAdocao = () => {
                 pontoAdocaoId: ''
             });
             setTentouEnviar(false);
+            openModal();
         } catch (error) {
             tratarErro(error);
         }
@@ -203,31 +249,20 @@ const CadastroAdocao = () => {
 
     // CONFIGURAÇÕES DE MODAL
     const [showModal, setShowModal] = useState(false);
-    const closeModal = () => setShowModal(false);
-    const openModal = () => {
-        // Pegando os valores dos campos
-        const codadotante = document.getElementById("codadotante").value;
-        const nomeadotante = document.getElementById("nomeadotante").value;
-        const cpf = document.getElementById("cpf").value;
-        const rg = document.getElementById("rg").value;
-        const celular = document.getElementById("celular").value;
-        const codanimal = document.getElementById("codanimal").value;
-        const nomeanimal = document.getElementById("nomeanimal").value;
-        const especie = document.getElementById("especie").value;
-        const idade = document.getElementById("idade").value;
-        const sexo = document.getElementById("sexo").value;
-        const pelagem = document.getElementById("pelagem").value;
-        const coddoador = document.getElementById("coddoador").value;
-        const nomedoador = document.getElementById("nomedoador").value;
-        const telefonedoador = document.getElementById("telefonedoador").value;
-        const codlocal = document.getElementById("codlocal").value;
-        const local = document.getElementById("local").value;
+    const openModal = () => setShowModal(true);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate('/listar-adocoes');
+    }
 
-        // Validação dos campos
-        if (codadotante && nomeadotante && rg && cpf && celular && codanimal && nomeanimal && especie && idade && sexo && pelagem && coddoador && nomedoador && telefonedoador && codlocal && local) {
-            setShowModal(true); // Mostra o modal de sucesso
-        } else {
-            return null;
+
+    const fecharAlertaEFocarCampo = (campoRef, campo) => {
+        setAlertAtencao(false);
+        setDadosAdocao(prev => ({ ...prev, [campo]: '' }));  // limpa o valor no estado
+
+        if (campoRef.current) {
+            campoRef.current.value = '';   // limpa o input na tela
+            campoRef.current.focus();      // foca no campo
         }
     };
 
@@ -262,7 +297,7 @@ const CadastroAdocao = () => {
                         <label htmlFor="nomeVoluntario">Voluntário</label>
                         <input
                             type="text"
-                            value={ user.nomeUsuario }
+                            value={user.nomeUsuario}
                             disabled
                         />
                         {/* <select
@@ -512,7 +547,7 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomelocaladocao">Nome local de adoção</label>
-                        <select 
+                        <select
                             id="nomePontoAdocao"
                             name="nomePontoAdocao"
                             value={dadosAdocao.pontoAdocaoId}
@@ -532,11 +567,22 @@ const CadastroAdocao = () => {
                 </div>
 
                 <div className="button-group-crud">
-                    <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                    <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar />
                     <BotaoLimpar />
                 </div>
             </form>
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        const refs = {
+                            data: dataRef
+                        };
+                        fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
+                    }}
+                />
+            )}
         </div>
     );
 };
