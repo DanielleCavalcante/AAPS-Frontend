@@ -45,7 +45,17 @@ export const useAdocoes = () => {
         } 
     };
 
-    const excluirAdocao = async (id) => {
+    const cancelarAdocao = async (id, acompanhamentoDevolvido) => {
+        try {
+            limparErro();
+            return await AdocaoService.cancelarAdocao(id, acompanhamentoDevolvido);
+        } catch (error) {
+            tratarErro(error);
+            throw error;
+        } 
+    };
+
+    /* const excluirAdocao = async (id) => {
         try {
           limparErro();
           await AdocaoService.excluirAdocao(id);
@@ -53,14 +63,14 @@ export const useAdocoes = () => {
             tratarErro(error);
             throw error;
         } 
-      };
+    }; */
 
     return {
         criarAdocao,
         listarAdocoes,
         buscarAdocaoPorId,
         atualizarAdocao,
-        excluirAdocao,
+        cancelarAdocao,
         erro, 
         limparErro,
         tratarErro

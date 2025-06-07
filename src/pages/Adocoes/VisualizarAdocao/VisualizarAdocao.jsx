@@ -14,7 +14,7 @@ import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarAdocao.css';
 
 const VisualizarAdocao = () => {
-    const { buscarAdocaoPorId, atualizarAdocao } = useAdocoes();
+    const { buscarAdocaoPorId, atualizarAdocao, cancelarAdocao } = useAdocoes();
     const { listarVoluntariosAtivos } = useVoluntarios();
     const { listarAdotantesAtivos } = useAdotantes();
     const { listarAnimais } = useAnimais();
