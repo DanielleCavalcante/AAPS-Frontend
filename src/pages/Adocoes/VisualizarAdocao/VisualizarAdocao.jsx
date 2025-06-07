@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-
 import { useError } from '../../../hooks/useError';
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
@@ -14,12 +13,11 @@ import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarAdocao.css';
 
-
 const VisualizarAdocao = () => {
-    const { buscarAdocaoPorId, atualizarAdocao } = useAdocoes();
+    const { buscarAdocaoPorId, atualizarAdocao, cancelarAdocao } = useAdocoes();
     const { listarVoluntariosAtivos } = useVoluntarios();
     const { listarAdotantesAtivos } = useAdotantes();
-    const { listarAnimaisAtivos } = useAnimais();
+    const { listarAnimais } = useAnimais();
     const { listarPontosAdocaoAtivos } = usePontosAdocao();
     const { erro, carregando, limparErro } = useError();
 
@@ -59,7 +57,7 @@ const VisualizarAdocao = () => {
         listarAdotantesAtivos()
             .then(setAdotantes)
             .catch(console.error);
-        listarAnimaisAtivos()
+        listarAnimais()
             .then(setAnimais)
             .catch(console.error);
         listarPontosAdocaoAtivos()
@@ -116,23 +114,18 @@ const VisualizarAdocao = () => {
         setTentouEnviar(true);
         limparErro();
 
+        console.log('Dados do formulário:', formDados);
+
         if (!formDados.data?.trim()) return;
         if (!formDados.voluntarioId) return;
-        if (!formDados.nomeAdotante?.trim()) return;
-        if (!formDados.rg?.trim()) return;
-        if (!formDados.cpf?.trim()) return;
-        if (!formDados.telefoneAdotante?.trim()) return;
-        if (!formDados.nomeAnimal?.trim()) return;
-        if (!formDados.especie?.trim()) return;
-        if (!formDados.idade?.trim()) return;
-        if (!formDados.sexo?.trim()) return;
-        if (!formDados.pelagem?.trim()) return;
-        if (!formDados.nomeDoador?.trim()) return;
-        if (!formDados.telefoneDoador?.trim()) return;
-        if (!formDados.nomePontoAdocao?.trim()) return;
+        if (!formDados.adotanteId) return;
+        if (!formDados.animalId) return;
+        if (!formDados.pontoAdocaoId) return
 
         try {
             await atualizarAdocao(id, formDados);
+            setEditando(false);
+            setTentouEnviar(false);
             openModal();
         } catch (error) {
             tratarErro(error);
@@ -150,7 +143,7 @@ const VisualizarAdocao = () => {
                             id="codigo"
                             name="id"
                             value={adocao?.id || '' } 
-                            disabled={!editando}
+                            disabled
                         />
                     </div>
                     <div className="form-group">
@@ -163,6 +156,9 @@ const VisualizarAdocao = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
+                        {(tentouEnviar && !formDados.data) && (
+                            <span className="erro-required"> O campo 'Data' é obrigatório</span>
+                        )}
                     </div>
                     <div className="form-group">
                         <label>Voluntária</label>
@@ -173,16 +169,12 @@ const VisualizarAdocao = () => {
                             onChange={handleVoluntarioChange}
                             disabled={!editando}
                         >
-                            <option value=""></option>
                             {voluntarios.map(voluntario => (
                                 <option key={voluntario.id} value={voluntario.id}>
                                     {voluntario.nome}
                                 </option>
                             ))}
                         </select>
-                        {(tentouEnviar && !formDados.nomeVoluntario) && (
-                            <span className="erro-required"> O campo 'Voluntário' é obrigatório </span>
-                        )}
                     </div>
                 </div>
 
@@ -207,7 +199,6 @@ const VisualizarAdocao = () => {
                             onChange={handleAdotanteChange}
                             disabled={!editando}
                         >
-                            <option value=""></option>
                             {adotantes.map(adotante => (
                                 <option key={adotante.id} value={adotante.id}>
                                     {adotante.nome}
@@ -228,7 +219,7 @@ const VisualizarAdocao = () => {
                                 adotantes.find(a => a.id === formDados.adotanteId)?.rg || ''
                             }
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                     </div>
                     <div className="form-group">
@@ -241,7 +232,7 @@ const VisualizarAdocao = () => {
                                 adotantes.find(a => a.id === formDados.adotanteId)?.cpf || ''
                             }
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                     </div>
                     <div className="form-group">
@@ -254,7 +245,7 @@ const VisualizarAdocao = () => {
                                 adotantes.find(a => a.id === formDados.adotanteId)?.celular || ''
                             }
                             onChange={handleInputChange}
-                            disabled={!editando} 
+                            disabled
                         />
                     </div>
                 </div>
@@ -272,7 +263,7 @@ const VisualizarAdocao = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nomeanimal">Nome animal</label>
+                        <label htmlFor="nomeAnimal">Nome animal</label>
                         <select
                             id="nomeAnimal"
                             name="nomeAnimal"
@@ -280,12 +271,19 @@ const VisualizarAdocao = () => {
                             onChange={handleAnimalChange}
                             disabled={!editando}
                         >
-                            <option value=""></option>
-                            {animais.map(animal => (
-                                <option key={animal.id} value={animal.id}>
-                                    {animal.nome}
-                                </option>
-                            ))}
+                            <option value="">
+                                {(() => {
+                                    const animalSelecionado = animais.find(a => a.id === formDados.animalId);
+                                    return animalSelecionado ? animalSelecionado.nome : '';
+                                })()}
+                            </option>
+                            {animais
+                                .filter(animal => animal.status && animal.disponibilidade)
+                                .map(animal => (
+                                    <option key={animal.id} value={animal.id}>
+                                        {animal.nome}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>
@@ -301,7 +299,7 @@ const VisualizarAdocao = () => {
                                 animais.find(a => a.id === formDados.animalId)?.especie || ''
                             }
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                     </div>
                     <div className="form-group">
@@ -310,11 +308,42 @@ const VisualizarAdocao = () => {
                             type="text"
                             id="idade"
                             name="idade"
-                            value={
+                            /* value={
                                 animais.find(a => a.id === formDados.animalId)?.idade || ''
+                            } */
+                           value={
+                            (() => {
+                                const dataNascimento = animais.find(a => a.id === formDados.animalId)?.dataNascimento;
+                                if (!dataNascimento) return '';
+                                const nascimento = new Date(dataNascimento);
+                                const hoje = new Date();
+                                let anos = hoje.getFullYear() - nascimento.getFullYear();
+                                let meses = hoje.getMonth() - nascimento.getMonth();
+                                let dias = hoje.getDate() - nascimento.getDate();
+
+                                if (dias < 0) {
+                                meses--;
+                                }
+                                if (meses < 0) {
+                                anos--;
+                                meses += 12;
+                                }
+                                if (isNaN(anos) || anos < 0) return '';
+
+                                if (anos === 0 && meses === 0) {
+                                return 'menos de 1 mês';
+                                }
+                                if (anos === 0) {
+                                return meses === 1 ? '1 mês' : `${meses} meses`;
+                                }
+                                if (meses === 0) {
+                                return anos === 1 ? '1 ano' : `${anos} anos`;
+                                }
+                                return `${anos} ${anos === 1 ? 'ano' : 'anos'} e ${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+                            })()
                             }
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                     </div>
                     <div className="form-group">
@@ -324,11 +353,11 @@ const VisualizarAdocao = () => {
                             name="sexo"
                             value={formDados.sexo || ''}
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         >
                             <option value="">Selecione</option>
-                            <option value="M">Macho</option>
                             <option value="F">Fêmea</option>
+                            <option value="M">Macho</option>
                         </select>
                     </div>
                     <div className="form-group">
@@ -341,7 +370,7 @@ const VisualizarAdocao = () => {
                                 animais.find(a => a.id === formDados.animalId)?.pelagem || ''
                             }
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                     </div>
                 </div>
@@ -353,22 +382,24 @@ const VisualizarAdocao = () => {
                             type="number"
                             id="doadorId"
                             name="doadorId"
-                            value={formDados.doadorId || ''}
+                            value={
+                                animais.find(a => a.id === formDados.animalId)?.doadorId || ''
+                            }
                             onChange={handleInputChange}
-                            disabled={!editando}
+                            disabled
                         />
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomedoador">Nome doador</label>
-                        <select 
-                            id="nomedoador" 
-                            name="nomedoador" 
+                        <select
+                            id="nomeDoador"
+                            name="nomeDoador"
+                            value={formDados.animalId || ''}
                             onChange={handleAnimalChange}
-                            disabled={!editando}
+                            disabled
                         >
-                            <option value=""></option>
                             {animais.map(animal => (
-                                <option key={animal.doadorId} value={animal.doadorId}>
+                                <option key={animal.id} value={animal.id}>
                                     {animal.nomeDoador}
                                 </option>
                             ))}
@@ -380,9 +411,11 @@ const VisualizarAdocao = () => {
                             id="telefoneDoador"
                             name="telefoneDoador" 
                             type="text" 
-                            value={formDados.telefoneDoador || ''}
+                            value={
+                                animais.find(a => a.id === formDados.animalId)?.telefoneDoador || ''
+                            }
                             onChange={handleInputChange}
-                            disabled={!editando} 
+                            disabled
                         />
                     </div>
                 </div>
@@ -401,14 +434,15 @@ const VisualizarAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomelocaladocao">Nome local de adoção</label>
-                        <select 
-                            id="nomePontoAdocao" 
-                            name="nomePontoAdocao" 
+                        <select
+                            id="nomePontoAdocao"
+                            name="nomePontoAdocao"
+                            value={formDados.pontoAdocaoId || ''}
                             onChange={handlePontoAdocaoChange}
                             disabled={!editando}
                         >
                             {pontosAdocao.map(ponto => (
-                                <option key={ponto.pontoAdocaoId} value={ponto.pontoAdocaoId}>
+                                <option key={ponto.id} value={ponto.id}>
                                     {ponto.nomeFantasia}
                                 </option>
                             ))}
@@ -438,11 +472,7 @@ const VisualizarAdocao = () => {
                             //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  */ />
                         ) : (
-                            <button
-                                type="submit"
-                                className="botao-alterar"
-                            > <BotaoSalvar />
-                            </button>
+                            <BotaoSalvar />
                             //<BotaoSalvar onClick={salvarAlteracoes}/*  showModal={showModal} openModal={openModal} closeModal={closeModal} */ />
                         )}
                         <BotaoCancelar />

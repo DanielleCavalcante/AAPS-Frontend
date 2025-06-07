@@ -113,7 +113,7 @@ const CadastroAdocao = () => {
             if (pontoSelecionado) {
                 setDadosAdocao(prevState => ({
                     ...prevState,
-                    nomePontoAdocao: pontoSelecionado.nome
+                    nomePontoAdocao: pontoSelecionado.nome ? pontoSelecionado.nome : ''
                 }));
             }
         }
@@ -140,7 +140,7 @@ const CadastroAdocao = () => {
         setDadosAdocao({
             ...dadosAdocao,
             animalId,
-            nomeAnimal: animalSelecionado.nomeAnimal ? animalSelecionado.nomeAnimal : '',
+            nomeAnimal: animalSelecionado.nome ? animalSelecionado.nome : '',
             especie: animalSelecionado.especie ? animalSelecionado.especie : '',
             idade: animalSelecionado.dataNascimento ? animalSelecionado.dataNascimento : '',
             sexo: animalSelecionado.sexo ? animalSelecionado.sexo : '',
@@ -166,7 +166,7 @@ const CadastroAdocao = () => {
         setDadosAdocao({
             ...dadosAdocao,
             pontoAdocaoId,
-            nomePontoAdocao: pontoSelecionado.nomePontoAdocao ? pontoSelecionado.nomePontoAdocao : ''
+            nomePontoAdocao: pontoSelecionado.nomeFantasia ? pontoSelecionado.nomeFantasia : ''
         });
     };
 
@@ -526,7 +526,7 @@ const CadastroAdocao = () => {
                             ))}
                         </select>
                         {(tentouEnviar && !dadosAdocao.nomePontoAdocao) && (
-                            <span className="erro-required"> É obrigatório informar um local de adoção </span>
+                            <span className="erro-required"> É obrigatório informar um ponto de adoção </span>
                         )}
                     </div>
                 </div>

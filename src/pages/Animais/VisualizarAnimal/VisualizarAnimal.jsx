@@ -139,7 +139,7 @@ const VisualizaAnimal = () => {
     };
 
     const irParaAcompanhamento = () => {
-        navigate('/acompanhamento');
+        navigate(`/acompanhamento/${animal.id}`);
     };
 
     const fecharAlertaEFocarCampo = (campoRef, campo) => {

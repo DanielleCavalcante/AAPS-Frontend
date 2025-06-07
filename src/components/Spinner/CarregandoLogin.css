@@ -1,0 +1,12 @@
+.carregando-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+}
+
+.carregador-login {
+  width: 30px;
+  height: 30px;
+  /* Adicione animação se quiser */
+}

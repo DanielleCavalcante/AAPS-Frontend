@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from "../../hooks/useAuth"; 
 import { useError } from '../../hooks/useError';
+import { useLoading } from '../../hooks/useLoading';
 
+import CarregandoLogin from '../../components/Spinner/CarregandoLogin';
 import logo from '../../assets/aaps_logo1.png';
 import './Login.css';
 
@@ -14,23 +16,29 @@ const Login = () => {
 
   const { erro, tratarErro, limparErro } = useError();
   const [tentouEnviar, setTentouEnviar] = useState(false);
+  const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
 
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
     limparErro();
+    setTentouEnviar(false); 
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setTentouEnviar(true); 
+
+    iniciarCarregamento();
     try {
       await login(credentials);
       setCredentials({ userName: "", senha: "" });
       setTentouEnviar(false);
     } catch (error) {
       tratarErro(error);
+    } finally {
+      finalizarCarregamento();
     }
   };
 
@@ -73,10 +81,12 @@ const Login = () => {
         {/* {erro && <span className="erro-required">{erro}</span>}*/}
 
         {tentouEnviar && (!credentials.userName || !credentials.senha) ? (
-            <span className="erro-required">Preencha todos os campos!</span>
-        ) : (
-            erro && <span className="erro-reset-senha">{erro}</span>
-        )}
+          <span className="erro-required">Preencha todos os campos!</span>
+        ) : carregando ? (
+          <CarregandoLogin />
+        ) : erro && tentouEnviar ? (
+          <span className="erro-reset-senha">{erro}</span>
+        ) : null}
 
         <div className="button-group">
           <button type="submit" className="btn-login">Entrar</button>

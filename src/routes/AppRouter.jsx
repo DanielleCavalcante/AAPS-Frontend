@@ -75,7 +75,7 @@ const AppRouter = () => {
                         <Route path="/perfil/:id" element={<Perfil />} />
                         <Route path="/alterar-senha/:id" element={<AlterarSenha />} />
 
-                        <Route path="/acompanhamento" element={<Acompanhamento />} />
+                        <Route path="/acompanhamento/:id" element={<Acompanhamento />} />
 
                         {/* Rotas de admin */}
                         <Route element={<PrivateRoute requiredRole="Admin" />} >

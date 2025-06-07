@@ -11,3 +11,9 @@ export interface Animal {
 export interface FiltroAdocao{
     busca?: string;
 }
+
+export interface AcompanhamentoDevolvido {
+    dataAcompanhamento?: Date;
+    observacao: string;
+    eventoId: number;
+}

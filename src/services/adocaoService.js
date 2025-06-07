@@ -16,7 +16,12 @@ export const AdocaoService = {
         return response.data.dados;
     },
 
-    async atualizarAdocao(id, adocao) {
+    async atualizarAdocao(id, acompanhamentoDevolvido) {
+        const response = await api.put(`/Adocao/CancelarAdocao/${id}`, acompanhamentoDevolvido);
+        return response.data.dados;
+    },
+
+    async cancelarAdocao(id, adocao) {
         const response = await api.put(`/Adocao/AtualizarAdocao/${id}`, adocao);
         return response.data.dados;
     },

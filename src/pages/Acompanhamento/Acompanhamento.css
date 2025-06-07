@@ -23,6 +23,12 @@
   max-width: fit-content;
 }
 
+.button-adicionar-evento:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
 .acompanhamento-form {
     background-color: white;
     padding: 40px;
