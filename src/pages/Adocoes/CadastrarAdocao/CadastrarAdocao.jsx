@@ -1,3 +1,4 @@
+import InputMask from 'react-input-mask';
 import React, { useState, useEffect, useRef } from 'react';
 import { validarData } from '../../../utils/validaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
@@ -354,38 +355,63 @@ const CadastroAdocao = () => {
                 <div id="group-adocao1">
                     <div className="form-group">
                         <label htmlFor="rg">RG</label>
-                        <input
-                            type="text"
-                            id="rg"
-                            name="rg"
+                        <InputMask
+                            mask="99.999.999-*"
                             value={dadosAdocao.rg}
                             onChange={handleAdotanteChange}
-                            disabled
-                        />
+                            placeholder="__.___.___-_"
+                            disabled>
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    id="rg"
+                                    name="rg"
+                                    type="text"
+                                    disabled
+                                />
+                            )}
+                        </InputMask>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="cpf">CPF</label>
-                        <input
-                            type="text"
-                            id="cpf"
-                            name="cpf"
+                        <InputMask
+                            mask="999.999.999-99"
                             value={dadosAdocao.cpf}
                             onChange={handleAdotanteChange}
                             disabled
-                        />
+                            placeholder="___.___.___-__">
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    id="cpf"
+                                    name="cpf"
+                                    type="text"
+                                    disabled
+                                />
+                            )}
+                        </InputMask>
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="telefoneAdotante" >Celular</label>
-                        <input
-                            id="telefoneAdotante"
-                            name="telefoneAdotante"
-                            type="text"
+                        <InputMask
+                            mask="(99) 99999-9999"
                             value={dadosAdocao.telefoneAdotante || ''}
                             onChange={handleAdotanteChange}
                             disabled
-                        />
+                            placeholder="(__) _____-____"
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="telefoneAdotante"
+                                    name="telefoneAdotante"
+                                    disabled
+                                />
+                            )}
+                        </InputMask>
                     </div>
                 </div>
 
@@ -519,14 +545,23 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="telefoneDoador">Telefone doador</label>
-                        <input
-                            type="text"
-                            id="telefoneDoador"
-                            name="telefoneDoador"
+                                                <InputMask
+                            mask="(99) 99999-9999"
                             value={dadosAdocao.telefoneDoador || ''}
                             onChange={handleAnimalChange}
                             disabled
-                        />
+                            placeholder="(__) _____-____"
+                        >
+                            {(inputProps) => (
+                                <input
+                                    {...inputProps}
+                                    type="text"
+                                    id="telefoneDoador"
+                                    name="telefoneDoador"
+                                    disabled
+                                />
+                            )}
+                        </InputMask>
                     </div>
                 </div>
 

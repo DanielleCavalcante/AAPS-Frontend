@@ -147,7 +147,7 @@ const Adocao = () => {
                                     </button>
                                 </Link>
                                 <button className="delete-button" onClick={() => {handleGerarTermo(adocao.id)}}>
-                                    <img src={iconeUpload} alt="Ícone de excluir" className="icon" />
+                                    <img src={iconeUpload} alt="Ícone de download" className="icon" />
                                 </button>
                                 <button
                                     className="delete-button"
