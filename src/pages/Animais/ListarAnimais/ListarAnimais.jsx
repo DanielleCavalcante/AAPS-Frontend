@@ -187,8 +187,8 @@ const Animal = () => {
                             <td>{animal.sexo}</td>
                             <td>
                                 {(() => {
-                                    if (!pontoAdocao.dataNascimento) return '';
-                                    const nascimento = new Date(pontoAdocao.dataNascimento);
+                                    if (!animal.dataNascimento) return '';
+                                    const nascimento = new Date(animal.dataNascimento);
                                     const hoje = new Date();
                                     let anos = hoje.getFullYear() - nascimento.getFullYear();
                                     let meses = hoje.getMonth() - nascimento.getMonth();
