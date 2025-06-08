@@ -27,4 +27,9 @@ export const RelatorioService = {
             headers: response.headers // Garantir que headers estão incluídos
         };
     },
+
+    async ObterDadosRelatorio(relatorio) {
+        const response = await api.get('/Relatorio/VisualizarRelatorio', { params: relatorio });
+        return response.data.dados;
+    },
 }
