@@ -6,6 +6,7 @@ const Relatorio = () => {
   const { gerarRelatorioExcel, gerarRelatorioPdf } = useRelatorios();
   const [filtro, setFiltro] = useState({ dataInicio: '', dataFim: '' });
   const [carregando, setCarregando] = useState(false);
+  const [tentouEnviar, setTentouEnviar] = useState(false);
 
   const handleSubmitRelatorio = async (gerador) => {
     try {
@@ -42,8 +43,12 @@ const Relatorio = () => {
             />
           </div>
 
+          {(tentouEnviar && !dad.disponibilidade) && (
+                <span className="erro-required"> O campo 'Disponibilidade' é obrigatório </span>
+            )}
+
           <div className="form-group">
-            <label htmlFor="data-fim">Data Final</label>
+            <label>Data Final</label>
             <input
               type="date"
               id="dataFim"
@@ -52,6 +57,21 @@ const Relatorio = () => {
               onChange={handleChange}
               disabled={carregando}
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="data-fim">Tipo de Relatório</label>
+            <select
+                id="disponibilidade"
+                name="disponibilidade"
+                onChange={handleChange}
+            >
+                <option value=""></option>
+                <option value={0}>Adoções - Geral</option>
+                <option value={1}>Adoções - Por Espécie</option>
+                <option value={1}>Balanço Geral</option>
+                <option value={1}>Levantamento de animais adotados</option>
+            </select>
           </div>
         </div>
 
