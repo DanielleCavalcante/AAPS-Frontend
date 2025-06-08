@@ -187,34 +187,23 @@ const Animal = () => {
                             <td>{animal.sexo}</td>
                             <td>
                                 {(() => {
-                                    if (!animal.dataNascimento) return '';
-                                    const nascimento = new Date(animal.dataNascimento);
+                                    if (!pontoAdocao.dataNascimento) return '';
+                                    const nascimento = new Date(pontoAdocao.dataNascimento);
                                     const hoje = new Date();
                                     let anos = hoje.getFullYear() - nascimento.getFullYear();
                                     let meses = hoje.getMonth() - nascimento.getMonth();
                                     let dias = hoje.getDate() - nascimento.getDate();
 
-                                    if (dias < 0) {
-                                    meses--;
-                                    }
+                                    if (dias < 0) meses--;
                                     if (meses < 0) {
                                     anos--;
                                     meses += 12;
                                     }
-                                    if (anos < 0) return '';
-
-                                    if (anos === 0 && meses === 0) {
+                                    if (anos > 0) return anos === 1 ? '1 ano' : `${anos} anos`;
+                                    if (meses > 0) return meses === 1 ? '1 mês' : `${meses} meses`;
                                     return 'menos de 1 mês';
-                                    }
-                                    if (anos === 0) {
-                                    return meses === 1 ? '1 mês' : `${meses} meses`;
-                                    }
-                                    if (meses === 0) {
-                                    return anos === 1 ? '1 ano' : `${anos} anos`;
-                                    }
-                                    return `${anos} ${anos === 1 ? 'ano' : 'anos'} e ${meses} ${meses === 1 ? 'mês' : 'meses'}`;
                                 })()}
-                                </td>
+                            </td>
                             <td>{animal.disponibilidade === 1 ? 'Disponível' : 'Adotado'}</td>
                             <td>{animal.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
