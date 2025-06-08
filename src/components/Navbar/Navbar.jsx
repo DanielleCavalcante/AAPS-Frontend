@@ -5,6 +5,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 import Modal from "../Modal/Modal";
 import iconeHome from "/src/assets/aaps_logo1.png"
+import iconeAlerta from "/src/assets/icone_alerta.png"
 import './Navbar.css';
 
 const Navbar = () => {
@@ -134,7 +135,7 @@ const Navbar = () => {
 
       {showModal && (
         <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>
-          <img src="/src/assets/icone_alerta.png" alt="Ícone de alerta" className="icon" />
+          <img src={iconeAlerta} alt="Ícone de alerta" className="icon" />
           <p>Deseja realmente sair?</p>
         </Modal>
       )}
