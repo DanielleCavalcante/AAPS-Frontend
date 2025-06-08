@@ -192,7 +192,7 @@ const Animal = () => {
                                 <div className='botoes'>
                                     <Link to={`/visualizar-animal/${animal.id}`}>
                                         <button className="search-button">
-                                            <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
+                                            <img src={iconeBusca} alt="Ícone de visualizar" className="icon" />
                                         </button>
                                     </Link>
                                     <BotaoExcluir 

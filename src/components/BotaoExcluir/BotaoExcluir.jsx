@@ -1,4 +1,8 @@
 import Modal from '/src/components/Modal/Modal.jsx';
+
+import iconeExcluir from "/src/assets/icone_excluir.png"
+import iconeAlerta from "/src/assets/icone_alerta.png"
+import iconeEmoji from "/src/assets/emoji-frown.png"
 import './BotaoExcluir.css';
 
 const BotaoExcluir = ({showModal, showConfirmModalExcluir, openModal, closeModal, closeModal2, closeModalExcluir, disabled}) => {    
@@ -10,17 +14,17 @@ const BotaoExcluir = ({showModal, showConfirmModalExcluir, openModal, closeModal
           disabled={disabled} 
           style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
         >
-          <img src="/src/assets/icone_excluir.png" alt="Ícone excluir" className="icon" /> 
+          <img src={iconeExcluir} alt="Ícone excluir" className="icon" /> 
           {/* <span>Excluir</span> */}
         </button>
 
         <Modal show={showConfirmModalExcluir} onClose={closeModal} onClose2={closeModal2} qtdeBotao={2} nomeBotao1={'Não'} nomeBotao2={'Sim'}>
-          <img src="/src/assets/icone_alerta.png" alt="Ícone de sucesso" className="icon" />
+          <img src={iconeAlerta} alt="Ícone de sucesso" className="icon" />
           <p>Deseja realmente inativar o cadastro?</p>
         </Modal>
 
         <Modal show={showModal} onClose={closeModalExcluir}>
-          <img src="/src/assets/emoji-frown.png" alt="Ícone de sucesso" className="icon" />
+          <img src={iconeEmoji} alt="Ícone de sucesso" className="icon" />
           <p>Cadastro inativado com sucesso!</p>
         </Modal>
       </div>

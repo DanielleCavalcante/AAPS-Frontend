@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import './Navbar.css';
-import Modal from "../Modal/Modal";
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
-
+import Modal from "../Modal/Modal";
+import iconeHome from "/src/assets/aaps_logo1.png"
+import './Navbar.css';
 
 const Navbar = () => {
   const { logout } = useAuth();
@@ -120,7 +120,7 @@ const Navbar = () => {
 
 
           <button className="navbar-button">
-            <Link to='/home'><img src="/src/assets/aaps_logo1.png" alt="Logotipo AAPS" className="icon-logo" /></Link>
+            <Link to='/home'><img src={iconeHome} alt="Logotipo AAPS" className="icon-logo" /></Link>
           </button>
         </div>
         <div id='Sair'>

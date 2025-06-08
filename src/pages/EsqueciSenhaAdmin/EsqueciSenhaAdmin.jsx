@@ -6,6 +6,7 @@ import { useEsqueciSenha } from '../../hooks/useEsqueciSenha';
 import { useError } from '../../hooks/useError';
 import { useNavigate } from 'react-router-dom';
 import logoAaps from '/src/assets/aaps_logo1.png';
+import iconeSmile from "/src/assets/emoji-smile.png"
 import './EsqueciSenhaAdmin.css';
 
 const EsqueciSenhaAdmin = () => {
@@ -108,7 +109,7 @@ const EsqueciSenhaAdmin = () => {
             </form>
             {showModal && (
                 <Modal show={showModal} onClose={closeModal}>
-                    <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
+                    <img src={iconeSmile} alt="Ícone de sucesso" className="icon" />
                     <p>Solicitação enviada com sucesso!</p>
                     <p>Aguarde o contato do administrador.</p>
                 </Modal>
