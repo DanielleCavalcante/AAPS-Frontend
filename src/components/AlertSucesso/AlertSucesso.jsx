@@ -1,5 +1,5 @@
 import React from 'react';
-import './alertSucesso.css';
+import './AlertSucesso.css';
 
 export default function AlertSucesso({ mensagem, onClose }) {
   return (

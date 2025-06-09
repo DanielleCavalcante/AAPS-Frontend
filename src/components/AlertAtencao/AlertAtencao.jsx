@@ -1,5 +1,5 @@
 import React from 'react';
-import './alertAtencao.css';
+import './AlertAtencao.css';
 
 export default function AlertWarning({ mensagem, onClose }) {
   return (

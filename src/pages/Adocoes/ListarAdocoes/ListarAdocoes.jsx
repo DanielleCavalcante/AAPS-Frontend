@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
-import AlertSucesso from '../../../components/AlertSucesso/alertSucesso';
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useTermoAdocao } from '../../../hooks/useTermoAdocao';
 import { useLoading } from '../../../hooks/useLoading';
 
+import AlertSucesso from "/src/components/AlertSucesso/AlertSucesso.jsx";
 import iconeCadastrar from '/src/assets/icone_cadastrar.png';
 import iconeBusca from '/src/assets/icone_lupa.png';
 import iconeDownload from '/src/assets/icone_download.png';
 import iconeCompartilhar from '/src/assets/icone_compartilhar.png';
-import iconeUpload from '/src/assets/icone_upload.png';
-import iconeChat from '/src/assets/icone_chat.png';
 import Carregando from '../../../components/Spinner/Carregando';
 import './ListarAdocoes.css';
 
