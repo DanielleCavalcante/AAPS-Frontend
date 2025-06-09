@@ -2,15 +2,12 @@ import {Link} from "react-router-dom";
 
 import './BotaoCancelar.css';
 
-const botaoCancelar = () => {  
-  
+const botaoCancelar = ({ onClick }) => {
   return (
-    <Link to='/home' style={{ textDecoration: 'none' }}>
-      <button className="btn-Cancelar">
-          <img src="/src/assets/icone_cancelar.png" alt="Ícone cancelar" className="icon" />
-          <span>Cancelar</span>
-      </button>
-    </Link>
+    <button className="btn-Cancelar" onClick={onClick}>
+      <img src="/src/assets/icone_cancelar.png" alt="Ícone cancelar" className="icon" />
+      <span>Cancelar</span>
+    </button>
   );
 };
 

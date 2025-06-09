@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useEventos } from '../../../hooks/useEventos';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -9,6 +8,7 @@ import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarEvento.css';
 
 const VisualizaEvento = () => {
+    const navigate = useNavigate();
     const { buscarEventoPorId, atualizarEvento, erro, tratarErro, limparErro } = useEventos();
 
     const { id } = useParams();
@@ -119,7 +119,7 @@ const VisualizaEvento = () => {
                     ) : (
                         <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
                     )}
-                    <BotaoCancelar /*  disabled={!isEditable} */ />
+                    <BotaoCancelar onClick={() => navigate('/listar-eventos')} />
                 </div>
             </form>
         </div>

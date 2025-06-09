@@ -151,13 +151,10 @@ const Adocao = () => {
                                             <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                         </button>
                                     </Link>
-                                    <button className="delete-button" onClick={() => { handleGerarTermo(adocao.id) }}>
+                                    <button className="search-button-adocao" onClick={() => { handleGerarTermo(adocao.id) }}>
                                         <img src={iconeDownload} alt="Ícone de download" className="icon" />
                                     </button>
-                                    <button
-                                        className="delete-button"
-                                        onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}
-                                    >
+                                    <button className="search-button-adocao" onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}>
                                         <img src={iconeCompartilhar} alt="Ícone de excluir" className="icon" />
                                     </button>
                                 </div>
@@ -169,7 +166,7 @@ const Adocao = () => {
             </table>
             {alertSucesso && (
                 <AlertSucesso
-                    mensagem="Termo enviado com sucesso!"
+                    mensagem="Termo de adoção enviado!"
                     onClose={() => setAlertSucesso(false)}
                 />
             )}

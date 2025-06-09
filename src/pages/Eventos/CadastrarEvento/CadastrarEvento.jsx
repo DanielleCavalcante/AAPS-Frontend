@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useEventos } from '../../../hooks/useEventos';
 import { useError } from '../../../hooks/useError';
-
+import { useNavigate } from 'react-router-dom';
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
 import './CadastrarEvento.css';
 
 const CadastroEvento = () => {
+    const navigate = useNavigate();
     const { criarEvento } = useEventos();    
     const [dadosEvento, setdadosEvento] = useState({ descricao: '', status: 1 });
 
@@ -94,7 +95,7 @@ const CadastroEvento = () => {
                 </div>
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={() => navigate('/listar-eventos')}/>
                     <BotaoLimpar />
                 </div>
             </form>

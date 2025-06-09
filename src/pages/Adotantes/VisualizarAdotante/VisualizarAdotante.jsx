@@ -687,7 +687,7 @@ const VisualizarAdotante = () => {
                     ) : (
                         <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     )}
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={() => navigate('/listar-adotantes')}/>
                 </div>
             </form>
             {alertAtencao && (

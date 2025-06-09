@@ -1,11 +1,11 @@
 import InputMask from 'react-input-mask';
-import React, { useState, useEffect, useRef } from 'react';
-import { validarData } from '../../../utils/validaData';
+import { useState, useEffect, useRef } from 'react';
+import { ValidarData } from '/src/utils/ValidaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useAdotantes } from '../../../hooks/useAdotantes';
 import { useAnimais } from '../../../hooks/useAnimais';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useAuth } from '../../../hooks/useAuth';
 
@@ -18,6 +18,11 @@ import { use } from 'react';
 const CadastroAdocao = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+    const novoAnimalid = location.state?.novoAnimalid;
+    const novoAdotanteid = location.state?.novoAdotanteid;
+    const novoPontonome = location.state?.novoPontonome;
+
     const { criarAdocao, erro, tratarErro, limparErro } = useAdocoes();
     const [dadosAdocao, setDadosAdocao] = useState({
         data: '',
@@ -57,6 +62,37 @@ const CadastroAdocao = () => {
     const [campoAlerta, setCampoAlerta] = useState('');
     const dataRef = useRef(null);
 
+    //     useEffect(() => {
+    //     const paginasParaPreservar = [
+    //         '/cadastrar-adotante',
+    //         '/cadastrar-animal',
+    //         '/cadastrar-ponto-adocao'
+    //     ];
+
+    //     // Toda vez que a rota mudar, limpa se não for página protegida
+    //     if (!paginasParaPreservar.includes(location.pathname)) {
+    //         localStorage.removeItem('dadosAdocao');
+    //     }
+    // }, [location]);
+
+    useEffect(() => {
+        const state = location.state;
+        const veioDePaginaProtegida = state?.veioDePaginaProtegida;
+
+        if (veioDePaginaProtegida) {
+            const dadosSalvos = localStorage.getItem('dadosAdocao');
+            if (dadosSalvos) {
+                const dados = JSON.parse(dadosSalvos);
+                setDadosAdocao(prev => ({
+                    ...prev,
+                    ...dados
+                }));
+            }
+        } else {
+            localStorage.removeItem('dadosAdocao');
+        }
+    }, []);
+
     useEffect(() => {
         const fetchAdotantes = async () => {
             const adotantesData = await listarAdotantesAtivos();
@@ -75,13 +111,118 @@ const CadastroAdocao = () => {
         fetchPontosAdocao();
     }, []);
 
+    //BUSCA O CADASTRO DE NOVO ADOTANTE
+    useEffect(() => {
+        if (novoAdotanteid && adotantes.length > 0) {
+            const adotanteSelecionado = adotantes.find(a => a.id === Number(novoAdotanteid));
+            if (adotanteSelecionado) {
+                const novosDados = {
+                    ...dadosAdocao,
+                    adotanteId: novoAdotanteid,
+                    nomeAdotante: adotanteSelecionado.nome || '',
+                    cpf: adotanteSelecionado.cpf || '',
+                    rg: adotanteSelecionado.rg || '',
+                    telefoneAdotante: adotanteSelecionado.celular || '',
+                };
+
+                setDadosAdocao(novosDados);
+
+                // 🔥 Salva imediatamente no localStorage
+                localStorage.setItem('dadosAdocao', JSON.stringify(novosDados));
+            }
+
+            // Limpa o state para não ficar no histórico da navegação
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [novoAdotanteid, adotantes, navigate, location.pathname]);
+
+
+    //BUSCA O CADASTRO DE NOVO ANIMAL
+    useEffect(() => {
+        if (novoAnimalid && animais.length > 0) {
+            const animalSelecionado = animais.find(a => a.id === Number(novoAnimalid));
+            if (animalSelecionado) {
+                const novosDados = {
+                    ...dadosAdocao,
+                    animalId: novoAnimalid,
+                    especie: animalSelecionado.especie || '',
+                    idade: animalSelecionado.dataNascimento || '',
+                    sexo: animalSelecionado.sexo || '',
+                    pelagem: animalSelecionado.pelagem || '',
+                    doadorId: animalSelecionado.doadorId || '',
+                    nomeDoador: animalSelecionado.nomeDoador || '',
+                    telefoneDoador: animalSelecionado.telefoneDoador || '',
+                };
+
+                setDadosAdocao(novosDados);
+
+                // 🔥 SALVA no localStorage imediatamente
+                localStorage.setItem('dadosAdocao', JSON.stringify(novosDados));
+            }
+
+            // Limpa o state da rota
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [novoAnimalid, animais, navigate, location.pathname]);
+
+    //BUSCA O CADASTRO DO NOVO PONTO DE ADOCAO
+    useEffect(() => {
+        if (novoPontonome && pontosAdocao.length > 0) {
+            const pontoSelecionado = pontosAdocao.find(a => a.nomeFantasia === novoPontonome);
+            if (pontoSelecionado) {
+                const novosDados = {
+                    ...dadosAdocao,
+                    pontoAdocaoId: pontoSelecionado.id
+                };
+
+                setDadosAdocao(novosDados);
+
+                // 🔥 Salva imediatamente no localStorage
+                localStorage.setItem('dadosAdocao', JSON.stringify(novosDados));
+            }
+
+            // Limpa o state para não ficar no histórico da navegação
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [novoPontonome, pontosAdocao, navigate, location.pathname]);
+
+
+    useEffect(() => {
+        const dadosSalvos = localStorage.getItem('dadosAdocao');
+        if (dadosSalvos) {
+            const dados = JSON.parse(dadosSalvos);
+            setDadosAdocao(prev => ({
+                ...prev,
+                ...dados // joga todas as propriedades de 'dados' dentro do estado
+            }));
+        }
+    }, []);
+
+    //CHAMA O CADASTRO DE ADOTANTE
+    const handleCadastrarAdotante = () => {
+        // Navega para a tela de cadastro do adotante levando o estado
+        navigate('/cadastrar-adotante', { state: { from: '/cadastrar-adocao' } });
+    };
+
+    //CHAMA O CADASTRO DE ANIMAL
+    const handleCadastrarAnimal = () => {
+        // Navega para a tela de cadastro do animal levando o estado
+        navigate('/cadastrar-animal', { state: { from: '/cadastrar-adocao' } });
+    };
+
+    //CHAMA O CADASTRO DE PONTO DE ADOCAO
+    const handleCadastrarPontoAdocao = () => {
+        // Navega para a tela de cadastro do animal levando o estado
+        navigate('/cadastrar-ponto-adocao', { state: { from: '/cadastrar-adocao' } });
+    };
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
 
         //valida Data
         if (id === 'data') {
-            if (validarData(value)) {
+            if (ValidarData(value)) {
                 setCampoAlerta('data');
                 setAlertMensagem('Data inválida! Insira novamente.');
                 setAlertAtencao(true);
@@ -156,12 +297,24 @@ const CadastroAdocao = () => {
             }
         }
 
-        setDadosAdocao({
+        const novosDados = {
             ...dadosAdocao,
             [id]: ['adotanteId', 'animalId', 'doadorId', 'voluntarioId', 'pontoAdocaoId'].includes(id)
                 ? Number(value)
                 : value
-        });
+        };
+
+        setDadosAdocao(novosDados);
+
+        // Armazena no localStorage
+        localStorage.setItem('dadosAdocao', JSON.stringify(novosDados));
+
+        // setDadosAdocao({
+        //     ...dadosAdocao,
+        //     [id]: ['adotanteId', 'animalId', 'doadorId', 'voluntarioId', 'pontoAdocaoId'].includes(id)
+        //         ? Number(value)
+        //         : value
+        // });
 
     };
 
@@ -169,32 +322,64 @@ const CadastroAdocao = () => {
         const adotanteId = e.target.value;
         const adotanteSelecionado = adotantes.find(a => a.id === Number(adotanteId));
 
-        setDadosAdocao({
+        // setDadosAdocao({
+        //     ...dadosAdocao,
+        //     adotanteId,
+        //     nomeAdotante: adotanteSelecionado.nome ? adotanteSelecionado.nome : '',
+        //     cpf: adotanteSelecionado.cpf ? adotanteSelecionado.cpf : '',
+        //     rg: adotanteSelecionado.rg ? adotanteSelecionado.rg : '',
+        //     telefoneAdotante: adotanteSelecionado.celular ? adotanteSelecionado.celular : ''
+        // });
+
+        const novosDados = {
             ...dadosAdocao,
             adotanteId,
-            nomeAdotante: adotanteSelecionado.nome ? adotanteSelecionado.nome : '',
-            cpf: adotanteSelecionado.cpf ? adotanteSelecionado.cpf : '',
-            rg: adotanteSelecionado.rg ? adotanteSelecionado.rg : '',
-            telefoneAdotante: adotanteSelecionado.celular ? adotanteSelecionado.celular : ''
-        });
+            nomeAdotante: adotanteSelecionado?.nome ? adotanteSelecionado.nome : '',
+            cpf: adotanteSelecionado?.cpf ? adotanteSelecionado.cpf : '',
+            rg: adotanteSelecionado?.rg ? adotanteSelecionado.rg : '',
+            telefoneAdotante: adotanteSelecionado?.celular ? adotanteSelecionado.celular : ''
+        };
+
+        setDadosAdocao(novosDados);
+
+        // Armazena no localStorage
+        localStorage.setItem('dadosAdocao', JSON.stringify(novosDados));
     };
 
     const handleAnimalChange = (e) => {
         const animalId = e.target.value;
         const animalSelecionado = animais.find(a => a.id === Number(animalId));
 
-        setDadosAdocao({
+        // setDadosAdocao({
+        //     ...dadosAdocao,
+        //     animalId,
+        //     nomeAnimal: animalSelecionado.nome ? animalSelecionado.nome : '',
+        //     especie: animalSelecionado.especie ? animalSelecionado.especie : '',
+        //     idade: animalSelecionado.dataNascimento ? animalSelecionado.dataNascimento : '',
+        //     sexo: animalSelecionado.sexo ? animalSelecionado.sexo : '',
+        //     pelagem: animalSelecionado.pelagem ? animalSelecionado.pelagem : '',
+        //     doadorId: animalSelecionado.doadorId ? animalSelecionado.doadorId : '',
+        //     nomeDoador: animalSelecionado.nomeDoador ? animalSelecionado.nomeDoador : '',
+        //     telefoneDoador: animalSelecionado.telefoneDoador ? animalSelecionado.telefoneDoador : '',
+        // });
+
+        const novosDados = {
             ...dadosAdocao,
             animalId,
-            nomeAnimal: animalSelecionado.nome ? animalSelecionado.nome : '',
-            especie: animalSelecionado.especie ? animalSelecionado.especie : '',
-            idade: animalSelecionado.dataNascimento ? animalSelecionado.dataNascimento : '',
-            sexo: animalSelecionado.sexo ? animalSelecionado.sexo : '',
-            pelagem: animalSelecionado.pelagem ? animalSelecionado.pelagem : '',
-            doadorId: animalSelecionado.doadorId ? animalSelecionado.doadorId : '',
-            nomeDoador: animalSelecionado.nomeDoador ? animalSelecionado.nomeDoador : '',
-            telefoneDoador: animalSelecionado.telefoneDoador ? animalSelecionado.telefoneDoador : '',
-        });
+            nomeAnimal: animalSelecionado?.nome ? animalSelecionado.nome : '',
+            especie: animalSelecionado?.especie ? animalSelecionado.especie : '',
+            idade: animalSelecionado?.dataNascimento ? animalSelecionado.dataNascimento : '',
+            sexo: animalSelecionado?.sexo ? animalSelecionado.sexo : '',
+            pelagem: animalSelecionado?.pelagem ? animalSelecionado.pelagem : '',
+            doadorId: animalSelecionado?.doadorId ? animalSelecionado.doadorId : '',
+            nomeDoador: animalSelecionado?.nomeDoador ? animalSelecionado.nomeDoador : '',
+            telefoneDoador: animalSelecionado?.telefoneDoador ? animalSelecionado.telefoneDoador : '',
+        };
+
+        setDadosAdocao(novosDados);
+
+        // Armazena no localStorage
+        localStorage.setItem('dadosAdocao', JSON.stringify(novosDados));
     };
 
     /*     const handleVoluntarioChange = (e) => {
@@ -209,11 +394,22 @@ const CadastroAdocao = () => {
     const handlePontoAdocaoChange = (e) => {
         const pontoAdocaoId = e.target.value;
         const pontoSelecionado = pontosAdocao.find(p => p.id === Number(pontoAdocaoId));
-        setDadosAdocao({
+        // setDadosAdocao({
+        //     ...dadosAdocao,
+        //     pontoAdocaoId,
+        //     nomePontoAdocao: pontoSelecionado.nomeFantasia ? pontoSelecionado.nomeFantasia : ''
+        // });
+
+        const novosDados = {
             ...dadosAdocao,
             pontoAdocaoId,
-            nomePontoAdocao: pontoSelecionado.nomeFantasia ? pontoSelecionado.nomeFantasia : ''
-        });
+            nomePontoAdocao: pontoSelecionado?.nomeFantasia ? pontoSelecionado.nomeFantasia : ''
+        };
+
+        setDadosAdocao(novosDados);
+
+        // Armazena no localStorage
+        localStorage.setItem('dadosAdocao', JSON.stringify(novosDados));
     };
 
     const handleSubmit = async (event) => {
@@ -333,19 +529,22 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomeAdotante">Nome adotante</label>
-                        <select
-                            id="nomeAdotante"
-                            name="nomeAdotante"
-                            value={dadosAdocao.adotanteId}
-                            onChange={handleAdotanteChange}
-                        >
-                            <option value="">Selecione um adotante</option>
-                            {adotantes.map(adotante => (
-                                <option key={adotante.id} value={adotante.id}>
-                                    {adotante.nome}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="campo-com-botao">
+                            <select
+                                id="nomeAdotante"
+                                name="nomeAdotante"
+                                value={dadosAdocao.adotanteId}
+                                onChange={handleAdotanteChange}
+                            >
+                                <option value="">Selecione um adotante</option>
+                                {adotantes.map(adotante => (
+                                    <option key={adotante.id} value={adotante.id}>
+                                        {adotante.nome}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={handleCadastrarAdotante} type='button' className='addCadastro'>+</button>
+                        </div>
                         {(tentouEnviar && !dadosAdocao.nomeAdotante) && (
                             <span className="erro-required"> É obrigatório informar um adotante </span>
                         )}
@@ -431,19 +630,22 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomeAnimal">Nome animal</label>
-                        <select
-                            id="nomeAnimal"
-                            name='nomeAnimal'
-                            value={dadosAdocao.animalId}
-                            onChange={handleAnimalChange}
-                        >
-                            <option value="">Selecione um animal</option>
-                            {animais.map(animal => (
-                                <option key={animal.id} value={animal.id}>
-                                    {animal.nome}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="campo-com-botao">
+                            <select
+                                id="nomeAnimal"
+                                name='nomeAnimal'
+                                value={dadosAdocao.animalId}
+                                onChange={handleAnimalChange}
+                            >
+                                <option value="">Selecione um animal</option>
+                                {animais.map(animal => (
+                                    <option key={animal.id} value={animal.id}>
+                                        {animal.nome}
+                                    </option>
+                                ))}
+                            </select>
+                            <button type='button' onClick={handleCadastrarAnimal} className='addCadastro'>+</button>
+                        </div>
                         {(tentouEnviar && !dadosAdocao.nomeAnimal) && (
                             <span className="erro-required"> É obrigatório informar um animal </span>
                         )}
@@ -545,7 +747,7 @@ const CadastroAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="telefoneDoador">Telefone doador</label>
-                                                <InputMask
+                        <InputMask
                             mask="(99) 99999-9999"
                             value={dadosAdocao.telefoneDoador || ''}
                             onChange={handleAnimalChange}
@@ -580,21 +782,25 @@ const CadastroAdocao = () => {
                             <span className="erro-required"> É obrigatório informar um local de adoção </span>
                         )}
                     </div>
+
                     <div className="form-group">
                         <label htmlFor="nomelocaladocao">Nome local de adoção</label>
-                        <select
-                            id="nomePontoAdocao"
-                            name="nomePontoAdocao"
-                            value={dadosAdocao.pontoAdocaoId}
-                            onChange={handlePontoAdocaoChange}
-                        >
-                            <option value="">Selecione um ponto de adoção</option>
-                            {pontosAdocao.map(ponto => (
-                                <option key={ponto.id} value={ponto.id}>
-                                    {ponto.nomeFantasia}
-                                </option>
-                            ))}
-                        </select>
+                        <div className="campo-com-botao">
+                            <select
+                                id="nomePontoAdocao"
+                                name="nomePontoAdocao"
+                                value={dadosAdocao.pontoAdocaoId}
+                                onChange={handlePontoAdocaoChange}
+                            >
+                                <option value="">Selecione um ponto de adoção</option>
+                                {pontosAdocao.map(ponto => (
+                                    <option key={ponto.id} value={ponto.id}>
+                                        {ponto.nomeFantasia}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={handleCadastrarPontoAdocao} type='button' className='addCadastro'>+</button>
+                        </div>
                         {(tentouEnviar && !dadosAdocao.nomePontoAdocao) && (
                             <span className="erro-required"> É obrigatório informar um ponto de adoção </span>
                         )}
@@ -603,7 +809,7 @@ const CadastroAdocao = () => {
 
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={() => navigate('/listar-adocoes')} />
                     <BotaoLimpar />
                 </div>
             </form>

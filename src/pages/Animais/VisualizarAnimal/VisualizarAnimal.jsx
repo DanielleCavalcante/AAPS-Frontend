@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { validarNome } from '../../../utils/ValidaNome';
-import { validarData } from '../../../utils/ValidaData';
+import { ValidarData } from '../../../utils/ValidaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
@@ -81,7 +81,7 @@ const VisualizaAnimal = () => {
 
         //valida Data
         if (name === 'dataNascimento') {
-            if (validarData(value)) {
+            if (ValidarData(value)) {
                 setCampoAlerta('dataNascimento');
                 setAlertMensagem('Data de Nascimento inválida. Insira novamente.');
                 setAlertAtencao(true);
@@ -378,7 +378,7 @@ const VisualizaAnimal = () => {
                         ) : (
                             <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                         )}
-                        <BotaoCancelar />
+                        <BotaoCancelar onClick={() => navigate('/listar-animais')}/>
                     </div>
                 </div>
             </form >

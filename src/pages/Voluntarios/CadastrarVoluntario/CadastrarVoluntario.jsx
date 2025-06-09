@@ -339,7 +339,7 @@ const CadastroVoluntario = () => {
 
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={() => navigate('/listar-voluntarios')}/>
                     <BotaoLimpar />
                 </div>
             </form>
