@@ -1,4 +1,6 @@
 import Modal from '../Modal/Modal.jsx';
+
+import iconeAlterar from '/src/assets/icone_alterar.png';
 import './BotaoAlterar.css';
 
 // const BotaoAlterar = ({ showModal, openModal, closeModal, disabled }) => {
@@ -13,7 +15,7 @@ const BotaoAlterar = ({ onClick, disabled }) => {
         type="button" // verificar se é necessário
         style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
       >
-        <img src="/src/assets/icone_alterar.png" alt="Ícone alterar" className="icon" />
+        <img src={iconeAlterar} alt="Ícone alterar" className="icon" />
         <span>Alterar</span>
       </button>
 

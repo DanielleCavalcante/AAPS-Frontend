@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logo from "/src/assets/aaps_logo1.png"
 import './EsqueciSenha.css';
 
 const EsqueciSenha = () => {
@@ -37,7 +38,7 @@ const EsqueciSenha = () => {
     return (
         <div className="esqueci-senha-container">
             <form className="esqueci-senha-form" onSubmit={handleSubmit}>
-                <img src="src/assets/aaps_logo1.png" alt="aaps-logo1" className="esqueci-login-image" />
+                <img src={logo} alt="aaps-logo1" className="esqueci-login-image" />
                 <div className="esqueci-form-group">
                     <label htmlFor="esqueciSenha">Esqueci minha senha</label>
                     <span>Selecione um método </span>

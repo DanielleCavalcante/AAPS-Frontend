@@ -185,14 +185,32 @@ const Animal = () => {
                             <td>{animal.nome}</td>
                             <td>{animal.especie}</td>
                             <td>{animal.sexo}</td>
-                            <td>{new Date().getFullYear() - new Date(animal.dataNascimento).getFullYear()}</td>
+                            <td>
+                                {(() => {
+                                    if (!animal.dataNascimento) return '';
+                                    const nascimento = new Date(animal.dataNascimento);
+                                    const hoje = new Date();
+                                    let anos = hoje.getFullYear() - nascimento.getFullYear();
+                                    let meses = hoje.getMonth() - nascimento.getMonth();
+                                    let dias = hoje.getDate() - nascimento.getDate();
+
+                                    if (dias < 0) meses--;
+                                    if (meses < 0) {
+                                    anos--;
+                                    meses += 12;
+                                    }
+                                    if (anos > 0) return anos === 1 ? '1 ano' : `${anos} anos`;
+                                    if (meses > 0) return meses === 1 ? '1 mês' : `${meses} meses`;
+                                    return 'menos de 1 mês';
+                                })()}
+                            </td>
                             <td>{animal.disponibilidade === 1 ? 'Disponível' : 'Adotado'}</td>
                             <td>{animal.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>
                                 <div className='botoes'>
                                     <Link to={`/visualizar-animal/${animal.id}`}>
                                         <button className="search-button">
-                                            <img src="/src/assets/icone_lupa.png" alt="Ícone de visualizar" className="icon" />
+                                            <img src={iconeBusca} alt="Ícone de visualizar" className="icon" />
                                         </button>
                                     </Link>
                                     <BotaoExcluir 

@@ -64,9 +64,20 @@ export const useRelatorios = () => {
         } 
     };
 
+    const obterDadosRelatorio = async (relatorio = {}) => {
+        try {
+            limparErro();
+            return await RelatorioService.ObterDadosRelatorio(relatorio);
+        } catch (error) {
+            tratarErro(error);
+            throw error;
+        }
+    };
+
     return {
         gerarRelatorioExcel,
         gerarRelatorioPdf,
+        obterDadosRelatorio,
         erro, 
         limparErro,
         tratarErro

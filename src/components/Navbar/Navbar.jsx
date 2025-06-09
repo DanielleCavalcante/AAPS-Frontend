@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
-import './Navbar.css';
-import Modal from "../Modal/Modal";
 import { useLocation } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
-
+import Modal from "../Modal/Modal";
+import iconeHome from "/src/assets/aaps_logo1.png"
+import iconeAlerta from "/src/assets/icone_alerta.png"
+import './Navbar.css';
 
 const Navbar = () => {
   const { logout } = useAuth();
@@ -120,7 +121,7 @@ const Navbar = () => {
 
 
           <button className="navbar-button">
-            <Link to='/home'><img src="/src/assets/aaps_logo1.png" alt="Logotipo AAPS" className="icon-logo" /></Link>
+            <Link to='/home'><img src={iconeHome} alt="Logotipo AAPS" className="icon-logo" /></Link>
           </button>
         </div>
         <div id='Sair'>
@@ -134,7 +135,7 @@ const Navbar = () => {
 
       {showModal && (
         <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>
-          <img src="/src/assets/icone_alerta.png" alt="Ícone de alerta" className="icon" />
+          <img src={iconeAlerta} alt="Ícone de alerta" className="icon" />
           <p>Deseja realmente sair?</p>
         </Modal>
       )}

@@ -149,7 +149,7 @@ const PontoAdocao = () => {
                         <tr key={pontoAdocao.id}>
                             <td>{pontoAdocao.id}</td>
                             <td>{pontoAdocao.nomeFantasia}</td>
-                            <td>{pontoAdocao.responsavel}</td>
+                            <td>{pontoAdocao.resposavelContato}</td>
                             <td>{pontoAdocao.cnpj}</td>
                             <td>{pontoAdocao.status === 1 ? 'Ativo' : 'Inativo'}</td>
                             <td>

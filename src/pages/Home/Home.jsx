@@ -14,6 +14,7 @@ import iconeDoador from '../../assets/icone_doador.png';
 import iconeAdotante from '../../assets/icone_adotante.png';
 import iconeAdocao from '../../assets/icone_adocao.png';
 import iconePerfil from '../../assets/icone_perfil.png';
+import iconeAlerta from "/src/assets/icone_alerta.png"
 
 const Home = () => {
   const { user, logout } = useAuth();
@@ -104,7 +105,7 @@ const Home = () => {
 
       {showModal && (
         <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>
-          <img src="/src/assets/icone_alerta.png" alt="Ícone de alerta" className="icon" />
+          <img src={iconeAlerta} alt="Ícone de alerta" className="icon" />
           <p>Deseja realmente sair?</p>
         </Modal>
       )}

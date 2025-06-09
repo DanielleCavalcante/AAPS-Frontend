@@ -5,6 +5,7 @@ import { useVoluntarios } from '../../hooks/useVoluntarios';
 import { useAuth } from '../../hooks/useAuth';
 import iconeSenha from '../../assets/icone_senha.png';
 import iconeSair from '../../assets/icone_sair.png';
+import iconeAlerta from "/src/assets/icone_alerta.png";
 import './Perfil.css';
 
 const Perfil = () => {
@@ -123,7 +124,7 @@ const Perfil = () => {
                 </div>
                 {showModal && (
                     <Modal show={showModal} onClose={handleSair} qtdeBotao={2} nomeBotao1="Não" nomeBotao2="Sim" onClose2={closeModal}>
-                        <img src="/src/assets/icone_alerta.png" alt="Ícone de alerta" className="icon" />
+                        <img src={iconeAlerta} alt="Ícone de alerta" className="icon" />
                         <p>Deseja realmente sair?</p>
                     </Modal>
                 )}

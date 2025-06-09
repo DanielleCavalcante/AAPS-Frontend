@@ -8,6 +8,8 @@ import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
+
+import iconeAcompanhamento from "/src/assets/icone_acompanhamento.png"
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -366,7 +368,7 @@ const VisualizaAnimal = () => {
                             disabled={!editando}
                             onClick={irParaAcompanhamento}
                         >
-                            <img src="/src/assets/icone_acompanhamento.png" alt="Ícone acompanhamento" className="icon" />
+                            <img src={iconeAcompanhamento} alt="Ícone acompanhamento" className="icon" />
                             <span>Acompanhamento</span>
                         </button>
                     </div>

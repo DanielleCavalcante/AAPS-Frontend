@@ -1,5 +1,7 @@
 import Modal from '/src/components/Modal/Modal.jsx';
 
+import iconeSalvar from "/src/assets/icone_salvar.png"
+import iconeSmile from "/src/assets/emoji-smile.png"
 import './BotaoSalvar.css';
 
 const BotaoSalvar = ({ showModal, openModal, closeModal, disabled }) => { 
@@ -12,13 +14,13 @@ const BotaoSalvar = ({ showModal, openModal, closeModal, disabled }) => {
         disabled={disabled} 
         style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
       >
-        <img src="/src/assets/icone_salvar.png" alt="Ícone salvar" className="icon" />
+        <img src={iconeSalvar} alt="Ícone salvar" className="icon" />
         <span>Salvar</span>
       </button>
 
       {showModal && (
         <Modal show={showModal} onClose={closeModal}>
-          <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
+          <img src={iconeSmile} alt="Ícone de sucesso" className="icon" />
           <p>Salvo com sucesso!</p>
         </Modal>
       )}

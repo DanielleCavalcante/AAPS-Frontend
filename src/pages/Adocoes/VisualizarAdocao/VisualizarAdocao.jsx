@@ -85,7 +85,7 @@ const VisualizarAdocao = () => {
 
         //valida Data
         if (name === 'data') {
-            if (ValidarData(value)) {
+            if (validarData(value)) {
                 setCampoAlerta('data');
                 setAlertMensagem('Data inválida! Insira novamente.');
                 setAlertAtencao(true);

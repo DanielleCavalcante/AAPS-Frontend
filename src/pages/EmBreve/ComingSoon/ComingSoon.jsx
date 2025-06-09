@@ -1,4 +1,6 @@
 import React from "react";
+
+import comingSoon from "/src/assets/coming-soon-image.png"
 import './ComingSoon.css';
 
 const ComingSoon = () => {
@@ -6,7 +8,7 @@ const ComingSoon = () => {
         <div className="coming-soon-container">
             <h1 className="coming-soon-title">Em Breve!</h1>
             <p className="coming-soon-text">Estamos trabalhando nisso.</p>
-            <img src="src/assets/coming-soon-image.png" alt="coming-soon-image1" className="coming-soon-image" />
+            <img src={comingSoon} alt="coming-soon-image1" className="coming-soon-image" />
         </div>
     );
 }

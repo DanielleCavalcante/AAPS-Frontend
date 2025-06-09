@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Modal from '/src/components/Modal/Modal.jsx';
+import logo from "/src/assets/aaps_logo1.png";
+import iconeSmile from "/src/assets/emoji-smile.png";
 import './DigiteNovaSenhaCelular.css';
 
 const DigiteNovaSenhaCelular = () => {
@@ -24,7 +26,7 @@ const DigiteNovaSenhaCelular = () => {
     return (
         <div className="redefinir-senha-container">
             <form className="redefinir-senha-form" onSubmit={handleSubmit}>
-                <img src="src/assets/aaps_logo1.png" alt="aaps-logo1" className="redefinir-login-image" />
+                <img src={logo} alt="aaps-logo1" className="redefinir-login-image" />
                 <div className="redefinir-form-group">
                     <label htmlFor="esqueciSenha">Redefinir senha</label>
                     <span>Por favor, digite a nova senha</span>
@@ -47,7 +49,7 @@ const DigiteNovaSenhaCelular = () => {
 
                   {showModal && (
                     <Modal show={showModal} onClose={closeModal}>
-                      <img src="/src/assets/emoji-smile.png" alt="Ícone de sucesso" className="icon" />
+                      <img src={iconeSmile} alt="Ícone de sucesso" className="icon" />
                       <p>Sua senha foi redefinida com sucesso! Realize o login.</p>
                     </Modal>
                   )}

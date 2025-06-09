@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Modal from '/src/components/Modal/Modal.jsx';
+import logo from "/src/assets/aaps_logo1.png"
 import './RedefinirSenhaCodigo.css';
 
 const RedefinirSenhaCodigo = () => {
@@ -26,7 +27,7 @@ const RedefinirSenhaCodigo = () => {
     return (
         <div className="redefinir-senha-container">
             <form className="redefinir-senha-form" onSubmit={handleSubmit}>
-                <img src="src/assets/aaps_logo1.png" alt="aaps-logo1" className="redefinir-login-image" />
+                <img src={logo} alt="aaps-logo1" className="redefinir-login-image" />
                 <div className="redefinir-form-group">
                     <label htmlFor="esqueciSenha">Redefinir senha</label>
                     <span>Por favor, digite o código que recebeu pelo WhatsApp para redefinir a senha</span>

@@ -5,7 +5,7 @@ import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { validarCPF } from '../../../utils/ValidaCPF';
-import { validarRG } from '../../../utils/validaRG';
+import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
