@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { useAdotantes } from '../../../hooks/useAdotantes';
 import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
@@ -16,6 +16,9 @@ import './CadastroAdotante.css';
 
 const CadastroAdotante = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from;
+    console.log(location);
     const { criarAdotante } = useAdotantes();
     const [dadosAdotante, setDadosAdotante] = useState({
         nome: '',
@@ -182,7 +185,7 @@ const CadastroAdotante = () => {
             dadosAdotante.celular = celularLimpo;
             dadosAdotante.contato = contatoLimpo;
 
-            await criarAdotante(dadosAdotante);
+            const novoAdotante = await criarAdotante(dadosAdotante);
             setDadosAdotante({
                 nome: '',
                 rg: '',
@@ -206,8 +209,16 @@ const CadastroAdotante = () => {
                 bloqueio: 0,
                 observacaoBloqueio: '',
             });
-            setTentouEnviar(false);
-            openModal();
+            if (from === '/cadastrar-adocao') {
+                navigate(from, {
+                    state: {
+                        novoAdotanteid: novoAdotante.id,
+                        veioDePaginaProtegida: true
+                    }
+                });
+            } else {
+                openModal();
+            }
         } catch (error) {
             tratarErro(error);
         }
@@ -232,6 +243,19 @@ const CadastroAdotante = () => {
         }
     };
 
+    function handleCancelar() {
+        if (from === '/cadastrar-adocao') {
+            navigate(from, {
+                state: {
+                    // novoAdotanteid: novoAdotante.id,
+                    veioDePaginaProtegida: true
+                }
+            });
+        } else {
+            navigate('/listar-adotantes');
+        }
+    }
+
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
@@ -250,6 +274,19 @@ const CadastroAdotante = () => {
             campoRef.current.focus();      // foca no campo
         }
     };
+
+    const verificaRota = () => {
+        if (from === '/cadastrar-adocao') {
+            navigate(from, {
+                state: {
+                    novoAdotanteid: novoAdotante.id,
+                    veioDePaginaProtegida: true
+                }
+            });
+        } else {
+            openModal();
+        }
+    }
 
     return (
         <div className="cadastro-container">
@@ -683,7 +720,7 @@ const CadastroAdotante = () => {
 
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={handleCancelar}/>
                     <BotaoLimpar />
                 </div>
             </form >

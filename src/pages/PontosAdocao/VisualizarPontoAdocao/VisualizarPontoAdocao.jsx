@@ -523,7 +523,7 @@ const VisualizarPontoAdocao = () => {
                     ) : (
                         <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     )}
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={() => navigate('/listar-pontos-adocao')}/>
                 </div>
             </form>
             {alertAtencao && (

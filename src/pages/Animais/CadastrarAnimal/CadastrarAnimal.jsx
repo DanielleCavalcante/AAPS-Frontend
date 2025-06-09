@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from 'react'
 import { useAnimais } from '../../../hooks/useAnimais';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { validarNome } from '../../../utils/ValidaNome';
-import { validarData } from '../../../utils/ValidaData';
+import { validarData } from '/src/utils/ValidaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -13,6 +13,8 @@ import './CadastrarAnimal.css';
 
 const CadastroAnimal = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from;
     //    const { criarAnimal, erro, carregando } = useAnimais();
     const { criarAnimal } = useAnimais();
     const [dadosAnimal, setDadosAnimal] = useState({
@@ -63,7 +65,7 @@ const CadastroAnimal = () => {
         }
 
         //valida Data
-        if (id === 'dataNascimento'){
+        if (id === 'dataNascimento') {
             if (validarData(value)) {
                 setCampoAlerta('dataNascimento');
                 setAlertMensagem('Data de Nascimento inválida. Insira novamente.');
@@ -99,7 +101,7 @@ const CadastroAnimal = () => {
         setTentouEnviar(true);
         limparErro();
         try {
-            await criarAnimal(dadosAnimal);
+            const novoAnimal = await criarAnimal(dadosAnimal);
             setDadosAnimal({
                 nome: '',
                 especie: '',
@@ -113,11 +115,33 @@ const CadastroAnimal = () => {
                 doadorId: '',
                 nomeDoador: ''
             });
-            openModal();
+            if (from === '/cadastrar-adocao') {
+                navigate(from, {
+                    state: {
+                        novoAnimalid: novoAnimal.id,
+                        veioDePaginaProtegida: true
+                    }
+                });
+            } else {
+                openModal();
+            }
         } catch (error) {
             tratarErro(error);
         }
     };
+
+    function handleCancelar() {
+        if (from === '/cadastrar-adocao') {
+            navigate(from, {
+                state: {
+                    // novoAdotanteid: novoAdotante.id,
+                    veioDePaginaProtegida: true
+                }
+            });
+        } else {
+            navigate('/listar-animais');
+        }
+    }
 
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
@@ -354,7 +378,7 @@ const CadastroAnimal = () => {
                 </div>
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={handleCancelar} />
                     <BotaoLimpar />
                 </div>
             </form>

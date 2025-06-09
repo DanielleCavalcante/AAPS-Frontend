@@ -359,7 +359,7 @@ const VisualizarVoluntario = () => {
           ) : (
             <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
           )}
-          <BotaoCancelar />
+          <BotaoCancelar onClick={() => navigate('/listar-voluntarios')}/>
         </div>
       </form>
       {alertAtencao && (

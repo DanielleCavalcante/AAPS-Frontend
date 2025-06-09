@@ -380,7 +380,7 @@ const VisualizaAnimal = () => {
                         ) : (
                             <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                         )}
-                        <BotaoCancelar />
+                        <BotaoCancelar onClick={() => navigate('/listar-animais')}/>
                     </div>
                 </div>
             </form >

@@ -609,7 +609,7 @@ const VisualizarDoador = () => {
                     ) : (
                         <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     )}
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={() => navigate('/listar-doadores')}/>
                 </div>
             </form >
             {alertAtencao && (

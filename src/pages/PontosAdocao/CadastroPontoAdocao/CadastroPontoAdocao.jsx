@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarCNPJ } from '../../../utils/ValidaCNPJ';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
@@ -15,6 +15,8 @@ import './CadastroPontoAdocao.css';
 
 const CadastroPontoAdocao = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from;
     const { criarPontoAdocao } = usePontosAdocao();
     const [dadosPontoAdocao, setDadosPontoAdocao] = useState({
         nomeFantasia: '',
@@ -115,7 +117,9 @@ const CadastroPontoAdocao = () => {
             dadosPontoAdocao.cep = cepLimpo;
             dadosPontoAdocao.celular = celularLimpo;
             dadosPontoAdocao.contato = contatoLimpo;
-            await criarPontoAdocao(dadosPontoAdocao);
+
+            const novoPontoAdocao = await criarPontoAdocao(dadosPontoAdocao);
+            console.log(novoPontoAdocao);
             setDadosPontoAdocao({
                 nomeFantasia: '',
                 cnpj: '',
@@ -131,8 +135,16 @@ const CadastroPontoAdocao = () => {
                 bairro: '',
                 status: 1
             });
-            setTentouEnviar(false);
-            openModal();
+            if (from === '/cadastrar-adocao') {
+                navigate(from, {
+                    state: {
+                        novoPontonome: novoPontoAdocao.nomeFantasia,
+                        veioDePaginaProtegida: true
+                    }
+                });
+            } else {
+                openModal();
+            }
         } catch (error) {
             tratarErro(error);
         }
@@ -157,6 +169,19 @@ const CadastroPontoAdocao = () => {
         }
     };
 
+    function handleCancelar() {
+        if (from === '/cadastrar-adocao') {
+            navigate(from, {
+                state: {
+                    // novoAdotanteid: novoAdotante.id,
+                    veioDePaginaProtegida: true
+                }
+            });
+        } else {
+            navigate('/listar-pontos-adocao');
+        }
+    }
+
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
@@ -164,7 +189,7 @@ const CadastroPontoAdocao = () => {
         setShowModal(false);
         navigate('/listar-pontos-adocao');
     }
-    
+
 
     /* // Handlers para telefones e responsáveis
     const handleAddTelefone = () => setTelefones([...telefones, { telefone: '', responsavel: '' }]);
@@ -506,7 +531,7 @@ const CadastroPontoAdocao = () => {
 
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
-                    <BotaoCancelar />
+                    <BotaoCancelar onClick={handleCancelar}/>
                     <BotaoLimpar />
                 </div>
             </form>
