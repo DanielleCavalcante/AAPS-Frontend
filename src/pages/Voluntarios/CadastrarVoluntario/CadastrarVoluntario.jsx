@@ -75,6 +75,8 @@ const CadastroVoluntario = () => {
         setTentouEnviar(true);
         limparErro();
 
+        const phoneNumberLimpo = dadosVoluntario.phoneNumber.replace(/[^\d]+/g, '');
+
         //Chama validação de telefone
         if (!validarTelefone(dadosVoluntario.phoneNumber)) {
             setCampoAlerta('phoneNumber');
@@ -105,6 +107,7 @@ const CadastroVoluntario = () => {
 
         try {
             dadosVoluntario.cpf = cpfLimpo; //enviar o cpf limpo (apenas numero) para criação do voluntário.
+            dadosVoluntario.phoneNumber = phoneNumberLimpo;
             await criarVoluntario(dadosVoluntario);
             setDadosVoluntario({
                 nome: '',

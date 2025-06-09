@@ -30,7 +30,6 @@ const VisualizarVoluntario = () => {
   const emailRef = useRef(null);
   const phoneRef = useRef(null);
 
-
   //Modais:
   const openModal = () => setShowModal(true);
   const closeModal = () => {
@@ -112,6 +111,8 @@ const VisualizarVoluntario = () => {
       return;
     }
 
+    const phoneNumberLimpo = formDados.phoneNumber.replace(/[^\d]+/g, '');
+
     //Chama validação de telefone
     if (!validarTelefone(formDados.phoneNumber)) {
       setCampoAlerta('phoneNumber');
@@ -142,6 +143,7 @@ const VisualizarVoluntario = () => {
 
     try {
       formDados.cpf = cpfLimpo;
+      formDados.phoneNumber =phoneNumberLimpo;
       await atualizarVoluntario(id, formDados);
 
       localStorage.setItem("nomeUsuario", formDados.nome);
