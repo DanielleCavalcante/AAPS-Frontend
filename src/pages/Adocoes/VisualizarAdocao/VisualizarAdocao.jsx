@@ -1,7 +1,7 @@
 import InputMask from 'react-input-mask';
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ValidarData } from '/src/utils/ValidaData';
+import { validarData } from '/src/utils/ValidaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import { useError } from '../../../hooks/useError';
 import { useAdocoes } from '../../../hooks/useAdocoes';

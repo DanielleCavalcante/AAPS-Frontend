@@ -4,7 +4,7 @@ import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { validarNome } from '../../../utils/ValidaNome';
-import { ValidarData } from '/src/utils/ValidaData';
+import { validarData } from '/src/utils/ValidaData';
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -66,7 +66,7 @@ const CadastroAnimal = () => {
 
         //valida Data
         if (id === 'dataNascimento') {
-            if (ValidarData(value)) {
+            if (validarData(value)) {
                 setCampoAlerta('dataNascimento');
                 setAlertMensagem('Data de Nascimento inválida. Insira novamente.');
                 setAlertAtencao(true);
