@@ -1,4 +1,4 @@
-.modal-overlay {
+.modal-overlay-anula{
   position: fixed;
   top: 0;
   left: 0;
@@ -14,7 +14,7 @@
   padding: 40px 20px; 
 }
 
-.modal-content {
+.modal-content-anula {
   background: white;
   border-radius: 10px;
   width: 700px;
@@ -25,19 +25,19 @@
   padding-bottom: 20px;
 }
 
-.modal-body {
+.modal-body-anula {
   padding: 25px;
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.modal-header {
+.modal-header-anula {
   padding: 10px 25px 25px 25px;
   border-bottom: 1px solid #eee;
 }
 
-.modal-header h2 {
+.modal-header-anula h2 {
   margin: 0;
   font-size: 22px;
   font-weight: bold;

@@ -46,13 +46,13 @@ const ModalAnulacaoAdocao = ({
     if (!show) return null;
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-content">
-                <div className="modal-header">
+        <div className="modal-overlay-anula">
+            <div className="modal-content-anula">
+                <div className="modal-header-anula">
                     <h2>Anulação de Adoção</h2>
                 </div>
 
-                <div className="modal-body">
+                <div className="modal-body-anula">
                     <div className="row">
                         <div className="form-group half">
                             <label>Data do Acompanhamento *</label>
