@@ -43,6 +43,7 @@ const VisualizarAdocao = () => {
     const [carregandoAnulacao, setCarregandoAnulacao] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
+    const [showModalAnulacao, setShowModalAnulacao] = useState(false);
 
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
