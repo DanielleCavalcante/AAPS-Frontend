@@ -1,0 +1,138 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+  overflow: auto;
+  padding: 40px 20px; 
+}
+
+.modal-content {
+  background: white;
+  border-radius: 10px;
+  width: 700px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  padding-bottom: 20px;
+}
+
+.modal-body {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.modal-header {
+  padding: 10px 25px 25px 25px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333; /* garante visibilidade */
+}
+
+.half {
+  flex: 1;
+  min-width: 250px;
+}
+
+.full {
+  width: 100%;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+  min-height: 50px;
+  max-height: 80px;
+}
+
+.erro-modal {
+  color: red;
+  font-size: 14px;
+  text-align: left;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.btn-anular {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  min-width: 160px;
+}
+
+.btn-anular:disabled {
+  background-color: #f5b7b1;
+  cursor: not-allowed;
+}
+
+.btn-cancelar {
+  background-color: #7f8c8d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 15px;
+  cursor: pointer;
+  min-width: 160px;
+}
+
+.btn-cancelar:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}

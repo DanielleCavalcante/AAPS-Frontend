@@ -9,10 +9,12 @@ import { useVoluntarios } from '../../../hooks/useVoluntarios';
 import { useAdotantes } from '../../../hooks/useAdotantes';
 import { useAnimais } from '../../../hooks/useAnimais';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
+import { useEventos } from '../../../hooks/useEventos';
 
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
+import BotaoAnular from '../../../components/BotaoAnular/BotaoAnular';
 import './VisualizarAdocao.css';
 
 const VisualizarAdocao = () => {
@@ -21,6 +23,8 @@ const VisualizarAdocao = () => {
     const { listarAdotantesAtivos } = useAdotantes();
     const { listarAnimais } = useAnimais();
     const { listarPontosAdocaoAtivos } = usePontosAdocao();
+    const { listarEventosAtivos } = useEventos();
+
     const { erro, carregando, limparErro, tratarErro } = useError();
 
     const { id } = useParams();
@@ -32,9 +36,11 @@ const VisualizarAdocao = () => {
     const [animais, setAnimais] = useState([]);
     const [pontosAdocao, setPontosAdocao] = useState([]);
     const [formDados, setFormDados] = useState({});
+    const [eventos, setEventos] = useState([]);
 
     const [editando, setEditando] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoAnulacao, setCarregandoAnulacao] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -71,6 +77,9 @@ const VisualizarAdocao = () => {
             .catch(console.error);
         listarPontosAdocaoAtivos()
             .then(setPontosAdocao)
+            .catch(console.error);
+        listarEventosAtivos()
+            .then(setEventos)
             .catch(console.error);
     }, [id]);
 
@@ -182,6 +191,20 @@ const VisualizarAdocao = () => {
 
         } catch (error) {
             tratarErro(error);
+        }
+    };
+
+    const handleConfirmarAnulacao = async (dadosAcompanhamento) => {
+        setCarregandoAnulacao(true);
+        limparErro();
+        try {
+            await cancelarAdocao(id, dadosAcompanhamento);
+            setShowModalAnulacao(false);
+            navigate('/listar-adocoes');
+        } catch (error) {
+            tratarErro(error);
+        } finally {
+            setCarregandoAnulacao(false);
         }
     };
 
@@ -555,19 +578,26 @@ const VisualizarAdocao = () => {
                 </div>
 
                 <div id="group3">
-                    <div className="form-group">
+                   {/*  <div className="form-group">
                         <button
                             type="button"
                             id="button-anular"
                             className={`button-anular ${editando ? 'ativo' : 'desabilitado'}`}
                             disabled={!editando}
-                        //onClick={irParaAcompanhamento}
+                            onClick={() => setShowModalAnulacao(true)}
                         >
                             <i className="fas fa-ban fa-lg"></i>
 
                             <span>Anular</span>
                         </button>
-                    </div>
+                    </div> */}
+                    <BotaoAnular
+                        disabled={!editando}
+                        onConfirm={handleConfirmarAnulacao}
+                        animalId={formDados.animalId}
+                        eventos={eventos}
+                        carregando={carregandoAnulacao}
+                    />
 
                     <div className="button-group-crud">
                         {!editando ? (
@@ -582,6 +612,16 @@ const VisualizarAdocao = () => {
                     </div>
                 </div>
             </form>
+
+            {/* <ModalAnulacaoAdocao 
+                show={showModalAnulacao}
+                onClose={closeModalAnulacao}
+                onConfirm={handleConfirmarAnulacao}
+                animalId={formDados.animalId}
+                eventos={eventos}
+                carregando={carregandoAnulacao}
+            /> */}
+
             {alertAtencao && (
                 <AlertAtencao
                     mensagem={alertMensagem}

@@ -235,7 +235,11 @@ const Acompanhamento = () => {
                                     <tr key={acompanhamento.id}>
                                         <td>{acompanhamento.id}</td>
                                         <td>{acompanhamento.descricao}</td>
-                                        <td>{acompanhamento.data ? new Date(acompanhamento.data).toLocaleDateString('pt-BR'): ''}</td>
+                                        <td>
+                                            {acompanhamento.data
+                                                ? new Date(acompanhamento.data).toLocaleDateString('pt-BR')
+                                                : ''}
+                                        </td>
                                         <td>{acompanhamento.observacao}</td>
                                         <td>
                                             <button className="delete-button" 
