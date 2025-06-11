@@ -135,13 +135,13 @@ const PontoAdocao = () => {
                 <tbody>
                    {erro ? (
                         <tr>
-                            <td colSpan="4" className="erro" style={{ textAlign: 'center', height: '20vh' }}>
+                            <td colSpan="6" className="erro" style={{ textAlign: 'center', height: '20vh' }}>
                                 {erro}
                             </td>
                         </tr>
                     ) : carregando ? (
                         <tr>
-                            <td colSpan="4">
+                            <td colSpan="6">
                                 <Carregando />
                             </td>
                         </tr>

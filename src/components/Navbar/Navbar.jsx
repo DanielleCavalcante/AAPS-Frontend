@@ -127,7 +127,8 @@ const Navbar = () => {
         <div id='Sair'>
           <button className="navbar-button" onClick={openModal}>
             {/*  <img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" />*/}
-            <i className="fas fa-door-open fa-2x"></i>
+            <span className="texto-sair">Sair</span>
+            <i className="fa fa-sign-out fa-2x icon-sair"></i>
             {/* <img src="/src/assets/icone_sair.png" alt="Ícone de sair" className="icon-sair" onClick={logout}/> */}
           </button>
         </div>

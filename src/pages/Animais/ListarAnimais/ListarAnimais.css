@@ -3,6 +3,7 @@
     max-width: 90%;
     max-height: 50%;
     margin: 5%;
+    margin-top: 10%;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -41,20 +42,24 @@
 .search-bar-animal {
     display: flex;
     align-items: center;
-    flex: 1;
+    flex-grow: 1;
+    flex-wrap: wrap;
     background-color:#009EE0;
-    border-radius: 5px;
+    border-radius: 8px;
     color: white;
-    padding: 5px;
+    width: 10%;
 }
 
 .search-bar-animal input {
-    flex: 1;
     padding: 20px;
+    flex-grow: 1;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    align-items: center;
     background-color:#009EE0; 
     color:white;
+    margin-top: 0;
+    outline: none;
 }
 
 .search-button {
@@ -102,7 +107,7 @@
     color: white;
     border: none;
     border-radius: 5px;
-    width: 160px;
+    width: 155px;
     height: 40px;
     cursor: pointer;
     text-align: center;

@@ -111,6 +111,16 @@ const Adocao = () => {
                 </select> */}
             </div>
 
+{/*Alterar */} <div className="dropdowns"> 
+                <div className="filtro-group">
+                    <select id="filtro-doadores" name="status" onChange={handleChange} value={filtro.status}>
+                        <option value="">Status</option>
+                        <option value={1}>Ativo</option>
+                        <option value={0}>Cancelado</option>
+                    </select>
+                </div>
+            </div>
+
             <table className="table">
                 <thead>
                     <tr>
@@ -119,19 +129,20 @@ const Adocao = () => {
                         <th>Adotante</th>
                         <th>Voluntário</th>
                         <th>Ponto de Adoção</th>
+                        <th>Status</th>
                         <th>Ver</th>
                     </tr>
                 </thead>
                 <tbody>
                     {erro ? (
                         <tr>
-                            <td colSpan="4" className="erro" style={{ textAlign: 'center', height: '20vh' }}>
+                            <td colSpan="7" className="erro" style={{ textAlign: 'center', height: '20vh' }}>
                                 {erro}
                             </td>
                         </tr>
                     ) : carregando ? (
                         <tr>
-                            <td colSpan="4">
+                            <td colSpan="7">
                                 <Carregando />
                             </td>
                         </tr>
@@ -142,6 +153,7 @@ const Adocao = () => {
                             <td>{adocao.nomeAdotante}</td>
                             <td>{adocao.nomeVoluntario}</td>
                             <td>{adocao.nomePontoAdocao}</td>
+    {/*Alterar */}          <td>{adocao.cancelada}</td>  
                             <td>
                                 <div className="acoes-adocao">
                                     <Link to={`/visualizar-adocao/${adocao.id}`}>
@@ -149,11 +161,11 @@ const Adocao = () => {
                                             <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                         </button>
                                     </Link>
-                                    <button className="search-button-adocao" onClick={() => { handleGerarTermo(adocao.id) }}>
+                                    <button className="download-button-adocao" onClick={() => { handleGerarTermo(adocao.id) }}>
                                         <img src={iconeDownload} alt="Ícone de download" className="icon" />
                                     </button>
-                                    <button className="search-button-adocao" onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}>
-                                        <img src={iconeCompartilhar} alt="Ícone de excluir" className="icon" />
+                                    <button className="compartilhar-button-adocao" onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}>
+                                        <img src={iconeCompartilhar} alt="Ícone de compartilhar" className="icon" />
                                     </button>
                                 </div>
                             </td>

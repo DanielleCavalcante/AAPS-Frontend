@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../../hooks/useAuth";
 
 import './Home.css';
+import './Responsividade.css';
+
 import Modal from '/src/components/Modal/Modal.jsx';
 
 import iconeVoluntario from '../../assets/icone_voluntario.png';
@@ -32,7 +34,7 @@ const Home = () => {
   }
 
   return (
-    <div className="home-container">
+    <div className={`home-container ${user?.role === 'Admin' ? 'admin' : 'padrao'}`}>
       <div className="button-grid-home">
 
         {user?.role === "Admin" && (

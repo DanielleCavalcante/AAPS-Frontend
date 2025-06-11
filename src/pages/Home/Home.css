@@ -7,16 +7,29 @@
   margin: 30px auto;
 }
 
-.button-grid-home {
+.home-container.admin .button-grid-home {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Mudança para 4 colunas */
-  /* gap: 60px; espaço entre os botoes (horizontal) */
+  grid-template-columns: repeat(4, 1fr);
   row-gap: 50px;
   column-gap: 60px;
   justify-items: center;
   padding: 100px 0 30px;
   flex-grow: 1;
-  /* margin: auto; */
+}
+
+.home-container.padrao .button-grid-home {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 50px;
+  column-gap: 60px;
+  justify-items: center;
+  padding: 100px 0 30px;
+  flex-grow: 1;
+  margin-top: 5%;
+}
+
+.home-container.padrao .home-button-perfil {
+    margin-bottom: 5%;
 }
 
 .home-button {
@@ -31,10 +44,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 150px;
-  height: 80px; 
+  width: 200px;
+  height: 90px;
   text-transform: capitalize;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s;
   gap: 2px; /* Espaço entre o ícone e o texto */
 }
@@ -51,10 +64,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 150px;
-  height: 80px; 
+  width: 200px;
+  height: 90px; 
   text-transform: capitalize;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+  box-shadow: 4px 4px 5px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s;
   gap: 2px; /* Espaço entre o ícone e o texto */
 }

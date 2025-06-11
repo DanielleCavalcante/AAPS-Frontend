@@ -3,7 +3,8 @@
     justify-content: center;
     align-items: center;
     background-color: #f4f4f4;
-    padding: 2% 2%;
+    padding: 2%;
+    margin: 5% auto;
   }
   
   .cadastroAdocao-form {
@@ -138,4 +139,8 @@ input::placeholder {
   font-size: 16px;
   font-weight: bold;
   max-width: fit-content;
+}
+
+.cadastroAdocao-form #status {
+  width: 30%;
 }

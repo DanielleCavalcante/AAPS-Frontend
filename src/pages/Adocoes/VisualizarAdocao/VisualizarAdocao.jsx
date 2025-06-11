@@ -578,8 +578,22 @@ const VisualizarAdocao = () => {
                     </div>
                 </div>
 
+{/*Alterar*/}   <div className="form-group">
+                    <label htmlFor="status">Status</label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={formDados?.status}
+                        onChange={handleInputChange}
+                        disabled={!editando}
+                    >
+                        <option value={1}>Ativo</option>
+                        <option value={0}>Anulado</option>
+                    </select>
+                </div>
+
                 <div id="group3">
-                   {/*  <div className="form-group">
+                    {/*  <div className="form-group">
                         <button
                             type="button"
                             id="button-anular"
@@ -609,7 +623,7 @@ const VisualizarAdocao = () => {
                         ) : (
                             <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                         )}
-                        <BotaoCancelar onClick={() => navigate('/listar-adocoes')}/>
+                        <BotaoCancelar onClick={() => navigate('/listar-adocoes')} />
                     </div>
                 </div>
             </form>

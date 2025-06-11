@@ -3,6 +3,7 @@
     max-width: 90%;
     max-height: 50%;
     margin: 5%;
+    margin-top: 10%;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -72,20 +73,35 @@
     height: 30px;
     margin: 5px;
     border: none;
-    border-radius: 4px;
-    align-content: center
-    
+    align-content: center;
+    border-radius: 5px;    
 }
 
-.anular-button {
-    background-color: red;
+
+.download-button-adocao {
+    background-color: #ffca0b;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    display: inline-grid;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border: none;
+    align-content: center;
+    border-radius: 5px;    
+}
+
+.compartilhar-button-adocao {
+    background-color: green;
     color: white;
     cursor: pointer;
     width: 30px;
     height: 30px;
     margin: 5px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -93,7 +109,7 @@
 
 
 
-.search-button-adocao img, .button-cadastrar-adocao img {
+.search-button-adocao img, .button-cadastrar-adocao img, .download-button-adocao img, .compartilhar-button-adocao img {
     width: 20px;
     height: 20px;
     padding: 2%;

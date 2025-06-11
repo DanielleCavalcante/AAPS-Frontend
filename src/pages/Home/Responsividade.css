@@ -1,0 +1,72 @@
+/* Para telas pequenas, como celulares */
+@media (max-width: 600px) {
+    .button-grid-home {
+        grid-template-columns: repeat(2, 1fr);
+        /* 1 coluna para caber melhor no celular */
+        row-gap: 30px;
+        column-gap: 0;
+        padding: 50px 0 20px;
+        gap: 20px;
+    }
+
+    .home-button {
+        width: 120px;
+        height: 60px;
+        font-size: 14px;
+    }
+
+    .home-button-perfil {
+        width: 120px;
+        height: 60px;
+    }
+
+    .home-button span {
+        font-size: 14px;
+    }
+
+    .home-button img {
+        width: 24px;
+    }
+
+    .home-button-perfil img {
+        width: 24px;
+    }
+
+    .home-button-perfil span {
+        font-size: 14px;
+    }    
+
+    .texto-sair {
+        font-size: 20px;
+        color: white;
+        font-weight: bold;
+    }
+
+    .navbar-center {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+
+}
+
+/* Para tablets, tamanho intermediário para admin*/
+@media (min-width: 601px) and (max-width: 900px) {
+  .home-container.admin .button-grid-home {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 40px;
+    column-gap: 40px;
+    padding: 70px 0 25px;
+  }
+}
+
+/* Para tablets, tamanho intermediário para padrao*/
+@media (min-width: 601px) and (max-width: 900px) {
+  .home-container.padrao .button-grid-home {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 30px;
+    column-gap: 0;
+    gap: 100px;
+    margin-top: 10%;
+  }
+}
