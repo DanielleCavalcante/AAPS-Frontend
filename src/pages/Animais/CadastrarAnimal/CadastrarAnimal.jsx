@@ -361,7 +361,8 @@ const CadastroAnimal = () => {
 
                     <div className="form-group">
                         <label htmlFor="nomeDoador">Nome do Doador</label>
-                        <select
+                        <div className="campo-com-botao">
+                            <select
                             id="nomeDoador"
                             value={dadosAnimal.doadorId}
                             onChange={handleDoadorChange}
@@ -373,6 +374,9 @@ const CadastroAnimal = () => {
                                 </option>
                             ))}
                         </select>
+                            <button type='button' className='addCadastro'>+</button>
+                            {/* <button onClick={handleCadastrarAdotante} type='button' className='addCadastro'>+</button> */}
+                        </div>
                     </div>
 
                 </div>
