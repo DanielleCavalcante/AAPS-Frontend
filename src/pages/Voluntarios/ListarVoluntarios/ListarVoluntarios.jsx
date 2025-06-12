@@ -102,7 +102,7 @@ const Voluntario = () => {
                         name="busca"
                         value={filtro.busca}
                         onChange={handleChange}
-                        placeholder="Busque um voluntario pelo nome, cpf ou nome de usuário"
+                        placeholder="Busque um voluntario pelo Nome, CPF ou Nome de usuário"
                     />
                     <button className="search-button">
                         <img src={iconeBusca} onc alt="Ícone de lupa" className="icon" />

@@ -97,7 +97,7 @@ const Adocao = () => {
                         name="busca"
                         value={filtro.busca}
                         onChange={handleChange}
-                        placeholder="Busque uma adoção pelo nome do animal, adotante, voluntário ou ponto de adoção"
+                        placeholder="Busque uma adoção pelo Nome do Animal, Adotante, Voluntário ou Ponto de Adoção"
                     />
                     <button className="search-button-adocao">
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />

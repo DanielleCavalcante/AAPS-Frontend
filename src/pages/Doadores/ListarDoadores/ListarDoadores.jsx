@@ -101,7 +101,7 @@ const Doador = () => {
                         name="busca"
                         value={filtro.busca}
                         onChange={handleChange}
-                        placeholder="Busque um doador por nome, cpf ou rg"
+                        placeholder="Busque um doador por Nome, CPF ou RG"
                     />
                     <button className="search-button-doador">
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />

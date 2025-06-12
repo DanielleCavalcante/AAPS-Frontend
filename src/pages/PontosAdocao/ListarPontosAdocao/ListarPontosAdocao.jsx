@@ -102,7 +102,7 @@ const PontoAdocao = () => {
                         name="busca"
                         value={filtro.busca}
                         onChange={handleChange}
-                        placeholder="Busque um ponto de adoção por nome fantasia, responsável ou CNPJ"
+                        placeholder="Busque um ponto de adoção por Nome Fantasia, Responsável ou CNPJ"
                     />
                     <button className="search-button">
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />

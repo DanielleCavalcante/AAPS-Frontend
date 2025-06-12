@@ -100,7 +100,7 @@ const Adotante = () => {
                         name="busca"
                         value={filtro.busca}
                         onChange={handleChange}
-                        placeholder="Busque um ponto de adoção por nome, CPF ou RG"
+                        placeholder="Busque um ponto de adoção por Nome, CPF ou RG"
                     />
                     <button className="search-button-adotante">
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />
