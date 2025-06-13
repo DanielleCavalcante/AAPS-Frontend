@@ -38,11 +38,11 @@ const Navbar = () => {
         return { titulo: 'Detalhes do Animal', icone: 'fas fa-eye' };
 
       case '/listar-doadores':
-        return { titulo: 'Lista de Doadores', icone: 'fas fa-hand-holding-heart' };
+        return { titulo: 'Lista de Doadores/Tutores', icone: 'fas fa-hand-holding-heart' };
       case '/cadastrar-doador':
-        return { titulo: 'Cadastrar Doador', icone: 'fas fa-user-plus' };
+        return { titulo: 'Cadastrar Doador/Tutor', icone: 'fas fa-user-plus' };
       case `/visualizar-doador/${location.pathname.split('/')[2]}`:
-        return { titulo: 'Detalhes do Doador', icone: 'fas fa-user' };
+        return { titulo: 'Detalhes do Doador/Tutor', icone: 'fas fa-user' };
 
       case '/listar-eventos':
         return { titulo: 'Lista de Procedimentos', icone: 'fas fa-list' };
