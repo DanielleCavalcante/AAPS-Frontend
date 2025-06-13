@@ -114,9 +114,9 @@ const Adocao = () => {
 {/*Alterar */} <div className="dropdowns"> 
                 <div className="filtro-group">
                     <select id="filtro-doadores" name="status" onChange={handleChange} value={filtro.status}>
-                        <option value="">Status</option>
-                        <option value={1}>Ativo</option>
-                        <option value={0}>Cancelado</option>
+                        <option value="">Adoção anulada</option>
+                        <option value={1}>Sim</option>
+                        <option value={0}>Não</option>
                     </select>
                 </div>
             </div>
@@ -129,7 +129,7 @@ const Adocao = () => {
                         <th>Adotante</th>
                         <th>Voluntário</th>
                         <th>Ponto de Adoção</th>
-                        <th>Status</th>
+                        <th>Adoção anulada</th>
                         <th>Ver</th>
                     </tr>
                 </thead>

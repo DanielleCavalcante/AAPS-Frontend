@@ -144,3 +144,25 @@ input::placeholder {
 .cadastroAdocao-form #status {
   width: 30%;
 }
+
+.radio-group {
+  display: flex;
+  gap: 40px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+
+.radio-label {
+  display: flex;
+  gap: 15px;
+  /* Espaçamento entre o input e o texto */
+  align-items: flex-end;
+}
+
+#anulada {
+  width: 20px;
+  height: 20px;
+  margin-top: 30px;
+}

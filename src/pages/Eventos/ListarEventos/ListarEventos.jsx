@@ -102,7 +102,7 @@ const Evento = () => {
                         name="busca"
                         value={filtro.busca}
                         onChange={handleChange}
-                        placeholder="Busque um evento pela descrição"
+                        placeholder="Busque um procedimento pela descrição"
                     />
                     <button className="search-button-evento">
                         <img src={iconeBusca} alt="Ícone de busca" className="icon" />

@@ -99,7 +99,7 @@ const ModalAnulacaoAdocao = ({
                             onClick={onClose}
                             disabled={carregando}
                         >
-                            Cancelar
+                            Sair
                         </button>
                         <button
                             className="btn-anular"

@@ -578,18 +578,21 @@ const VisualizarAdocao = () => {
                     </div>
                 </div>
 
-{/*Alterar*/}   <div className="form-group">
-                    <label htmlFor="status">Status</label>
-                    <select
-                        id="status"
-                        name="status"
-                        value={formDados?.status}
-                        onChange={handleInputChange}
-                        disabled={!editando}
-                    >
-                        <option value={1}>Ativo</option>
-                        <option value={0}>Anulado</option>
-                    </select>
+{/*Alterar*/}   <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            id='anulada'
+                            type="checkbox"
+                            name="anulada"
+                            value={formDados.bloqueio}
+                            checked={formDados.bloqueio === 1}
+                            onChange={e =>
+                                setFormDados({ ...formDados, bloqueio: e.target.checked ? 1 : 0 })
+                            }
+                            disabled={!editando}
+                        />
+                        Adoção anulada
+                    </label>
                 </div>
 
                 <div id="group3">
