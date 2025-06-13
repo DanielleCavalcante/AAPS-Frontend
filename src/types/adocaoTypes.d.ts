@@ -10,6 +10,7 @@ export interface Animal {
 
 export interface FiltroAdocao{
     busca?: string;
+    cancelada: boolean;
 }
 
 export interface AcompanhamentoDevolvido {

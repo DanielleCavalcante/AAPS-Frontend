@@ -16,7 +16,7 @@ const Adocao = () => {
     const { listarAdocoes, excluirAdocao, erro, limparErro } = useAdocoes();
 
     const [adocoes, setAdocoes] = useState([]);
-    const [filtro, setFiltro] = useState({ busca: '' });
+    const [filtro, setFiltro] = useState({ busca: '', cancelada: null });
     const { enviarTermoAdocao, gerarTermoAdocao } = useTermoAdocao();
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
@@ -113,10 +113,10 @@ const Adocao = () => {
 
 {/*Alterar */} <div className="dropdowns"> 
                 <div className="filtro-group">
-                    <select id="filtro-doadores" name="status" onChange={handleChange} value={filtro.status}>
+                    <select id="filtro-doadores" name="cancelada" onChange={handleChange} value={filtro.cancelada}>
                         <option value="">Adoção anulada</option>
-                        <option value={1}>Sim</option>
-                        <option value={0}>Não</option>
+                        <option value={true}>Sim</option>
+                        <option value={false}>Não</option>
                     </select>
                 </div>
             </div>
@@ -153,7 +153,7 @@ const Adocao = () => {
                             <td>{adocao.nomeAdotante}</td>
                             <td>{adocao.nomeVoluntario}</td>
                             <td>{adocao.nomePontoAdocao}</td>
-    {/*Alterar */}          <td>{adocao.cancelada}</td>  
+    {/*Alterar */}          <td>{adocao.cancelada === true ? 'Sim' : 'Não'}</td>
                             <td>
                                 <div className="acoes-adocao">
                                     <Link to={`/visualizar-adocao/${adocao.id}`}>
