@@ -96,7 +96,7 @@ const Navbar = () => {
       case '/relatorio':
         return { titulo: 'Relatório', icone: 'fas fa-file-alt' };
 
-      case '/acompanhamento':
+      case `/acompanhamento/${location.pathname.split('/')[2]}`:
         return { titulo: 'Acompanhamento', icone: 'fas fa-clipboard-list' };
 
 
