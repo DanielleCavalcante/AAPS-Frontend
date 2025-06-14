@@ -62,19 +62,6 @@ const CadastroAdocao = () => {
     const [campoAlerta, setCampoAlerta] = useState('');
     const dataRef = useRef(null);
 
-    //     useEffect(() => {
-    //     const paginasParaPreservar = [
-    //         '/cadastrar-adotante',
-    //         '/cadastrar-animal',
-    //         '/cadastrar-ponto-adocao'
-    //     ];
-
-    //     // Toda vez que a rota mudar, limpa se não for página protegida
-    //     if (!paginasParaPreservar.includes(location.pathname)) {
-    //         localStorage.removeItem('dadosAdocao');
-    //     }
-    // }, [location]);
-
     useEffect(() => {
         const state = location.state;
         const veioDePaginaProtegida = state?.veioDePaginaProtegida;

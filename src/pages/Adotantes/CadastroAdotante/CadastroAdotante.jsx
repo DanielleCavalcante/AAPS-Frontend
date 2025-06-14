@@ -18,7 +18,6 @@ const CadastroAdotante = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from;
-    console.log(location);
     const { criarAdotante } = useAdotantes();
     const [dadosAdotante, setDadosAdotante] = useState({
         nome: '',
