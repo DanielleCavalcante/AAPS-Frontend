@@ -62,11 +62,14 @@ html, body {
 }
 
 .tabela-relatorio {
+  width: 100%;
+  box-sizing: border-box;
   background: #fafafa;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
   box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  overflow-x: auto; /* Garante que não vaze em telas pequenas */
 }
 
 .tabela-relatorio.largura-total {
