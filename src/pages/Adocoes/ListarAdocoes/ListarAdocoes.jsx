@@ -10,6 +10,7 @@ import iconeBusca from '/src/assets/icone_lupa.png';
 import iconeDownload from '/src/assets/icone_download.png';
 import iconeCompartilhar from '/src/assets/icone_compartilhar.png';
 import Carregando from '../../../components/Spinner/Carregando';
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './ListarAdocoes.css';
 
 const Adocao = () => {
@@ -21,6 +22,8 @@ const Adocao = () => {
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
+
+    const [carregandoPdf, setCarregandoPdf] = useState(false);
 
     const [alertSucesso, setAlertSucesso] = useState(false);
 
@@ -62,21 +65,27 @@ const Adocao = () => {
 
     const handleEnviarTermo = async (adocaoId, adotanteId) => {
         limparErro();
+        setCarregandoPdf(true);
         try {
             await enviarTermoAdocao({ adocaoId, adotanteId });
             setAlertSucesso(true);
             // alert("E-mail enviado com sucesso!");
         } catch (error) {
             tratarErro(error);
+        } finally {
+            setCarregandoPdf(false);
         }
     };
 
     const handleGerarTermo = async (id) => {
         limparErro();
+        setCarregandoPdf(true);
         try {
             await gerarTermoAdocao(id);
         } catch (error) {
             tratarErro(error);
+        }finally {
+            setCarregandoPdf(false);
         }
     };
 
@@ -120,6 +129,8 @@ const Adocao = () => {
                     </select>
                 </div>
             </div>
+
+            {carregandoPdf && <CarregandoCat />}
 
             <table className="table">
                 <thead>
