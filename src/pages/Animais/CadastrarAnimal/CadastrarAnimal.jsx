@@ -15,6 +15,7 @@ const CadastroAnimal = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from;
+    const novoDoadorId = location.state?.novoDoadorId;
     //    const { criarAnimal, erro, carregando } = useAnimais();
     const { criarAnimal } = useAnimais();
     const [dadosAnimal, setDadosAnimal] = useState({
@@ -43,12 +44,53 @@ const CadastroAnimal = () => {
     const dataRef = useRef(null);
 
     useEffect(() => {
+        const state = location.state;
+        const veioDePaginaProtegida = state?.veioDePaginaProtegida;
+
+        if (veioDePaginaProtegida) {
+            const dadosSalvos = localStorage.getItem('dadosAnimal');
+            if (dadosSalvos) {
+                const dados = JSON.parse(dadosSalvos);
+                setDadosAnimal(prev => ({
+                    ...prev,
+                    ...dados
+                }));
+            }
+        } else {
+            localStorage.removeItem('dadosAnimal');
+        }
+    }, []);
+
+    useEffect(() => {
         const fetchDoadores = async () => {
             const doadoresData = await listarDoadoresAtivos();
             setDoadores(doadoresData);
         };
         fetchDoadores();
     }, []);
+
+    useEffect(() => {
+        if (novoDoadorId && doadores.length > 0) {
+            const doadorSelecionado = doadores.find(d => d.id === Number(novoDoadorId));
+            if (doadorSelecionado) {
+                const novosDados = {
+                    ...dadosAnimal,
+                    doadorId: novoDoadorId,
+                    nomeDoador: doadorSelecionado ? doadorSelecionado.nome : ''
+                };
+                setDadosAnimal(novosDados);
+                // 🔥 Salva imediatamente no localStorage
+                localStorage.setItem('dadosAnimal', JSON.stringify(novosDados));
+            }
+            // Limpa o state para não ficar no histórico da navegação
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [novoDoadorId, doadores, navigate, location.pathname]);
+
+    //CHAMA O CADASTRO DE ADOTANTE
+    const handleCadastrarDoador = () => {
+        navigate('/cadastrar-doador', { state: { from: '/cadastrar-animal' } });
+    };
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -74,16 +116,20 @@ const CadastroAnimal = () => {
             }
         }
 
-        setDadosAnimal({
+        const novosDados = {
             ...dadosAnimal,
             [id]: ['status', 'disponibilidade', 'doadorId'].includes(id) ? Number(value) : value
-        });
+        };
+
+        setDadosAnimal(novosDados);
 
         const doadorSelecionado = doadores.find(d => d.id === Number(value));
         setDadosAnimal(prevState => ({
             ...prevState,
             nomeDoador: doadorSelecionado ? doadorSelecionado.nome : ''
         }));
+
+        localStorage.setItem('dadosAnimal', JSON.stringify(novosDados));
     };
 
     const handleDoadorChange = (e) => {
@@ -363,19 +409,19 @@ const CadastroAnimal = () => {
                         <label htmlFor="nomeDoador">Nome do Doador</label>
                         <div className="campo-com-botao">
                             <select
-                            id="nomeDoador"
-                            value={dadosAnimal.doadorId}
-                            onChange={handleDoadorChange}
-                        >
-                            <option value="">Selecione um doador</option>
-                            {doadores.map(doador => (
-                                <option key={doador.id} value={doador.id}>
-                                    {doador.nome}
-                                </option>
-                            ))}
-                        </select>
-                            <button type='button' className='addCadastro'>+</button>
-                            {/* <button onClick={handleCadastrarAdotante} type='button' className='addCadastro'>+</button> */}
+                                id="nomeDoador"
+                                value={dadosAnimal.doadorId}
+                                onChange={handleDoadorChange}
+                            >
+                                <option value="">Selecione um doador</option>
+                                {doadores.map(doador => (
+                                    <option key={doador.id} value={doador.id}>
+                                        {doador.nome}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={handleCadastrarDoador} type='button' className='addCadastro'>+</button>
+                            {/* <button onClick={handleCadastrarDoador} type='button' className='addCadastro'>+</button> */}
                         </div>
                     </div>
 

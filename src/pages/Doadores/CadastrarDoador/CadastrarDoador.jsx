@@ -3,7 +3,7 @@ import { useState, useRef } from 'react';
 import { useDoadores } from '../../../hooks/useDoadores';
 import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
@@ -16,6 +16,8 @@ import './CadastrarDoador.css';
 
 const CadastroDoador = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from;
     const { criarDoador } = useDoadores();
     const [dadosDoador, setDadosDoador] = useState({
         nome: '',
@@ -171,7 +173,7 @@ const CadastroDoador = () => {
             dadosDoador.celular = celularLimpo;
             dadosDoador.contato = contatoLimpo;
 
-            await criarDoador(dadosDoador);
+            const novoDoador = await criarDoador(dadosDoador);
             setDadosDoador({
                 nome: '',
                 rg: '',
@@ -189,8 +191,16 @@ const CadastroDoador = () => {
                 complemento: '',
                 bairro: ''
             });
-            setTentouEnviar(false);
-            openModal();
+            if (from === '/cadastrar-animal') {
+                navigate(from, {
+                    state: {
+                        novoDoadorId: novoDoador.id,
+                        veioDePaginaProtegida: true
+                    }
+                });
+            } else {
+                openModal();
+            }
         } catch (error) {
             tratarErro(error);
         }
@@ -231,6 +241,18 @@ const CadastroDoador = () => {
             campoRef.current.focus();      // foca no campo
         }
     };
+
+    function handleCancelar() {
+        if (from === '/cadastrar-animal') {
+            navigate(from, {
+                state: {
+                    veioDePaginaProtegida: true
+                }
+            });
+        } else {
+            navigate('/listar-doadores');
+        }
+    }
 
     return (
         <div className="cadastro-container">
@@ -564,7 +586,7 @@ const CadastroDoador = () => {
 
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
-                    <BotaoCancelar onClick={() => navigate('/listar-doadores')}/>
+                    <BotaoCancelar onClick={handleCancelar}/>
                     <BotaoLimpar />
                 </div>
             </form>
