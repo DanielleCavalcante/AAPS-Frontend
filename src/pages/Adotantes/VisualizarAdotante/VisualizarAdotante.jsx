@@ -478,7 +478,8 @@ const VisualizarAdotante = () => {
                         Apto
                     </label>
                 </div>*/}
-
+                <div className='form-group'>
+                    <label className='tipoMoradia'>Tipo de moradia:</label>
                 <div className="radio-group">
                     <label className="radio-label">
                         <input
@@ -502,6 +503,7 @@ const VisualizarAdotante = () => {
                         />
                         Alugada
                     </label>
+                </div>
                 </div>
 
                 <div className="cadastroAdotante-linha1">

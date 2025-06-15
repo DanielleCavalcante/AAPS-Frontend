@@ -197,18 +197,21 @@ label {
 
 .radio-group {
   display: flex;
-  gap: 40px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0;      
+  margin-bottom: 0;
+  gap: 20px;  
 }
 
 
 
 .radio-label {
   display: flex;
-  gap: 15px;
+  gap: 6px;  
   /* Espaçamento entre o input e o texto */
-  align-items: flex-end;
+  align-items: center;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+  margin-top: 10px;
 }
 
 #group4 {
@@ -253,5 +256,9 @@ input::placeholder {
 #situacaoEndereco {
   width: 20px;
   height: 20px;
-  margin-top: 30px;
+}
+
+#bloqueio{
+  margin-top: 10px;
+  margin-bottom: 15px;
 }

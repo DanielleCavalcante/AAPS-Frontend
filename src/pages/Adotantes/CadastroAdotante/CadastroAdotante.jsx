@@ -512,35 +512,37 @@ const CadastroAdotante = () => {
                     </label>
                 </div> */}
 
-                <div className="radio-group">
-                    <label className="radio-label">
-                        <input
-                            id="situacaoEndereco"
-                            type="radio"
-                            name="situacaoEndereco"
-                            value="Própria"
-                            checked={dadosAdotante.situacaoEndereco === "Própria"}
-                            onChange={handleChange}
-                        />
-                        Própria
-                    </label>
-                    <label className="radio-label">
-                        <input
-                            id="situacaoEndereco"
-                            type="radio"
-                            name="situacaoEndereco"
-                            value="Alugada"
-                            checked={dadosAdotante.situacaoEndereco === "Alugada"}
-                            onChange={handleChange}
-                        />
-                        Alugada
-                    </label>
-
+                <div className='form-group'>
+                    <label className='tipoMoradia'>Tipo de moradia:</label>
+                    <div className="radio-group">
+                        <label className="radio-label">
+                            <input
+                                id="situacaoEnderecoPropria"
+                                type="radio"
+                                name="situacaoEndereco"
+                                value="Própria"
+                                checked={dadosAdotante.situacaoEndereco === "Própria"}
+                                onChange={handleChange}
+                            />
+                            Própria
+                        </label>
+                        <label className="radio-label">
+                            <input
+                                id="situacaoEnderecoAlugada"
+                                type="radio"
+                                name="situacaoEndereco"
+                                value="Alugada"
+                                checked={dadosAdotante.situacaoEndereco === "Alugada"}
+                                onChange={handleChange}
+                            />
+                            Alugada
+                        </label>
                     {(tentouEnviar && !dadosAdotante.situacaoEndereco) && (
                         <span className="erro-required"> É obrigatório informar a situação de moradia </span>
                     )}
+                    </div>
                 </div>
-
+                
                 <div className="cadastroAdotante-linha1">
                     <div className="form-group">
                         <label htmlFor="cep">CEP</label>

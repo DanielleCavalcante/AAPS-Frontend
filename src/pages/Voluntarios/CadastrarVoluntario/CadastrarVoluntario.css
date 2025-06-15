@@ -5,6 +5,8 @@
     background-color: #f4f4f4;
     padding: 2%;
     margin: 5% auto;
+    min-height: 90vh;  
+    width: 100vw;  
 }
 
 .cadastroVoluntario-form {

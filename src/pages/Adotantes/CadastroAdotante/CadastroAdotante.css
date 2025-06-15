@@ -197,18 +197,16 @@ label {
 
 .radio-group {
   display: flex;
-  gap: 40px;
+  gap: 30px; /* espaço entre as opções */
+  align-items: center;
   margin-top: 10px;
-  margin-bottom: 10px;
 }
-
-
 
 .radio-label {
   display: flex;
-  gap: 15px;
-  /* Espaçamento entre o input e o texto */
-  align-items: flex-end;
+  align-items: center;
+  gap: 15px; /* ajuste o valor como quiser */
+  margin-top: 10px;
 }
 
 #group4 {
@@ -216,6 +214,13 @@ label {
   grid-template-columns: repeat(2, 1fr);
   gap: 50px;
   align-items: center;
+}
+
+.radio-label input[type="radio"] {
+  vertical-align: middle;
+  width: 16px;  /* diminui a bolinha */
+  height: 16px; /* diminui a bolinha */
+  padding: 5px;
 }
 
 textarea {
@@ -253,5 +258,13 @@ input::placeholder {
 #situacaoEndereco {
   width: 20px;
   height: 20px;
-  margin-top: 30px;
+}
+
+#bloqueio{
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.tipoMoradia{
+  margin-top: 12px;
 }
