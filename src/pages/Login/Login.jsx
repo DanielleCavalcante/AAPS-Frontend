@@ -36,6 +36,7 @@ const Login = () => {
       setCredentials({ userName: "", senha: "" });
       setTentouEnviar(false);
     } catch (error) {
+      alert({erro});
       tratarErro(error);
     } finally {
       finalizarCarregamento();
