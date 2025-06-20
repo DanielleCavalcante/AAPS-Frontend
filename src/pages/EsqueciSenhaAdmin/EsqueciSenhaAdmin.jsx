@@ -1,7 +1,8 @@
 import InputMask from 'react-input-mask';
 import React from 'react';
 import Modal from "/src/components/Modal/Modal.jsx";
-import { useState } from 'react'
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
+import { useState, useEffect, useRef } from 'react'
 import { useEsqueciSenha } from '../../hooks/useEsqueciSenha';
 import { useError } from '../../hooks/useError';
 import { useNavigate } from 'react-router-dom';
@@ -17,6 +18,12 @@ const EsqueciSenhaAdmin = () => {
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
 
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertMensagem, setAlertMensagem] = useState('');
+    const [campoAtencao, setCampoAtencao] = useState('');
+    const telefoneRef = useRef(null);
+    const userNameRef = useRef(null);
+
     //implementação de modal:
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
@@ -24,6 +31,21 @@ const EsqueciSenhaAdmin = () => {
         setShowModal(false);
         navigate('/');
     }
+
+    // useEffect(() => {
+    //     if (alertAtencao) {
+    //         // Fecha o alert após 5 segundos (5000 ms)
+    //         const timer = setTimeout(() => {
+    //             fecharAlertaEFocarCampos({
+    //                 telefone: telefoneRef,
+    //                 userName: userNameRef,
+    //             });
+    //         }, 5000);
+
+    //         // Limpa o timer caso o componente seja desmontado ou o alertAtencao mude
+    //         return () => clearTimeout(timer);
+    //     }
+    // }, [alertAtencao]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -45,8 +67,26 @@ const EsqueciSenhaAdmin = () => {
             setTentouEnviar(false);
             openModal();
         } catch (error) {
-            tratarErro(error);
+            setCampoAtencao('telefone');
+            setAlertMensagem('Dados inválidos. Tente novamente!');
+            setAlertAtencao(true);
+            // alert(error.mensagem);
+            // tratarErro(error);
         }
+    };
+
+    const fecharAlertaEFocarCampos = (refs) => {
+        setAlertAtencao(false);
+
+        // Limpa estado
+        setdadosResetSenha(prev => Object.fromEntries(
+            Object.keys(refs).map(chave => [chave, ''])
+        ));
+
+        // Limpa os inputs
+        Object.values(refs).forEach(ref => {
+            if (ref.current) ref.current.value = '';
+        });
     };
 
     return (
@@ -65,13 +105,15 @@ const EsqueciSenhaAdmin = () => {
                         value={dadosResetSenha.telefone}
                         onChange={handleInputChange}
                         placeholder="(__)_____-____"
-                        required>
+                        required
+                        disabled={alertAtencao}>
                         {(inputProps) => (
                             <input
                                 {...inputProps}
                                 id="telefone"
                                 name="telefone"
                                 type="text"
+                                disabled={alertAtencao}
                             />
                         )}
                     </InputMask>
@@ -96,6 +138,7 @@ const EsqueciSenhaAdmin = () => {
                         value={dadosResetSenha.userName}
                         onChange={handleInputChange}
                         placeholder="Ex: nome.sobrenome"
+                        disabled={alertAtencao} 
                     />
 
                     {(tentouEnviar && !dadosResetSenha.userName) && (
@@ -113,6 +156,18 @@ const EsqueciSenhaAdmin = () => {
                     <p>Solicitação enviada com sucesso!</p>
                     <p>Aguarde o contato do administrador.</p>
                 </Modal>
+            )}
+
+            {alertAtencao && (
+                <AlertAtencao
+                    mensagem={alertMensagem}
+                    onClose={() => {
+                        fecharAlertaEFocarCampos({
+                            telefone: telefoneRef,
+                            userName: userNameRef
+                        });
+                    }}
+                />
             )}
         </div>
     );
