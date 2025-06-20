@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { useVoluntarios } from '../../hooks/useVoluntarios';
 
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
+import CarregandoCat from '../../components/Spinner/CarregandoCat';
 import logo from '../../assets/aaps_logo1.png';
 import './AlterarSenha.css';
 
@@ -17,10 +19,13 @@ const AlterarSenha = () => {
     });
     
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [carregandoAlterarSenha, setCarregandoAlterarSenha] = useState(false);
 
     const handleChange = (e) => {
         const { id, value } = e.target;
-        limparErro();
+        setTentouEnviar(false);
+        setAlertAtencao(false);
         setDadosSenha({
             ...dadosSenha,
             [id]: value
@@ -29,20 +34,25 @@ const AlterarSenha = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setTentouEnviar(true);
-        limparErro();
 
-        if (dadosSenha.novaSenha !== dadosSenha.confirmarNovaSenha) {
-            tratarErro({ message: "As senhas novas não coincidem." });
-            return;
+        if(!dadosSenha.senhaAtual || !dadosSenha.novaSenha || !dadosSenha.confirmarNovaSenha){
+            setTentouEnviar(true);
+            return
         }
 
         try {
+            setAlertAtencao(false);
+            setCarregandoAlterarSenha(true);
+
             await alterarSenha(voluntarioId, dadosSenha);
+
             setDadosSenha({ senhaAtual: '', novaSenha: '', confirmarNovaSenha: '' });
             setTentouEnviar(false);
-        } catch (error) {
+        }catch (error) {
             tratarErro(error);
+            setAlertAtencao(true);
+        }finally{
+            setCarregandoAlterarSenha(false);
         }
     };
 
@@ -92,9 +102,15 @@ const AlterarSenha = () => {
                         <span className="erro-required">O campo 'Confirmar nova senha' é obrigatório.</span>
                     )}
                 </div>
-                
-                {erro && <span className="erro-api">{erro}</span>}
 
+                {alertAtencao && (
+                    <AlertAtencao
+                        mensagem={Array.isArray(erro) ? erro[0] : erro}
+                        onClose={() => setAlertAtencao(false)}
+                    />
+                )}
+
+                {carregandoAlterarSenha && <CarregandoCat />}
 
                 <div className="button-group">
                     <button type="submit" className="btn-alterar-senha">Alterar senha</button>
