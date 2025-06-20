@@ -636,9 +636,6 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
-                        {(tentouEnviar && !formDados.facebook) && (
-                            <span className="erro-required"> O campo 'Facebook' é obrigatório </span>
-                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="instagram">Instagram</label>
@@ -650,9 +647,6 @@ const VisualizarAdotante = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
-                        {(tentouEnviar && !formDados.instagram) && (
-                            <span className="erro-required"> O campo 'Instagram' é obrigatório </span>
-                        )}
                     </div>
                 </div>
 

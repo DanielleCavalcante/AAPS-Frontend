@@ -116,9 +116,6 @@ const VisualizaAnimal = () => {
         if (!formDados.raca?.trim()) {
             return;
         }
-        if (!formDados.dataNascimento?.trim()) {
-            return;
-        }
         if (!formDados.pelagem?.trim()) {
             return;
         }
@@ -266,9 +263,6 @@ const VisualizaAnimal = () => {
                             onChange={handleInputChange}
                             disabled={!editando}
                         />
-                        {(tentouEnviar && !formDados.dataNascimento) && (
-                            <span className="erro-required"> O campo 'Data de Nascimento' é obrigatório </span>
-                        )}
                     </div>
                 </div>
                 <div id='group3'>

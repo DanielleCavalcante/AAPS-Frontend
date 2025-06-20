@@ -671,10 +671,6 @@ const CadastroAdotante = () => {
                             value={dadosAdotante.facebook}
                             onChange={handleChange}
                         />
-
-                        {(tentouEnviar && !dadosAdotante.facebook) && (
-                            <span className="erro-required"> O campo 'Facebook' é obrigatório </span>
-                        )}
                     </div>
                     <div className="form-group">
                         <label htmlFor="instagram">Instagram</label>
@@ -685,10 +681,6 @@ const CadastroAdotante = () => {
                             value={dadosAdotante.instagram}
                             onChange={handleChange}
                         />
-
-                        {(tentouEnviar && !dadosAdotante.instagram) && (
-                            <span className="erro-required"> O campo 'Instagram' é obrigatório </span>
-                        )}
                     </div>
                 </div>
 

@@ -324,9 +324,6 @@ const CadastroAnimal = () => {
                             onChange={handleChange}
                             placeholder="Digite a data de nascimento do animal"
                         />
-                        {(tentouEnviar && !dadosAnimal.dataNascimento) && (
-                            <span className="erro-required"> O campo 'Data de Nascimento' é obrigatório </span>
-                        )}
                     </div>
                 </div>
                 <div id='group3'>
