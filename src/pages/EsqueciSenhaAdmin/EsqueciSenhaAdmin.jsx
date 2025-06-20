@@ -8,6 +8,7 @@ import { useError } from '../../hooks/useError';
 import { useNavigate } from 'react-router-dom';
 import logoAaps from '/src/assets/aaps_logo1.png';
 import iconeSmile from "/src/assets/emoji-smile.png"
+import CarregandoCat from '../../components/Spinner/CarregandoCat';
 import './EsqueciSenhaAdmin.css';
 
 const EsqueciSenhaAdmin = () => {
@@ -17,6 +18,8 @@ const EsqueciSenhaAdmin = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+
+    const [carregandoSolicitacao, setcarregandoSolicitacao] = useState(false);
 
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
@@ -58,13 +61,15 @@ const EsqueciSenhaAdmin = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setTentouEnviar(true);
-        limparErro();
         const telefoneLimpo = dadosResetSenha.telefone.replace(/[^\d]+/g, '');
+        limparErro();
+        setcarregandoSolicitacao(true);
         try {
             dadosResetSenha.telefone = telefoneLimpo;
             await solicitarResetSenha(dadosResetSenha);
-            setdadosResetSenha({ userName: '', telefone: '' });
+            limparErro();
             setTentouEnviar(false);
+            setdadosResetSenha({ userName: '', telefone: '' });
             openModal();
         } catch (error) {
             setCampoAtencao('telefone');
@@ -72,6 +77,9 @@ const EsqueciSenhaAdmin = () => {
             setAlertAtencao(true);
             // alert(error.mensagem);
             // tratarErro(error);
+        }
+        finally{
+            setcarregandoSolicitacao(false);
         }
     };
 
@@ -144,6 +152,8 @@ const EsqueciSenhaAdmin = () => {
                     {(tentouEnviar && !dadosResetSenha.userName) && (
                         <span className="erro-required"> O campo 'Nome de Usuário' é obrigatório </span>
                     )}
+
+                    {carregandoSolicitacao && <CarregandoCat />}
                 </div>
 
                 <div className="button-group">

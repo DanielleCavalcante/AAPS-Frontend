@@ -6,26 +6,37 @@ import { validarNome } from '../../../utils/ValidaNome';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
 import { useNavigate } from 'react-router-dom';
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
-import { useError } from '../../../hooks/useError';
+
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
+import AlertSucesso from "/src/components/AlertSucesso/AlertSucesso.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './VisualizarVoluntario.css';
 
 const VisualizarVoluntario = () => {
   const { buscarVoluntarioPorId, atualizarVoluntario, resetarSenha, erro, tratarErro, limparErro } = useVoluntarios();
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [voluntario, setVoluntario] = useState(null);
+
   const [editando, setEditando] = useState(false);
   const [formDados, setFormDados] = useState({});
   const [tentouEnviar, setTentouEnviar] = useState(false);
+
+  const [carregandoReset, setcarregandoReset] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
   const [erroCPF, setErroCPF] = useState('');
+
   const [alertAtencao, setAlertAtencao] = useState(false);
   const [alertMensagem, setAlertMensagem] = useState('');
   const [campoAlerta, setCampoAlerta] = useState('');
+
+  const [alertSucesso, setAlertSucesso] = useState(false);
+
   const cpfRef = useRef(null);
   const emailRef = useRef(null);
   const phoneRef = useRef(null);
@@ -157,11 +168,16 @@ const VisualizarVoluntario = () => {
   };
 
   const handleResetarSenha = async (id) => {
+    setcarregandoReset(true);
     try {
       await resetarSenha({ voluntarioId: Number(id) });
+      setAlertSucesso(true);
       limparErro();
     } catch (error) {
       tratarErro(error);
+    }
+    finally{
+      setcarregandoReset(false);
     }
   };
 
@@ -349,9 +365,9 @@ const VisualizarVoluntario = () => {
               Resetar Senha
             </button>
           </div>
-
-
         </div>
+
+        {carregandoReset && <CarregandoCat />}
 
         <div className="button-group-crud">
           {!editando ? (
@@ -370,9 +386,16 @@ const VisualizarVoluntario = () => {
               cpf: cpfRef,
               email: emailRef,
               phoneNumber: phoneRef
-            };
+            };  
             fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
           }}
+        />
+      )}
+
+      {alertSucesso && (
+        <AlertSucesso
+            mensagem={erro ? erro : "Senha redefinida com sucesso!"}
+            onClose={() => setAlertSucesso(false)}
         />
       )}
     </div>

@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useRelatorios } from '../../hooks/useRelatorios';
 import { useLoading } from '../../hooks/useLoading';
+import CarregandoCat from '../../components/Spinner/CarregandoCat';
 import './Relatorio.css';
 
 const Relatorio = () => {
   const { obterDadosRelatorio, gerarRelatorioExcel, gerarRelatorioPdf } = useRelatorios();
   const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
+
+  const [carregandoExportar, setCarregandoExportar] = useState(false);
 
   const [filtro, setFiltro] = useState({ dataInicio: '', dataFim: '', tipo: '' });
   const [tentouEnviar, setTentouEnviar] = useState(false);
@@ -40,13 +43,13 @@ const Relatorio = () => {
     setTentouEnviar(true);
     if (!filtro.dataInicio || !filtro.dataFim) return;
 
-    iniciarCarregamento();
+    setCarregandoExportar(true);
     try {
       await gerador(filtro);
     } catch (err) {
       console.error(err);
     } finally {
-      finalizarCarregamento();
+      setCarregandoExportar(false);
     }
   };
 
@@ -81,13 +84,17 @@ const Relatorio = () => {
         </div>
         <div className="botoes-geracao">
           <button disabled={carregando} onClick={() => handleSubmit(gerarRelatorioExcel)}>
-            {carregando ? 'Gerando...' : 'Exportar como Excel'}
+            {/* {carregando ? 'Gerando...' : 'Exportar como Excel'} */}
+            Exportar como Excel
           </button>
           <button disabled={carregando} onClick={() => handleSubmit(gerarRelatorioPdf)}>
-            {carregando ? 'Gerando...' : 'Exportar como PDF'}
+            {/* {carregando ? 'Gerando...' : 'Exportar como PDF'} */}
+            Exportar como PDF
           </button>
         </div>
       </div>
+
+      {carregandoExportar && <CarregandoCat />}
 
       {carregando && <div className="spinner">Carregando...</div>}
 

@@ -4,7 +4,9 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.6); /* fundo branco transparente */
+ /*  background-color: rgba(255, 255, 255, 0.6);  */
+  background-color: rgba(250, 250, 250, 0.4);
+  /*background-color: rgba(255, 255, 255, 0.6); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -16,7 +18,7 @@
 }
 
 .spinner-content img {
-  width: 100px;
+  width: 110px;
   height: 100px;
   object-fit: contain;
 }
