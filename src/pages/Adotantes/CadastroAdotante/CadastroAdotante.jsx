@@ -517,7 +517,7 @@ const CadastroAdotante = () => {
                     <div className="radio-group">
                         <label className="radio-label">
                             <input
-                                id="situacaoEnderecoPropria"
+                                id="situacaoEndereco"
                                 type="radio"
                                 name="situacaoEndereco"
                                 value="Própria"
@@ -528,7 +528,7 @@ const CadastroAdotante = () => {
                         </label>
                         <label className="radio-label">
                             <input
-                                id="situacaoEnderecoAlugada"
+                                id="situacaoEndereco"
                                 type="radio"
                                 name="situacaoEndereco"
                                 value="Alugada"
