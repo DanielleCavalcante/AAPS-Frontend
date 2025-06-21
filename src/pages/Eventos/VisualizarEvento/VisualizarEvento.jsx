@@ -26,6 +26,7 @@ const VisualizaEvento = () => {
         setShowModal(false);
         setEditando(false);
         setTentouEnviar(false);
+        navigate('/listar-eventos');
     }
 
     useEffect(() => {
