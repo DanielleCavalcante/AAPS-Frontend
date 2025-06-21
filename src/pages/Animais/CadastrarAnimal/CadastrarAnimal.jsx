@@ -417,7 +417,7 @@ const CadastroAnimal = () => {
                                     </option>
                                 ))}
                             </select>
-                            <button onClick={handleCadastrarDoador} type='button' className='addCadastro'>+</button>
+                            <button onClick={handleCadastrarDoador} type='button' className='addCadastro' title="Cadastrar Doador/Tutor">+</button>
                             {/* <button onClick={handleCadastrarDoador} type='button' className='addCadastro'>+</button> */}
                         </div>
                     </div>

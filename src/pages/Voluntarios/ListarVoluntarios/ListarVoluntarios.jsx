@@ -157,7 +157,7 @@ const Voluntario = () => {
                             <td>
                                 <div className='botoes'>
                                     <Link to={`/visualizar-voluntario/${voluntario.id}`}>
-                                        <button className="search-button">
+                                        <button className="search-button" title="Visualizar Voluntário">
                                             <img src={iconeBusca} onc alt="Ícone de visualizar" className="icon" />
                                         </button>
                                     </Link> 

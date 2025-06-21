@@ -162,7 +162,7 @@ const Adotante = () => {
 
                                 <div className="acoes-adotante">
                                     <Link to={`/visualizar-adotante/${adotante.id}`}>
-                                        <button className="search-button-adotante">
+                                        <button className="search-button-adotante" title="Visualizar Adotante">
                                             <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                         </button>
                                     </Link>

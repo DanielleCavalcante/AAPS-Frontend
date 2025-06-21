@@ -530,7 +530,7 @@ const CadastroAdocao = () => {
                                     </option>
                                 ))}
                             </select>
-                            <button onClick={handleCadastrarAdotante} type='button' className='addCadastro'>+</button>
+                            <button onClick={handleCadastrarAdotante} type='button' className='addCadastro' title="Cadastrar Adotante">+</button>
                         </div>
                         {(tentouEnviar && !dadosAdocao.nomeAdotante) && (
                             <span className="erro-required"> É obrigatório informar um adotante </span>
@@ -631,7 +631,7 @@ const CadastroAdocao = () => {
                                     </option>
                                 ))}
                             </select>
-                            <button type='button' onClick={handleCadastrarAnimal} className='addCadastro'>+</button>
+                            <button type='button' onClick={handleCadastrarAnimal} className='addCadastro' title="Cadastrar Animal">+</button>
                         </div>
                         {(tentouEnviar && !dadosAdocao.nomeAnimal) && (
                             <span className="erro-required"> É obrigatório informar um animal </span>
@@ -786,7 +786,7 @@ const CadastroAdocao = () => {
                                     </option>
                                 ))}
                             </select>
-                            <button onClick={handleCadastrarPontoAdocao} type='button' className='addCadastro'>+</button>
+                            <button onClick={handleCadastrarPontoAdocao} type='button' className='addCadastro' title="Cadastrar Ponto de Adoção">+</button>
                         </div>
                         {(tentouEnviar && !dadosAdocao.nomePontoAdocao) && (
                             <span className="erro-required"> É obrigatório informar um ponto de adoção </span>
