@@ -168,14 +168,14 @@ const Adocao = () => {
                             <td>
                                 <div className="acoes-adocao">
                                     <Link to={`/visualizar-adocao/${adocao.id}`}>
-                                        <button className="search-button-adocao">
+                                        <button className="search-button-adocao" title="Visualizar Adoção">
                                             <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                         </button>
                                     </Link>
-                                    <button className="download-button-adocao" onClick={() => { handleGerarTermo(adocao.id) }}>
+                                    <button className="download-button-adocao" title="Fazer Donwload do Termo de Adoção" onClick={() => { handleGerarTermo(adocao.id) }}>
                                         <img src={iconeDownload} alt="Ícone de download" className="icon" />
                                     </button>
-                                    <button className="compartilhar-button-adocao" onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}>
+                                    <button className="compartilhar-button-adocao" title="Enviar por E-mail o Termo de Adoção" onClick={() => handleEnviarTermo(adocao.id, adocao.adotanteId)}>
                                         <img src={iconeCompartilhar} alt="Ícone de compartilhar" className="icon" />
                                     </button>
                                 </div>

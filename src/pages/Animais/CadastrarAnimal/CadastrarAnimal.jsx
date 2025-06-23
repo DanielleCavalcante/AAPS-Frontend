@@ -42,6 +42,7 @@ const CadastroAnimal = () => {
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
     const dataRef = useRef(null);
+    const especieRef = useRef(null);
 
     useEffect(() => {
         const state = location.state;
@@ -116,6 +117,18 @@ const CadastroAnimal = () => {
             }
         }
 
+        //valida especie
+        // if (id === 'especie') {
+        //     const especie = value.trim().toLowerCase();
+        //     if (especie === "cachorro" || especie === "gato") {
+        //         // ✅ Enviar os dados
+        //         alert("Dados enviados:", dadosAnimal);
+        //     } else {
+        //         // 🚫 Mostrar erro
+        //         alert("Espécie inválida. Digite 'Cachorro' ou 'Gato'.");
+        //     }
+        // }
+
         const novosDados = {
             ...dadosAnimal,
             [id]: ['status', 'disponibilidade', 'doadorId'].includes(id) ? Number(value) : value
@@ -140,6 +153,23 @@ const CadastroAnimal = () => {
             doadorId,
             nomeDoador: doadorSelecionado ? doadorSelecionado.nome : ''
         });
+    };
+
+        const handleBlurEspecie = (e) => {
+        const especie = e.target.value.trim().toLowerCase();
+
+        if (especie === "cachorro" || especie === "gato") {
+            setDadosAnimal({
+                ...dadosAnimal,
+                especie: especie.charAt(0).toUpperCase() + especie.slice(1)
+            });
+        } else if (especie !== "") {
+            setCampoAlerta('especie');
+            setAlertMensagem('Espécie invalida. Insira novamente.');
+            setAlertAtencao(true);
+            // especieRef.current.value = ""; // 🔥 Limpa o input na tela
+            // especieRef.current.focus();    // 🔥 Foca no input
+        }
     };
 
     const handleSubmit = async (event) => {
@@ -276,6 +306,8 @@ const CadastroAnimal = () => {
                             name="especie"
                             maxLength={50} //verificar tamanho maximo.
                             value={dadosAnimal.especie}
+                            ref={especieRef}
+                            onBlur={handleBlurEspecie}
                             onChange={handleChange}
                             placeholder="Digite a espécie do animal"
                             onKeyDown={(e) => {
@@ -417,7 +449,7 @@ const CadastroAnimal = () => {
                                     </option>
                                 ))}
                             </select>
-                            <button onClick={handleCadastrarDoador} type='button' className='addCadastro'>+</button>
+                            <button onClick={handleCadastrarDoador} type='button' className='addCadastro' title="Cadastrar Doador/Tutor">+</button>
                             {/* <button onClick={handleCadastrarDoador} type='button' className='addCadastro'>+</button> */}
                         </div>
                     </div>
@@ -434,7 +466,8 @@ const CadastroAnimal = () => {
                     mensagem={alertMensagem}
                     onClose={() => {
                         const refs = {
-                            dataNascimento: dataRef
+                            dataNascimento: dataRef,
+                            especie: especieRef
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}

@@ -31,6 +31,7 @@ const VisualizaAnimal = () => {
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
     const dataRef = useRef(null);
+    const especieRef = useRef(null);
 
     //Modais:
     const openModal = () => setShowModal(true);
@@ -100,6 +101,21 @@ const VisualizaAnimal = () => {
             ...formDados,
             doadorId: selectedDoadorId
         });
+    };
+
+    const handleBlurEspecie = (e) => {
+        const especie = e.target.value.trim().toLowerCase();
+
+        if (especie === "cachorro" || especie === "gato") {
+            setDadosAnimal({
+                ...dadosAnimal,
+                especie: especie.charAt(0).toUpperCase() + especie.slice(1)
+            });
+        } else if (especie !== "") {
+            setCampoAlerta('especie');
+            setAlertMensagem('Espécie invalida. Insira novamente.');
+            setAlertAtencao(true);
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -220,6 +236,8 @@ const VisualizaAnimal = () => {
                             maxLength={50} //verificar tamanho maximo.
                             placeholder="Digite a espécie do animal"
                             value={formDados?.especie || ''}
+                            ref={especieRef}
+                            onBlur={handleBlurEspecie}
                             onChange={handleInputChange}
                             disabled={!editando}
                             onKeyDown={(e) => {
@@ -374,7 +392,7 @@ const VisualizaAnimal = () => {
                         ) : (
                             <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                         )}
-                        <BotaoCancelar onClick={() => navigate('/listar-animais')}/>
+                        <BotaoCancelar onClick={() => navigate('/listar-animais')} />
                     </div>
                 </div>
             </form >
@@ -383,7 +401,8 @@ const VisualizaAnimal = () => {
                     mensagem={alertMensagem}
                     onClose={() => {
                         const refs = {
-                            dataNascimento: dataRef
+                            dataNascimento: dataRef,
+                            especie: especieRef
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}

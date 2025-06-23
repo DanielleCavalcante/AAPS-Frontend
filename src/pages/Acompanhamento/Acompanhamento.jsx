@@ -243,7 +243,7 @@ const Acompanhamento = () => {
                                         <td>{acompanhamento.observacao}</td>
                                         <td>
                                             <button className="delete-button" 
-                                                title="Excluir evento" 
+                                                title="Excluir Procedimento" 
                                                 onClick={() => {handleExcluir(acompanhamento.id)}}
                                             >
                                                 <img src={iconeExcluir} alt="Ícone de excluir" className="icon" />

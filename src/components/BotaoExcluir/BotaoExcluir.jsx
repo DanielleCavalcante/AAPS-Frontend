@@ -10,6 +10,7 @@ const BotaoExcluir = ({showModal, showConfirmModalExcluir, openModal, closeModal
       <div>
         <button 
           className={`btn-Excluir ${disabled ? 'disabled' : ''}`} 
+          title="Inativar Cadastro"
           onClick={openModal} 
           disabled={disabled} 
           style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}

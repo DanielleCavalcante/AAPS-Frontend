@@ -155,7 +155,7 @@ const Doador = () => {
                             <td>
                                 <div className='botoes'>
                                     <Link to={`/visualizar-doador/${doador.id}`}>
-                                        <button className="search-button-doador">
+                                        <button className="search-button-doador" title="Visualizar Doador/Tutor">
                                             <img src={iconeBusca} alt="Ícone de busca" className="icon" />
                                         </button>
                                     </Link>

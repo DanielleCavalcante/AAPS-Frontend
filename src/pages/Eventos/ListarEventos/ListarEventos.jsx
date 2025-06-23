@@ -150,7 +150,7 @@ const Evento = () => {
                             <td>
                                 <div className='botoes'>
                                     <Link to={`/visualizar-evento/${evento.id}`}>
-                                        <button className="search-button">
+                                        <button className="search-button" title="Visualizar Procedimento">
                                             <img src={iconeBusca} alt="Ícone de visualizar" className="icon" />
                                         </button>
                                     </Link>

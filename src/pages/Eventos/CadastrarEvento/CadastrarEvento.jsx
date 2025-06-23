@@ -40,7 +40,10 @@ const CadastroEvento = () => {
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
 
-    const closeModal = () => setShowModal(false);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate('/listar-eventos');
+    }
 
     const openModal = () => {
         const descricao = document.getElementById('descricao').value;
