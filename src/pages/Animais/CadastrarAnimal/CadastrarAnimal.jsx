@@ -22,7 +22,7 @@ const CadastroAnimal = () => {
         nome: '',
         especie: '',
         raca: '',
-        dataNascimento: '',
+        dataNascimento: null,
         pelagem: '',
         sexo: '',
         status: 1,

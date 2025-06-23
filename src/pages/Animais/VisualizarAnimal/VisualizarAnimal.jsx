@@ -48,7 +48,7 @@ const VisualizaAnimal = () => {
                     status: Number(dados.status),
                     doadorId: Number(dados.doadorId),
                     disponibilidade: Number(dados.disponibilidade),
-                    dataNascimento: dados.dataNascimento || '',
+                    dataNascimento: dados.dataNascimento || null,
                     resgatado: dados.resgatado || false,
                 };
                 setAnimal(dadosFormatados);
