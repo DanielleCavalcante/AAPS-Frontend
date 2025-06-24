@@ -64,6 +64,7 @@ const VisualizarAdocao = () => {
                     animalId: Number(dados.animalId),
                     doadorId: Number(dados.doadorId),
                     pontoAdocaoId: Number(dados.pontoAdocaoId),
+                    cancelada: dados.cancelada ? true : false,
                 };
                 setAdocao(dadosFormatados);
                 setFormDados(dadosFormatados);
@@ -587,13 +588,13 @@ const VisualizarAdocao = () => {
 {/*Alterar*/}   <div className="radio-group">
                     <label className="radio-label">
                         <input
-                            id='anulada'
+                            id='cancelada'
                             type="checkbox"
-                            name="anulada"
-                            value={formDados.bloqueio}
-                            checked={formDados.bloqueio === 1}
+                            name="cancelada"
+                            value={formDados.cancelada}
+                            checked={formDados.cancelada === true}
                             onChange={e =>
-                                setFormDados({ ...formDados, bloqueio: e.target.checked ? 1 : 0 })
+                                setFormDados({ ...formDados, cancelada: e.target.checked ? true : false })
                             }
                             disabled={!editando}
                         />
