@@ -2,8 +2,8 @@ export function validarTelefone(phone) {
     // Remove tudo que não for número
     const phoneLimpo = phone.replace(/\D/g, '');
 
-    // Verifica se a quantidade de dígitos é válida (10 ou 11 no Brasil)
-    if (phoneLimpo.length < 10 || phoneLimpo.length > 11) {
+    //phoneLimpo.length < 10 || phoneLimpo.length > 11
+    if (phoneLimpo.length !== 11) {
         return false;
     }
 
