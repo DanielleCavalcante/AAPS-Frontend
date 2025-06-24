@@ -97,7 +97,7 @@ const CadastroPontoAdocao = () => {
         }
 
         //Chama validação de celular
-        if (!validarTelefone(dadosPontoAdocao.celular)) {
+        if (!validarTelefone(celularLimpo)) {
             setCampoAlerta('celular');
             setAlertMensagem('Número de celular inválido. Insira novamente.');
             setAlertAtencao(true);
@@ -105,7 +105,7 @@ const CadastroPontoAdocao = () => {
         }
 
         //Chama validação de contato
-        if (!validarTelefone(dadosPontoAdocao.contato)) {
+        if (!validarTelefone(contatoLimpo)) {
             setCampoAlerta('contato');
             setAlertMensagem('Número de contato inválido. Insira novamente.');
             setAlertAtencao(true);
@@ -182,6 +182,18 @@ const CadastroPontoAdocao = () => {
         }
     }
 
+    const validarRazaoSocial = (e) => {
+    const key = e.key;
+
+    const temLetra = validarNome(key); // Usa sua função já existente para letras
+    const temNumero = /^[0-9]$/.test(key);
+    // const ehEspaco = key === ' ';
+
+    if (!temLetra && !temNumero && key.length === 1) {
+        e.preventDefault();
+    }
+};
+
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
@@ -252,11 +264,7 @@ const CadastroPontoAdocao = () => {
                         maxLength={50} //verificar tamanho maximo.
                         value={dadosPontoAdocao.nomeFantasia}
                         onChange={handleChange}
-                        onKeyDown={(e) => {
-                            if (!validarNome(e.key) && e.key.length === 1) {
-                                e.preventDefault();
-                            }
-                        }}
+                        onKeyDown={validarRazaoSocial}
                         placeholder="Digite a Razão Social"
                     />
                     {(tentouEnviar && !dadosPontoAdocao.nomeFantasia) && (
