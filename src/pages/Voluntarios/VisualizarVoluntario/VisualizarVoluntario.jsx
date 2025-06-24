@@ -1,11 +1,13 @@
 import InputMask from 'react-input-mask';
 import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
-import { useNavigate } from 'react-router-dom';
+
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
+import { useError } from '../../../hooks/useError';
 
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import AlertSucesso from "/src/components/AlertSucesso/AlertSucesso.jsx";
@@ -16,7 +18,8 @@ import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './VisualizarVoluntario.css';
 
 const VisualizarVoluntario = () => {
-  const { buscarVoluntarioPorId, atualizarVoluntario, resetarSenha, erro, tratarErro, limparErro } = useVoluntarios();
+  const { buscarVoluntarioPorId, atualizarVoluntario, resetarSenha } = useVoluntarios();
+  const { erro, tratarErro, limparErro } = useError();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -25,6 +28,8 @@ const VisualizarVoluntario = () => {
   const [editando, setEditando] = useState(false);
   const [formDados, setFormDados] = useState({});
   const [tentouEnviar, setTentouEnviar] = useState(false);
+
+  const [alertErroApi, setAlertErroApi] = useState(false);
 
   const [carregandoReset, setcarregandoReset] = useState(false);
 
@@ -62,13 +67,14 @@ const VisualizarVoluntario = () => {
       .catch(console.error);
   }, [id]);
 
-  if (erro) return <div className="erro">{erro}</div>;
   if (!voluntario) return <div>Voluntario não encontrado</div>; // apagar depois
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     const numericFields = 'status';
     const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+    setAlertErroApi(false);
 
     //Chama a validação do CPF
     if (name === 'cpf') {
@@ -103,24 +109,12 @@ const VisualizarVoluntario = () => {
     setTentouEnviar(true);
     limparErro();
 
-    if (!formDados.nome?.trim()) {
-      return;
-    }
-    if (!formDados.cpf?.trim()) {
-      return;
-    }
-    if (!formDados.userName?.trim()) {
-      return;
-    }
-    if (!formDados.email?.trim()) {
-      return;
-    }
-    if (!formDados.phoneNumber?.trim()) {
-      return;
-    }
-    if (!formDados.acesso?.trim()) {
-      return;
-    }
+    if (!formDados.nome?.trim()) return;
+    if (!formDados.cpf?.trim()) return;
+    if (!formDados.userName?.trim()) return;
+    if (!formDados.email?.trim()) return;
+    if (!formDados.phoneNumber?.trim()) return;
+    if (!formDados.acesso?.trim()) return;
 
     const phoneNumberLimpo = formDados.phoneNumber.replace(/[^\d]+/g, '');
 
@@ -153,6 +147,9 @@ const VisualizarVoluntario = () => {
     }
 
     try {
+      setTentouEnviar(false);
+      setAlertErroApi(false);
+
       formDados.cpf = cpfLimpo;
       formDados.phoneNumber =phoneNumberLimpo;
       await atualizarVoluntario(id, formDados);
@@ -164,6 +161,7 @@ const VisualizarVoluntario = () => {
       // setTentouEnviar(false);
     } catch (error) {
       tratarErro(error);
+      setAlertErroApi(true);
     }
   };
 
@@ -204,7 +202,7 @@ const VisualizarVoluntario = () => {
             <input type="text" id="id" value={voluntario?.id || ''} disabled />
           </div>
           <div className="form-group">
-            <label htmlFor="tipo">Acesso</label>
+            <label htmlFor="tipo">Acesso *</label>
             <select
               id="acesso"
               name="acesso"
@@ -219,7 +217,7 @@ const VisualizarVoluntario = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="nome">Nome</label>
+          <label htmlFor="nome">Nome *</label>
           <input
             type="text"
             id="nome"
@@ -243,7 +241,7 @@ const VisualizarVoluntario = () => {
         <div className="cadastroVoluntario-linha">
 
           <div className="form-group">
-            <label htmlFor="userName">Nome de Usuário</label>
+            <label htmlFor="userName">Nome de Usuário *</label>
             <input
               type="text"
               id="userName"
@@ -259,7 +257,7 @@ const VisualizarVoluntario = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="cpf">CPF</label>
+            <label htmlFor="cpf">CPF *</label>
             <InputMask
               mask="999.999.999-99"
               value={formDados.cpf}
@@ -286,7 +284,7 @@ const VisualizarVoluntario = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="celular">Celular</label>
+            <label htmlFor="celular">Celular *</label>
             <InputMask
               mask="(99) 99999-9999"
               value={formDados.phoneNumber}
@@ -312,7 +310,7 @@ const VisualizarVoluntario = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">Email *</label>
           <input
             type="text"
             id="email"
@@ -339,7 +337,7 @@ const VisualizarVoluntario = () => {
               />
           </div> */}
           <div className="form-group">
-            <label htmlFor="status">Status</label>
+            <label htmlFor="status">Status *</label>
             <select
               id="status"
               name="status"
@@ -397,6 +395,13 @@ const VisualizarVoluntario = () => {
             mensagem={erro ? erro : "Senha redefinida com sucesso!"}
             onClose={() => setAlertSucesso(false)}
         />
+      )}
+
+      {(alertErroApi && !tentouEnviar) && (
+          <AlertAtencao
+              mensagem={Array.isArray(erro) ? erro[0] : erro}
+              onClose={() => setAlertAtencao(false)}
+          />
       )}
     </div>
   );

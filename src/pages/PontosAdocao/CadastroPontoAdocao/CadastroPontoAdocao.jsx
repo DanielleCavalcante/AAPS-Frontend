@@ -1,12 +1,15 @@
 import InputMask from 'react-input-mask';
 import { useState, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
-import { useLocation, useNavigate } from 'react-router-dom';
+
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarCNPJ } from '../../../utils/ValidaCNPJ';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
+
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -36,10 +39,13 @@ const CadastroPontoAdocao = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+
     // const [erroCNPJ, setErroCNPJ] = useState('');
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const cnpjRef = useRef(null);
     const celularRef = useRef(null);
     const contatoRef = useRef(null);
@@ -48,6 +54,8 @@ const CadastroPontoAdocao = () => {
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        setAlertErroApi(false);
 
         //Chama a validação do CNPJ
         if (id === 'cnpj') {
@@ -83,6 +91,18 @@ const CadastroPontoAdocao = () => {
         setTentouEnviar(true);
         limparErro();
 
+        if (!dadosPontoAdocao.nomeFantasia?.trim()) return;
+        if (!dadosPontoAdocao.cnpj?.trim()) return;
+        if (!dadosPontoAdocao.celular?.trim()) return;
+        if (!dadosPontoAdocao.responsavelContato?.trim()) return;
+        if (!dadosPontoAdocao.contato?.trim()) return;
+        if (!dadosPontoAdocao.cep?.trim()) return;
+        if (!dadosPontoAdocao.cidade?.trim()) return;
+        if (!dadosPontoAdocao.uf?.trim()) return;
+        if (!dadosPontoAdocao.logradouro?.trim()) return;
+        if (!dadosPontoAdocao.numero || Number(dadosPontoAdocao.numero) <= 0) return;
+        if (!dadosPontoAdocao.bairro?.trim()) return;
+
         const cnpjLimpo = dadosPontoAdocao.cnpj.replace(/[^\d]+/g, '');
         const cepLimpo = dadosPontoAdocao.cep.replace(/[^\d]+/g, '');
         const celularLimpo = dadosPontoAdocao.celular.replace(/[^\d]+/g, '');
@@ -113,6 +133,9 @@ const CadastroPontoAdocao = () => {
         }
 
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             dadosPontoAdocao.cnpj = cnpjLimpo;
             dadosPontoAdocao.cep = cepLimpo;
             dadosPontoAdocao.celular = celularLimpo;
@@ -147,6 +170,7 @@ const CadastroPontoAdocao = () => {
             }
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
 
@@ -227,7 +251,7 @@ const CadastroPontoAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -244,7 +268,7 @@ const CadastroPontoAdocao = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Nome Fantasia</label>
+                    <label>Nome Fantasia *</label>
                     <input
                         type="text"
                         id="nomeFantasia"
@@ -266,7 +290,7 @@ const CadastroPontoAdocao = () => {
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
-                        <label>CNPJ</label>
+                        <label>CNPJ *</label>
                         <InputMask
                             mask="99.999.999/9999-99"
                             value={dadosPontoAdocao.cnpj}
@@ -311,7 +335,7 @@ const CadastroPontoAdocao = () => {
                     </div>*/}
 
                     <div className="form-group">
-                        <label>Celular</label>
+                        <label>Celular *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={dadosPontoAdocao.celular}
@@ -336,7 +360,7 @@ const CadastroPontoAdocao = () => {
 
                 <div className='group-adocao'>
                     <div className="form-group">
-                        <label>Contato</label>
+                        <label>Contato *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={dadosPontoAdocao.contato}
@@ -359,7 +383,7 @@ const CadastroPontoAdocao = () => {
 
                     </div>
                     <div className="form-group">
-                        <label>Responsável pelo Contato</label>
+                        <label>Responsável Contato *</label>
                         <input
                             type="text"
                             id='responsavelContato'
@@ -412,7 +436,7 @@ const CadastroPontoAdocao = () => {
 
                 <div className="cadastroPonto-linha1">
                     <div className="form-group">
-                        <label htmlFor="cep">CEP</label>
+                        <label htmlFor="cep">CEP *</label>
                         <InputMask
                             mask="99999-999"
                             value={dadosPontoAdocao.cep}
@@ -435,7 +459,7 @@ const CadastroPontoAdocao = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="cidade">Cidade</label>
+                        <label htmlFor="cidade">Cidade *</label>
                         <input
                             id="cidade"
                             name="cidade"
@@ -451,7 +475,7 @@ const CadastroPontoAdocao = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="estado">Estado</label>
+                        <label htmlFor="estado">Estado *</label>
                         <input
                             id="uf"
                             name="uf"
@@ -469,7 +493,7 @@ const CadastroPontoAdocao = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Endereço</label>
+                    <label>Logradouro *</label>
                     <input
                         id="logradouro"
                         name="logradouro"
@@ -487,7 +511,7 @@ const CadastroPontoAdocao = () => {
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
-                        <label>Número</label>
+                        <label>Número *</label>
                         <input
                             type="number"
                             id="numero"
@@ -512,7 +536,7 @@ const CadastroPontoAdocao = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Bairro</label>
+                        <label>Bairro *</label>
                         <input
                             id="bairro"
                             name="bairro"
@@ -546,6 +570,13 @@ const CadastroPontoAdocao = () => {
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}
+                />
+            )}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
                 />
             )}
         </div>

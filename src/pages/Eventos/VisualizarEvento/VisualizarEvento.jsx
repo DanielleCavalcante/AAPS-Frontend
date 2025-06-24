@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useEventos } from '../../../hooks/useEventos';
+import { useError } from '../../../hooks/useError';
 
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -9,7 +11,8 @@ import './VisualizarEvento.css';
 
 const VisualizaEvento = () => {
     const navigate = useNavigate();
-    const { buscarEventoPorId, atualizarEvento, erro, tratarErro, limparErro } = useEventos();
+    const { buscarEventoPorId, atualizarEvento} = useEventos();
+    const { erro, tratarErro, limparErro } = useError();
 
     const { id } = useParams();
     const [evento, setEvento] = useState(null);
@@ -17,6 +20,8 @@ const VisualizaEvento = () => {
     const [formDados, setFormDados] = useState({});
 
     const [tentouEnviar, setTentouEnviar] = useState(false);
+
+    const [alertErroApi, setAlertErroApi] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -42,13 +47,15 @@ const VisualizaEvento = () => {
             .catch(console.error);
     }, [id]);
 
-    if (erro) return <div className="erro">{erro}</div>;
     if (!evento) return <div>Evento não encontrado</div>; // apagar depois
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         const numericFields = 'status';
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+        setAlertErroApi(false);
+
         setFormDados({ ...formDados, [name]: parsedValue });
     };
 
@@ -57,17 +64,19 @@ const VisualizaEvento = () => {
         setTentouEnviar(true); 
         limparErro();
 
-        if (!formDados.descricao?.trim()) {
-            return; 
-        }
+        if (!formDados.descricao?.trim()) return; 
 
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             await atualizarEvento(id, formDados);
             openModal();
             // setEditando(false);
             // setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
 
@@ -85,7 +94,7 @@ const VisualizaEvento = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="descricao">Descrição</label>
+                    <label htmlFor="descricao">Descrição *</label>
                     <input
                         type="text"
                         id="descricao"
@@ -100,7 +109,7 @@ const VisualizaEvento = () => {
                         <span className="erro-required"> O campo 'Descrição' é obrigatório </span>
                     )}
 
-                    <label htmlFor="status">Status</label>
+                    <label htmlFor="status">Status *</label>
                     <select 
                         id="status"
                         name="status"
@@ -118,11 +127,18 @@ const VisualizaEvento = () => {
                         <BotaoAlterar onClick={() => setEditando(true)} //disabled={editando}
                         /* showModal={showModalAlterar} openModal={openModalAlterar} closeModal={closeModalAlterar}  *//>
                     ) : (
-                        <BotaoSalvar showModal={showModal} openModal={openModal} closeModal={closeModal} />
+                        <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     )}
                     <BotaoCancelar onClick={() => navigate('/listar-eventos')} />
                 </div>
             </form>
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
+                />
+            )}
         </div>
     );
 };

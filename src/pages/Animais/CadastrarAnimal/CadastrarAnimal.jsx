@@ -41,6 +41,8 @@ const CadastroAnimal = () => {
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const dataRef = useRef(null);
     const especieRef = useRef(null);
 
@@ -95,6 +97,8 @@ const CadastroAnimal = () => {
 
     const handleChange = (e) => {
         const { id, value } = e.target;
+
+        setAlertErroApi(false);
 
         if (id === 'doadorId') {
             if (value === '') {
@@ -176,7 +180,19 @@ const CadastroAnimal = () => {
         event.preventDefault();
         setTentouEnviar(true);
         limparErro();
+
+        if (!dadosAnimal.nome?.trim()) return;
+        if (!dadosAnimal.especie?.trim()) return;
+        if (!dadosAnimal.raca?.trim()) return;
+        if (!dadosAnimal.pelagem?.trim()) return; 
+        if (!dadosAnimal.sexo?.trim()) return;
+        if (!dadosAnimal.sexo?.trim()) return;
+        if (!dadosAnimal.doadorId || Number(dadosAnimal.doadorId) <= 0) return;
+
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             const novoAnimal = await criarAnimal(dadosAnimal);
             setDadosAnimal({
                 nome: '',
@@ -203,6 +219,7 @@ const CadastroAnimal = () => {
             }
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
 
@@ -246,7 +263,7 @@ const CadastroAnimal = () => {
                         <input type="text" id="codigo" disabled />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="disponibilidade">Disponibilidade</label>
+                        <label htmlFor="disponibilidade">Disponibilidade *</label>
                         <select
                             id="disponibilidade"
                             name="disponibilidade"
@@ -262,7 +279,7 @@ const CadastroAnimal = () => {
                     </div>
                     <div className="form-group">
 
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -278,7 +295,7 @@ const CadastroAnimal = () => {
                     </div>
                 </div>
                 <div className="form-group">
-                    <label htmlFor="nome">Nome</label>
+                    <label htmlFor="nome">Nome *</label>
                     <input
                         type="text"
                         id="nome"
@@ -299,7 +316,7 @@ const CadastroAnimal = () => {
                 </div>
                 <div id="group2">
                     <div className="form-group">
-                        <label htmlFor="especie">Espécie</label>
+                        <label htmlFor="especie">Espécie *</label>
                         <input
                             type="text"
                             id="especie"
@@ -321,7 +338,7 @@ const CadastroAnimal = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="raca">Raça</label>
+                        <label htmlFor="raca">Raça *</label>
                         <input
                             type="text"
                             id="raca"
@@ -360,7 +377,7 @@ const CadastroAnimal = () => {
                 </div>
                 <div id='group3'>
                     <div className="form-group">
-                        <label htmlFor="pelagem">Pelagem</label>
+                        <label htmlFor="pelagem">Pelagem *</label>
                         <input
                             type="text"
                             id="pelagem"
@@ -387,7 +404,7 @@ const CadastroAnimal = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="sexo">Sexo</label>
+                        <label htmlFor="sexo">Sexo *</label>
                         <select
                             id="sexo"
                             name='sexo'
@@ -420,7 +437,7 @@ const CadastroAnimal = () => {
 
                 <div className='group-adocao'>
                     <div className="form-group">
-                        <label htmlFor="doadorId">Código Doador</label>
+                        <label htmlFor="doadorId">Código Doador *</label>
                         <input
                             type="number"
                             id="doadorId"
@@ -435,7 +452,7 @@ const CadastroAnimal = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="nomeDoador">Nome do Doador</label>
+                        <label htmlFor="nomeDoador">Nome do Doador *</label>
                         <div className="campo-com-botao">
                             <select
                                 id="nomeDoador"
@@ -473,6 +490,13 @@ const CadastroAnimal = () => {
                     }}
                 />
             )}
+
+            {/* {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
+                />
+            )} */}
         </div>
     );
 }

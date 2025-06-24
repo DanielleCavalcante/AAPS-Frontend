@@ -52,6 +52,7 @@ const EsqueciSenhaAdmin = () => {
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
+        setTentouEnviar(false);
         setdadosResetSenha((prevState) => ({
             ...prevState,
             [name]: value,
@@ -80,6 +81,7 @@ const EsqueciSenhaAdmin = () => {
         }
         finally{
             setcarregandoSolicitacao(false);
+            setTentouEnviar(false);
         }
     };
 
@@ -107,7 +109,7 @@ const EsqueciSenhaAdmin = () => {
                 </div>
 
                 <div className="esqueci-form-group">
-                    <label name="celular-senha" htmlFor="telefone" id="celular">DDD + celular</label>
+                    <label name="celular-senha" htmlFor="telefone" id="celular">DDD + celular *</label>
                     <InputMask
                         mask="(99)99999-9999"
                         value={dadosResetSenha.telefone}
@@ -138,7 +140,7 @@ const EsqueciSenhaAdmin = () => {
                         <span className="erro-required"> O campo 'Celular' é obrigatório </span>
                     )}
 
-                    <label name="userName" htmlFor="userName" id="celular">Nome de Usuário</label>
+                    <label name="userName" htmlFor="userName" id="celular">Nome de Usuário *</label>
                     <input
                         type="text"
                         id="userName"

@@ -27,10 +27,13 @@ const CadastroVoluntario = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+
     const [erroCPF, setErroCPF] = useState('');
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const cpfRef = useRef(null);
     const emailRef = useRef(null);
     const phoneRef = useRef(null);
@@ -38,6 +41,8 @@ const CadastroVoluntario = () => {
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        setAlertErroApi(false);
 
         //Chama a validação do CPF
         if (id === 'cpf') {
@@ -75,6 +80,13 @@ const CadastroVoluntario = () => {
         setTentouEnviar(true);
         limparErro();
 
+        if (!dadosVoluntario.nome?.trim()) return;
+        if (!dadosVoluntario.cpf?.trim()) return;
+        if (!dadosVoluntario.userName?.trim()) return;
+        if (!dadosVoluntario.email?.trim()) return;
+        if (!dadosVoluntario.phoneNumber?.trim()) return;
+        if (!dadosVoluntario.acesso?.trim()) return;
+
         const phoneNumberLimpo = dadosVoluntario.phoneNumber.replace(/[^\d]+/g, '');
 
         //Chama validação de telefone
@@ -106,6 +118,9 @@ const CadastroVoluntario = () => {
         }
 
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             dadosVoluntario.cpf = cpfLimpo; //enviar o cpf limpo (apenas numero) para criação do voluntário.
             dadosVoluntario.phoneNumber = phoneNumberLimpo;
             await criarVoluntario(dadosVoluntario);
@@ -122,6 +137,7 @@ const CadastroVoluntario = () => {
             openModal();
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
 
@@ -164,7 +180,7 @@ const CadastroVoluntario = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="acesso">Acesso</label>
+                        <label htmlFor="acesso">Acesso *</label>
                         <select
                             id="acesso"
                             name="acesso"
@@ -183,7 +199,7 @@ const CadastroVoluntario = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="nome">Nome</label>
+                    <label htmlFor="nome">Nome *</label>
                     <input
                         type="text"
                         id="nome"
@@ -206,7 +222,7 @@ const CadastroVoluntario = () => {
 
                 <div className='cadastroVoluntario-linha'>
                     <div className="form-group">
-                        <label htmlFor="userName">Nome de Usuário</label>
+                        <label htmlFor="userName">Nome de Usuário *</label>
                         <input
                             type="text"
                             id="userName"
@@ -222,7 +238,7 @@ const CadastroVoluntario = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="cpf">CPF</label>
+                        <label htmlFor="cpf">CPF *</label>
                         {/* <input 
                             type="text" 
                             id="cpf" 
@@ -255,7 +271,7 @@ const CadastroVoluntario = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="celular">Celular</label>
+                        <label htmlFor="celular">Celular *</label>
                         {/* <input 
                             type="text"
                             id="phoneNumber"
@@ -287,7 +303,7 @@ const CadastroVoluntario = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="email">Email *</label>
                     <input
                         type="text"
                         id="email"
@@ -320,7 +336,7 @@ const CadastroVoluntario = () => {
 
                     </div> */}
                     <div className="form-group">
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -365,6 +381,13 @@ const CadastroVoluntario = () => {
                     onClose={fecharAlertaEFocarCPF}
                 />
             )} */}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
+                />
+            )}
         </div>
     );
 }

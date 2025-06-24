@@ -56,8 +56,14 @@ const Animal = () => {
 
     useEffect(() => {
         const carregarDados = async () => {
-          const dados = await listarAnimais(filtro);
-          if (dados) setAnimais(dados);
+            iniciarCarregamento();
+
+            limparErro();
+            const dados = await listarAnimais(filtro);
+            setAnimais(dados || []);
+
+            finalizarCarregamento();
+            setDadosCarregados(true);
         };
         carregarDados();
       }, [filtro]);
@@ -176,7 +182,7 @@ const Animal = () => {
                     ) : carregando ? (
                         <tr>
                             <td colSpan="8">
-                                <carregando />
+                                <Carregando />
                             </td>
                         </tr>
                     ) :  (animais.map((animal) => (

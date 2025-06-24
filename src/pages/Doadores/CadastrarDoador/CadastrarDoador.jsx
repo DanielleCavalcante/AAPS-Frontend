@@ -40,9 +40,12 @@ const CadastroDoador = () => {
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const { buscarCep } = useBuscarCep();
+
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const rgRef = useRef(null);
     const cpfRef = useRef(null);
     const celularRef = useRef(null);
@@ -51,6 +54,8 @@ const CadastroDoador = () => {
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        setAlertErroApi(false);
 
         //Chama a validação do RG
         if (id === 'rg') {
@@ -130,6 +135,19 @@ const CadastroDoador = () => {
         setTentouEnviar(true);
         limparErro();
 
+        if (!dadosDoador.nome?.trim()) return;
+        if (!dadosDoador.rg?.trim()) return;
+        if (!dadosDoador.cpf?.trim()) return;
+        if (!dadosDoador.celular?.trim()) return;
+        if (!dadosDoador.responsavelContato?.trim()) return;
+        if (!dadosDoador.contato?.trim()) return;
+        if (!dadosDoador.cep?.trim()) return;
+        if (!dadosDoador.cidade?.trim()) return;
+        if (!dadosDoador.uf?.trim()) return;
+        if (!dadosDoador.logradouro?.trim()) return;
+        if (!dadosDoador.numero || Number(dadosDoador.numero) <= 0) return;
+        if (!dadosDoador.bairro?.trim()) return;
+
         const cpfLimpo = dadosDoador.cpf.replace(/[^\d]+/g, '');
         const rgLimpo = dadosDoador.rg.replace(/[^0-9Xx]+/g, '');
         const cepLimpo = dadosDoador.cep.replace(/[^\d]+/g, '');
@@ -167,6 +185,9 @@ const CadastroDoador = () => {
         }
 
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             dadosDoador.cpf = cpfLimpo;
             dadosDoador.rg = rgLimpo;
             dadosDoador.cep = cepLimpo;
@@ -203,6 +224,7 @@ const CadastroDoador = () => {
             }
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
 
@@ -269,7 +291,7 @@ const CadastroDoador = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -287,7 +309,7 @@ const CadastroDoador = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Nome</label>
+                    <label>Nome *</label>
                     <input
                         type="text"
                         id="nome"
@@ -309,7 +331,7 @@ const CadastroDoador = () => {
 
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
-                        <label>RG</label>
+                        <label>RG *</label>
                         <InputMask
                             mask="99.999.999-*"
                             formatChars={{
@@ -335,7 +357,7 @@ const CadastroDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>CPF</label>
+                        <label>CPF *</label>
                         <InputMask
                             mask="999.999.999-99"
                             value={dadosDoador.cpf}
@@ -357,7 +379,7 @@ const CadastroDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>Celular</label>
+                        <label>Celular *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={dadosDoador.celular}
@@ -383,7 +405,7 @@ const CadastroDoador = () => {
 
                 <div className="group-doador">
                     <div className="form-group">
-                        <label>Contato</label>
+                        <label>Contato *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={dadosDoador.contato}
@@ -407,7 +429,7 @@ const CadastroDoador = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>Responsável Contato</label>
+                        <label>Responsável Contato *</label>
                         <input
                             type="text"
                             id='responsavelContato'
@@ -458,7 +480,7 @@ const CadastroDoador = () => {
 
                 <div className="cadastroDoador-linha1">
                     <div className="form-group">
-                        <label htmlFor="cep">CEP</label>
+                        <label htmlFor="cep">CEP *</label>
                         <InputMask
                             mask="99999-999"
                             value={dadosDoador.cep}
@@ -490,7 +512,7 @@ const CadastroDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="cidade">Cidade</label>
+                        <label htmlFor="cidade">Cidade *</label>
                         <input
                             id="cidade"
                             name="cidade"
@@ -506,7 +528,7 @@ const CadastroDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="estado">Estado</label>
+                        <label htmlFor="estado">Estado *</label>
                         <input
                             id="uf"
                             name="uf"
@@ -524,7 +546,7 @@ const CadastroDoador = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Endereço</label>
+                    <label>Logradouro *</label>
                     <input
                         id="logradouro"
                         name="logradouro"
@@ -542,7 +564,7 @@ const CadastroDoador = () => {
 
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
-                        <label>Número</label>
+                        <label>Número *</label>
                         <input
                             id="numero"
                             name="numero"
@@ -567,7 +589,7 @@ const CadastroDoador = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Bairro</label>
+                        <label>Bairro *</label>
                         <input
                             id="bairro"
                             name="bairro"
@@ -602,6 +624,13 @@ const CadastroDoador = () => {
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}
+                />
+            )}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
                 />
             )}
         </div>

@@ -403,6 +403,13 @@ const CadastroAdocao = () => {
         event.preventDefault();
         setTentouEnviar(true);
         limparErro();
+
+        if (!dadosAdocao.data?.trim()) return;
+        if (!dadosAdocao.voluntarioId) return;
+        if (!dadosAdocao.adotanteId) return;
+        if (!dadosAdocao.animalId) return;
+        if (!dadosAdocao.pontoAdocaoId) return
+
         try {
             await criarAdocao(dadosAdocao);
             setDadosAdocao({
@@ -464,7 +471,7 @@ const CadastroAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>Data</label>
+                        <label>Data *</label>
                         <input
                             type="date"
                             id="data"
@@ -478,7 +485,7 @@ const CadastroAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="nomeVoluntario">Voluntário</label>
+                        <label htmlFor="nomeVoluntario">Voluntário *</label>
                         <input
                             type="text"
                             value={user.nomeUsuario}
@@ -502,7 +509,7 @@ const CadastroAdocao = () => {
 
                 <div id="group-adocao2">
                     <div className="form-group">
-                        <label htmlFor="adotanteId">Código Adotante</label>
+                        <label htmlFor="adotanteId">Código adotante *</label>
                         <input
                             type="number"
                             id="adotanteId"
@@ -515,7 +522,7 @@ const CadastroAdocao = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nomeAdotante">Nome adotante</label>
+                        <label htmlFor="nomeAdotante">Nome adotante *</label>
                         <div className="campo-com-botao">
                             <select
                                 id="nomeAdotante"
@@ -580,7 +587,7 @@ const CadastroAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="telefoneAdotante" >Celular</label>
+                        <label htmlFor="telefoneAdotante">Celular</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={dadosAdocao.telefoneAdotante || ''}
@@ -603,7 +610,7 @@ const CadastroAdocao = () => {
 
                 <div id="group-adocao2">
                     <div className="form-group">
-                        <label htmlFor="animalId">Código animal</label>
+                        <label htmlFor="animalId">Código animal *</label>
                         <input
                             type="number"
                             id="animalId"
@@ -616,7 +623,7 @@ const CadastroAdocao = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nomeAnimal">Nome animal</label>
+                        <label htmlFor="nomeAnimal">Nome animal *</label>
                         <div className="campo-com-botao">
                             <select
                                 id="nomeAnimal"
@@ -756,7 +763,7 @@ const CadastroAdocao = () => {
 
                 <div id="group-adocao2">
                     <div className="form-group">
-                        <label htmlFor="codlocal">Código local</label>
+                        <label htmlFor="codlocal">Código local *</label>
                         <input
                             type="number"
                             id="pontoAdocaoId"
@@ -771,7 +778,7 @@ const CadastroAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="nomelocaladocao">Nome local de adoção</label>
+                        <label htmlFor="nomelocaladocao">Nome local de adoção *</label>
                         <div className="campo-com-botao">
                             <select
                                 id="nomePontoAdocao"

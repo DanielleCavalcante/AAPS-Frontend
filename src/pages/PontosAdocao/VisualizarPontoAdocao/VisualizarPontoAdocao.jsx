@@ -1,12 +1,14 @@
 import InputMask from 'react-input-mask';
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
+import { useError } from '../../../hooks/useError';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarCNPJ } from '../../../utils/ValidaCNPJ';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
+
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
@@ -14,19 +16,25 @@ import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarPontoAdocao.css';
 
 const VisualizarPontoAdocao = () => {
-    const { buscarPontoAdocaoPorId, atualizarPontoAdocao, erro, tratarErro, limparErro } = usePontosAdocao();
+    const { buscarPontoAdocaoPorId, atualizarPontoAdocao } = usePontosAdocao();
+    const{ erro, tratarErro, limparErro } = useError();
     const navigate = useNavigate();
     const { id } = useParams();
+
     const [pontoAdocao, setPontoAdocao] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
+
     const [erroCNPJ, setErroCNPJ] = useState('');
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const { buscarCep } = useBuscarCep();
     const [showModal, setShowModal] = useState(false);
+
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const cnpjRef = useRef(null);
     const celularRef = useRef(null);
     const contatoRef = useRef(null);
@@ -71,13 +79,14 @@ const VisualizarPontoAdocao = () => {
         }
     };
 
-    if (erro) return <div className="erro">{erro}</div>;
     if (!pontoAdocao) return <div>Ponto de adoção não encontrado</div>; // apagar depois
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         const numericFields = 'status';
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+        setAlertErroApi(false);
 
         //Chama a validação do CNPJ
         if (name === 'cnpj') {
@@ -110,39 +119,17 @@ const VisualizarPontoAdocao = () => {
         setTentouEnviar(true);
         limparErro();
 
-        if (!formDados.nomeFantasia?.trim()) {
-            return;
-        }
-        if (!formDados.cnpj?.trim()) {
-            return;
-        }
-        if (!formDados.celular?.trim()) {
-            return;
-        }
-        if (!formDados.responsavelContato?.trim()) {
-            return;
-        }
-        if (!formDados.contato?.trim()) {
-            return;
-        }
-        if (!formDados.cep?.trim()) {
-            return;
-        }
-        if (!formDados.cidade?.trim()) {
-            return;
-        }
-        if (!formDados.uf?.trim()) {
-            return;
-        }
-        if (!formDados.logradouro?.trim()) {
-            return;
-        }
-        if (!formDados.numero || Number(formDados.numero) <= 0) {
-            return;
-        }
-        if (!formDados.bairro?.trim()) {
-            return;
-        }
+        if (!formDados.nomeFantasia?.trim()) return;
+        if (!formDados.cnpj?.trim()) return;
+        if (!formDados.celular?.trim()) return;
+        if (!formDados.responsavelContato?.trim()) return;
+        if (!formDados.contato?.trim()) return;
+        if (!formDados.cep?.trim()) return;
+        if (!formDados.cidade?.trim()) return;
+        if (!formDados.uf?.trim()) return;
+        if (!formDados.logradouro?.trim()) return;
+        if (!formDados.numero || Number(formDados.numero) <= 0) return;
+        if (!formDados.bairro?.trim()) return;
 
         const cnpjLimpo = formDados.cnpj.replace(/[^\d]+/g, '');
         const cepLimpo = formDados.cep.replace(/[^\d]+/g, '');
@@ -174,6 +161,9 @@ const VisualizarPontoAdocao = () => {
         }
 
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             formDados.cnpj = cnpjLimpo;
             formDados.cep = cepLimpo;
             formDados.celular = celularLimpo;
@@ -184,6 +174,7 @@ const VisualizarPontoAdocao = () => {
             // setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
 
@@ -248,7 +239,7 @@ const VisualizarPontoAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -265,7 +256,7 @@ const VisualizarPontoAdocao = () => {
 
 
                 <div className="form-group">
-                    <label>Nome Fantasia</label>
+                    <label>Nome Fantasia *</label>
                     <input
                         type="text"
                         id="nomeFantasia"
@@ -288,7 +279,7 @@ const VisualizarPontoAdocao = () => {
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
-                        <label>CNPJ</label>
+                        <label>CNPJ *</label>
                         <InputMask
                             mask="99.999.999/9999-99"
                             value={formDados?.cnpj || ''}
@@ -313,7 +304,7 @@ const VisualizarPontoAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>Celular</label>
+                        <label>Celular *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={formDados?.celular || ''}
@@ -340,7 +331,7 @@ const VisualizarPontoAdocao = () => {
 
                 <div className='group-adocao'>
                     <div className="form-group">
-                        <label>Contato</label>
+                        <label>Contato *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={formDados?.contato || ''}
@@ -366,7 +357,7 @@ const VisualizarPontoAdocao = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>Responsável pelo Contato</label>
+                        <label>Responsável Contato *</label>
                         <input
                             type="text"
                             id='responsavelContato'
@@ -391,7 +382,7 @@ const VisualizarPontoAdocao = () => {
 
                 <div className="cadastroPonto-linha1">
                     <div className="form-group">
-                        <label htmlFor="cep">CEP</label>
+                        <label htmlFor="cep">CEP *</label>
                         <InputMask
                             mask="99999-999"
                             value={formDados?.cep || ''}
@@ -416,7 +407,7 @@ const VisualizarPontoAdocao = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="cidade">Cidade</label>
+                        <label htmlFor="cidade">Cidade *</label>
                         <input
                             id="cidade"
                             name="cidade"
@@ -433,7 +424,7 @@ const VisualizarPontoAdocao = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="estado">Estado</label>
+                        <label htmlFor="estado">Estado *</label>
                         <input
                             id="uf"
                             name="uf"
@@ -452,7 +443,7 @@ const VisualizarPontoAdocao = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Endereço</label>
+                    <label>Logradouro *</label>
                     <input
                         id="logradouro"
                         name="logradouro"
@@ -471,7 +462,7 @@ const VisualizarPontoAdocao = () => {
 
                 <div className='cadastroPonto-linha1'>
                     <div className="form-group">
-                        <label>Número</label>
+                        <label>Número *</label>
                         <input
                             id="numero"
                             name="numero"
@@ -499,7 +490,7 @@ const VisualizarPontoAdocao = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Bairro</label>
+                        <label>Bairro *</label>
                         <input
                             id="bairro"
                             name="bairro"
@@ -537,6 +528,13 @@ const VisualizarPontoAdocao = () => {
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}
+                />
+            )}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
                 />
             )}
         </div>

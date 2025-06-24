@@ -18,6 +18,7 @@ const Acompanhamento = () => {
 
     const { erro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [alertAtencao, setAlertAtencao] = useState(false);
 
     const [dadosAcompanhamento, setDadosAcompanhamento] = useState({
         eventoId: '',
@@ -68,6 +69,7 @@ const Acompanhamento = () => {
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+        setAlertAtencao(false);
 
         setDadosAcompanhamento({
             ...dadosAcompanhamento,
@@ -101,6 +103,7 @@ const Acompanhamento = () => {
         setTentouEnviar(true); 
         limparErro();
         try {
+            setAlertAtencao(false);
             await criarAcompanhamento({
                 ...dadosAcompanhamento,
                 animalId: Number(id)
@@ -115,6 +118,7 @@ const Acompanhamento = () => {
             await carregarDados(); 
         } catch (error) {
             tratarErro(error);
+            setAlertAtencao(true);
         }
     };
 
@@ -138,7 +142,7 @@ const Acompanhamento = () => {
             <form className="acompanhamento-form" onSubmit={handleSubmit}>
                 <div className='cadastroAcompanhamento-linha1'>
                     <div className="form-group">
-                        <label htmlFor="codigo">Código</label>
+                        <label htmlFor="codigo">Código *</label>
                         <input
                             type="number"
                             id="eventoId"
@@ -152,7 +156,7 @@ const Acompanhamento = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="Evento">Procedimento</label>
+                        <label htmlFor="Evento">Procedimento *</label>
                         <select
                             id="descricaoEvento"
                             name="descricaoEvento"
@@ -172,7 +176,7 @@ const Acompanhamento = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="data">Data</label>
+                        <label htmlFor="data">Data *</label>
                         <input
                             type="date"
                             id="data"
@@ -254,6 +258,12 @@ const Acompanhamento = () => {
                                  )}
                             </tbody>
                         </table>
+                        {alertAtencao && (
+                            <AlertAtencao
+                                mensagem={Array.isArray(erro) ? erro[0] : erro}
+                                onClose={() => setAlertAtencao(false)}
+                            />
+                        )}
                     </div>
                 </div>
             </form>

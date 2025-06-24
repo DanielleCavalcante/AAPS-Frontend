@@ -241,7 +241,7 @@ const VisualizarAdocao = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Data</label>
+                        <label>Data *</label>
                         <input
                             type="date"
                             id="data"
@@ -255,7 +255,7 @@ const VisualizarAdocao = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>Voluntária</label>
+                        <label>Voluntária *</label>
                         <select
                             id="nomeVoluntario"
                             name="nomeVoluntario"
@@ -274,7 +274,7 @@ const VisualizarAdocao = () => {
 
                 <div id="group-adocao2">
                     <div className="form-group">
-                        <label htmlFor="codadotante">Código Adotante</label>
+                        <label htmlFor="codadotante">Código adotante *</label>
                         <input
                             type="number"
                             id="adotanteId"
@@ -285,7 +285,7 @@ const VisualizarAdocao = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nomeadotante">Nome adotante</label>
+                        <label htmlFor="nomeadotante">Nome adotante *</label>
                         <select
                             id="nomeAdotante"
                             name="nomeAdotante"
@@ -371,7 +371,7 @@ const VisualizarAdocao = () => {
 
                 <div id="group-adocao2">
                     <div className="form-group">
-                        <label htmlFor="animalId">Código animal</label>
+                        <label htmlFor="animalId">Código animal *</label>
                         <input
                             type="number"
                             id="animalId"
@@ -382,7 +382,7 @@ const VisualizarAdocao = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nomeAnimal">Nome animal</label>
+                        <label htmlFor="nomeAnimal">Nome animal *</label>
                         <select
                             id="nomeAnimal"
                             name="nomeAnimal"
@@ -550,7 +550,7 @@ const VisualizarAdocao = () => {
 
                 <div id="group-adocao2">
                     <div className="form-group">
-                        <label htmlFor="codlocal">Código local</label>
+                        <label htmlFor="codlocal">Código local *</label>
                         <input
                             type="number"
                             id="pontoAdocaoId"
@@ -561,7 +561,7 @@ const VisualizarAdocao = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nomelocaladocao">Nome local de adoção</label>
+                        <label htmlFor="nomelocaladocao">Nome local de adoção *</label>
                         <select
                             id="nomePontoAdocao"
                             name="nomePontoAdocao"

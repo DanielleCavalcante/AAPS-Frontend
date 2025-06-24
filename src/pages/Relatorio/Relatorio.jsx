@@ -62,12 +62,12 @@ const Relatorio = () => {
       <div className="dropdowns-relatorio">
         <div className="filtros">
           <div className="form-group">
-            <label>Data Início</label>
+            <label>Data Início *</label>
             <input type="date" name="dataInicio" value={filtro.dataInicio} onChange={handleChange} disabled={carregando}/>
             {tentouEnviar && !filtro.dataInicio && <span className="erro-required">Informe a data de início</span>}
           </div>
           <div className="form-group">
-            <label>Data Final</label>
+            <label>Data Final *</label>
             <input type="date" name="dataFim" value={filtro.dataFim} onChange={handleChange} disabled={carregando}/>
             {tentouEnviar && !filtro.dataFim && <span className="erro-required">Informe a data de fim</span>}
           </div>

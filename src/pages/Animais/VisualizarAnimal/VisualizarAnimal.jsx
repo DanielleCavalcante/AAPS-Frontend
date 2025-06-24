@@ -123,27 +123,13 @@ const VisualizaAnimal = () => {
         setTentouEnviar(true);
         limparErro();
 
-        if (!formDados.nome?.trim()) {
-            return;
-        }
-        if (!formDados.especie?.trim()) {
-            return;
-        }
-        if (!formDados.raca?.trim()) {
-            return;
-        }
-        if (!formDados.pelagem?.trim()) {
-            return;
-        }
-        if (!formDados.sexo?.trim()) {
-            return;
-        }
-        if (!formDados.sexo?.trim()) {
-            return;
-        }
-        if (!formDados.doadorId || Number(formDados.doadorId) <= 0) {
-            return;
-        }
+        if (!formDados.nome?.trim()) return;
+        if (!formDados.especie?.trim()) return;
+        if (!formDados.raca?.trim()) return;
+        if (!formDados.pelagem?.trim()) return; 
+        if (!formDados.sexo?.trim()) return;
+        if (!formDados.sexo?.trim()) return;
+        if (!formDados.doadorId || Number(formDados.doadorId) <= 0) return;
 
         try {
             await atualizarAnimal(id, formDados);
@@ -177,7 +163,7 @@ const VisualizaAnimal = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="disponibilidade">Disponibilidade</label>
+                        <label htmlFor="disponibilidade">Disponibilidade *</label>
                         <select
                             id="disponibilidade"
                             name="disponibilidade"
@@ -191,7 +177,7 @@ const VisualizaAnimal = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -206,7 +192,7 @@ const VisualizaAnimal = () => {
 
                 </div>
                 <div className="form-group">
-                    <label htmlFor="nome">Nome</label>
+                    <label htmlFor="nome">Nome *</label>
                     <input
                         type="text"
                         id="nome"
@@ -228,7 +214,7 @@ const VisualizaAnimal = () => {
                 </div>
                 <div id="group2">
                     <div className="form-group">
-                        <label htmlFor="especie">Espécie</label>
+                        <label htmlFor="especie">Espécie *</label>
                         <input
                             type="text"
                             id="especie"
@@ -251,7 +237,7 @@ const VisualizaAnimal = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="raca">Raça</label>
+                        <label htmlFor="raca">Raça *</label>
                         <input
                             type="text"
                             id="raca"
@@ -285,7 +271,7 @@ const VisualizaAnimal = () => {
                 </div>
                 <div id='group3'>
                     <div className="form-group">
-                        <label htmlFor="pelagem">Pelagem</label>
+                        <label htmlFor="pelagem">Pelagem *</label>
                         <input
                             type="text"
                             id="pelagem"
@@ -306,7 +292,7 @@ const VisualizaAnimal = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="sexo">Sexo</label>
+                        <label htmlFor="sexo">Sexo *</label>
                         <select
                             id="sexo"
                             name="sexo"
@@ -340,7 +326,7 @@ const VisualizaAnimal = () => {
 
                 <div className='group-adocao'>
                     <div className="form-group">
-                        <label htmlFor="doadorId">Código Doador</label>
+                        <label htmlFor="doadorId">Código Doador *</label>
                         <input
                             type="number"
                             id="doadorId"
@@ -354,7 +340,7 @@ const VisualizaAnimal = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="nomeDoador">Nome do Doador</label>
+                        <label htmlFor="nomeDoador">Nome do Doador *</label>
                         <select
                             id="nomeDoador"
                             value={formDados?.doadorId ?? ''}

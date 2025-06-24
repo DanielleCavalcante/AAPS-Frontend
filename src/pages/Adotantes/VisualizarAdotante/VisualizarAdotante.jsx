@@ -1,14 +1,17 @@
 import InputMask from 'react-input-mask';
 import React, { useState, useEffect, useRef } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
-import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
-import { Link, useParams } from 'react-router-dom';
+
 import { useNavigate } from 'react-router-dom';
 import { useAdotantes } from '../../../hooks/useAdotantes';
+import { useError } from '../../../hooks/useError';
 
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -16,17 +19,21 @@ import './VisualizarAdotante.css';
 
 const VisualizarAdotante = () => {
     const navigate = useNavigate();
-    const { buscarAdotantePorId, atualizarAdotante, erro, tratarErro, limparErro } = useAdotantes();
+    const { buscarAdotantePorId, atualizarAdotante } = useAdotantes();
+    const { erro, tratarErro, limparErro } = useError();
 
     const { id } = useParams();
     const [adotante, setAdotante] = useState(null);
     const [formDados, setFormDados] = useState({});
     const [showModal, setShowModal] = useState(false);
+
     const [editando, setEditando] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const rgRef = useRef(null);
     const cpfRef = useRef(null);
     const emailRef = useRef(null);
@@ -47,7 +54,6 @@ const VisualizarAdotante = () => {
             .catch(console.error);
     }, [id]);
 
-    if (erro) return <div className="erro">{erro}</div>;
     if (!adotante) return <div>Adotante não encontrado</div>;
 
     const handleInputChange = (e) => {
@@ -55,6 +61,7 @@ const VisualizarAdotante = () => {
         const numericFields = 'status';
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
 
+        setAlertErroApi(false);
         //Chama a validação do RG
         if (name === 'rg') {
             // Remove caracteres não numéricos
@@ -135,8 +142,6 @@ const VisualizarAdotante = () => {
         if (!formDados.celular?.trim()) return;
         if (!formDados.email?.trim()) return;
         if (!formDados.localTrabalho?.trim()) return;
-        if (!formDados.facebook?.trim()) return;
-        if (!formDados.instagram?.trim()) return;
         if (!formDados.situacaoEndereco?.trim()) return;
         if (!formDados.cep?.trim()) return;
         if (!formDados.cidade?.trim()) return;
@@ -187,17 +192,22 @@ const VisualizarAdotante = () => {
         }
 
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             formDados.cpf = cpfLimpo;
             formDados.rg = rgLimpo;
             formDados.cep = cepLimpo;
             formDados.celular = celularLimpo;
             formDados.contato = contatoLimpo;
+            
             await atualizarAdotante(id, formDados);
             openModal();
             // setEditando(false);
             // setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
     
@@ -250,7 +260,7 @@ const VisualizarAdotante = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -273,7 +283,7 @@ const VisualizarAdotante = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Nome</label>
+                    <label>Nome *</label>
                     <input
                         type="text"
                         id="nome"
@@ -296,7 +306,7 @@ const VisualizarAdotante = () => {
 
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
-                        <label>RG</label>
+                        <label>RG *</label>
                         <InputMask
                             mask="99.999.999-*"
                             formatChars={{
@@ -324,7 +334,7 @@ const VisualizarAdotante = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>CPF</label>
+                        <label>CPF *</label>
                         <InputMask
                             mask="999.999.999-99"
                             value={formDados?.cpf || ''}
@@ -348,7 +358,7 @@ const VisualizarAdotante = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>Celular</label>
+                        <label>Celular *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={formDados?.celular || ''}
@@ -376,7 +386,7 @@ const VisualizarAdotante = () => {
 
                 <div className="group-adocao">
                     <div className="form-group">
-                        <label>Contato</label>
+                        <label>Contato *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={formDados?.contato || ''}
@@ -401,7 +411,7 @@ const VisualizarAdotante = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>Responsável Contato</label>
+                        <label>Responsável Contato *</label>
                         <input
                             type="text"
                             id='responsavelContato'
@@ -424,7 +434,7 @@ const VisualizarAdotante = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>E-mail</label>
+                    <label>E-mail *</label>
                     <input
                         id="email"
                         name="email"
@@ -441,7 +451,7 @@ const VisualizarAdotante = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Local de Trabalho</label>
+                    <label>Local de Trabalho *</label>
                     <input
                         id="localTrabalho"
                         name="localTrabalho"
@@ -479,7 +489,7 @@ const VisualizarAdotante = () => {
                     </label>
                 </div>*/}
                 <div className='form-group'>
-                    <label className='tipoMoradia'>Tipo de moradia:</label>
+                    <label className='tipoMoradia'>Tipo de moradia: *</label>
                 <div className="radio-group">
                     <label className="radio-label">
                         <input
@@ -508,7 +518,7 @@ const VisualizarAdotante = () => {
 
                 <div className="cadastroAdotante-linha1">
                     <div className="form-group">
-                        <label htmlFor="cep">CEP</label>
+                        <label htmlFor="cep">CEP *</label>
                         <InputMask
                             mask="99999-999"
                             value={formDados?.cep || ''}
@@ -533,7 +543,7 @@ const VisualizarAdotante = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="cidade">Cidade</label>
+                        <label htmlFor="cidade">Cidade *</label>
                         <input
                             id="cidade"
                             name="cidade"
@@ -548,7 +558,7 @@ const VisualizarAdotante = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="estado">Estado</label>
+                        <label htmlFor="estado">Estado *</label>
                         <input
                             id="uf"
                             name="uf"
@@ -565,7 +575,7 @@ const VisualizarAdotante = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Endereço</label>
+                    <label>Logradouro *</label>
                     <input
                         id="logradouro"
                         name="logradouro"
@@ -582,7 +592,7 @@ const VisualizarAdotante = () => {
 
                 <div className='cadastroAdotante-linha1'>
                     <div className="form-group">
-                        <label>Número</label>
+                        <label>Número *</label>
                         <input
                             id="numero"
                             name="numero"
@@ -609,7 +619,7 @@ const VisualizarAdotante = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Bairro</label>
+                        <label>Bairro *</label>
                         <input
                             id="bairro"
                             name="bairro"
@@ -699,6 +709,13 @@ const VisualizarAdotante = () => {
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}
+                />
+            )}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
                 />
             )}
         </div>

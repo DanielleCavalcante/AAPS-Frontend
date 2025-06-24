@@ -33,12 +33,12 @@ const DigiteNovaSenhaCelular = () => {
                 </div>
 
                 <div className="redefinir-form-group">
-                    <label htmlFor="novasenha" id="redefinir-senha">Nova senha</label>
+                    <label htmlFor="novasenha" id="redefinir-senha">Nova senha *</label>
                     <input id="novasenha" name="novasenha" />
                 </div>
 
                 <div className="redefinir-form-group">
-                    <label htmlFor="repitasenha" id="redefinir-senha">Repita a nova senha</label>
+                    <label htmlFor="repitasenha" id="redefinir-senha">Repita a nova senha *</label>
                     <input id="repitasenha" name="repitasenha" />
                 </div>
 

@@ -1,13 +1,16 @@
 import InputMask from 'react-input-mask';
 import { useState, useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+
 import { useDoadores } from '../../../hooks/useDoadores';
+import { useError } from '../../../hooks/useError';
 import { useBuscarCep } from '../../../hooks/useBuscarCep';
+
 import { validarCPF } from '../../../utils/ValidaCPF';
 import { validarRG } from '../../../utils/ValidaRG';
 import { validarNome } from '../../../utils/ValidaNome';
 import { validarTelefone } from '../../../utils/ValidaTelefone';
+
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
@@ -15,18 +18,23 @@ import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import './VisualizarDoador.css';
 
 const VisualizarDoador = () => {
-    const { buscarDoadorPorId, atualizarDoador, erro, tratarErro, limparErro } = useDoadores();
+    const { buscarDoadorPorId, atualizarDoador} = useDoadores();
+    const { tratarErro, limparErro, erro } = useError();
     const navigate = useNavigate();
     const { id } = useParams();
     const [doador, setDoador] = useState(null);
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
     const [showModal, setShowModal] = useState(false);
+
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const { buscarCep } = useBuscarCep();
+
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const rgRef = useRef(null);
     const cpfRef = useRef(null);
     const celularRef = useRef(null);
@@ -71,7 +79,6 @@ const VisualizarDoador = () => {
         }
     };
 
-    if (erro) return <div className="erro">{erro}</div>;
     if (!doador) return <div>Doador não encontrado</div>; // apagar depois
 
     const handleInputChange = (e) => {
@@ -79,6 +86,7 @@ const VisualizarDoador = () => {
         const numericFields = 'status';
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
 
+        setAlertErroApi(false);
         //Chama a validação do RG
         if (name === 'rg') {
             // Remove caracteres não numéricos
@@ -205,6 +213,9 @@ const VisualizarDoador = () => {
         }
 
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             formDados.cpf = cpfLimpo;
             formDados.rg = rgLimpo;
             formDados.cep = cepLimpo;
@@ -216,6 +227,7 @@ const VisualizarDoador = () => {
             // setTentouEnviar(false);
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         }
     };
 
@@ -292,7 +304,7 @@ const VisualizarDoador = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="status">Status</label>
+                        <label htmlFor="status">Status *</label>
                         <select
                             id="status"
                             name="status"
@@ -315,7 +327,7 @@ const VisualizarDoador = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Nome</label>
+                    <label>Nome *</label>
                     <input
                         type="text"
                         id="nome"
@@ -338,7 +350,7 @@ const VisualizarDoador = () => {
 
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
-                        <label>RG</label>
+                        <label>RG *</label>
                         <InputMask
                             mask="99.999.999-*"
                             formatChars={{
@@ -366,7 +378,7 @@ const VisualizarDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>CPF</label>
+                        <label>CPF *</label>
                         <InputMask
                             mask="999.999.999-99"
                             value={formDados?.cpf || ''}
@@ -390,7 +402,7 @@ const VisualizarDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label>Celular</label>
+                        <label>Celular *</label>
                         <InputMask
                             mask="(99) 99999-9999"
                             value={formDados?.celular || ''}
@@ -418,7 +430,7 @@ const VisualizarDoador = () => {
 
                 <div className="group-doador">
                     <div className="form-group">
-                        <label>Contato</label>
+                        <label>Contato *</label>
                         {/*   {telefones.map((item, index) => ( 
                         <div key={index} className="telefone-group"> */}
                         <InputMask
@@ -446,7 +458,7 @@ const VisualizarDoador = () => {
                     </div>
 
                     <div className="form-group">
-                        <label>Responsável Contato</label>
+                        <label>Responsável Contato *</label>
                         <input
                             type="text"
                             id='responsavelContato'
@@ -479,7 +491,7 @@ const VisualizarDoador = () => {
 
                 <div className="cadastroDoador-linha1">
                     <div className="form-group">
-                        <label htmlFor="cep">CEP</label>
+                        <label htmlFor="cep">CEP *</label>
                         <InputMask
                             mask="99999-999"
                             value={formDados?.cep || ''}
@@ -504,7 +516,7 @@ const VisualizarDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="cidade">Cidade</label>
+                        <label htmlFor="cidade">Cidade *</label>
                         <input
                             id="cidade"
                             name="cidade"
@@ -520,7 +532,7 @@ const VisualizarDoador = () => {
                         )}
                     </div>
                     <div className="form-group">
-                        <label htmlFor="estado">Estado</label>
+                        <label htmlFor="estado">Estado *</label>
                         <input
                             id="uf"
                             name="uf"
@@ -538,7 +550,7 @@ const VisualizarDoador = () => {
                 </div>
 
                 <div className="form-group">
-                    <label>Logradouro</label>
+                    <label>Logradouro *</label>
                     <input
                         id="logradouro"
                         name="logradouro"
@@ -556,7 +568,7 @@ const VisualizarDoador = () => {
 
                 <div className='cadastroDoador-linha1'>
                     <div className="form-group">
-                        <label>Número</label>
+                        <label>Número *</label>
                         <input
                             id="numero"
                             name="numero"
@@ -584,7 +596,7 @@ const VisualizarDoador = () => {
                         />
                     </div>
                     <div className="form-group">
-                        <label>Bairro</label>
+                        <label>Bairro *</label>
                         <input
                             id="bairro"
                             name="bairro"
@@ -624,6 +636,13 @@ const VisualizarDoador = () => {
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}
+                />
+            )}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertAtencao(false)}
                 />
             )}
         </div >
