@@ -477,7 +477,9 @@ const VisualizarAdocao = () => {
                         <select
                             id="sexo"
                             name="sexo"
-                            value={formDados.sexo || ''}
+                            value={
+                                animais.find(a => a.id === formDados.animalId)?.sexo || ''
+                            }
                             onChange={handleInputChange}
                             disabled
                         >

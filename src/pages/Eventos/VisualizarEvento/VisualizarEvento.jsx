@@ -143,7 +143,7 @@ const VisualizaEvento = () => {
             {(alertErroApi && !tentouEnviar) && (
                 <AlertAtencao
                     mensagem={Array.isArray(erro) ? erro[0] : erro}
-                    onClose={() => setAlertAtencao(false)}
+                    onClose={() => setAlertErroApi(false)}
                 />
             )}
         </div>

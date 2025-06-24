@@ -9,6 +9,7 @@ import { useLoading } from '../../hooks/useLoading';
 import iconeExcluir from '/src/assets/icone_excluir.png';
 import Carregando from '../../components/Spinner/Carregando';
 import CarregandoCat from '../../components/Spinner/CarregandoCat';
+import AlertAtencao from '../../components/AlertAtencao/AlertAtencao';
 import './Acompanhamento.css';
 
 const Acompanhamento = () => {
