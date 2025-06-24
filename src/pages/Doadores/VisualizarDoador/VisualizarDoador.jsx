@@ -524,7 +524,7 @@ const VisualizarDoador = () => {
                             placeholder="Digite a cidade"
                             value={formDados?.cidade || ''}
                             onChange={handleInputChange}
-                        /* disabled={!editando} */
+                            disabled={!editando}
                         />
 
                         {(tentouEnviar && !formDados.cidade) && (
