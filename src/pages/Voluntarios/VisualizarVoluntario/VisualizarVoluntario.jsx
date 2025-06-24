@@ -28,6 +28,7 @@ const VisualizarVoluntario = () => {
   const [editando, setEditando] = useState(false);
   const [formDados, setFormDados] = useState({});
   const [tentouEnviar, setTentouEnviar] = useState(false);
+  const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
   const [alertErroApi, setAlertErroApi] = useState(false);
 
@@ -146,6 +147,7 @@ const VisualizarVoluntario = () => {
       return;
     }
 
+    setCarregandoSubmit(true);
     try {
       setTentouEnviar(false);
       setAlertErroApi(false);
@@ -162,6 +164,8 @@ const VisualizarVoluntario = () => {
     } catch (error) {
       tratarErro(error);
       setAlertErroApi(true);
+    } finally {
+      setCarregandoSubmit(false);
     }
   };
 
@@ -396,6 +400,8 @@ const VisualizarVoluntario = () => {
             onClose={() => setAlertSucesso(false)}
         />
       )}
+
+      {carregandoSubmit && <CarregandoCat />}
 
       {(alertErroApi && !tentouEnviar) && (
           <AlertAtencao

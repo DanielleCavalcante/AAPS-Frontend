@@ -15,6 +15,7 @@ import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './VisualizarAdotante.css';
 
 const VisualizarAdotante = () => {
@@ -29,6 +30,8 @@ const VisualizarAdotante = () => {
 
     const [editando, setEditando] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
+
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
@@ -190,7 +193,7 @@ const VisualizarAdotante = () => {
             setAlertAtencao(true);
             return;
         }
-
+        setCarregandoSubmit(true);
         try {
             setTentouEnviar(false);
             setAlertErroApi(false);
@@ -208,6 +211,8 @@ const VisualizarAdotante = () => {
         } catch (error) {
             tratarErro(error);
             setAlertErroApi(true);
+        } finally {
+            setCarregandoSubmit(false);
         }
     };
     
@@ -711,6 +716,8 @@ const VisualizarAdotante = () => {
                     }}
                 />
             )}
+
+            {carregandoSubmit && <CarregandoCat />}
 
             {(alertErroApi && !tentouEnviar) && (
                 <AlertAtencao

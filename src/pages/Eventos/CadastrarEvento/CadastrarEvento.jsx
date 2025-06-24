@@ -7,6 +7,7 @@ import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './CadastrarEvento.css';
 
 const CadastroEvento = () => {
@@ -16,6 +17,7 @@ const CadastroEvento = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
     const [alertErroApi, setAlertErroApi] = useState(false);
 
@@ -38,6 +40,7 @@ const CadastroEvento = () => {
 
         if(!dadosEvento.descricao.trim() || !dadosEvento.status) return;
 
+        setCarregandoSubmit(true);
         try {
             setTentouEnviar(false);
             setAlertErroApi(false);
@@ -49,6 +52,8 @@ const CadastroEvento = () => {
         } catch (error) {
             tratarErro(error);
             setAlertErroApi(true);
+        } finally {
+            setCarregandoSubmit(false);
         }
     };
 
@@ -105,6 +110,8 @@ const CadastroEvento = () => {
                     <BotaoLimpar />
                 </div>
             </form>
+
+            {carregandoSubmit && <CarregandoCat />}
 
             {(alertErroApi && !tentouEnviar) && (
                 <AlertAtencao

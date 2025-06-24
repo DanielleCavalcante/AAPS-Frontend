@@ -1,7 +1,7 @@
 import InputMask from 'react-input-mask';
-import { useState, useEffect, useRef } from 'react';
+import { React, use, useState, useEffect, useRef } from 'react';
 import { validarData } from '/src/utils/ValidaData';
-import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
+
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useAdotantes } from '../../../hooks/useAdotantes';
 import { useAnimais } from '../../../hooks/useAnimais';
@@ -9,11 +9,12 @@ import { useLocation, useNavigate, useNavigationType } from 'react-router-dom';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useAuth } from '../../../hooks/useAuth';
 
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './CadastrarAdocao.css';
-import { use } from 'react';
 
 const CadastroAdocao = () => {
     const { user } = useAuth();
@@ -47,6 +48,7 @@ const CadastroAdocao = () => {
     });
 
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
     const { listarAdotantesAtivos } = useAdotantes();
     const [adotantes, setAdotantes] = useState([]);
@@ -410,6 +412,7 @@ const CadastroAdocao = () => {
         if (!dadosAdocao.animalId) return;
         if (!dadosAdocao.pontoAdocaoId) return
 
+        setCarregandoSubmit(true);
         try {
             await criarAdocao(dadosAdocao);
             setDadosAdocao({
@@ -435,6 +438,8 @@ const CadastroAdocao = () => {
             openModal();
         } catch (error) {
             tratarErro(error);
+        } finally{
+            setCarregandoSubmit(false);
         }
     };
 
@@ -807,6 +812,8 @@ const CadastroAdocao = () => {
                     <BotaoLimpar />
                 </div>
             </form>
+            {carregandoSubmit && <CarregandoCat />}
+
             {alertAtencao && (
                 <AlertAtencao
                     mensagem={alertMensagem}

@@ -13,6 +13,7 @@ import iconeAcompanhamento from "/src/assets/icone_acompanhamento.png"
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './VisualizarAnimal.css';
 
 const VisualizaAnimal = () => {
@@ -22,9 +23,12 @@ const VisualizaAnimal = () => {
     const { listarDoadoresAtivos } = useDoadores();
     const { id } = useParams();
     const [animal, setAnimal] = useState(null);
+
     const [editando, setEditando] = useState(false);
     const [formDados, setFormDados] = useState({});
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
+
     const [doadores, setDoadores] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [alertAtencao, setAlertAtencao] = useState(false);
@@ -131,11 +135,14 @@ const VisualizaAnimal = () => {
         if (!formDados.sexo?.trim()) return;
         if (!formDados.doadorId || Number(formDados.doadorId) <= 0) return;
 
+        setCarregandoSubmit(true);
         try {
             await atualizarAnimal(id, formDados);
             openModal();
         } catch (error) {
             tratarErro(error);
+        } finally {
+            setCarregandoSubmit(false);
         }
     };
 
@@ -394,6 +401,8 @@ const VisualizaAnimal = () => {
                     }}
                 />
             )}
+
+            {carregandoSubmit && <CarregandoCat />}
         </div >
     );
 }

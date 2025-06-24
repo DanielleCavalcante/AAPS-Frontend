@@ -8,6 +8,7 @@ import { useLoading } from '../../hooks/useLoading';
 
 import iconeExcluir from '/src/assets/icone_excluir.png';
 import Carregando from '../../components/Spinner/Carregando';
+import CarregandoCat from '../../components/Spinner/CarregandoCat';
 import './Acompanhamento.css';
 
 const Acompanhamento = () => {
@@ -32,6 +33,8 @@ const Acompanhamento = () => {
 
     const { carregando, iniciarCarregamento, finalizarCarregamento } = useLoading();
     const [dadosCarregados, setDadosCarregados] = useState(false);
+
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
     const camposObrigatorios =
         dadosAcompanhamento.eventoId &&
@@ -102,6 +105,8 @@ const Acompanhamento = () => {
         event.preventDefault();
         setTentouEnviar(true); 
         limparErro();
+
+        setCarregandoSubmit(true);
         try {
             setAlertAtencao(false);
             await criarAcompanhamento({
@@ -119,6 +124,8 @@ const Acompanhamento = () => {
         } catch (error) {
             tratarErro(error);
             setAlertAtencao(true);
+        }finally {
+            setCarregandoSubmit(false);
         }
     };
 
@@ -258,6 +265,9 @@ const Acompanhamento = () => {
                                  )}
                             </tbody>
                         </table>
+
+                        {carregandoSubmit && <CarregandoCat />}
+
                         {alertAtencao && (
                             <AlertAtencao
                                 mensagem={Array.isArray(erro) ? erro[0] : erro}

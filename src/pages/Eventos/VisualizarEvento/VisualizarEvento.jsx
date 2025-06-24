@@ -7,6 +7,7 @@ import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './VisualizarEvento.css';
 
 const VisualizaEvento = () => {
@@ -20,6 +21,7 @@ const VisualizaEvento = () => {
     const [formDados, setFormDados] = useState({});
 
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
     const [alertErroApi, setAlertErroApi] = useState(false);
 
@@ -66,6 +68,7 @@ const VisualizaEvento = () => {
 
         if (!formDados.descricao?.trim()) return; 
 
+        setCarregandoSubmit(true);
         try {
             setTentouEnviar(false);
             setAlertErroApi(false);
@@ -77,6 +80,8 @@ const VisualizaEvento = () => {
         } catch (error) {
             tratarErro(error);
             setAlertErroApi(true);
+        } finally {
+            setCarregandoSubmit(false);
         }
     };
 
@@ -132,6 +137,8 @@ const VisualizaEvento = () => {
                     <BotaoCancelar onClick={() => navigate('/listar-eventos')} />
                 </div>
             </form>
+
+            {carregandoSubmit && <CarregandoCat />}
 
             {(alertErroApi && !tentouEnviar) && (
                 <AlertAtencao

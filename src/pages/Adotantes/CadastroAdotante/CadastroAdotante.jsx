@@ -12,6 +12,7 @@ import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './CadastroAdotante.css';
 
 const CadastroAdotante = () => {
@@ -45,6 +46,8 @@ const CadastroAdotante = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
+
     const { buscarCep } = useBuscarCep();
 
     const [alertAtencao, setAlertAtencao] = useState(false);
@@ -197,6 +200,7 @@ const CadastroAdotante = () => {
             return;
         }
 
+        setCarregandoSubmit(true);
         try {
             setTentouEnviar(false);
             setAlertErroApi(false);
@@ -244,6 +248,8 @@ const CadastroAdotante = () => {
         } catch (error) {
             tratarErro(error);
             setAlertErroApi(true);
+        } finally{
+            setCarregandoSubmit(false);
         }
     };
 
@@ -756,6 +762,8 @@ const CadastroAdotante = () => {
                     }}
                 />
             )}
+
+            {carregandoSubmit && <CarregandoCat />}
 
             {(alertErroApi && !tentouEnviar) && (
                 <AlertAtencao

@@ -2,7 +2,7 @@ import InputMask from 'react-input-mask';
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { validarData } from '/src/utils/ValidaData';
-import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
+
 import { useError } from '../../../hooks/useError';
 import { useAdocoes } from '../../../hooks/useAdocoes';
 import { useVoluntarios } from '../../../hooks/useVoluntarios';
@@ -11,6 +11,8 @@ import { useAnimais } from '../../../hooks/useAnimais';
 import { usePontosAdocao } from '../../../hooks/usePontosAdocao';
 import { useEventos } from '../../../hooks/useEventos';
 
+import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoAlterar from "/src/components/BotaoAlterar/BotaoAlterar.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
@@ -41,6 +43,7 @@ const VisualizarAdocao = () => {
     const [editando, setEditando] = useState(false);
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const [carregandoAnulacao, setCarregandoAnulacao] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
     const [showModalAnulacao, setShowModalAnulacao] = useState(false);
@@ -184,6 +187,7 @@ const VisualizarAdocao = () => {
         if (!formDados.animalId) return;
         if (!formDados.pontoAdocaoId) return
 
+        setCarregandoSubmit(true);
         try {
             await atualizarAdocao(id, formDados);
             openModal();
@@ -192,6 +196,8 @@ const VisualizarAdocao = () => {
 
         } catch (error) {
             tratarErro(error);
+        } finally {
+            setCarregandoSubmit(false);
         }
     };
 
@@ -639,6 +645,7 @@ const VisualizarAdocao = () => {
                 eventos={eventos}
                 carregando={carregandoAnulacao}
             /> */}
+            {carregandoSubmit && <CarregandoCat />}
 
             {alertAtencao && (
                 <AlertAtencao

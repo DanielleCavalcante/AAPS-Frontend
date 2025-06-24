@@ -9,6 +9,7 @@ import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import BotaoSalvar from "/src/components/BotaoSalvar/BotaoSalvar.jsx";
 import BotaoCancelar from "/src/components/BotaoCancelar/BotaoCancelar.jsx";
 import BotaoLimpar from "/src/components/BotaoLimpar/BotaoLimpar.jsx";
+import CarregandoCat from '../../../components/Spinner/CarregandoCat';
 import './CadastrarAnimal.css';
 
 const CadastroAnimal = () => {
@@ -37,6 +38,7 @@ const CadastroAnimal = () => {
 
     const { erro, tratarErro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
+    const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
     const [alertAtencao, setAlertAtencao] = useState(false);
     const [alertMensagem, setAlertMensagem] = useState('');
@@ -188,7 +190,8 @@ const CadastroAnimal = () => {
         if (!dadosAnimal.sexo?.trim()) return;
         if (!dadosAnimal.sexo?.trim()) return;
         if (!dadosAnimal.doadorId || Number(dadosAnimal.doadorId) <= 0) return;
-
+        
+        setCarregandoSubmit(true);
         try {
             setTentouEnviar(false);
             setAlertErroApi(false);
@@ -220,6 +223,8 @@ const CadastroAnimal = () => {
         } catch (error) {
             tratarErro(error);
             setAlertErroApi(true);
+        } finally {
+            setCarregandoSubmit(false);
         }
     };
 
@@ -478,6 +483,7 @@ const CadastroAnimal = () => {
                     <BotaoLimpar />
                 </div>
             </form>
+            
             {alertAtencao && (
                 <AlertAtencao
                     mensagem={alertMensagem}
@@ -490,6 +496,8 @@ const CadastroAnimal = () => {
                     }}
                 />
             )}
+
+            {carregandoSubmit && <CarregandoCat />}
 
             {/* {(alertErroApi && !tentouEnviar) && (
                 <AlertAtencao
