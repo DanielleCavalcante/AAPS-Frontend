@@ -92,13 +92,17 @@ npm install
 
 ### ⚙️ 3. Configure o ambiente
 
-Localize o arquivo `.env` na raiz do projeto e altere a URL base da API:
+Crie um arquivo chamado `.env.local` na raiz do projeto com a seguinte variável:
 
 ```
-VITE_API_URL=https://localhost:5001/swagger/index.html
+VITE_API_URL=https://localhost:5001/api
 ```
 
-> 💡 Use a porta correta configurada na sua API (por exemplo: 5001).
+> 💡 **Use a URL correspondente à sua API local.**  
+> Essa variável define o endpoint base das requisições da aplicação.
+
+> 🔐 **O arquivo `.env.local` está ignorado pelo Git (`.gitignore`)**,  
+> garantindo segurança dos dados locais.
 
 ---
 
