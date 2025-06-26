@@ -1,5 +1,5 @@
 
-<h1 align="center">🐾 Sistema de Gerenciamento de Adoções - ONG AAPS (Front-end) 🐾</h1>
+<h1 align="center">Sistema de Gerenciamento de Adoções - ONG AAPS (Front-end) 🐾</h1>
 
 <p align="center">
   <strong>Trabalho de Graduação</strong><br/>
@@ -77,7 +77,6 @@ O sistema permite que os voluntários cadastrados consigam interagir com a API p
 
 ```bash
 git clone https://github.com/DanielleCavalcante/AAPS-Frontend.git
-cd AAPS-Frontend
 ```
 
 ---
