@@ -272,6 +272,38 @@ const CadastroAdotante = () => {
         }
     };
 
+    const handleLimpar = () => {
+        setDadosAdotante({
+            nome: '',
+            rg: '',
+            cpf: '',
+            celular: '',
+            status: 1,
+            localTrabalho: '',
+            contato: '',
+            email: '',
+            responsavelContato: '',
+            cep: '',
+            cidade: '',
+            uf: '',
+            logradouro: '',
+            numero: '',
+            bairro: '',
+            complemento: '',
+            situacaoEndereco: '',
+            facebook: '',
+            instagram: '',
+            bloqueio: 0,
+            observacaoBloqueio: '',
+        });
+        setTentouEnviar(false);
+        setAlertAtencao(false);
+        setAlertMensagem('');
+        setCampoAlerta('');
+        setAlertErroApi(false);
+        limparErro();
+    };
+
     function handleCancelar() {
         if (from === '/cadastrar-adocao') {
             navigate(from, {
@@ -292,7 +324,6 @@ const CadastroAdotante = () => {
         setShowModal(false);
         navigate('/listar-adotantes');
     }
-
 
     const fecharAlertaEFocarCampo = (campoRef, campo) => {
         setAlertAtencao(false);
@@ -744,7 +775,7 @@ const CadastroAdotante = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar onClick={handleCancelar}/>
-                    <BotaoLimpar />
+                    <BotaoLimpar onClick={handleLimpar}/>
                 </div>
             </form >
             {alertAtencao && (

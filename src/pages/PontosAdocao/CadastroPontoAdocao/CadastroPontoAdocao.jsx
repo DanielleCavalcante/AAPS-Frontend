@@ -197,6 +197,31 @@ const CadastroPontoAdocao = () => {
             tratarErro(error);
         }
     };
+    
+    const handleLimpar = () => {
+        setDadosPontoAdocao({
+            nomeFantasia: '',
+            cnpj: '',
+            celular: '',
+            telefone: '',
+            responsavelContato: '',
+            cep: '',
+            cidade: '',
+            uf: '',
+            logradouro: '',
+            numero: '',
+            complemento: '',
+            bairro: '',
+            status: 1
+        });
+        setTentouEnviar(false);
+        setAlertAtencao(false);
+        setAlertMensagem('');
+        setCampoAlerta('');
+        setAlertErroApi(false);
+        limparErro();
+        localStorage.removeItem('dadosPontoAdocao');
+    };
 
     function handleCancelar() {
         if (from === '/cadastrar-adocao') {
@@ -569,7 +594,7 @@ const CadastroPontoAdocao = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar onClick={handleCancelar}/>
-                    <BotaoLimpar />
+                    <BotaoLimpar onClick={handleLimpar} />
                 </div>
             </form>
             {alertAtencao && (

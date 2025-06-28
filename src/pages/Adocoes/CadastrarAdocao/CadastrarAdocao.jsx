@@ -443,6 +443,33 @@ const CadastroAdocao = () => {
         }
     };
 
+    const handleLimpar = () => {
+        setDadosAdocao({
+            data: '',
+            nomeAdotante: '',
+            adotanteId: '',
+            rg: '',
+            cpf: '',
+            telefoneAdotante: '',
+            nomeAnimal: '',
+            animalId: '',
+            especie: '',
+            idade: '',
+            sexo: '',
+            pelagem: '',
+            doadorId: '',
+            nomeDoador: '',
+            telefoneDoador: '',
+            nomePontoAdocao: '',
+            pontoAdocaoId: ''
+        });
+        setTentouEnviar(false);
+        setAlertAtencao(false);
+        setAlertMensagem('');
+        setCampoAlerta('');
+        localStorage.removeItem('dadosAdocao');
+    };
+
     // CONFIGURAÇÕES DE MODAL
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
@@ -809,7 +836,7 @@ const CadastroAdocao = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar onClick={() => navigate('/listar-adocoes')} />
-                    <BotaoLimpar />
+                    <BotaoLimpar onClick={handleLimpar}/>
                 </div>
             </form>
             {carregandoSubmit && <CarregandoCat />}

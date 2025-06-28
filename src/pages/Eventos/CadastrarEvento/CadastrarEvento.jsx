@@ -57,6 +57,16 @@ const CadastroEvento = () => {
         }
     };
 
+    const handleLimpar = () => {
+        setdadosEvento({
+            descricao: '',
+            status: 1
+        });
+        setTentouEnviar(false);
+        setAlertErroApi(false);
+        limparErro();
+    };
+
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
@@ -107,7 +117,7 @@ const CadastroEvento = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar onClick={() => navigate('/listar-eventos')}/>
-                    <BotaoLimpar />
+                    <BotaoLimpar onClick={handleLimpar} />
                 </div>
             </form>
 

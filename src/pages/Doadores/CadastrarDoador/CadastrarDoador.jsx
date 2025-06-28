@@ -252,6 +252,33 @@ const CadastroDoador = () => {
         }
     };
 
+    const handleLimpar = () => {
+        setDadosDoador({
+            nome: '',
+            rg: '',
+            cpf: '',
+            celular: '',
+            contato: '',
+            responsavelContato: '',
+            responsavel: '',
+            status: 1,
+            cep: '',
+            cidade: '',
+            uf: '',
+            logradouro: '',
+            numero: '',
+            complemento: '',
+            bairro: ''
+        });
+        setTentouEnviar(false);
+        setAlertAtencao(false);
+        setAlertMensagem('');
+        setCampoAlerta('');
+        setAlertErroApi(false);
+        limparErro();
+        localStorage.removeItem('dadosDoador');
+    };
+
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const openModal = () => setShowModal(true);
@@ -615,7 +642,7 @@ const CadastroDoador = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar onClick={handleCancelar}/>
-                    <BotaoLimpar />
+                    <BotaoLimpar onClick={handleLimpar} />
                 </div>
             </form>
             {alertAtencao && (

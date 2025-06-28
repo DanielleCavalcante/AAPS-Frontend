@@ -241,6 +241,29 @@ const CadastroAnimal = () => {
         }
     }
 
+    const handleLimpar = () => {
+        setDadosAnimal({
+            nome: '',
+            especie: '',
+            raca: '',
+            dataNascimento: '',
+            pelagem: '',
+            sexo: '',
+            status: 1,
+            disponibilidade: 1,
+            doadorId: '',
+            nomeDoador: '',
+            resgatado: false,
+        });
+        setTentouEnviar(false);
+        setAlertAtencao(false);
+        setAlertMensagem('');
+        setCampoAlerta('');
+        setAlertErroApi(false);
+        limparErro();
+        localStorage.removeItem('dadosAnimal');
+    };
+
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => {
@@ -480,7 +503,7 @@ const CadastroAnimal = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar onClick={handleCancelar} />
-                    <BotaoLimpar />
+                    <BotaoLimpar onClick={handleLimpar} />
                 </div>
             </form>
             

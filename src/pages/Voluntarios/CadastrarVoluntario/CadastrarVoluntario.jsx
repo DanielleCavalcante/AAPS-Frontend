@@ -146,6 +146,24 @@ const CadastroVoluntario = () => {
         }
     };
 
+    const handleLimpar = () => {
+        setDadosVoluntario({
+            nome: '',
+            cpf: '',
+            status: '',
+            userName: '',
+            email: '',
+            phoneNumber: '',
+            acesso: 'Padrao'
+        });
+        setTentouEnviar(false);
+        setAlertAtencao(false);
+        setAlertMensagem('');
+        setCampoAlerta('');
+        setAlertErroApi(false);
+        limparErro();
+    };
+
     // Configurações do modal
     const [showModal, setShowModal] = useState(false);
     const closeModal = () => {
@@ -364,7 +382,7 @@ const CadastroVoluntario = () => {
                 <div className="button-group-crud">
                     <BotaoSalvar showModal={showModal} openModal={handleSubmit} closeModal={closeModal} />
                     <BotaoCancelar onClick={() => navigate('/listar-voluntarios')}/>
-                    <BotaoLimpar />
+                    <BotaoLimpar onClick={handleLimpar} />
                 </div>
             </form>
             {alertAtencao && (
