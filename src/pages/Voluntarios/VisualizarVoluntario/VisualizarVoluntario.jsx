@@ -157,6 +157,7 @@ const VisualizarVoluntario = () => {
       await atualizarVoluntario(id, formDados);
 
       localStorage.setItem("nomeUsuario", formDados.nome);
+      window.location.reload();
 
       openModal();
       // setEditando(false);
