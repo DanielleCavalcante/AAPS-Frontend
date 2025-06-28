@@ -53,6 +53,11 @@ const VisualizarAdocao = () => {
     const [campoAlerta, setCampoAlerta] = useState('');
     const dataRef = useRef(null);
 
+    const adotanteSelecionado =
+        formDados.adotanteId === adocao.adotanteId
+            ? adocao
+            : adotantes.find(a => a.id === formDados.adotanteId);
+
     useEffect(() => {
         buscarAdocaoPorId(id)
             .then((dados) => {
@@ -270,11 +275,16 @@ const VisualizarAdocao = () => {
                             onChange={handleVoluntarioChange}
                             disabled={!editando}
                         >
-                            {voluntarios.map(voluntario => (
-                                <option key={voluntario.id} value={voluntario.id}>
-                                    {voluntario.nome}
-                                </option>
-                            ))}
+                            <option value={adocao.voluntarioId}>
+                                {adocao.nomeVoluntario || 'Voluntário selecionado'}
+                            </option>
+                            {voluntarios
+                                .filter(v => v.id !== adocao.voluntarioId)
+                                .map(voluntario => (
+                                    <option key={voluntario.id} value={voluntario.id}>
+                                        {voluntario.nome}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>
@@ -293,7 +303,7 @@ const VisualizarAdocao = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="nomeadotante">Nome adotante *</label>
-                        <select
+                        {/* <select
                             id="nomeAdotante"
                             name="nomeAdotante"
                             value={formDados.adotanteId || ''}
@@ -305,6 +315,24 @@ const VisualizarAdocao = () => {
                                     {adotante.nome}
                                 </option>
                             ))}
+                        </select> */}
+                        <select
+                            id="nomeAdotante"
+                            name="nomeAdotante"
+                            value={formDados.adotanteId || ''}
+                            onChange={handleAdotanteChange}
+                            disabled={!editando}
+                        >
+                            <option value={adocao.adotanteId}>
+                                {adocao.nomeAdotante || 'Adotante selecionado'}
+                            </option>
+                            {adotantes
+                                .filter(a => a.id !== adocao.adotanteId)
+                                .map(adotante => (
+                                    <option key={adotante.id} value={adotante.id}>
+                                        {adotante.nome}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>
@@ -314,9 +342,8 @@ const VisualizarAdocao = () => {
                         <label>RG</label>
                         <InputMask
                             mask="99.999.999-*"
-                            value={
-                                adotantes.find(a => a.id === formDados.adotanteId)?.rg || ''
-                            }
+                                value={adotanteSelecionado?.rgAdotante || adotanteSelecionado?.rg || ''}
+
                             onChange={handleInputChange}
                             disabled
                             placeholder="__.___.___-_">
@@ -335,9 +362,7 @@ const VisualizarAdocao = () => {
                         <label>CPF</label>
                         <InputMask
                             mask="999.999.999-99"
-                            value={
-                                adotantes.find(a => a.id === formDados.adotanteId)?.cpf || ''
-                            }
+                            value={adotanteSelecionado?.cpfAdotante || adotanteSelecionado?.cpf || ''}
                             onChange={handleInputChange}
                             disabled
                             placeholder="___.___.___-__">
@@ -356,9 +381,7 @@ const VisualizarAdocao = () => {
                         <label>Celular</label>
                         <InputMask
                             mask="(99) 99999-9999"
-                            value={
-                                adotantes.find(a => a.id === formDados.adotanteId)?.celular || ''
-                            }
+                            value={adotanteSelecionado?.celularAdotante || adotanteSelecionado?.celular || ''}
                             onChange={handleInputChange}
                             disabled
                             placeholder="(__) _____-____"
@@ -397,14 +420,11 @@ const VisualizarAdocao = () => {
                             onChange={handleAnimalChange}
                             disabled={!editando}
                         >
-                            <option value="">
-                                {(() => {
-                                    const animalSelecionado = animais.find(a => a.id === formDados.animalId);
-                                    return animalSelecionado ? animalSelecionado.nome : '';
-                                })()}
+                            <option value={adocao.animalId}>
+                                {adocao.nomeAnimal || 'Animal selecionado'}
                             </option>
                             {animais
-                                .filter(animal => animal.status && animal.disponibilidade)
+                                .filter(a => a.id !== adocao.animalId)
                                 .map(animal => (
                                     <option key={animal.id} value={animal.id}>
                                         {animal.nome}
@@ -578,11 +598,16 @@ const VisualizarAdocao = () => {
                             onChange={handlePontoAdocaoChange}
                             disabled={!editando}
                         >
-                            {pontosAdocao.map(ponto => (
-                                <option key={ponto.id} value={ponto.id}>
-                                    {ponto.nomeFantasia}
-                                </option>
-                            ))}
+                            <option value={adocao.pontoAdocaoId}>
+                                {adocao.nomePontoAdocao || 'Ponto de adoção selecionado'}
+                            </option>
+                            {pontosAdocao
+                                .filter(p => p.id !== adocao.pontoAdocaoId)
+                                .map(ponto => (
+                                    <option key={ponto.id} value={ponto.id}>
+                                        {ponto.nomeFantasia}
+                                    </option>
+                                ))}
                         </select>
                     </div>
                 </div>

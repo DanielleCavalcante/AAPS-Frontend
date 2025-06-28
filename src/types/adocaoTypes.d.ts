@@ -1,4 +1,4 @@
-export interface Animal {
+export interface Adocao {
     id: number;
     data: Date;
     adotanteId: number;
