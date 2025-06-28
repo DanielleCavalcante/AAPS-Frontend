@@ -1,5 +1,5 @@
 
-<h1 align="center">Sistema de Gerenciamento de Adoções - ONG AAPS (Front-end) 🐾</h1>
+<h1 align="center">Sistema de Gerenciamento de Adoções - ONG AAPS 🐾</h1>
 
 <p align="center">
   <strong>Trabalho de Graduação</strong><br/>
