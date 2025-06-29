@@ -50,6 +50,8 @@ const CadastroAdocao = () => {
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const { listarAdotantesAtivos } = useAdotantes();
     const [adotantes, setAdotantes] = useState([]);
 
@@ -208,6 +210,8 @@ const CadastroAdocao = () => {
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
+
+        setAlertErroApi(false);
 
         //valida Data
         if (id === 'data') {
@@ -414,6 +418,9 @@ const CadastroAdocao = () => {
 
         setCarregandoSubmit(true);
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             await criarAdocao(dadosAdocao);
             setDadosAdocao({
                 data: '',
@@ -438,6 +445,7 @@ const CadastroAdocao = () => {
             openModal();
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         } finally{
             setCarregandoSubmit(false);
         }
@@ -465,6 +473,7 @@ const CadastroAdocao = () => {
         });
         setTentouEnviar(false);
         setAlertAtencao(false);
+        setAlertErroApi(false);
         setAlertMensagem('');
         setCampoAlerta('');
         localStorage.removeItem('dadosAdocao');
@@ -850,6 +859,13 @@ const CadastroAdocao = () => {
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}
+                />
+            )}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertErroApi(false)}
                 />
             )}
         </div>

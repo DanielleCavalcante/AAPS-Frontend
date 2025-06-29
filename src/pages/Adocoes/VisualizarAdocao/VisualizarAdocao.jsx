@@ -45,6 +45,8 @@ const VisualizarAdocao = () => {
     const [carregandoAnulacao, setCarregandoAnulacao] = useState(false);
     const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const [showModal, setShowModal] = useState(false);
     const [showModalAnulacao, setShowModalAnulacao] = useState(false);
 
@@ -52,11 +54,6 @@ const VisualizarAdocao = () => {
     const [alertMensagem, setAlertMensagem] = useState('');
     const [campoAlerta, setCampoAlerta] = useState('');
     const dataRef = useRef(null);
-
-    const adotanteSelecionado =
-        formDados.adotanteId === adocao.adotanteId
-            ? adocao
-            : adotantes.find(a => a.id === formDados.adotanteId);
 
     useEffect(() => {
         buscarAdocaoPorId(id)
@@ -97,10 +94,17 @@ const VisualizarAdocao = () => {
     if (erro) return <div className="erro">{erro}</div>;
     if (!adocao) return <div>Adocação não encontrada</div>; // apagar depois
 
+    const adotanteSelecionado =
+        formDados.adotanteId === adocao.adotanteId
+            ? adocao
+            : adotantes.find(a => a.id === formDados.adotanteId);
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         const numericFields = ['status', 'voluntarioId', 'adotanteId', 'animalId', 'doadorId', 'pontoAdocaoId'];
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+        setAlertErroApi(false);
 
         //valida Data
         if (name === 'data') {
@@ -185,8 +189,7 @@ const VisualizarAdocao = () => {
         setTentouEnviar(true);
         limparErro();
 
-        console.log('Dados do formulário:', formDados);
-
+        console.log("entrou no handle")
         if (!formDados.data?.trim()) return;
         if (!formDados.voluntarioId) return;
         if (!formDados.adotanteId) return;
@@ -195,13 +198,24 @@ const VisualizarAdocao = () => {
 
         setCarregandoSubmit(true);
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(true);
+
             await atualizarAdocao(id, formDados);
+
+            console.log("saiu da requisição");
             openModal();
             // setEditando(false);
             // setTentouEnviar(false);
 
         } catch (error) {
+            console.log("entrou no catch", error);
             tratarErro(error);
+            setAlertErroApi(true);
+
+
+            console.log("dentro do catch tentou", tentouEnviar)
+            console.log("dentro do catch alert erro", alertErroApi)
         } finally {
             setCarregandoSubmit(false);
         }
@@ -225,6 +239,8 @@ const VisualizarAdocao = () => {
     const openModal = () => setShowModal(true);
     const closeModal = () => {
         setShowModal(false);
+        setEditando(false);
+        setTentouEnviar(false);
         navigate('/listar-adocoes');
     }
 
@@ -684,6 +700,13 @@ const VisualizarAdocao = () => {
                         };
                         fecharAlertaEFocarCampo(refs[campoAlerta], campoAlerta);
                     }}
+                />
+            )}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertErroApi(false)}
                 />
             )}
         </div>

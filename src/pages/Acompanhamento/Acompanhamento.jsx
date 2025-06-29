@@ -20,7 +20,7 @@ const Acompanhamento = () => {
 
     const { erro, limparErro } = useError();
     const [tentouEnviar, setTentouEnviar] = useState(false);
-    const [alertAtencao, setAlertAtencao] = useState(false);
+    const [alertErroApi, setAlertErroApi] = useState(false);
 
     const [dadosAcompanhamento, setDadosAcompanhamento] = useState({
         eventoId: '',
@@ -73,7 +73,7 @@ const Acompanhamento = () => {
     const handleChange = (e) => {
         const { id, value } = e.target;
         limparErro();
-        setAlertAtencao(false);
+        setAlertErroApi(false);
 
         setDadosAcompanhamento({
             ...dadosAcompanhamento,
@@ -109,7 +109,7 @@ const Acompanhamento = () => {
 
         setCarregandoSubmit(true);
         try {
-            setAlertAtencao(false);
+            setAlertErroApi(false);
             await criarAcompanhamento({
                 ...dadosAcompanhamento,
                 animalId: Number(id)
@@ -124,7 +124,7 @@ const Acompanhamento = () => {
             await carregarDados(); 
         } catch (error) {
             tratarErro(error);
-            setAlertAtencao(true);
+            setAlertErroApi(true);
         }finally {
             setCarregandoSubmit(false);
         }
@@ -269,10 +269,10 @@ const Acompanhamento = () => {
 
                         {carregandoSubmit && <CarregandoCat />}
 
-                        {alertAtencao && (
+                        {alertErroApi && (
                             <AlertAtencao
                                 mensagem={Array.isArray(erro) ? erro[0] : erro}
-                                onClose={() => setAlertAtencao(false)}
+                                onClose={() => setAlertErroApi(false)}
                             />
                         )}
                     </div>

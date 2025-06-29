@@ -29,6 +29,8 @@ const VisualizaAnimal = () => {
     const [tentouEnviar, setTentouEnviar] = useState(false);
     const [carregandoSubmit, setCarregandoSubmit] = useState(false);
 
+    const [alertErroApi, setAlertErroApi] = useState(false);
+
     const [doadores, setDoadores] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [alertAtencao, setAlertAtencao] = useState(false);
@@ -74,6 +76,8 @@ const VisualizaAnimal = () => {
         const { name, value } = e.target;
         const numericFields = ['status', 'disponibilidade', 'doadorId'];
         const parsedValue = numericFields.includes(name) ? Number(value) : value;
+
+        setAlertErroApi(false);
 
         if (name === 'doadorId') {
             if (value === '') {
@@ -137,10 +141,14 @@ const VisualizaAnimal = () => {
 
         setCarregandoSubmit(true);
         try {
+            setTentouEnviar(false);
+            setAlertErroApi(false);
+
             await atualizarAnimal(id, formDados);
             openModal();
         } catch (error) {
             tratarErro(error);
+            setAlertErroApi(true);
         } finally {
             setCarregandoSubmit(false);
         }
@@ -403,6 +411,13 @@ const VisualizaAnimal = () => {
             )}
 
             {carregandoSubmit && <CarregandoCat />}
+
+            {(alertErroApi && !tentouEnviar) && (
+                <AlertAtencao
+                    mensagem={Array.isArray(erro) ? erro[0] : erro}
+                    onClose={() => setAlertErroApi(false)}
+                />
+            )}
         </div >
     );
 }
