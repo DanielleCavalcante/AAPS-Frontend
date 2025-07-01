@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import { useVoluntarios } from '../../hooks/useVoluntarios';
 
+import Modal from "/src/components/Modal/Modal.jsx";
 import AlertAtencao from "/src/components/AlertAtencao/AlertAtencao.jsx";
 import CarregandoCat from '../../components/Spinner/CarregandoCat';
 import logo from '../../assets/aaps_logo1.png';
+import iconeSmile from "/src/assets/emoji-smile.png"
 import './AlterarSenha.css';
 
 const AlterarSenha = () => {
+    const navigate = useNavigate();
+
     const { alterarSenha, erro, tratarErro, limparErro } = useVoluntarios();
 
     const voluntarioId = parseInt(localStorage.getItem('usuarioId'));    
@@ -48,6 +52,8 @@ const AlterarSenha = () => {
 
             setDadosSenha({ senhaAtual: '', novaSenha: '', confirmarNovaSenha: '' });
             setTentouEnviar(false);
+
+            openModal();
         }catch (error) {
             tratarErro(error);
             setAlertAtencao(true);
@@ -55,6 +61,14 @@ const AlterarSenha = () => {
             setCarregandoAlterarSenha(false);
         }
     };
+
+    // Configurações do modal
+    const [showModal, setShowModal] = useState(false);
+    const openModal = () => setShowModal(true);
+    const closeModal = () => {
+        setShowModal(false);
+        navigate(`/perfil/${voluntarioId}`);
+    }
 
     return (
         <div className="altera-senha-container">
@@ -116,6 +130,13 @@ const AlterarSenha = () => {
                     <button type="submit" className="btn-alterar-senha">Alterar senha</button>
                 </div>
             </form>
+
+            {showModal && (
+                <Modal show={showModal} onClose={closeModal}>
+                    <img src={iconeSmile} alt="Ícone de sucesso" className="icon" />
+                    <p>Senha redefinida com sucesso!</p>
+                </Modal>
+            )}
         </div>
     );
 }
