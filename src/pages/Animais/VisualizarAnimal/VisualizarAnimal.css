@@ -163,6 +163,15 @@ select {
   width: 100%;
 }
 
+#microchip, #id {
+  width: 80%;
+}
+
+#group1 .form-group:nth-child(4) {
+  justify-self: end;
+  /* Ajusta o alinhamento apenas para o terceiro grupo */
+}
+
 #group2 .form-group:nth-child(3) {
   justify-self: end;
   /* Ajusta o alinhamento apenas para o terceiro grupo */

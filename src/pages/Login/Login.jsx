@@ -7,6 +7,7 @@ import { useLoading } from '../../hooks/useLoading';
 
 import CarregandoLogin from '../../components/Spinner/CarregandoLogin';
 import logo from '../../assets/aaps_logo1.png';
+import backgroundImage from '../../assets/background.png';
 import './Login.css';
 
 const Login = () => {

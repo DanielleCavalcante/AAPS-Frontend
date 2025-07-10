@@ -1,6 +1,6 @@
 /* Para telas pequenas, como celulares */
 @media (max-width: 600px) {
-    .button-grid-home {
+    .home-container.admin .button-grid-home {
         grid-template-columns: repeat(2, 1fr);
         /* 1 coluna para caber melhor no celular */
         row-gap: 30px;

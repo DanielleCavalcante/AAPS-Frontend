@@ -54,10 +54,7 @@ select {
 
 #group1 {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 50px;
-  align-items: center;
-  justify-items: start;
+  /*justify-items: start;*/
   grid-template-columns: repeat(4, 1fr);
   gap: 50px;
   align-items: center;
@@ -161,6 +158,14 @@ select {
 
 #dataNascimento {
   width: 100%;
+}
+
+#microchip, #id {
+  width: 80%;
+}
+
+#group1 .form-group:nth-child(4) {
+    justify-self: end;
 }
 
 #group2 .form-group:nth-child(3) {

@@ -39,6 +39,8 @@ const VisualizaAnimal = () => {
     const dataRef = useRef(null);
     const especieRef = useRef(null);
 
+    const [foto, setFoto] = useState(null);
+
     //Modais:
     const openModal = () => setShowModal(true);
     const closeModal = () => {
@@ -171,7 +173,7 @@ const VisualizaAnimal = () => {
     return (
         <div className="cadastro-container">
             <form className="cadastroAnimal-form" onSubmit={handleSubmit}>
-                <div id="group2">
+                <div id="group1">
                     <div className="form-group">
                         <label htmlFor="codigo">Código</label>
                         <input type="text" id="id" value={animal?.id || ''} disabled />
@@ -205,6 +207,14 @@ const VisualizaAnimal = () => {
                         </select>
                     </div>
 
+{/* aqui*/}         <div className="foto-upload">
+                        <div class="foto-preview-container">
+                            <span class="foto-label">Foto</span>
+                            {foto && <img src={foto} alt="Foto do doador" className="foto" />}
+                        </div>
+                    </div>
+
+
                 </div>
                 <div className="form-group">
                     <label htmlFor="nome">Nome *</label>
@@ -227,10 +237,20 @@ const VisualizaAnimal = () => {
                         <span className="erro-required"> O campo 'Nome' é obrigatório </span>
                     )}
                 </div>
-                <div id="group2">
+                <div id="group1">
                     <div className="form-group">
                         <label htmlFor="especie">Espécie *</label>
-                        <input
+{/* aqui*/}             <select
+                            id="especie"
+                            name="especie"
+                            disabled={!editando}
+                        >
+                            <option value="">Selecione</option>
+                            <option value="Cachorro">Cachorro</option>
+                            <option value="Gato">Gato</option>
+                            <option value="Outro">Outro</option>
+                        </select>                        
+                    {/* <input
                             type="text"
                             id="especie"
                             name="especie"
@@ -246,7 +266,7 @@ const VisualizaAnimal = () => {
                                     e.preventDefault();
                                 }
                             }}
-                        />
+                        /> */}
                         {(tentouEnviar && !formDados.especie) && (
                             <span className="erro-required"> O campo 'Espécie' é obrigatório </span>
                         )}
@@ -272,6 +292,21 @@ const VisualizaAnimal = () => {
                             <span className="erro-required"> O campo 'Raça' é obrigatório </span>
                         )}
                     </div>
+
+{/* aqui*/}         <div className="form-group">
+                        <label htmlFor="porte">Porte</label>
+                        <select
+                            id="porte"
+                            name='porte'
+                            disabled={!editando}
+                        >
+                            <option value="">Selecione</option>
+                            <option value="P">Pequeno</option>
+                            <option value="M">Médio</option>
+                            <option value="G">Grande</option>
+                        </select>
+                    </div>
+            
                     <div className="form-group">
                         <label htmlFor="dataNascimento">Data de Nascimento</label>
                         <input
@@ -284,7 +319,7 @@ const VisualizaAnimal = () => {
                         />
                     </div>
                 </div>
-                <div id='group3'>
+                <div id='group2'>
                     <div className="form-group">
                         <label htmlFor="pelagem">Pelagem *</label>
                         <input
@@ -306,6 +341,16 @@ const VisualizaAnimal = () => {
                             <span className="erro-required"> O campo 'Pelagem' é obrigatório </span>
                         )}
                     </div>
+
+{/* aqui*/}         <div className="form-group">
+                        <label htmlFor="microchip">Número Microchip</label>
+                        <input
+                            type="text"
+                            id="microchip"
+                            disabled={!editando}
+                        />
+                    </div>
+           
                     <div className="form-group">
                         <label htmlFor="sexo">Sexo *</label>
                         <select
